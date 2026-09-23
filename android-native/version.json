@@ -1,7 +1,7 @@
 {
-  "versionCode": 4,
-  "versionName": "1.0.3",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.3/ziwuxilv-native-v1.0.3.apk",
-  "updateLog": "补齐品牌启动页、左右滑动切换市场、帮助弹层和沉浸式安全区",
+  "versionCode": 5,
+  "versionName": "1.0.4",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.4/ziwuxilv-native-v1.0.4.apk",
+  "updateLog": "修复冷启动短暂白屏，系统启动画面与品牌页统一黑金背景",
   "forceUpdate": false
 }
