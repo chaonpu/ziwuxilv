@@ -1,7 +1,7 @@
 {
-  "versionCode": 3,
-  "versionName": "1.0.2",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.2/MeridianMarketRhythm-release.apk",
-  "updateLog": "原生版界面改为黑金主题，统一图标与持仓、收益、排行、我的四栏导航",
+  "versionCode": 4,
+  "versionName": "1.0.3",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.3/ziwuxilv-native-v1.0.3.apk",
+  "updateLog": "补齐品牌启动页、左右滑动切换市场、帮助弹层和沉浸式安全区",
   "forceUpdate": false
 }
