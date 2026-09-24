@@ -1,7 +1,7 @@
 {
-  "versionCode": 5,
-  "versionName": "1.0.4",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.4/ziwuxilv-native-v1.0.4.apk",
-  "updateLog": "修复冷启动短暂白屏，系统启动画面与品牌页统一黑金背景",
+  "versionCode": 6,
+  "versionName": "1.0.5",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.5/ziwuxilv-native-v1.0.5.apk",
+  "updateLog": "原生界面补齐持仓、收益、排行与账户页面；新增用户名密码相关表单。本版仅提供本地界面，账号服务及策略数据尚未接入。",
   "forceUpdate": false
 }
