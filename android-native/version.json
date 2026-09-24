@@ -1,7 +1,7 @@
 {
-  "versionCode": 6,
-  "versionName": "1.0.5",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.5/ziwuxilv-native-v1.0.5.apk",
-  "updateLog": "原生界面补齐持仓、收益、排行与账户页面；新增用户名密码相关表单。本版仅提供本地界面，账号服务及策略数据尚未接入。",
+  "versionCode": 7,
+  "versionName": "1.0.6",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.6/ziwuxilv-native-v1.0.6.apk",
+  "updateLog": "新增 GitHub 登录及安全的本机令牌保存，管理员账号绑定 GitHub ID；移除未启用的本地密码表单。策略数据仍未接入。",
   "forceUpdate": false
 }
