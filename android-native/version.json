@@ -1,7 +1,7 @@
 {
-  "versionCode": 9,
-  "versionName": "1.0.8",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.8/ziwuxilv-native-v1.0.8.apk",
-  "updateLog": "原生版申请、审批与撤销改由 GitHub Issues 完成，不再依赖站点审核接口；登录改用仅有 Issues 权限的 GitHub App。策略数据仍未接入。",
+  "versionCode": 10,
+  "versionName": "1.0.9",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.9/ziwuxilv-native-v1.0.9.apk",
+  "updateLog": "A 股与美股理论持仓直接读取并校验 GitHub 公开快照，行情按交易时段刷新；收益账本、已清仓及排行榜仍未接入。",
   "forceUpdate": false
 }
