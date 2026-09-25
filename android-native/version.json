@@ -1,7 +1,7 @@
 {
-  "versionCode": 10,
-  "versionName": "1.0.9",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.9/ziwuxilv-native-v1.0.9.apk",
-  "updateLog": "A 股与美股理论持仓直接读取并校验 GitHub 公开快照，行情按交易时段刷新；收益账本、已清仓及排行榜仍未接入。",
+  "versionCode": 11,
+  "versionName": "1.0.10",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.10/ziwuxilv-native-v1.0.10.apk",
+  "updateLog": "持仓改为登录后读取 GitHub 私有 database 快照，退出登录清除内存持仓；收益账本、已清仓及排行榜仍未接入。",
   "forceUpdate": false
 }
