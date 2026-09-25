@@ -1,7 +1,7 @@
 {
-  "versionCode": 8,
-  "versionName": "1.0.7",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.7/ziwuxilv-native-v1.0.7.apk",
-  "updateLog": "新增真实的申请访问、管理员审核和成员管理；账号、帮助与 APK 更新继续可用。策略数据相关功能仍未接入。",
+  "versionCode": 9,
+  "versionName": "1.0.8",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.8/ziwuxilv-native-v1.0.8.apk",
+  "updateLog": "原生版申请、审批与撤销改由 GitHub Issues 完成，不再依赖站点审核接口；登录改用仅有 Issues 权限的 GitHub App。策略数据仍未接入。",
   "forceUpdate": false
 }
