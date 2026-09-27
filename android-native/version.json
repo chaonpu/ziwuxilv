@@ -1,7 +1,7 @@
 {
-  "versionCode": 18,
-  "versionName": "1.4.0",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.0/ziwuxilv-native-v1.4.0.apk",
-  "updateLog": "优化行情、持仓、广场、收益与排行榜：新增全球行情解析和详情弹窗，支持按名称添加持仓并补全行业/ETF跟踪标的，广场重做作者与发布交互，收益曲线增加坐标与游标，已清仓支持持股天数和按月折叠。",
+  "versionCode": 19,
+  "versionName": "1.4.1",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.1/ziwuxilv-native-v1.4.1.apk",
+  "updateLog": "补全全球指数、股指期货、国内商品期货与加密货币多数据源；行情网格盘中按涨跌显示红绿边框、休市灰边，持仓涨跌计数分色；策略模式持仓详情补充来源、持股天数、持仓收益、仓位与入场信息；收益页四项数据按盈亏分色；主要页面支持下拉刷新，并区分标普500、恒生指数与对应期货名称。",
   "forceUpdate": false
 }
