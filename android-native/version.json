@@ -1,7 +1,7 @@
 {
-  "versionCode": 14,
-  "versionName": "1.1.0",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.1.0/ziwuxilv-native-v1.1.0.apk",
-  "updateLog": "修复美股已核实入场价缺失；统一原生持仓与收益卡片，精简说明并优化交易状态配色；支持保存当前市场配置。",
+  "versionCode": 15,
+  "versionName": "1.1.1",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.1.1/ziwuxilv-native-v1.1.1.apk",
+  "updateLog": "修复 GitHub 临时断连导致的反复掉线：保留本机登录、后台自动重连，并改进登录与重试提示。",
   "forceUpdate": false
 }
