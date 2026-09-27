@@ -1,7 +1,7 @@
 {
-  "versionCode": 19,
-  "versionName": "1.4.1",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.1/ziwuxilv-native-v1.4.1.apk",
-  "updateLog": "补全全球指数、股指期货、国内商品期货与加密货币多数据源；行情网格盘中按涨跌显示红绿边框、休市灰边，持仓涨跌计数分色；策略模式持仓详情补充来源、持股天数、持仓收益、仓位与入场信息；收益页四项数据按盈亏分色；主要页面支持下拉刷新，并区分标普500、恒生指数与对应期货名称。",
+  "versionCode": 20,
+  "versionName": "1.4.2",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.2/ziwuxilv-native-v1.4.2.apk",
+  "updateLog": "修复国内网络下加密行情源提示，名称添加持仓与A股行业补全；优化模式选择；广场头像展示GitHub公开资料，支持App投票、原生GitHub投票及本人发布/回复的隐蔽删除；移除跳转GitHub完整讨论入口；修复底部导航返回各页根页面；缩小应用更新操作区。",
   "forceUpdate": false
 }
