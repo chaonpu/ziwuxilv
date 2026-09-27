@@ -1,0 +1,112 @@
+name: Backfill ETF industries in public A-share snapshots
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/backfill-etf-industries.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Backfill ETF industry fields and rebuild snapshot hash chain
+        shell: bash
+        run: |
+          python - <<'PY'
+          from __future__ import annotations
+          import hashlib
+          import json
+          from pathlib import Path
+
+          META = {
+              "159100": ("指数型-海外股票", "巴西BOVESPA"),
+              "159509": ("指数型-海外股票", "纳斯达克科技市值加权指数"),
+              "159981": ("指数型-其他", "易盛郑商所能源化工指数A"),
+              "517520": ("指数型-股票", "中证沪深港黄金产业股票指数"),
+              "560710": ("指数型-股票", "中证智选船舶产业指数"),
+          }
+
+          def encode(value):
+              return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode("utf-8")
+
+          def patch_row(row):
+              if not isinstance(row, dict) or str(row.get("asset_type") or "").upper() != "ETF":
+                  return 0
+              code = str(row.get("code") or "").strip()
+              meta = META.get(code)
+              if not meta:
+                  return 0
+              changes = 0
+              second, third = meta
+              if row.get("second_industry") != second:
+                  row["second_industry"] = second
+                  changes += 1
+              if row.get("third_industry") != third:
+                  row["third_industry"] = third
+                  changes += 1
+              row.pop("tracking_target", None)
+              return changes
+
+          index_path = Path("snapshots/A_SHARE.index.json")
+          index = json.loads(index_path.read_text(encoding="utf-8-sig"))
+          total = 0
+          touched = []
+
+          for entry in index["entries"]:
+              path = Path(entry["path"])
+              value = json.loads(path.read_text(encoding="utf-8-sig"))
+              changes = 0
+              for row in value.get("holdings") or []:
+                  changes += patch_row(row)
+              for row in value.get("holding_history") or []:
+                  changes += patch_row(row)
+              if changes:
+                  path.write_bytes(encode(value))
+                  touched.append((str(path), changes))
+                  total += changes
+              entry["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+
+          chain = ""
+          for entry in index["entries"]:
+              chain = hashlib.sha256((chain + entry["sha256"] + entry["path"]).encode("utf-8")).hexdigest()
+              entry["chain"] = chain
+
+          index_path.write_bytes(encode(index))
+
+          # Full validation after rewrite.
+          chain = ""
+          for entry in index["entries"]:
+              path = Path(entry["path"])
+              actual = hashlib.sha256(path.read_bytes()).hexdigest()
+              if actual != entry["sha256"]:
+                  raise SystemExit(f"digest mismatch: {path}")
+              chain = hashlib.sha256((chain + actual + entry["path"]).encode("utf-8")).hexdigest()
+              if chain != entry["chain"]:
+                  raise SystemExit(f"chain mismatch: {path}")
+
+          print(f"updated_fields={total}")
+          for path, changes in touched:
+              print(f"{path}: {changes}")
+          PY
+
+      - name: Commit backfill
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add snapshots
+          if git diff --cached --quiet; then
+            echo "No snapshot changes."
+            exit 0
+          fi
+          git commit -m "Backfill ETF industries in A-share snapshots"
+          git push origin HEAD:main
