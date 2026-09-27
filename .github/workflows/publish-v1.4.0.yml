@@ -36,18 +36,10 @@ jobs:
           mkdir -p android-native/v1.4.0
           cp /tmp/v1.4.0/ziwuxilv-native-v1.4.0.apk android-native/v1.4.0/ziwuxilv-native-v1.4.0.apk
           cp /tmp/v1.4.0/ziwuxilv-native-v1.4.0.apk.sha256 android-native/v1.4.0/ziwuxilv-native-v1.4.0.apk.sha256
-          cat > android-native/version.json <<'JSON'
-{
-  "versionCode": 18,
-  "versionName": "1.4.0",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.0/ziwuxilv-native-v1.4.0.apk",
-  "updateLog": "优化行情、持仓、广场、收益与排行榜：新增全球行情解析和详情弹窗，支持按名称添加持仓并补全行业/ETF跟踪标的，广场重做作者与发布交互，收益曲线增加坐标与游标，已清仓支持持股天数和按月折叠。",
-  "forceUpdate": false
-}
-JSON
+          python3 -c 'import json; p={"versionCode":18,"versionName":"1.4.0","downloadUrl":"https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.0/ziwuxilv-native-v1.4.0.apk","updateLog":"优化行情、持仓、广场、收益与排行榜：新增全球行情解析和详情弹窗，支持按名称添加持仓并补全行业/ETF跟踪标的，广场重做作者与发布交互，收益曲线增加坐标与游标，已清仓支持持股天数和按月折叠。","forceUpdate":False}; open("android-native/version.json","w",encoding="utf-8").write(json.dumps(p,ensure_ascii=False,indent=2)+"\n")'
           rm -f .github/workflows/publish-v1.4.0.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add android-native/v1.4.0 android-native/version.json .github/workflows/publish-v1.4.0.yml
+          git add -A
           git commit -m "Publish Android v1.4.0"
           git push origin HEAD:main
