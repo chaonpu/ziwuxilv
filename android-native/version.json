@@ -1,7 +1,7 @@
 {
-  "versionCode": 20,
-  "versionName": "1.4.2",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.2/ziwuxilv-native-v1.4.2.apk",
-  "updateLog": "修复国内网络下加密行情源提示，名称添加持仓与A股行业补全；优化模式选择；广场头像展示GitHub公开资料，支持App投票、原生GitHub投票及本人发布/回复的隐蔽删除；移除跳转GitHub完整讨论入口；修复底部导航返回各页根页面；缩小应用更新操作区。",
+  "versionCode": 21,
+  "versionName": "1.4.3",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.3/ziwuxilv-native-v1.4.3.apk",
+  "updateLog": "修复广场 App 自建投票识别与投票；全球行情移除国内不可用的 Yahoo/Kraken/CoinGecko 运行时依赖，KOSPI、SENSEX、TASI、IBOV、道指/日经/纳指期货、美元指数、离岸人民币及 BTC/ETH/SOL 改用新浪财经，暂移除无稳定国内免费源的富时亚太；配置模式 A 股行业改用新浪申万行业页面，ETF 跟踪标的改用天天基金国内页面。",
   "forceUpdate": false
 }
