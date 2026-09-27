@@ -20,7 +20,7 @@ jobs:
 
       - name: Download signed release artifact
         env:
-          ARTIFACT_URL: "https://sdmntprwestus.oaiusercontent.com/files/00000000-9868-8230-8cc9-24d4b3f0ddf4/raw?se=2026-09-27T16%3A16%3A07Z&sp=r&sv=2026-02-06&sr=b&scid=5f086720-c8b4-5314-9fbb-1d47902df3f1&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-27T13%3A27%3A38Z&ske=2026-09-28T13%3A27%3A38Z&sks=b&skv=2026-02-06&sig=IIucU3kW1n4NVZ0NjbbvLSBd6mxizr21kDNtiwk6B4Q%3D"
+          ARTIFACT_URL: "https://sdmntprwestus.oaiusercontent.com/files/00000000-aa74-8230-b989-9d3eb837e8f1/raw?se=2026-09-27T16%3A22%3A40Z&sp=r&sv=2026-02-06&sr=b&scid=6dc23e58-c050-57c0-a61c-a1094cbbb89a&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-27T12%3A04%3A25Z&ske=2026-09-28T12%3A04%3A25Z&sks=b&skv=2026-02-06&sig=r5K9u9WshzGvG2wJo4G%2BmpqFL9Zck3kLBVJavqSt8J4%3D"
         run: |
           set -euo pipefail
           curl --fail --location --retry 3 "$ARTIFACT_URL" -o /tmp/v1.4.0.zip
