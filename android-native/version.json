@@ -1,7 +1,7 @@
 {
-  "versionCode": 13,
-  "versionName": "1.0.12",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.12/ziwuxilv-native-v1.0.12.apk",
-  "updateLog": "接入私有收益账本：组合净值、收益曲线、五列交易日日历、当日最赚最亏、已清仓净值贡献排行榜；持仓页新增账本核对后的实际仓位与现金。",
+  "versionCode": 14,
+  "versionName": "1.1.0",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.1.0/ziwuxilv-native-v1.1.0.apk",
+  "updateLog": "修复美股已核实入场价缺失；统一原生持仓与收益卡片，精简说明并优化交易状态配色；支持保存当前市场配置。",
   "forceUpdate": false
 }
