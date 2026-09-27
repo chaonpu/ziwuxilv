@@ -1,0 +1,45 @@
+name: Publish Android v1.4.1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-v1.4.1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download signed release artifact
+        env:
+          ARTIFACT_URL: "https://sdmntprwestus3.oaiusercontent.com/files/00000000-b194-81fd-8d93-c3a9ed10a088/raw?se=2026-09-27T17%3A34%3A54Z&sp=r&sv=2026-02-06&sr=b&scid=f70f4c15-d4f9-5a8d-b3c0-d278a9b3511d&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-26T18%3A50%3A10Z&ske=2026-09-27T18%3A50%3A10Z&sks=b&skv=2026-02-06&sig=knz%2BYE1c%2BqNATHJrQBGBakfGZMhqdLbc/vH6hE3O0/Y%3D"
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 "$ARTIFACT_URL" -o /tmp/v1.4.1.zip
+          rm -rf /tmp/v1.4.1
+          mkdir -p /tmp/v1.4.1
+          unzip -q /tmp/v1.4.1.zip -d /tmp/v1.4.1
+          test -s /tmp/v1.4.1/ziwuxilv-native-v1.4.1.apk
+          echo "f67f69800081ea0631a02c1dec0d1c43a0020cf17136fee678d0d5d94846b205  /tmp/v1.4.1/ziwuxilv-native-v1.4.1.apk" | sha256sum -c -
+
+      - name: Publish APK and update manifest
+        run: |
+          set -euo pipefail
+          mkdir -p android-native/v1.4.1
+          cp /tmp/v1.4.1/ziwuxilv-native-v1.4.1.apk android-native/v1.4.1/ziwuxilv-native-v1.4.1.apk
+          cp /tmp/v1.4.1/ziwuxilv-native-v1.4.1.apk.sha256 android-native/v1.4.1/ziwuxilv-native-v1.4.1.apk.sha256
+          python3 -c 'import json; p={"versionCode":19,"versionName":"1.4.1","downloadUrl":"https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.1/ziwuxilv-native-v1.4.1.apk","updateLog":"补全全球指数、股指期货、国内商品期货与加密货币多数据源；行情网格盘中按涨跌显示红绿边框、休市灰边，持仓涨跌计数分色；策略模式持仓详情补充来源、持股天数、持仓收益、仓位与入场信息；收益页四项数据按盈亏分色；主要页面支持下拉刷新，并区分标普500、恒生指数与对应期货名称。","forceUpdate":False}; open("android-native/version.json","w",encoding="utf-8").write(json.dumps(p,ensure_ascii=False,indent=2)+"\n")'
+          rm -f .github/workflows/publish-v1.4.1.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Publish Android v1.4.1"
+          git push origin HEAD:main
