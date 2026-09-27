@@ -2,6 +2,6 @@
   "versionCode": 21,
   "versionName": "1.4.3",
   "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.3/ziwuxilv-native-v1.4.3.apk",
-  "updateLog": "修复广场 App 自建投票识别与投票；全球行情移除国内不可用的 Yahoo/Kraken/CoinGecko 运行时依赖，KOSPI、SENSEX、TASI、IBOV、道指/日经/纳指期货、美元指数、离岸人民币及 BTC/ETH/SOL 改用新浪财经，暂移除无稳定国内免费源的富时亚太；配置模式 A 股行业改用新浪申万行业页面，ETF 跟踪标的改用天天基金国内页面。",
+  "updateLog": "修复广场 App 自建投票识别与投票；全球行情移除国内不可用的 Yahoo/Kraken/CoinGecko 运行时依赖，KOSPI、SENSEX、TASI、IBOV、道指/日经/纳指期货、美元指数、离岸人民币及 BTC/ETH/SOL 改用新浪财经，暂移除无稳定国内免费源的富时亚太；配置模式 A 股行业改用新浪申万行业页面，ETF 跟踪标的改用天天基金国内页面；下拉刷新会重新补全既有持仓的待补充元数据。",
   "forceUpdate": false
 }
