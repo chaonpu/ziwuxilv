@@ -1,0 +1,45 @@
+name: Publish Android v1.4.3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-v1.4.3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download signed release artifact
+        env:
+          ARTIFACT_URL: "https://sdmntprwestus3.oaiusercontent.com/files/00000000-8dd0-81fd-89cd-380fbe471560/raw?se=2026-09-27T19%3A29%3A23Z&sp=r&sv=2026-02-06&sr=b&scid=b17a5109-13d8-5500-aaa8-95c4dbda6ffd&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-27T14%3A03%3A50Z&ske=2026-09-28T14%3A03%3A50Z&sks=b&skv=2026-02-06&sig=rQTAKrLB25Mme8r9HfJNGNbhELXWkMsFeFgyDY6SIMY%3D"
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 "$ARTIFACT_URL" -o /tmp/v1.4.3.zip
+          rm -rf /tmp/v1.4.3
+          mkdir -p /tmp/v1.4.3
+          unzip -q /tmp/v1.4.3.zip -d /tmp/v1.4.3
+          test -s /tmp/v1.4.3/ziwuxilv-native-v1.4.3.apk
+          echo "957d5993239adda8a40665fc5ad81771e33cb7eda256de6b0e40dd1f38d90acf  /tmp/v1.4.3/ziwuxilv-native-v1.4.3.apk" | sha256sum -c -
+
+      - name: Publish APK and update manifest
+        run: |
+          set -euo pipefail
+          mkdir -p android-native/v1.4.3
+          cp /tmp/v1.4.3/ziwuxilv-native-v1.4.3.apk android-native/v1.4.3/ziwuxilv-native-v1.4.3.apk
+          cp /tmp/v1.4.3/ziwuxilv-native-v1.4.3.apk.sha256 android-native/v1.4.3/ziwuxilv-native-v1.4.3.apk.sha256
+          python3 -c 'import json; p={"versionCode":21,"versionName":"1.4.3","downloadUrl":"https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.3/ziwuxilv-native-v1.4.3.apk","updateLog":"修复广场 App 自建投票识别与投票；全球行情移除国内不可用的 Yahoo/Kraken/CoinGecko 运行时依赖，KOSPI、SENSEX、TASI、IBOV、道指/日经/纳指期货、美元指数、离岸人民币及 BTC/ETH/SOL 改用新浪财经，暂移除无稳定国内免费源的富时亚太；配置模式 A 股行业改用新浪申万行业页面，ETF 跟踪标的改用天天基金国内页面。","forceUpdate":False}; open("android-native/version.json","w",encoding="utf-8").write(json.dumps(p,ensure_ascii=False,indent=2)+"\n")'
+          rm -f .github/workflows/publish-v1.4.3.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Publish Android v1.4.3"
+          git push origin HEAD:main
