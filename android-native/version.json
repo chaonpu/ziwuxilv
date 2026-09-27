@@ -1,7 +1,7 @@
 {
-  "versionCode": 15,
-  "versionName": "1.1.1",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.1.1/ziwuxilv-native-v1.1.1.apk",
-  "updateLog": "修复 GitHub 临时断连导致的反复掉线：保留本机登录、后台自动重连，并改进登录与重试提示。",
+  "versionCode": 16,
+  "versionName": "1.2.0",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.2.0/ziwuxilv-native-v1.2.0.apk",
+  "updateLog": "持仓下拉刷新、收益日历与清仓展示优化；新增本机昵称头像及广场。历史 LOF 收益已从私有账本剔除，原仓位留作现金。广场发帖与回复须待 GitHub App 获批 Discussions 读写权限。",
   "forceUpdate": false
 }
