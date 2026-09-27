@@ -1,7 +1,7 @@
 {
-  "versionCode": 16,
-  "versionName": "1.2.0",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.2.0/ziwuxilv-native-v1.2.0.apk",
-  "updateLog": "持仓下拉刷新、收益日历与清仓展示优化；新增本机昵称头像及广场。历史 LOF 收益已从私有账本剔除，原仓位留作现金。广场发帖与回复须待 GitHub App 获批 Discussions 读写权限。",
+  "versionCode": 17,
+  "versionName": "1.3.0",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.3.0/ziwuxilv-native-v1.3.0.apk",
+  "updateLog": "新增三列全球行情与持仓行情首页、策略／本机配置模式切换；排行改从收益页进入，已清仓按月分组；广场增加下拉刷新、中文分类、置顶优先、排序和北京时间；帮助改全屏。未验证行情显示数据源待接入。",
   "forceUpdate": false
 }
