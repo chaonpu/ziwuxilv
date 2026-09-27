@@ -1,7 +1,7 @@
 {
-  "versionCode": 12,
-  "versionName": "1.0.11",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.11/ziwuxilv-native-v1.0.11.apk",
-  "updateLog": "接入私有收益账本：组合净值、收益曲线、五列交易日日历、当日最赚最亏、已清仓收益与净值贡献排行榜；自动推进新增哈希链和原口径校验。",
+  "versionCode": 13,
+  "versionName": "1.0.12",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.0.12/ziwuxilv-native-v1.0.12.apk",
+  "updateLog": "接入私有收益账本：组合净值、收益曲线、五列交易日日历、当日最赚最亏、已清仓净值贡献排行榜；持仓页新增账本核对后的实际仓位与现金。",
   "forceUpdate": false
 }
