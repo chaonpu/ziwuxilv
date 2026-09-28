@@ -1,7 +1,7 @@
 {
-  "versionCode": 30,
-  "versionName": "1.4.12",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.12/ziwuxilv-native-v1.4.12.apk",
-  "updateLog": "行情页网格标签精简：网格只显示“延时 / 滞后 / 待核验 / 未读取”，具体延时或滞后分钟数保留在点击后的行情详情中。广场发布窗口的“通过GitHub上传图片>>”会按App当前选择的讨论分类直接打开GitHub对应分类的新建Discussion页面，可直接填写并上传原生附件；发布窗口底部公开发布说明已移除。更新检测增加缓存规避与GitHub API二次核验。",
+  "versionCode": 32,
+  "versionName": "1.5.0",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.0/ziwuxilv-native-v1.5.0.apk",
+  "updateLog": "全球延时指数数据源重构：台湾加权、日经225、英国富时100、德国DAX、法国CAC40改为新浪财经b_行情作为主数据源，统一按至少15分钟延时标记，并直接读取昨收、今开、最高、最低等完整日内字段；若新浪临时无有效报价，则自动回退腾讯财经原gz轻量行情，避免卡片空白。道琼斯、纳斯达克综合、标普500等核心美股指数继续保留现有腾讯+富途时效优先方案。包含v1.4.13的广场GitHub原生附件显示修复和GitHub App优先跳转。",
   "forceUpdate": false
 }
