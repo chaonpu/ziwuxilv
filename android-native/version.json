@@ -1,7 +1,7 @@
 {
-  "versionCode": 33,
-  "versionName": "1.5.1",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.1/ziwuxilv-native-v1.5.1.apk",
-  "updateLog": "修复台湾加权与加密货币行情：台湾加权改用新浪稳定的znb_TWSE作为主行情，继续尝试b_TWSE补充OHLC，不再回退为腾讯主显示；同时修正新浪全球指数交易时段识别。新浪行情请求增加rn时间戳与强制禁缓存，并将BTC/ETH/SOL拆为独立批次刷新；若新浪加密行情缺失或超过2分钟未更新，自动回退Kraken公开行情，避免价格长时间冻结。广场所有“删除”相关文字统一使用独立危险红色，不再复用行情下跌的绿色。",
+  "versionCode": 34,
+  "versionName": "1.5.2",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.2/ziwuxilv-native-v1.5.2.apk",
+  "updateLog": "修复台湾加权和加密货币行情：台湾加权不再使用会返回2025旧值的新浪znb接口，改为台湾证券交易所MIS官方实时指数接口（tse_t00.tw），直接读取最新价、昨收、今开、最高、最低和交易日期；官方接口暂不可用时只回退新浪b_TWSE延时行情，不再回退腾讯。BTC/ETH/SOL改为国内可访问的币界网行情榜单作为主源，从同一页面读取实时美元价格与24小时涨跌幅并每15秒重新请求，带时间戳和禁缓存；币界网单个品种缺失时才回退新浪。",
   "forceUpdate": false
 }
