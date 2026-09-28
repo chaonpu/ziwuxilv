@@ -1,0 +1,45 @@
+name: Publish Android v1.5.1
+
+on:
+  push:
+    paths:
+      - ".github/workflows/publish-v1.5.1.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download signed artifact
+        env:
+          ARTIFACT_URL: 'https://sdmntprindiasocentral.oaiusercontent.com/files/00000000-29e4-8211-8833-a750b71c3007/raw?se=2026-09-28T13%3A03%3A52Z&sp=r&sv=2026-02-06&sr=b&scid=e899b763-7b11-57ac-96d3-e6c7cd173def&skoid=fb469448-2cc9-41bd-a5a6-6e020952b47a&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-28T07%3A19%3A42Z&ske=2026-09-29T07%3A19%3A42Z&sks=b&skv=2026-02-06&sig=B4zQrmJHqiZ73ywFPSDOe0hVM8S5A9hO1Qn9A9dhLnI%3D'
+        run: |
+          set -euo pipefail
+          curl -fL "$ARTIFACT_URL" -o /tmp/v151.zip
+          mkdir -p /tmp/v151
+          unzip -q /tmp/v151.zip -d /tmp/v151
+          echo "4e2a19fe11507d2e9a98b2eeec76de973580162a33509cb5d451625c670b3334  /tmp/v151/ziwuxilv-native-v1.5.1.apk" | sha256sum -c -
+      - name: Publish v1.5.1
+        run: |
+          set -euo pipefail
+          mkdir -p android-native/v1.5.1
+          cp /tmp/v151/ziwuxilv-native-v1.5.1.apk android-native/v1.5.1/
+          cp /tmp/v151/ziwuxilv-native-v1.5.1.apk.sha256 android-native/v1.5.1/
+          cat > android-native/version.json <<'JSON'
+          {
+            "versionCode": 33,
+            "versionName": "1.5.1",
+            "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.1/ziwuxilv-native-v1.5.1.apk",
+            "updateLog": "修复台湾加权与加密货币行情：台湾加权改用新浪稳定的znb_TWSE作为主行情，继续尝试b_TWSE补充OHLC，不再回退为腾讯主显示；同时修正新浪全球指数交易时段识别。新浪行情请求增加rn时间戳与强制禁缓存，并将BTC/ETH/SOL拆为独立批次刷新；若新浪加密行情缺失或超过2分钟未更新，自动回退Kraken公开行情，避免价格长时间冻结。广场所有“删除”相关文字统一使用独立危险红色，不再复用行情下跌的绿色。",
+            "forceUpdate": false
+          }
+          JSON
+          git rm .github/workflows/publish-v1.5.1.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add android-native/version.json android-native/v1.5.1
+          git commit -m "Publish Android v1.5.1"
+          git push
