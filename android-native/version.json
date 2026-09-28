@@ -1,7 +1,7 @@
 {
-  "versionCode": 24,
-  "versionName": "1.4.6",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.6/ziwuxilv-native-v1.4.6.apk",
-  "updateLog": "行情源改为国内直连优先：全球指数与海外行情不再依赖东方财富，优先使用腾讯财经/新浪财经，并修正纳斯达克综合指数口径；恒生科技期货改为自动探测当月/次月新浪合约，减少“待读取”。修复行情卡片边框状态，统一为开市绿、盘前/午休/交易间歇黄、收市灰，并修复“延时”标记被裁切。收益页新增基于实时持仓报价的展示层盘中净值与收益估值，不改写已核实账本；已清仓默认仅展开本月，本月无记录时展开最近一个有记录月份。",
+  "versionCode": 25,
+  "versionName": "1.4.7",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.7/ziwuxilv-native-v1.4.7.apk",
+  "updateLog": "修复沙特TASI与恒生科技期货行情：沙特使用Saudi Exchange官方延时行情并按实际报价时间计算延时，恒生科技期货优先使用经济通即时行情、富途延时行情兜底；恒生指数与恒生科技指数切换为新浪实时港股指数。修正沙特周日至周四交易时段、港股期货17:00夜盘，以及A股/美股盘前、盘中、盘后、休市边界并增加测试。行情自动刷新不再显示转圈，仅手动刷新显示；价格变化时格子轻微闪烁，延时标记紧贴价格并显示分钟数。行情页边框：盘前和午间休息金色，盘中涨红跌绿平灰，其他灰色。手动持仓卡压缩排版并强化价格/涨跌幅；广场发布改为右下角悬浮图标；收益页和排行榜精简冗余说明；排行榜前三名增加冠亚季军标识。",
   "forceUpdate": false
 }
