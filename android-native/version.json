@@ -1,7 +1,7 @@
 {
-  "versionCode": 22,
-  "versionName": "1.4.4",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.4/ziwuxilv-native-v1.4.4.apk",
-  "updateLog": "统一行情时间与详情字段格式，全球指数新增纳斯达克金龙中国指数；收益页四个核心数据居中并优化排版，修复切换时间段后曲线游标失效，收益浮窗默认显示当前净值与所选区间阶段累计收益并随游标联动；排行榜“单标的”改为“股票”；重做广场、收益日历、排行榜等下拉选择器与箭头，统一标签页、卡片圆角、边框和留白，整体优化 App UI。",
+  "versionCode": 23,
+  "versionName": "1.4.5",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.5/ziwuxilv-native-v1.4.5.apk",
+  "updateLog": "校准行情页数据源与字段：恒生指数期货/恒生科技期货改用东方财富主力合约并增加合约回退，主要全球指数优先使用东方财富统一指数口径，修正新浪全球指数、美元指数、离岸人民币和海外期货的昨收/今开/高低字段，并拒绝陈旧行情；源端延时行情在网格显示小型“延时”标记，详情显示行情延时字段。已清仓卡片新增行业/ETF跟踪标的；排行榜重点标记前三与前五；广场优化发布体验并支持回复评论形成 GitHub Discussions 线程。",
   "forceUpdate": false
 }
