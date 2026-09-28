@@ -1,0 +1,45 @@
+name: Publish Android v1.5.3
+
+on:
+  push:
+    paths:
+      - ".github/workflows/publish-v1.5.3.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download signed artifact
+        env:
+          ARTIFACT_URL: 'https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-9ae0-81f7-8c47-433dc9314fca/raw?se=2026-09-28T14%3A43%3A18Z&sp=r&sv=2026-02-06&sr=b&scid=a4978172-2cd7-5ba0-816f-906070a9a8eb&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-28T00%3A37%3A53Z&ske=2026-09-29T00%3A37%3A53Z&sks=b&skv=2026-02-06&sig=akb79jegz2OJwbwXa9dhyVZWeXSXcz375MilVjum9Yo%3D'
+        run: |
+          set -euo pipefail
+          curl -fL "$ARTIFACT_URL" -o /tmp/v153.zip
+          mkdir -p /tmp/v153
+          unzip -q /tmp/v153.zip -d /tmp/v153
+          echo "fa3fe97b7999754d4dcfeab4eeda7e91600cd183f0ad249954018fc0c7723283  /tmp/v153/ziwuxilv-native-v1.5.3.apk" | sha256sum -c -
+      - name: Publish v1.5.3
+        run: |
+          set -euo pipefail
+          mkdir -p android-native/v1.5.3
+          cp /tmp/v153/ziwuxilv-native-v1.5.3.apk android-native/v1.5.3/
+          cp /tmp/v153/ziwuxilv-native-v1.5.3.apk.sha256 android-native/v1.5.3/
+          cat > android-native/version.json <<'JSON'
+          {
+            "versionCode": 35,
+            "versionName": "1.5.3",
+            "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.3/ziwuxilv-native-v1.5.3.apk",
+            "updateLog": "修复并强化行情与收益/广场体验：BTC/ETH/SOL固定以国内可访问的币界网为唯一主行情源，优先读取币界网实时K线页中的三组USDT行情，缺项时再读取币界网成交额榜，不再静默回退新浪，因此详情页数据源会明确显示“币界网”。收益日历加入交易时段盘中实时估值点，今天的日期格实时显示当日盈亏并标注“盘中”；点击任一有数据的日期后，用半透明悬浮窗展示当日收益、最赚和最亏，历史与盘中均适用，不再常驻占用日历下方空间。广场帖子和回复改为Markdown查看模式，支持标题、粗体、斜体、删除线、行内代码、代码块、引用、列表、链接文字、分隔线和基础表格，列表摘要也不再直接显示Markdown源码。",
+            "forceUpdate": false
+          }
+          JSON
+          git rm .github/workflows/publish-v1.5.3.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add android-native/version.json android-native/v1.5.3
+          git commit -m "Publish Android v1.5.3"
+          git push
