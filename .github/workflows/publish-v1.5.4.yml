@@ -1,0 +1,45 @@
+name: Publish Android v1.5.4
+
+on:
+  push:
+    paths:
+      - ".github/workflows/publish-v1.5.4.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download signed artifact
+        env:
+          ARTIFACT_URL: 'https://sdmntprnznorth.oaiusercontent.com/files/00000000-ce88-820b-b085-31a220550155/raw?se=2026-09-28T17%3A39%3A21Z&sp=r&sv=2026-02-06&sr=b&scid=aec2706d-583b-5a45-b075-e398544545dd&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-28T16%3A44%3A11Z&ske=2026-09-29T16%3A44%3A11Z&sks=b&skv=2026-02-06&sig=imSb3YwppSDZ9zItPFnVFDnTuc6FQEuLB0GJvvYIbkM%3D'
+        run: |
+          set -euo pipefail
+          curl -fL "$ARTIFACT_URL" -o /tmp/v154.zip
+          mkdir -p /tmp/v154
+          unzip -q /tmp/v154.zip -d /tmp/v154
+          echo "21d1448e12369f62887eae7c8ff2274ce33a9b80c49e03a454061f24f0998d43  /tmp/v154/ziwuxilv-native-v1.5.4.apk" | sha256sum -c -
+      - name: Publish v1.5.4
+        run: |
+          set -euo pipefail
+          mkdir -p android-native/v1.5.4
+          cp /tmp/v154/ziwuxilv-native-v1.5.4.apk android-native/v1.5.4/
+          cp /tmp/v154/ziwuxilv-native-v1.5.4.apk.sha256 android-native/v1.5.4/
+          cat > android-native/version.json <<'JSON'
+          {
+            "versionCode": 36,
+            "versionName": "1.5.4",
+            "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.4/ziwuxilv-native-v1.5.4.apk",
+            "updateLog": "行情源与启动速度重构：纳斯达克金龙中国指数改用东方财富实时行情；原新浪延时的日经225、富时100、KOSPI、DAX、SENSEX、CAC40、STI、IBOV统一先走东方财富轻量全球指数快照，并按行情时间戳实时校验新鲜度，KOSPI和SENSEX随后分别由Naver实时行情、BSE印度交易所官方实时行情校准，失效时才回退新浪延时数据。行情页增加本地快照缓存，打开App立即显示上次有效行情；腾讯、东方财富、新浪、台湾证交所、币界网并行请求并分批刷新，快速源先显示，不再等待所有慢源完成；连接超时由8秒缩短为4秒、读取超时缩短为5秒。",
+            "forceUpdate": false
+          }
+          JSON
+          git rm .github/workflows/publish-v1.5.4.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add android-native/version.json android-native/v1.5.4
+          git commit -m "Publish Android v1.5.4"
+          git push
