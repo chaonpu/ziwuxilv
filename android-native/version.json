@@ -1,7 +1,7 @@
 {
-  "versionCode": 23,
-  "versionName": "1.4.5",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.5/ziwuxilv-native-v1.4.5.apk",
-  "updateLog": "校准行情页数据源与字段：恒生指数期货/恒生科技期货改用东方财富主力合约并增加合约回退，主要全球指数优先使用东方财富统一指数口径，修正新浪全球指数、美元指数、离岸人民币和海外期货的昨收/今开/高低字段，并拒绝陈旧行情；源端延时行情在网格显示小型“延时”标记，详情显示行情延时字段。已清仓卡片新增行业/ETF跟踪标的；排行榜重点标记前三与前五；广场优化发布体验并支持回复评论形成 GitHub Discussions 线程。",
+  "versionCode": 24,
+  "versionName": "1.4.6",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.6/ziwuxilv-native-v1.4.6.apk",
+  "updateLog": "行情源改为国内直连优先：全球指数与海外行情不再依赖东方财富，优先使用腾讯财经/新浪财经，并修正纳斯达克综合指数口径；恒生科技期货改为自动探测当月/次月新浪合约，减少“待读取”。修复行情卡片边框状态，统一为开市绿、盘前/午休/交易间歇黄、收市灰，并修复“延时”标记被裁切。收益页新增基于实时持仓报价的展示层盘中净值与收益估值，不改写已核实账本；已清仓默认仅展开本月，本月无记录时展开最近一个有记录月份。",
   "forceUpdate": false
 }
