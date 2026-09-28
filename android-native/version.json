@@ -1,7 +1,7 @@
 {
-  "versionCode": 28,
-  "versionName": "1.4.10",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.10/ziwuxilv-native-v1.4.10.apk",
-  "updateLog": "行情时效标签继续核验：已确认“数据源本身延时”但无法得到精确分钟数的品种不再误标为“待核验”，改为“延时”；新浪环球指数与部分国际期货按公开说明显示“延时≥15分”，富途新加坡STI仍优先读取页面明确的“延时10分”。只有源属性确实无法确认时才显示“待核验”，无行情显示“未读取”，实时源时间异常继续显示“滞后N分”。广场取消App内本机图片选择和图片链接输入，发布与回复均增加“通过GitHub上传图片>>”，点击跳转GitHub使用原生附件上传，GitHub中的图片仍可在广场正常展示。",
+  "versionCode": 30,
+  "versionName": "1.4.12",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.12/ziwuxilv-native-v1.4.12.apk",
+  "updateLog": "行情页网格标签精简：网格只显示“延时 / 滞后 / 待核验 / 未读取”，具体延时或滞后分钟数保留在点击后的行情详情中。广场发布窗口的“通过GitHub上传图片>>”会按App当前选择的讨论分类直接打开GitHub对应分类的新建Discussion页面，可直接填写并上传原生附件；发布窗口底部公开发布说明已移除。继续保留v1.4.11的更新检测缓存修复。",
   "forceUpdate": false
 }
