@@ -1,7 +1,7 @@
 {
-  "versionCode": 32,
-  "versionName": "1.5.0",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.0/ziwuxilv-native-v1.5.0.apk",
-  "updateLog": "全球延时指数数据源重构：台湾加权、日经225、英国富时100、德国DAX、法国CAC40改为新浪财经b_行情作为主数据源，统一按至少15分钟延时标记，并直接读取昨收、今开、最高、最低等完整日内字段；若新浪临时无有效报价，则自动回退腾讯财经原gz轻量行情，避免卡片空白。道琼斯、纳斯达克综合、标普500等核心美股指数继续保留现有腾讯+富途时效优先方案。包含v1.4.13的广场GitHub原生附件显示修复和GitHub App优先跳转。",
+  "versionCode": 33,
+  "versionName": "1.5.1",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.1/ziwuxilv-native-v1.5.1.apk",
+  "updateLog": "修复台湾加权与加密货币行情：台湾加权改用新浪稳定的znb_TWSE作为主行情，继续尝试b_TWSE补充OHLC，不再回退为腾讯主显示；同时修正新浪全球指数交易时段识别。新浪行情请求增加rn时间戳与强制禁缓存，并将BTC/ETH/SOL拆为独立批次刷新；若新浪加密行情缺失或超过2分钟未更新，自动回退Kraken公开行情，避免价格长时间冻结。广场所有“删除”相关文字统一使用独立危险红色，不再复用行情下跌的绿色。",
   "forceUpdate": false
 }
