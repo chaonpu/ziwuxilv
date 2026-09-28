@@ -1,0 +1,48 @@
+name: Publish Android v1.4.12
+
+on:
+  push:
+    paths:
+      - ".github/workflows/publish-v1.4.12.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download signed artifact
+        env:
+          ARTIFACT_URL: 'https://sdmntprindiasocentral.oaiusercontent.com/files/00000000-1b5c-8211-8f72-78bcfa4de51b/raw?se=2026-09-28T11%3A07%3A17Z&sp=r&sv=2026-02-06&sr=b&scid=873b7619-68fb-5249-9667-384ae622bc90&skoid=fb469448-2cc9-41bd-a5a6-6e020952b47a&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-28T07%3A19%3A42Z&ske=2026-09-29T07%3A19%3A42Z&sks=b&skv=2026-02-06&sig=7/mVat4ov7BBF68hzaTixEluNH3Hg9PQBieEIAxEvCw%3D'
+        run: |
+          set -euo pipefail
+          curl -fL "$ARTIFACT_URL" -o /tmp/v1412.zip
+          mkdir -p /tmp/v1412
+          unzip -q /tmp/v1412.zip -d /tmp/v1412
+          cd /tmp/v1412
+          sha256sum -c ziwuxilv-native-v1.4.12.apk.sha256
+
+      - name: Publish v1.4.12
+        run: |
+          set -euo pipefail
+          mkdir -p android-native/v1.4.12
+          cp /tmp/v1412/ziwuxilv-native-v1.4.12.apk android-native/v1.4.12/
+          cp /tmp/v1412/ziwuxilv-native-v1.4.12.apk.sha256 android-native/v1.4.12/
+          cat > android-native/version.json <<'JSON'
+          {
+            "versionCode": 30,
+            "versionName": "1.4.12",
+            "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.12/ziwuxilv-native-v1.4.12.apk",
+            "updateLog": "行情页网格标签精简：网格只显示“延时 / 滞后 / 待核验 / 未读取”，具体延时或滞后分钟数保留在点击后的行情详情中。广场发布窗口的“通过GitHub上传图片>>”会按App当前选择的讨论分类直接打开GitHub对应分类的新建Discussion页面，可直接填写并上传原生附件；发布窗口底部公开发布说明已移除。继续保留v1.4.11的更新检测缓存修复。",
+            "forceUpdate": false
+          }
+          JSON
+          git rm .github/workflows/publish-v1.4.12.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add android-native/version.json android-native/v1.4.12
+          git commit -m "Publish Android v1.4.12"
+          git push
