@@ -1,0 +1,45 @@
+name: Publish Android v1.5.0
+
+on:
+  push:
+    paths:
+      - ".github/workflows/publish-v1.5.0.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download signed artifact
+        env:
+          ARTIFACT_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-64bc-81fd-8313-ee04ada67d00/raw?se=2026-09-28T12%3A33%3A43Z&sp=r&sv=2026-02-06&sr=b&scid=ad76bccc-a42a-59d7-b501-5b887325ca58&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-28T00%3A37%3A53Z&ske=2026-09-29T00%3A37%3A53Z&sks=b&skv=2026-02-06&sig=M%2BuarWr1V%2BU/f7fA5ItkBZ/A2/jkgj2ksxunR%2BcPIsk%3D'
+        run: |
+          set -euo pipefail
+          curl -fL "$ARTIFACT_URL" -o /tmp/v150.zip
+          mkdir -p /tmp/v150
+          unzip -q /tmp/v150.zip -d /tmp/v150
+          echo "464926e810839e2e5302b6fb143ece73e84fe9b290fc4d9ca4ca255f320333e5  /tmp/v150/ziwuxilv-native-v1.5.0.apk" | sha256sum -c -
+      - name: Publish v1.5.0
+        run: |
+          set -euo pipefail
+          mkdir -p android-native/v1.5.0
+          cp /tmp/v150/ziwuxilv-native-v1.5.0.apk android-native/v1.5.0/
+          cp /tmp/v150/ziwuxilv-native-v1.5.0.apk.sha256 android-native/v1.5.0/
+          cat > android-native/version.json <<'JSON'
+          {
+            "versionCode": 32,
+            "versionName": "1.5.0",
+            "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.0/ziwuxilv-native-v1.5.0.apk",
+            "updateLog": "全球延时指数数据源重构：台湾加权、日经225、英国富时100、德国DAX、法国CAC40改为新浪财经b_行情作为主数据源，统一按至少15分钟延时标记，并直接读取昨收、今开、最高、最低等完整日内字段；若新浪临时无有效报价，则自动回退腾讯财经原gz轻量行情，避免卡片空白。道琼斯、纳斯达克综合、标普500等核心美股指数继续保留现有腾讯+富途时效优先方案。包含v1.4.13的广场GitHub原生附件显示修复和GitHub App优先跳转。",
+            "forceUpdate": false
+          }
+          JSON
+          git rm .github/workflows/publish-v1.5.0.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add android-native/version.json android-native/v1.5.0
+          git commit -m "Publish Android v1.5.0"
+          git push
