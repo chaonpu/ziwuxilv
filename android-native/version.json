@@ -1,7 +1,7 @@
 {
-  "versionCode": 27,
-  "versionName": "1.4.9",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.9/ziwuxilv-native-v1.4.9.apk",
-  "updateLog": "行情时效标签继续收紧：明确实时且行情时间正常不显示标签；只有确认具体分钟数时才显示“延时N分”，实时源更新时间异常显示“滞后N分”，无法确认时显示“待核验”，无行情显示“未读取”。A股/美股持仓改为根据腾讯行情实际时间判断实时或滞后，不再默认待核验。行情变化采用约1秒的柔和渐亮渐暗效果，全球与持仓行情均保持接近15秒刷新周期。广场评论默认显示10条、每次再展开10条；单条评论回复默认5条、每次再展开5条，且同一时间只允许一个回复线程展开，切换线程时其他线程自动折叠回5条。帖子和回复新增GitHub App风格右上角菜单，支持分享、引用回复、回复、在GitHub查看和作者删除。具备仓库写权限的账号可通过系统照片选择器从本机选择最多3张图片并上传为GitHub附件；普通评论权限账号继续支持HTTPS图片链接，并可跳转GitHub完成原生附件上传。",
+  "versionCode": 28,
+  "versionName": "1.4.10",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.4.10/ziwuxilv-native-v1.4.10.apk",
+  "updateLog": "行情时效标签继续核验：已确认“数据源本身延时”但无法得到精确分钟数的品种不再误标为“待核验”，改为“延时”；新浪环球指数与部分国际期货按公开说明显示“延时≥15分”，富途新加坡STI仍优先读取页面明确的“延时10分”。只有源属性确实无法确认时才显示“待核验”，无行情显示“未读取”，实时源时间异常继续显示“滞后N分”。广场取消App内本机图片选择和图片链接输入，发布与回复均增加“通过GitHub上传图片>>”，点击跳转GitHub使用原生附件上传，GitHub中的图片仍可在广场正常展示。",
   "forceUpdate": false
 }
