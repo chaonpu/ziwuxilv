@@ -8,45 +8,28 @@ permissions:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 3
     steps:
-      - name: Probe FinScope coverage
+      - name: Probe FinScope selected instruments
         shell: bash
         run: |
           python - <<'PY'
           import json, urllib.parse, urllib.request, time
           from concurrent.futures import ThreadPoolExecutor, as_completed
-
           BASE="https://finance.pae.baidu.com"
           H={"User-Agent":"Mozilla/5.0","Accept":"application/json","Referer":"https://finance.baidu.com/"}
-          TARGETS=[
-            ("日经225",["日经225","Nikkei 225","N225"]),
-            ("富时100",["富时100","FTSE 100","UKX"]),
-            ("DAX",["DAX","德国DAX"]),
-            ("SENSEX",["SENSEX","孟买SENSEX"]),
-            ("CAC40",["CAC40","CAC 40"]),
-            ("富时沙特",["富时沙特","FTSE Saudi Arabia","Saudi Arabia"]),
-            ("IBOVESPA",["IBOVESPA","Bovespa","巴西IBOVESPA"]),
-            ("金龙中国HXC",["纳斯达克金龙中国","HXC","Golden Dragon China"]),
-            ("道指期货YM",["道指期货","YM","E-mini Dow"]),
-            ("纳指期货NQ",["纳指期货","NQ","E-mini Nasdaq"]),
-            ("标普期货ES",["标普期货","ES","E-mini S&P 500"]),
-          ]
-
-          def req(path,params=None):
+          def get(path,params=None,timeout=6):
             u=BASE+path
             if params: u+="?"+urllib.parse.urlencode(params)
             t=time.time()
             try:
-              rq=urllib.request.Request(u,headers=H)
-              with urllib.request.urlopen(rq,timeout=5) as r:
+              q=urllib.request.Request(u,headers=H)
+              with urllib.request.urlopen(q,timeout=timeout) as r:
                 raw=r.read().decode("utf-8","replace")
-              try: j=json.loads(raw)
-              except Exception: j={"_raw":raw[:2000]}
-              return {"ok":1,"status":r.status,"ms":round((time.time()-t)*1000),"url":u,"j":j}
+              j=json.loads(raw)
+              return {"ok":1,"status":r.status,"ms":round((time.time()-t)*1000),"j":j}
             except Exception as e:
-              return {"ok":0,"ms":round((time.time()-t)*1000),"url":u,"err":type(e).__name__+":"+str(e)[:300]}
-
+              return {"ok":0,"ms":round((time.time()-t)*1000),"err":type(e).__name__+":"+str(e)}
           def js(x): return json.dumps(x,ensure_ascii=False,separators=(",",":"))
           def walk(x):
             if isinstance(x,dict):
@@ -54,85 +37,65 @@ jobs:
               for v in x.values(): yield from walk(v)
             elif isinstance(x,list):
               for v in x: yield from walk(v)
+          def global_rows():
+            out=[]
+            with ThreadPoolExecutor(max_workers=5) as ex:
+              futs={ex.submit(get,"/vapi/v1/globalindexrank",{"pn":0,"rn":500,"area":a}):a for a in ["all","asia","america","europeafrica","other"]}
+              for f in as_completed(futs):
+                a=futs[f]; r=f.result()
+                print("GLOBAL_REQ",a,"ok",r["ok"],"ms",r["ms"],"rc",r.get("j",{}).get("ResultCode"),"err",r.get("err"))
+                if not r["ok"]: continue
+                for d in walk(r["j"].get("Result",{})):
+                  if isinstance(d,dict) and d.get("code") and d.get("name") and ("last_px" in d or d.get("subType") in ["globalIndex","index"]):
+                    sig=(d.get("code"),d.get("market"),d.get("name"))
+                    if not any((x.get("code"),x.get("market"),x.get("name"))==sig for x in out): out.append(d)
+            return out
 
-          print("=== BASICS ===")
-          jobs=[]
-          for area in ["all","asia","america","europeafrica","other"]:
-            jobs.append(("GLOBAL:"+area,"/vapi/v1/globalindexrank",{"pn":0,"rn":500,"area":area}))
-          jobs += [
-            ("FUTURES:overview","/vapi/v1/futuresoverview",None),
-            ("FUTURES:list","/vapi/v1/getfutureslist",{"pn":0,"rn":500}),
+          wanted={
+            "日经225":("NK225","jp"),"富时100":("FTSE","uk"),"DAX":("DAX","de"),
+            "SENSEX":("SENSEX","in"),"CAC40":("CAC","fr"),
+            "富时沙特":("FISAULM.LOC-FTX","sa"),"HXC":("HXC","us")
+          }
+          print("=== SNAPSHOT 1 ===")
+          rows1=global_rows()
+          for label,(code,mkt) in wanted.items():
+            xs=[x for x in rows1 if x.get("code")==code and x.get("market")==mkt]
+            print("INDEX",label,js(xs[:3]))
+          print("BRAZIL_ROWS",js([x for x in rows1 if x.get("market")=="br" or "巴西" in str(x.get("name",""))][:50]))
+
+          print("=== SUG TARGETS ===")
+          terms=["IBOVESPA","BOVESPA","BVSP","巴西指数","巴西BOVESPA","HXC",
+                 "道指期货","小型道指期货","YM","YM00",
+                 "纳指期货","纳斯达克100期货","NQ","NQ00",
+                 "标普500期货","标普期货","ES","ES00"]
+          with ThreadPoolExecutor(max_workers=12) as ex:
+            futs={ex.submit(get,"/vapi/v1/sug",{"wd":t,"finClientType":"pc"}):t for t in terms}
+            for f in as_completed(futs):
+              t=futs[f]; r=f.result(); print("SUG",repr(t),"ok",r["ok"],"ms",r["ms"],"rc",r.get("j",{}).get("ResultCode"),"RESULT",js(r.get("j",{}).get("Result"))[:3500] if r["ok"] else r.get("err"))
+
+          print("=== STOCKSHORT ===")
+          probes=[
+            ("NK225","jp"),("FTSE","uk"),("DAX","de"),("SENSEX","in"),("CAC","fr"),
+            ("FISAULM.LOC-FTX","sa"),("FISAULMU.USD-FTX","sa"),("HXC","us"),
+            ("IBOVESPA","br"),("BVSP","br"),("IBOV","br"),("BOVESPA","br"),
+            ("YM","us"),("NQ","us"),("ES","us"),("YM","global"),("NQ","global"),("ES","global")
           ]
-          broad={}
-          with ThreadPoolExecutor(max_workers=8) as ex:
-            futs={ex.submit(req,p,pa):(n,p,pa) for n,p,pa in jobs}
+          with ThreadPoolExecutor(max_workers=12) as ex:
+            futs={ex.submit(get,"/vapi/stockshort",{"code":c,"market":m}):(c,m) for c,m in probes}
             for f in as_completed(futs):
-              n,_,_=futs[f]; r=f.result(); broad[n]=r
-              j=r.get("j",{})
-              print(n,"ok",r["ok"],"status",r.get("status"),"ms",r["ms"],"rc",j.get("ResultCode"),"msg",j.get("ResultMsg"),"len",len(js(j)))
+              c,m=futs[f]; r=f.result()
+              print("SHORT",c,m,"ok",r["ok"],"ms",r["ms"],"rc",r.get("j",{}).get("ResultCode"),"RESULT",js(r.get("j",{}).get("Result"))[:2000] if r["ok"] else r.get("err"))
 
-          print("\n=== SUGGESTIONS ===")
-          sug={}
-          sjobs=[(label,wd) for label,keys in TARGETS for wd in keys]
-          with ThreadPoolExecutor(max_workers=16) as ex:
-            futs={ex.submit(req,"/vapi/v1/sug",{"wd":wd,"finClientType":"pc"}):(label,wd) for label,wd in sjobs}
-            for f in as_completed(futs):
-              label,wd=futs[f]; r=f.result(); sug[(label,wd)]=r
-              j=r.get("j",{})
-              result=j.get("Result")
-              print("SUG",label,repr(wd),"ok",r["ok"],"status",r.get("status"),"ms",r["ms"],"rc",j.get("ResultCode"),"RESULT",js(result)[:2500] if result is not None else None)
+          print("=== FUTURES ENDPOINTS ===")
+          for p,pa in [("/vapi/v1/futuresoverview",None),("/vapi/v1/getfutureslist",{"pn":0,"rn":500})]:
+            r=get(p,pa); print("FUTURES",p,"ok",r["ok"],"ms",r["ms"],"rc",r.get("j",{}).get("ResultCode"),"FULL",js(r.get("j",{}))[:5000] if r["ok"] else r.get("err"))
 
-          print("\n=== BROAD MATCHES ===")
-          for label,keys in TARGETS:
-            print("TARGET",label)
-            lows=[k.lower() for k in keys]
-            hit=0
-            for src,r in broad.items():
-              if not r.get("ok"): continue
-              for d in walk(r.get("j",{}).get("Result",{})):
-                if not isinstance(d,dict): continue
-                t=js(d).lower()
-                if any(k in t for k in lows):
-                  print("MATCH",src,js(d)[:2500]); hit+=1
-                  if hit>=12: break
-              if hit>=12: break
-            if not hit: print("MATCH none")
-
-          print("\n=== CANDIDATE QUOTES ===")
-          quote_jobs=[]
-          for label,keys in TARGETS:
-            rows=[]
-            for wd in keys:
-              r=sug.get((label,wd),{})
-              if not r.get("ok"): continue
-              for d in walk(r.get("j",{}).get("Result",{})):
-                if not isinstance(d,dict): continue
-                # candidate must look security-like
-                code=next((str(d.get(k)) for k in ["code","symbol","stockCode","secuCode","indexCode"] if d.get(k) not in [None,""]),None)
-                if not code: continue
-                name=next((str(d.get(k)) for k in ["name","stockName","secuName","title"] if d.get(k) not in [None,""]),"")
-                market=next((str(d.get(k)) for k in ["market","marketType","market_type"] if d.get(k) not in [None,""]),None)
-                ft=next((str(d.get(k)) for k in ["financeType","finance_type","type"] if d.get(k) not in [None,""]),None)
-                tup=(code,market,ft,name)
-                if tup not in rows: rows.append(tup)
-            print("CANDIDATES",label,rows[:12])
-            for code,market,ft,name in rows[:4]:
-              isf="期货" in label
-              mk=market or ("us" if isf else "global")
-              ftype=ft or ("futures" if isf else "index")
-              groups=(["quotation_futures_minute","quotation_minute_us","quotation_minute_global"] if isf
-                      else ["quotation_index_minute","quotation_minute_global",f"quotation_minute_{mk}"])
-              for g in dict.fromkeys(groups):
-                params={"code":code,"query":code,"market_type":mk,"financeType":ftype,
-                        "group":g,"pointType":"string","new_Format":1,"finClientType":"pc"}
-                quote_jobs.append((label,code,mk,ftype,name,g,params))
-          with ThreadPoolExecutor(max_workers=16) as ex:
-            futs={ex.submit(req,"/vapi/v1/getquotation",x[-1]):x for x in quote_jobs}
-            for f in as_completed(futs):
-              label,code,mk,ftype,name,g,_=futs[f]; r=f.result(); j=r.get("j",{})
-              R=j.get("Result")
-              cur=R.get("cur") if isinstance(R,dict) else None
-              print("QUOTE",label,code,mk,ftype,g,"ok",r["ok"],"status",r.get("status"),"ms",r["ms"],"rc",j.get("ResultCode"),"cur",js(cur)[:1000] if cur else None)
-
+          print("=== SNAPSHOT 2 AFTER 12S ===")
+          time.sleep(12)
+          rows2=global_rows()
+          for label,(code,mkt) in wanted.items():
+            a=next((x for x in rows1 if x.get("code")==code and x.get("market")==mkt),None)
+            b=next((x for x in rows2 if x.get("code")==code and x.get("market")==mkt),None)
+            print("DELTA",label,"A",js(a),"B",js(b),"CHANGED", bool(a and b and (a.get("last_px")!=b.get("last_px") or a.get("px_change")!=b.get("px_change"))))
           print("=== END ===")
           PY
