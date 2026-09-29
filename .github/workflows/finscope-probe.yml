@@ -1,0 +1,120 @@
+name: FinScope probe
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/finscope-probe.yml"
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe FinScope coverage
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, urllib.parse, urllib.request, time, re
+          BASE="https://finance.pae.baidu.com"
+          H={"User-Agent":"Mozilla/5.0","Accept":"application/json","Referer":"https://finance.baidu.com/"}
+          targets=[
+            ("日经225",["日经225","Nikkei 225","N225","NI225"]),
+            ("富时100",["富时100","FTSE 100","UKX"]),
+            ("DAX",["DAX","德国DAX"]),
+            ("SENSEX",["SENSEX","孟买SENSEX"]),
+            ("CAC40",["CAC40","CAC 40"]),
+            ("富时沙特",["富时沙特","FTSE Saudi Arabia","Saudi Arabia"]),
+            ("IBOVESPA",["IBOVESPA","Bovespa","巴西IBOVESPA"]),
+            ("金龙中国HXC",["纳斯达克金龙中国","HXC","Golden Dragon China"]),
+            ("道指期货YM",["道指期货","YM","E-mini Dow"]),
+            ("纳指期货NQ",["纳指期货","NQ","E-mini Nasdaq"]),
+            ("标普期货ES",["标普期货","ES","E-mini S&P 500"]),
+          ]
+          def get(path, params=None, timeout=12):
+            u=BASE+path
+            if params: u+="?"+urllib.parse.urlencode(params)
+            req=urllib.request.Request(u,headers=H)
+            t=time.time()
+            try:
+              with urllib.request.urlopen(req,timeout=timeout) as r:
+                b=r.read()
+              ms=round((time.time()-t)*1000)
+              return {"ok":True,"status":r.status,"ms":ms,"url":u,"json":json.loads(b.decode("utf-8","replace"))}
+            except Exception as e:
+              return {"ok":False,"error":repr(e),"url":u,"ms":round((time.time()-t)*1000)}
+          def walk(obj,path="$"):
+            if isinstance(obj,dict):
+              yield path,obj
+              for k,v in obj.items(): yield from walk(v,path+"."+str(k))
+            elif isinstance(obj,list):
+              for i,v in enumerate(obj): yield from walk(v,f"{path}[{i}]")
+          def s(x): 
+            try:return json.dumps(x,ensure_ascii=False,separators=(",",":"))
+            except:return str(x)
+          print("=== FINSC0PE PROBE START ===")
+          # broad endpoints
+          broad={}
+          for area in ["all","asia","america","europeafrica","other"]:
+            r=get("/vapi/v1/globalindexrank",{"pn":0,"rn":500,"area":area})
+            broad["global-"+area]=r
+            j=r.get("json",{})
+            print("BROAD global",area,"ok",r["ok"],"status",r.get("status"),"ms",r.get("ms"),"ResultCode",j.get("ResultCode"),"bytes",len(s(j)))
+          for name,path,params in [
+            ("futuresoverview","/vapi/v1/futuresoverview",None),
+            ("futureslist","/vapi/v1/getfutureslist",{"pn":0,"rn":500}),
+          ]:
+            r=get(path,params); broad[name]=r; j=r.get("json",{})
+            print("BROAD",name,"ok",r["ok"],"status",r.get("status"),"ms",r.get("ms"),"ResultCode",j.get("ResultCode"),"bytes",len(s(j)))
+          # target suggestions and matches
+          for label,keys in targets:
+            print("\n### TARGET",label)
+            seen=[]
+            for wd in keys:
+              r=get("/vapi/v1/sug",{"wd":wd,"finClientType":"pc"})
+              j=r.get("json",{})
+              print("SUG",repr(wd),"ok",r["ok"],"status",r.get("status"),"ms",r.get("ms"),"ResultCode",j.get("ResultCode"))
+              if r["ok"]:
+                txt=s(j.get("Result",{}))
+                print("SUG_RESULT",txt[:3000])
+                # collect candidate dictionaries that contain likely identifying fields
+                for p,d in walk(j.get("Result",{})):
+                  if isinstance(d,dict):
+                    low=" ".join(str(d.get(k,"")) for k in ["name","code","market","marketType","market_type","financeType","type","symbol","stockCode","stockName"]).lower()
+                    if any(k.lower() in low for k in keys):
+                      sig=s(d)
+                      if sig not in seen: seen.append(sig)
+            # broad endpoint text matches
+            for bname,r in broad.items():
+              if not r.get("ok"): continue
+              for p,d in walk(r.get("json",{}).get("Result",{})):
+                if isinstance(d,dict):
+                  txt=s(d).lower()
+                  if any(k.lower() in txt for k in keys):
+                    print("BROAD_MATCH",bname,p,s(d)[:2500])
+            # attempt quote calls using codes parsed from suggestion JSON recursively
+            candidates=[]
+            for raw in seen:
+              try:d=json.loads(raw)
+              except:continue
+              code=next((str(d.get(k)) for k in ["code","symbol","stockCode","secuCode","indexCode"] if d.get(k) not in [None,""]),None)
+              market=next((str(d.get(k)) for k in ["market","marketType","market_type"] if d.get(k) not in [None,""]),None)
+              ft=next((str(d.get(k)) for k in ["financeType","finance_type","type"] if d.get(k) not in [None,""]),None)
+              name=next((str(d.get(k)) for k in ["name","stockName","secuName"] if d.get(k) not in [None,""]),None)
+              if code and (code,market,ft,name) not in candidates: candidates.append((code,market,ft,name))
+            print("CANDIDATES",candidates[:20])
+            for code,market,ft,name in candidates[:8]:
+              mk=market or ("global" if label not in ["道指期货YM","纳指期货NQ","标普期货ES"] else "us")
+              ftype=ft or ("futures" if "期货" in label else "index")
+              groups=[]
+              if "期货" in label: groups += ["quotation_futures_minute","quotation_minute_us","quotation_minute_global"]
+              else: groups += ["quotation_index_minute","quotation_minute_global",f"quotation_minute_{mk}"]
+              for group in dict.fromkeys(groups):
+                q=get("/vapi/v1/getquotation",{
+                  "code":code,"query":code,"market_type":mk,"financeType":ftype,
+                  "group":group,"pointType":"string","new_Format":1,"finClientType":"pc"
+                })
+                jj=q.get("json",{}); res=jj.get("Result",{})
+                cur=res.get("cur") if isinstance(res,dict) else None
+                print("QUOTE",code,mk,ftype,group,"ok",q["ok"],"rc",jj.get("ResultCode"),"ms",q.get("ms"),"cur",s(cur)[:1000] if cur else None)
+          print("\n=== FINSC0PE PROBE END ===")
+          PY
