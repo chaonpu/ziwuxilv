@@ -177,14 +177,27 @@ def process(event):
             updated, profile, clean_avatar = apply_update(index, actor_id, login, request, avatar, now)
             if clean_avatar is not None:
                 target = Path(profile['avatar_path']); target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(clean_avatar)
-            if request.get('avatar_action') == 'remove': Path(f'profiles/{actor_id}/avatar.webp').unlink(missing_ok=True)
+            from image_lifecycle import registry, register, REGISTRY
+            image_registry = registry()
+            avatar_ref = dict(type='avatar', id=str(actor_id))
+            for entry in image_registry['images'].values():
+                entry['references'] = [r for r in entry['references'] if r != avatar_ref]
+            if profile.get('avatar_path'):
+                iid = register(image_registry, profile['avatar_path'], actor_id, profile['avatar_sha256'], now.isoformat())
+                if avatar_ref not in image_registry['images'][iid]['references']:
+                    image_registry['images'][iid]['references'].append(avatar_ref)
+            if request.get('avatar_action') == 'remove':
+                path = f'profiles/{actor_id}/avatar.webp'
+                if not any(e['storage_path']==path and e['references'] for e in image_registry['images'].values()):
+                    Path(path).unlink(missing_ok=True)
+            write_json(REGISTRY, image_registry)
             write_json(f'profiles/{actor_id}/profile.json', profile)
             write_json('profiles/index.json', updated)
             result.update(status='success', profile=profile)
         except ProfileError as error:
             result.update(status='error', error=error.code, **error.details)
         write_json(receipt_path, result)
-        shell('git', 'add', '--', 'profiles')
+        shell('git', 'add', '--', 'profiles', *(['media'] if Path('media').exists() else []))
         shell('git', '-c', 'user.name=github-actions[bot]', '-c', 'user.email=41898282+github-actions[bot]@users.noreply.github.com',
               'commit', '-m', f"Update Profile Registry request {request['request_id']}")
         try:
@@ -243,3 +256,4 @@ if __name__ == '__main__':
             api(f'/repos/{REPOSITORY}/issues/{number}/comments', 'POST', {'body': RESULT_PREFIX+json.dumps(result, ensure_ascii=False)})
             api(f'/repos/{REPOSITORY}/issues/{number}', 'PATCH', {'state': 'closed'})
             print('Profile request rejected:', request_id, error.code)
+

@@ -119,17 +119,21 @@ def process(event):
                 or [i.get('upload_sha256') for i in result.get('images', [])]
                 != [i['sha256'] for i in request['images']]): reject()
             break
+        from image_lifecycle import registry, register, REGISTRY
+        image_registry = registry()
         metadata = []
         for index, (data, size) in enumerate(decoded):
             path = f'media/{owner}/{rid}/{index}.webp'
             target = Path(path)
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
-            metadata.append(dict(index=index, upload_sha256=request['images'][index]['sha256'],
+            iid = register(image_registry, path, owner, hashlib.sha256(data).hexdigest())
+            metadata.append(dict(image_id=iid, index=index, upload_sha256=request['images'][index]['sha256'],
                                  sha256=hashlib.sha256(data).hexdigest(), width=size[0], height=size[1],
                                  bytes=len(data), path=path))
         result = dict(version=1, request_id=rid, github_id=owner, issue_number=issue['number'],
                       status='success', created_at=datetime.now(timezone.utc).isoformat(), images=metadata)
+        write_json(REGISTRY, image_registry)
         write_json(receipt, result)
         shell('git', 'add', '--', 'media')
         shell('git', '-c', 'user.name=github-actions[bot]',
@@ -175,3 +179,4 @@ if __name__ == '__main__':
         else:
             try: process(event)
             except MediaError as error: report_failure(event, str(error))
+
