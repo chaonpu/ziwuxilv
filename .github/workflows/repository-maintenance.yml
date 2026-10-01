@@ -1,0 +1,54 @@
+name: Repository maintenance
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Sunday 10:50 Asia/Shanghai (02:50 UTC)
+    - cron: "50 2 * * 0"
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cleanup-orphaned-workflow-runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete completed runs for removed workflows
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+
+          mapfile -t current_paths < <(
+            gh api --paginate "repos/$repo/actions/workflows?per_page=100" \
+              --jq '.workflows[].path'
+          )
+
+          is_current_path() {
+            local candidate="$1"
+            local path
+            for path in "${current_paths[@]}"; do
+              [[ "$candidate" == "$path" ]] && return 0
+            done
+            return 1
+          }
+
+          mapfile -t completed_runs < <(
+            gh api --paginate "repos/$repo/actions/runs?per_page=100&status=completed" \
+              --jq '.workflow_runs[] | [.id, .path, .name] | @tsv'
+          )
+
+          deleted=0
+          for row in "${completed_runs[@]}"; do
+            IFS=$'\t' read -r id path name <<< "$row"
+            if ! is_current_path "$path"; then
+              echo "Delete orphaned run: $id | $name | $path"
+              gh api --method DELETE "repos/$repo/actions/runs/$id"
+              deleted=$((deleted + 1))
+            fi
+          done
+
+          echo "Cleanup complete: deleted $deleted orphaned workflow runs."
