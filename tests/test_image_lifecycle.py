@@ -40,6 +40,23 @@ class ReferenceTests(unittest.TestCase):
         with self.assertRaises(m.LifecycleError):m.register(self.value,'../release.apk',123,'a'*64)
     def test_pagination_failure_does_not_yield_complete_inventory(self):
         with self.assertRaises(m.LifecycleError):list(m.pages(lambda cursor:{'nodes':[], 'pageInfo':{'hasNextPage':True,'endCursor':'same'}}))
+    def test_inventory_scans_every_post_comment_reply_page_and_live_avatar(self):
+        def connection(ids, cursor=None):
+            return dict(nodes=[dict(id=x,body='',author={'databaseId':123}) for x in ids],
+                pageInfo=dict(hasNextPage=cursor is not None,endCursor=cursor))
+        def graphql(query,variables=None):
+            if variables is None:return {'repository':{'id':'repo'}}
+            if ' discussions(' in query:
+                return {'repository':{'discussions':connection(['post1'],'d') if variables['c'] is None else connection(['post2'])}}
+            if ' comments(' in query:
+                rows=connection([]) if variables['id']=='post1' else connection(['comment1'],'c') if variables['c'] is None else connection(['comment2'])
+                return {'node':{'comments':rows}}
+            rows=connection([]) if variables['id']=='comment2' else connection(['reply1'],'r') if variables['c'] is None else connection(['reply2'])
+            return {'node':{'replies':rows}}
+        with patch.object(m,'graphql',graphql),patch.object(m,'load_json',return_value={'profiles':{'123':{'avatar_path':'profiles/123/avatar.webp','avatar_sha256':'a'*64}}}):
+            rows=m.inventory()
+        self.assertEqual({'post1','post2','comment1','comment2','reply1','reply2','123'},{r['id'] for r in rows})
+        self.assertEqual('comment1',next(r for r in rows if r['id']=='reply2')['parent_id'])
 
 class DeleteWriterTests(unittest.TestCase):
     def setUp(self):
@@ -86,5 +103,13 @@ class DeleteWriterTests(unittest.TestCase):
         with self.assertRaises(m.LifecycleError):m.verified_request(self.event,self.issue,self.seal)
         self.event['sender']=self.issue['user'];self.issue['body']=self.issue['body'].replace('post1',self.iid)
         with self.assertRaises(m.LifecycleError):m.verified_request(self.event,self.issue,self.seal)
+    def test_ack_loss_recovers_success_instead_of_reporting_failed_deletion(self):
+        def lost_ack(path,method='GET',body=None):
+            if method=='POST':raise OSError('lost response')
+            return self.api(path,method,body)
+        with patch.object(m,'api',lost_ack),patch.object(m,'inventory',lambda:copy.deepcopy(self.records)),patch.object(m,'graphql',self.graphql):
+            with self.assertRaises(OSError):m.process(self.event)
+        with patch.object(m,'api',self.api):m.report_failure(self.event)
+        self.assertEqual('success',self.results[-1]['status']);self.assertFalse(Path(self.path).exists())
 
 if __name__=='__main__':unittest.main()
