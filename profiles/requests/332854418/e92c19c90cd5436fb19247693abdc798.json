@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "request_id": "e92c19c90cd5436fb19247693abdc798",
+  "github_id": 332854418,
+  "issue_number": 25,
+  "status": "success",
+  "profile": {
+    "version": 1,
+    "github_id": 332854418,
+    "github_login": "anwpustudent-lab",
+    "nickname": "姑侄大爹",
+    "nickname_key": "姑侄大爹",
+    "avatar_path": "profiles/332854418/avatar.webp",
+    "avatar_sha256": "56c8765274ae32d8d0d111cff0c0c80a2768ee3697af5f496bbcb0e276938cb4",
+    "updated_at": "2026-10-02T00:57:32+08:00",
+    "next_edit_at": "2026-11-01T00:57:32+08:00",
+    "last_request_id": "e92c19c90cd5436fb19247693abdc798"
+  }
+}
