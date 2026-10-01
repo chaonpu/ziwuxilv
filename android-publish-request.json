@@ -1,0 +1,11 @@
+{
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-f998-81fd-ab7b-4d36fc92d37b/raw?se=2026-10-01T04%3A26%3A58Z&sp=r&sv=2026-02-06&sr=b&scid=0c01bad5-f221-580d-8f90-4c47a2816a39&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-01T04%3A11%3A30Z&ske=2026-10-02T04%3A11%3A30Z&sks=b&skv=2026-02-06&sig=gqybshACDO2n6ouVysOlYMkw/WhtRTDsA92i2T1VHlA%3D",
+  "artifactSha256": "79842a74c58fc217236b10cb623f475b973d6b3146863600f00004867ea0506c",
+  "sourceCommit": "51f7da2035104f7036a16f6a5fba18c2c14e4c63",
+  "versionName": "1.5.9",
+  "versionCode": 41,
+  "apkSha256": "e9c4ad9393296a2fc6a6c9fe5248d40650a496e40a3dfd2e2921eb3b74ef7b0a",
+  "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
+  "updateLog": "v1.5.9正式版：收益页接入A股/美股交易日历，节假日不再显示“当前估值/当日估值”等盘中标签，改为上一交易日估值或已入账状态；修复美股调仓展示，在NEXT_SESSION_OPEN模式下，收到清仓信号的旧持仓会一直保留到下一个实际交易日09:30美东时间开盘前，并继续参与行情与收益展示，开盘后再移除；同步完善待清仓标记、持仓数量展示和账本字段解析。",
+  "forceUpdate": false
+}
