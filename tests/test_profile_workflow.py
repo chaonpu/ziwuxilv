@@ -51,7 +51,7 @@ class WriterTests(unittest.TestCase):
         self.assertEqual('success', self.results[0]['status'])
         self.assertEqual(head, self.results[0]['commit_sha'])
         self.assertEqual('keep original public release', Path('release-preserved.txt').read_text())
-        self.assertEqual({'profiles/123/profile.json', 'profiles/index.json', 'profiles/requests/123/'+ 'a'*32+'.json'},
+        self.assertEqual({'media/images.json','profiles/123/profile.json', 'profiles/index.json', 'profiles/requests/123/'+ 'a'*32+'.json'},
                          set(self.git('diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD').splitlines()))
         with patch.object(p, 'api', self.api): p.process(self.event)
         self.assertEqual(head, self.git('rev-parse', 'HEAD'))

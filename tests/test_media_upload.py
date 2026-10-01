@@ -108,7 +108,7 @@ class WriterTests(unittest.TestCase):
         self.assertEqual('existing registry',Path('profiles/index.json').read_text())
         self.assertEqual('keep public release',Path('release.txt').read_text())
         changed=set(self.git('diff-tree','--no-commit-id','--name-only','-r','HEAD').splitlines())
-        self.assertEqual(4,len(changed));self.assertTrue(all(x.startswith('media/') for x in changed))
+        self.assertEqual(5,len(changed));self.assertIn("media/images.json",changed);self.assertTrue(all(x.startswith('media/') for x in changed))
         with patch.object(m,'api',self.api):m.process(self.event)
         self.assertEqual(head,self.git('rev-parse','HEAD'));self.assertEqual(1,len(self.results))
     def test_failed_ack_recovers_committed_success(self):
@@ -152,3 +152,4 @@ class WriterTests(unittest.TestCase):
             with self.assertRaises(m.MediaError):m.process(self.event)
 
 if __name__=='__main__':unittest.main()
+
