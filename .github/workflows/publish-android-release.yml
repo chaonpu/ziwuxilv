@@ -56,6 +56,40 @@ jobs:
           PY
           cat /tmp/request-output >> "$GITHUB_OUTPUT"
 
+      - name: Record publish run start
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+          VERSION_NAME: ${{ steps.request.outputs.version_name }}
+          VERSION_CODE: ${{ steps.request.outputs.version_code }}
+          SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          payload = {
+              "runId": int(os.environ["RUN_ID"]),
+              "status": "running",
+              "versionName": os.environ["VERSION_NAME"],
+              "versionCode": int(os.environ["VERSION_CODE"]),
+              "sourceCommit": os.environ["SOURCE_COMMIT"],
+          }
+          Path("/tmp/latest-publish-run.json").write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git switch -C publish-run-start origin/main
+          mkdir -p release
+          cp /tmp/latest-publish-run.json release/latest-publish-run.json
+          git add release/latest-publish-run.json
+          git commit -m "Record Android publish run start"
+          git push origin HEAD:main
+
       - name: Download and verify signed artifact
         shell: bash
         env:
