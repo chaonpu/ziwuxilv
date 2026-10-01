@@ -19,6 +19,14 @@ def fixture(count=1):
     return event,issue,seal,chunks+[seal]
 
 class ValidationTests(unittest.TestCase):
+    def test_complex_valid_image_is_not_inflated_past_upload_limit(self):
+        out=io.BytesIO()
+        Image.effect_noise((800,600),100).convert('RGB').save(out,'WEBP',quality=20)
+        raw=out.getvalue()
+        self.assertLessEqual(len(raw),m.LIMIT)
+        clean,size=m.clean_image(raw)
+        self.assertEqual((800,600),size)
+        self.assertLessEqual(len(clean),m.LIMIT)
     def test_one_and_three_images_preserve_shape_and_strip_metadata(self):
         for count in (1,3):
             owner,request,decoded=m.verify(*fixture(count))

@@ -27,11 +27,13 @@ def clean_image(data):
                 or not all(1 <= size <= 1280 for size in image.size)):
                 reject('MEDIA_INVALID_IMAGE')
             image.load()
-            out = io.BytesIO()
-            image.convert('RGB').save(out, 'WEBP', quality=88, method=6)
-            clean = out.getvalue()
-            if len(clean) > LIMIT: reject('MEDIA_INVALID_IMAGE')
-            return clean, image.size
+            rgb = image.convert('RGB')
+            for quality in (88, 80, 70, 60, 45, 35, 20, 10):
+                out = io.BytesIO()
+                rgb.save(out, 'WEBP', quality=quality, method=6)
+                clean = out.getvalue()
+                if len(clean) <= LIMIT: return clean, image.size
+            reject('MEDIA_INVALID_IMAGE')
     except (UnidentifiedImageError, OSError, ValueError):
         reject('MEDIA_INVALID_IMAGE')
 
