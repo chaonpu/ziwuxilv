@@ -1,7 +1,8 @@
 {
   "runId": 36814933254,
-  "status": "running",
+  "status": "success",
   "versionName": "1.5.9",
   "versionCode": 41,
-  "sourceCommit": "51f7da2035104f7036a16f6a5fba18c2c14e4c63"
+  "sourceCommit": "51f7da2035104f7036a16f6a5fba18c2c14e4c63",
+  "apkSha256": "e9c4ad9393296a2fc6a6c9fe5248d40650a496e40a3dfd2e2921eb3b74ef7b0a"
 }
