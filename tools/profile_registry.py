@@ -200,9 +200,32 @@ def process(event):
     api(f'{prefix}/issues/{number}', 'PATCH', {'state': 'closed'})
     print('Profile request processed:', request['request_id'], result['status'])
 
+def report_failure(event):
+    number = int(event['issue']['number'])
+    issue = api(f'/repos/{REPOSITORY}/issues/{number}')
+    owner = issue.get('user', {}).get('id')
+    if owner != event.get('sender', {}).get('id') or owner != event.get('comment', {}).get('user', {}).get('id'):
+        fail('PROFILE_AUTH_FAILED')
+    body = issue.get('body', '')
+    request = json.loads(body[len(REQUEST_PREFIX):]) if body.startswith(REQUEST_PREFIX) else {}
+    request_id = request.get('request_id', '')
+    if not re.fullmatch(r'[a-f0-9]{32}', request_id): fail('PROFILE_AUTH_FAILED')
+    # If push completed but acknowledgment failed, report the committed success instead.
+    shell('git', 'fetch', 'origin', 'main')
+    shell('git', 'reset', '--hard', 'origin/main')
+    receipt = load_json(f'profiles/requests/{owner}/{request_id}.json')
+    result = receipt or dict(version=1, request_id=request_id, github_id=owner,
+                             status='error', error='PROFILE_UPDATE_FAILED')
+    result = dict(result, commit_sha=shell('git', 'rev-parse', 'HEAD'))
+    api(f'/repos/{REPOSITORY}/issues/{number}/comments', 'POST', {'body': RESULT_PREFIX+json.dumps(result, ensure_ascii=False)})
+    api(f'/repos/{REPOSITORY}/issues/{number}', 'PATCH', {'state': 'closed'})
+
 if __name__ == '__main__':
     event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text(encoding='utf-8'))
     if event.get('comment', {}).get('body', '').startswith(SUBMIT_PREFIX):
+        if '--report-failure' in sys.argv:
+            report_failure(event)
+            raise SystemExit(0)
         try:
             process(event)
         except ProfileError as error:

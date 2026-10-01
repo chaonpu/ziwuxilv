@@ -74,5 +74,17 @@ class WriterTests(unittest.TestCase):
         with patch.object(p,'api',self.api),patch.object(p,'shell',fail_push):
             with self.assertRaises(subprocess.CalledProcessError):p.process(self.event)
         self.assertEqual([],self.results);self.assertEqual('open',self.issue['state'])
+        with patch.object(p,'api',self.api):p.report_failure(self.event)
+        self.assertEqual('PROFILE_UPDATE_FAILED',self.results[0]['error'])
+
+    def test_failed_ack_recovery_reports_committed_success(self):
+        original=self.api
+        def failed_ack(path,method='GET',body=None):
+            if method=='POST':raise OSError('network lost after push')
+            return original(path,method,body)
+        with patch.object(p,'api',failed_ack):
+            with self.assertRaises(OSError):p.process(self.event)
+        with patch.object(p,'api',self.api):p.report_failure(self.event)
+        self.assertEqual('success',self.results[0]['status'])
 
 if __name__=='__main__':unittest.main()
