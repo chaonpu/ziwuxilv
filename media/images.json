@@ -41,7 +41,12 @@
       "owner_id": "332854418",
       "sha256": "3cf09df8ec9764b60058895051f02ceac004ae883fa134e3b3e464bae054a637",
       "created_at": "2026-10-01T20:53:14.911158+00:00",
-      "references": []
+      "references": [
+        {
+          "type": "comment",
+          "id": "DC_kwDOUnTHZ84BHWsq"
+        }
+      ]
     }
   },
   "deleted_contents": {
@@ -50,5 +55,5 @@
     "DC_kwDOUnTHZ84BHTmK": "2026-10-01T19:51:31.540118+00:00",
     "DC_kwDOUnTHZ84BHTmS": "2026-10-01T19:52:36.433025+00:00"
   },
-  "last_complete_scan_at": "2026-10-01T19:52:36.433013+00:00"
+  "last_complete_scan_at": "2026-10-01T20:53:55.836133+00:00"
 }
