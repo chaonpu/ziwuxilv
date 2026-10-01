@@ -112,4 +112,32 @@ class DeleteWriterTests(unittest.TestCase):
         with patch.object(m,'api',self.api):m.report_failure(self.event)
         self.assertEqual('success',self.results[-1]['status']);self.assertFalse(Path(self.path).exists())
 
+    def test_own_parent_wipe_preserves_other_users_reply_and_resumes_pending_intent(self):
+        actor={'id':123,'login':'owner','type':'User'}
+        body=self.issue['body'].replace('post1','comment1')
+        self.issue.update(user=actor,body=body)
+        self.seal.update(user=actor,body=m.SUBMIT+json.dumps({'request_id':'d'*32,'body_sha256':hashlib.sha256(body.encode()).hexdigest()}))
+        self.event.update(sender=actor,comment=self.seal)
+        reply_path='media/456/'+'b'*32+'/0.webp'
+        Path(reply_path).parent.mkdir(parents=True);Path(reply_path).write_bytes(b'reply image')
+        value=m.registry();reply_id=m.register(value,reply_path,456,hashlib.sha256(b'reply image').hexdigest());m.write_json(m.REGISTRY,value)
+        self.git('add','.');self.git('-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-m','reply');self.git('push','origin','main')
+        self.records=[dict(id='comment1',type='comment',post_id='post1',body='<!-- ZIWUXILV_IMAGES_V1:'+json.dumps([self.iid])+' -->',author={'databaseId':123},deletedAt=None),
+            dict(id='reply1',type='reply',post_id='post1',parent_id='comment1',body='<!-- ZIWUXILV_IMAGES_V1:'+json.dumps([reply_id])+' -->',author={'databaseId':456},deletedAt=None)]
+        def wipe(query,variables):
+            self.records[0].update(body='',author=None,deletedAt='2026-10-01T19:00:00Z')
+            return {'deleteDiscussionComment':{'comment':{'id':'comment1'}}}
+        actual_commit=m.commit
+        def fail_final(value,removals=(),receipt_path=None,receipt=None):
+            if receipt and receipt.get('status')=='success':raise OSError('disconnected after wipe')
+            actual_commit(value,removals,receipt_path,receipt)
+        with patch.object(m,'api',self.api),patch.object(m,'inventory',lambda:copy.deepcopy(self.records)),patch.object(m,'graphql',wipe),patch.object(m,'commit',fail_final):
+            with self.assertRaises(OSError):m.process(self.event)
+        with patch.object(m,'api',self.api),patch.object(m,'inventory',lambda:copy.deepcopy(self.records)),patch.object(m,'graphql') as mutation:
+            m.process(self.event);mutation.assert_not_called()
+        self.assertFalse(Path(self.path).exists());self.assertTrue(Path(reply_path).exists())
+        self.assertEqual(['comment1'],self.results[-1]['affected'])
+        self.assertNotIn('reply1',m.registry()['deleted_contents'])
+        self.assertEqual([{'type':'reply','id':'reply1'}],m.registry()['images'][reply_id]['references'])
+
 if __name__=='__main__':unittest.main()

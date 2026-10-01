@@ -59,6 +59,7 @@ def pages(fetch):
         seen.add(cursor)
 
 FIELDS = 'id body author { login ... on User { databaseId } }'
+COMMENT_FIELDS = FIELDS + ' deletedAt'
 PAGE = 'pageInfo { hasNextPage endCursor }'
 
 def inventory():
@@ -70,12 +71,12 @@ def inventory():
     for post in posts:
         post.update(type='post', post_id=post['id'], repository_id=repo['id']); records.append(post)
         comments = pages(lambda cursor: graphql('query($id:ID!,$c:String) { node(id:$id) { ... on Discussion {'
-            ' comments(first:100,after:$c) { nodes { ' + FIELDS + ' } ' + PAGE + ' } } } }',
+            ' comments(first:100,after:$c) { nodes { ' + COMMENT_FIELDS + ' } ' + PAGE + ' } } } }',
             {'id':post['id'], 'c':cursor})['node']['comments'])
         for comment in comments:
             comment.update(type='comment', post_id=post['id'], repository_id=repo['id']); records.append(comment)
             replies = pages(lambda cursor: graphql('query($id:ID!,$c:String) { node(id:$id) { ... on DiscussionComment {'
-                ' replies(first:100,after:$c) { nodes { ' + FIELDS + ' } ' + PAGE + ' } } } }',
+                ' replies(first:100,after:$c) { nodes { ' + COMMENT_FIELDS + ' } ' + PAGE + ' } } } }',
                 {'id':comment['id'], 'c':cursor})['node']['replies'])
             for reply in replies:
                 reply.update(type='reply', post_id=post['id'], parent_id=comment['id'], repository_id=repo['id']); records.append(reply)
@@ -195,15 +196,16 @@ def process(event):
             removals = []
         else:
             if not receipt:
-                if not target or not authorized(owner,target): raise LifecycleError('LIFECYCLE_AUTH_FAILED')
+                if not target or target.get('deletedAt') or not authorized(owner,target): raise LifecycleError('LIFECYCLE_AUTH_FAILED')
                 affected = {x['id'] for x in records if x['id']==target_id or
-                    (target['type']=='post' and x.get('post_id')==target_id) or
-                    (target['type']=='comment' and x.get('parent_id')==target_id)}
+                    (target['type']=='post' and x.get('post_id')==target_id)}
                 ids = [iid for iid,entry in value['images'].items() if any(r['id'] in affected for r in entry['references'])]
                 receipt = dict(version=1,request_id=rid,github_id=owner,body_sha256=body_hash,status='pending',
                     content_id=target_id,content_type=target['type'],affected=sorted(affected),image_ids=ids)
                 commit(value, receipt_path=receipt_path, receipt=receipt)  # Durable authorization before remote mutation.
-            if target:
+            # GitHub wipes a parent comment with replies, preserving its descendants. A
+            # durable intent can resume after that wipe even though its author is now null.
+            if target and not target.get('deletedAt'):
                 if not authorized(owner,target): raise LifecycleError('LIFECYCLE_AUTH_FAILED')
                 kind = 'deleteDiscussion' if target['type']=='post' else 'deleteDiscussionComment'
                 field = 'discussion' if target['type']=='post' else 'comment'

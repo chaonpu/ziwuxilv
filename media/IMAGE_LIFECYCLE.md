@@ -16,6 +16,8 @@ A sealed lifecycle Issue identifies `attach` or `delete` and a content ID. The s
 
 Before the content mutation, a durable pending receipt saves the verified authorization and affected descendants. Failed content deletion preserves blobs and their refs. Confirmed deletion is followed by another complete inventory. Shared refs retain the image; the last ref removes the file and registry entry in one Git commit. Deleted node IDs invalidate app notifications. If the Git push or acknowledgment fails, the same request resumes without deleting content twice. A failure response is a resumable status, never a fabricated success.
 
+GitHub wipes a parent comment that has replies, preserving those replies. Comment deletion therefore detaches only the selected comment, while post deletion affects the entire discussion. The `deletedAt` field lets a previously authorized pending operation recover after a parent wipe without repeating its mutation or hiding another author's reply. See [GitHub Discussions schema](https://docs.github.com/en/graphql/reference/discussions).
+
 ## Collection and migration
 
 Scheduled every six hours and available by manual dispatch. It scans every page and stops on incomplete inventories, malformed refs or a missing avatar index. It reconciles ID markers and recognized legacy managed URLs; external URLs are never owned or deleted. Legacy files are adopted into the registry without editing existing Discussion bodies. Uploads not yet published and other orphan files get at least 48 hours and a second complete scan before collection. Live avatar refs protect avatars; replaced IDs sharing the current avatar path cannot unlink its blob.
