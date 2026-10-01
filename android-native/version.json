@@ -1,7 +1,7 @@
 {
-  "versionCode": 36,
-  "versionName": "1.5.4",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.4/ziwuxilv-native-v1.5.4.apk",
-  "updateLog": "行情源与启动速度重构：纳斯达克金龙中国指数改用东方财富实时行情；原新浪延时的日经225、富时100、KOSPI、DAX、SENSEX、CAC40、STI、IBOV统一先走东方财富轻量全球指数快照，并按行情时间戳实时校验新鲜度，KOSPI和SENSEX随后分别由Naver实时行情、BSE印度交易所官方实时行情校准，失效时才回退新浪延时数据。行情页增加本地快照缓存，打开App立即显示上次有效行情；腾讯、东方财富、新浪、台湾证交所、币界网并行请求并分批刷新，快速源先显示，不再等待所有慢源完成；连接超时由8秒缩短为4秒、读取超时缩短为5秒。",
+  "versionCode": 40,
+  "versionName": "1.5.8",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.8/ziwuxilv-native-v1.5.8.apk",
+  "updateLog": "v1.5.8正式版：完成行情页与自选/持仓体验重构。全球指数、指数期货、商品和加密资产按品种采用独立数据源与分层回退，修复台湾加权、纳斯达克金龙中国、富时沙特阿拉伯指数以及恒生/恒生科技指数和期货的未读取、异常0%与时间判断问题；新增全球交易所节假日、特殊交易日及长假上一有效收盘保留，避免休市日误判开盘后清空行情。优化行情刷新、延时/滞后状态、当地时间与北京时间展示；完善自选和本机持仓搜索、排序与移动端自适应；增强GitHub登录重试及APP内访问授权/同步权限流程。",
   "forceUpdate": false
 }
