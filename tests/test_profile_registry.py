@@ -35,6 +35,7 @@ class ProfileTests(unittest.TestCase):
         self.assertEqual(('海 风', '海 风'), p.normalize('　海\u00a0  风  '))
         self.assertEqual(p.normalize('Café'), p.normalize('Cafe\u0301'))
         self.assertEqual(('子午', '子午'), p.normalize('子午'))
+        self.assertEqual(('海 风', '海 风'), p.normalize('海\u0085风'))
         self.assertEqual('管理员', p.normalize('管\u200b理员')[1])
     def test_invalid_blank_symbols_and_codepoint_limits(self):
         for text in (' ', '！＠＃', '😀😀', 'a', 'a'*17):

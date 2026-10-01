@@ -25,12 +25,12 @@ def normalize(value):
     value = unicodedata.normalize('NFKC', value)
     value = ''.join(' ' if c.isspace() else '' if unicodedata.category(c) in ('Cf', 'Cc') else c for c in value)
     nickname = re.sub(' +', ' ', value).strip()
-    if not 2 <= len(nickname) <= 16 or not any(c.isalpha() or c.isdigit() for c in nickname):
+    if not 2 <= len(nickname) <= 16 or not any(c.isalpha() or c.isdecimal() for c in nickname):
         fail('INVALID_NICKNAME')
     return nickname, nickname.lower()
 
 def reserved(key):
-    compact = ''.join(c for c in key if c.isalpha() or c.isdigit())
+    compact = ''.join(c for c in key if c.isalpha() or c.isdecimal())
     return any(x in compact for x in ('管理员', '官方', '系统', '子午汐律', 'ziwuxilv',
                                     'meridianmarketrhythm', 'administrator', 'official', 'system', 'admin'))
 
