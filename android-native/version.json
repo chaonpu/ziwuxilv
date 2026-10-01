@@ -1,7 +1,7 @@
 {
-  "versionCode": 40,
-  "versionName": "1.5.8",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.8/ziwuxilv-native-v1.5.8.apk",
-  "updateLog": "v1.5.8正式版：完成行情页与自选/持仓体验重构。全球指数、指数期货、商品和加密资产按品种采用独立数据源与分层回退，修复台湾加权、纳斯达克金龙中国、富时沙特阿拉伯指数以及恒生/恒生科技指数和期货的未读取、异常0%与时间判断问题；新增全球交易所节假日、特殊交易日及长假上一有效收盘保留，避免休市日误判开盘后清空行情。优化行情刷新、延时/滞后状态、当地时间与北京时间展示；完善自选和本机持仓搜索、排序与移动端自适应；增强GitHub登录重试及APP内访问授权/同步权限流程。",
+  "versionCode": 41,
+  "versionName": "1.5.9",
+  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.5.9/ziwuxilv-native-v1.5.9.apk",
+  "updateLog": "v1.5.9正式版：收益页接入A股/美股交易日历，节假日不再显示“当前估值/当日估值”等盘中标签，改为上一交易日估值或已入账状态；修复美股调仓展示，在NEXT_SESSION_OPEN模式下，收到清仓信号的旧持仓会一直保留到下一个实际交易日09:30美东时间开盘前，并继续参与行情与收益展示，开盘后再移除；同步完善待清仓标记、持仓数量展示和账本字段解析。",
   "forceUpdate": false
 }
