@@ -1,0 +1,10 @@
+{
+  "versionName": "1.5.8",
+  "versionCode": 40,
+  "sourceRepository": "anwpustudent-lab/Test",
+  "sourceCommit": "aca30ef7e8839272e32191929509f9f55477c9da",
+  "signingRepository": "chaonpu/ziwuxilv-android",
+  "apkFile": "ziwuxilv-native-v1.5.8.apk",
+  "apkSha256": "de85b59d146e9228669e1ebd21372e3cb86a7c8267b8390ddbbe33c88bb9ea4d",
+  "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105"
+}
