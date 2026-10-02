@@ -4,7 +4,7 @@ import base64, copy, hashlib, io, json, os, re, subprocess, sys, unicodedata, ur
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from PIL import Image, UnidentifiedImageError
-from release_assets import storage_backend, monthly_tag, upload_bytes
+from release_assets import storage_backend, upload_monthly_bytes
 
 ADMIN_ID = 205125766
 REPOSITORY = 'chaonpu/ziwuxilv'
@@ -210,9 +210,8 @@ def process(event):
             if clean_avatar is not None:
                 digest = hashlib.sha256(clean_avatar).hexdigest()
                 if storage_backend('avatars') == 'release_asset':
-                    tag = monthly_tag(now)
                     name = f"avatar-{actor_id}-{request['request_id']}-{digest[:12]}.webp"
-                    asset = upload_bytes(tag, name, clean_avatar, 'image/webp')
+                    tag, asset = upload_monthly_bytes(name, clean_avatar, 'image/webp', now)
                     iid = register_release_asset(image_registry, actor_id, digest, int(asset['id']), tag, name,
                                                  asset['browser_download_url'], now.isoformat())
                     profile.update(avatar_path=None, avatar_url=asset['browser_download_url'],
