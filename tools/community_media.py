@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from PIL import Image, UnidentifiedImageError
 from profile_registry import api, shell, load_json, write_json
+from release_assets import storage_backend, monthly_tag, upload_bytes
 
 REPOSITORY = 'chaonpu/ziwuxilv'
 REQUEST = 'ZIWUXILV_MEDIA_REQUEST_V1\n'
@@ -119,18 +120,32 @@ def process(event):
                 or [i.get('upload_sha256') for i in result.get('images', [])]
                 != [i['sha256'] for i in request['images']]): reject()
             break
-        from image_lifecycle import registry, register, REGISTRY
+        from image_lifecycle import registry, register, register_release_asset, REGISTRY
         image_registry = registry()
         metadata = []
+        backend = storage_backend('community')
+        created_at = datetime.now(timezone.utc)
         for index, (data, size) in enumerate(decoded):
-            path = f'media/{owner}/{rid}/{index}.webp'
-            target = Path(path)
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(data)
-            iid = register(image_registry, path, owner, hashlib.sha256(data).hexdigest())
-            metadata.append(dict(image_id=iid, index=index, upload_sha256=request['images'][index]['sha256'],
-                                 sha256=hashlib.sha256(data).hexdigest(), width=size[0], height=size[1],
-                                 bytes=len(data), path=path))
+            digest = hashlib.sha256(data).hexdigest()
+            common = dict(image_id=None, index=index, upload_sha256=request['images'][index]['sha256'],
+                          sha256=digest, width=size[0], height=size[1], bytes=len(data))
+            if backend == 'release_asset':
+                tag = monthly_tag(created_at)
+                name = f'media-{owner}-{rid}-{index}-{digest[:12]}.webp'
+                asset = upload_bytes(tag, name, data, 'image/webp')
+                iid = register_release_asset(image_registry, owner, digest, int(asset['id']), tag, name,
+                                             asset['browser_download_url'], created_at.isoformat())
+                metadata.append(dict(common, image_id=iid, backend='release_asset', path=None,
+                                     asset_id=int(asset['id']), release_tag=tag, asset_name=name,
+                                     url=asset['browser_download_url']))
+            else:
+                path = f'media/{owner}/{rid}/{index}.webp'
+                target = Path(path)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(data)
+                iid = register(image_registry, path, owner, digest, created_at.isoformat())
+                metadata.append(dict(common, image_id=iid, backend='git', path=path,
+                                     url=f'https://raw.githubusercontent.com/{REPOSITORY}/main/{path}'))
         result = dict(version=1, request_id=rid, github_id=owner, issue_number=issue['number'],
                       status='success', created_at=datetime.now(timezone.utc).isoformat(), images=metadata)
         write_json(REGISTRY, image_registry)
