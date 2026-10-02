@@ -4,6 +4,7 @@ import base64, copy, hashlib, io, json, os, re, subprocess, sys, unicodedata, ur
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from PIL import Image, UnidentifiedImageError
+from release_assets import storage_backend, monthly_tag, upload_bytes
 
 ADMIN_ID = 205125766
 REPOSITORY = 'chaonpu/ziwuxilv'
@@ -110,25 +111,50 @@ def apply_update(index, actor_id, login, request, avatar, now):
     if previous and previous.get('last_request_id') == request['request_id']:
         return index, previous, None  # Durable idempotence after commit but before notification.
     if previous and actor_id != ADMIN_ID:
-        # Derive from the last accepted write; never trust next_edit_at alone.
         next_edit = timestamp(previous['updated_at']) + timedelta(days=30)
         if now < next_edit: fail('PROFILE_EDIT_COOLDOWN', next_edit_at=iso(next_edit))
     for owner, profile in profiles.items():
         if owner != str(actor_id) and normalize(profile['nickname'])[1] == key: fail('NICKNAME_ALREADY_USED')
+
     action = request.get('avatar_action', 'keep')
-    path = f'profiles/{actor_id}/avatar.webp'
-    avatar_path = path if action == 'replace' else None if action == 'remove' else previous.get('avatar_path') if previous else None
-    avatar_hash = hashlib.sha256(avatar).hexdigest() if avatar is not None else previous.get('avatar_sha256') if previous and avatar_path else None
-    if previous and previous['nickname'] == nickname and previous.get('avatar_sha256') == avatar_hash and previous.get('avatar_path') == avatar_path:
+    backend = storage_backend('avatars')
+    previous = previous or {}
+    if action == 'keep':
+        avatar_path = previous.get('avatar_path')
+        avatar_hash = previous.get('avatar_sha256')
+        avatar_url = previous.get('avatar_url')
+        avatar_image_id = previous.get('avatar_image_id')
+        avatar_asset_id = previous.get('avatar_asset_id')
+        avatar_release_tag = previous.get('avatar_release_tag')
+        avatar_asset_name = previous.get('avatar_asset_name')
+    elif action == 'remove':
+        avatar_path = avatar_hash = avatar_url = avatar_image_id = None
+        avatar_asset_id = avatar_release_tag = avatar_asset_name = None
+    else:
+        avatar_hash = hashlib.sha256(avatar).hexdigest() if avatar is not None else None
+        avatar_path = f'profiles/{actor_id}/avatar.webp' if backend == 'git' else None
+        avatar_url = avatar_image_id = None
+        avatar_asset_id = avatar_release_tag = avatar_asset_name = None
+
+    previous_has_avatar = bool(previous.get('avatar_path') or previous.get('avatar_url'))
+    current_has_avatar = bool(avatar_path or avatar_url or action == 'replace')
+    if (previous and previous['nickname'] == nickname and previous.get('avatar_sha256') == avatar_hash
+        and previous_has_avatar == current_has_avatar and action != 'replace'):
         fail('PROFILE_NO_CHANGE')
+    if (previous and previous['nickname'] == nickname and action == 'replace'
+        and previous.get('avatar_sha256') == avatar_hash):
+        fail('PROFILE_NO_CHANGE')
+
     profile = dict(version=1, github_id=actor_id, github_login=login, nickname=nickname, nickname_key=key,
-                   avatar_path=avatar_path, avatar_sha256=avatar_hash, updated_at=iso(now),
-                   next_edit_at=iso(now + timedelta(days=30)), last_request_id=request['request_id'])
+                   avatar_path=avatar_path, avatar_url=avatar_url, avatar_sha256=avatar_hash,
+                   avatar_image_id=avatar_image_id, avatar_asset_id=avatar_asset_id,
+                   avatar_release_tag=avatar_release_tag, avatar_asset_name=avatar_asset_name,
+                   updated_at=iso(now), next_edit_at=iso(now + timedelta(days=30)),
+                   last_request_id=request['request_id'])
     result = copy.deepcopy(index)
     result.update(version=1, updated_at=iso(now))
     result.setdefault('profiles', {})[str(actor_id)] = profile
     return result, profile, avatar
-
 def api(path, method='GET', body=None):
     if not path.startswith('/repos/' + REPOSITORY + '/'):
         raise RuntimeError('Unexpected API path')
@@ -175,21 +201,50 @@ def process(event):
         result = dict(version=1, request_id=request['request_id'], github_id=actor_id, issue_number=number)
         try:
             updated, profile, clean_avatar = apply_update(index, actor_id, login, request, avatar, now)
-            if clean_avatar is not None:
-                target = Path(profile['avatar_path']); target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(clean_avatar)
-            from image_lifecycle import registry, register, REGISTRY
+            from image_lifecycle import registry, register, register_release_asset, REGISTRY
             image_registry = registry()
             avatar_ref = dict(type='avatar', id=str(actor_id))
             for entry in image_registry['images'].values():
-                entry['references'] = [r for r in entry['references'] if r != avatar_ref]
-            if profile.get('avatar_path'):
-                iid = register(image_registry, profile['avatar_path'], actor_id, profile['avatar_sha256'], now.isoformat())
+                entry['references'] = [r for r in entry.get('references', []) if r != avatar_ref]
+
+            if clean_avatar is not None:
+                digest = hashlib.sha256(clean_avatar).hexdigest()
+                if storage_backend('avatars') == 'release_asset':
+                    tag = monthly_tag(now)
+                    name = f"avatar-{actor_id}-{request['request_id']}-{digest[:12]}.webp"
+                    asset = upload_bytes(tag, name, clean_avatar, 'image/webp')
+                    iid = register_release_asset(image_registry, actor_id, digest, int(asset['id']), tag, name,
+                                                 asset['browser_download_url'], now.isoformat())
+                    profile.update(avatar_path=None, avatar_url=asset['browser_download_url'],
+                                   avatar_sha256=digest, avatar_image_id=iid, avatar_asset_id=int(asset['id']),
+                                   avatar_release_tag=tag, avatar_asset_name=name)
+                    updated['profiles'][str(actor_id)] = profile
+                else:
+                    target = Path(profile['avatar_path'])
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(clean_avatar)
+                    iid = register(image_registry, profile['avatar_path'], actor_id, digest, now.isoformat())
+                    profile.update(avatar_url=None, avatar_image_id=iid, avatar_asset_id=None,
+                                   avatar_release_tag=None, avatar_asset_name=None)
+                    updated['profiles'][str(actor_id)] = profile
+
+            if profile.get('avatar_image_id'):
+                iid = profile['avatar_image_id']
+                if iid not in image_registry['images']: fail('PROFILE_UPDATE_FAILED')
                 if avatar_ref not in image_registry['images'][iid]['references']:
                     image_registry['images'][iid]['references'].append(avatar_ref)
+            elif profile.get('avatar_path'):
+                iid = register(image_registry, profile['avatar_path'], actor_id, profile['avatar_sha256'], now.isoformat())
+                profile['avatar_image_id'] = iid
+                updated['profiles'][str(actor_id)] = profile
+                if avatar_ref not in image_registry['images'][iid]['references']:
+                    image_registry['images'][iid]['references'].append(avatar_ref)
+
             if request.get('avatar_action') == 'remove':
                 path = f'profiles/{actor_id}/avatar.webp'
-                if not any(e['storage_path']==path and e['references'] for e in image_registry['images'].values()):
+                if not any(e.get('storage_path') == path and e.get('references') for e in image_registry['images'].values()):
                     Path(path).unlink(missing_ok=True)
+
             write_json(REGISTRY, image_registry)
             write_json(f'profiles/{actor_id}/profile.json', profile)
             write_json('profiles/index.json', updated)
