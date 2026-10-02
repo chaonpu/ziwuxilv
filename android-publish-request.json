@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-391c-820b-8a16-6c528acfdd91/raw?se=2026-10-02T18%3A11%3A01Z&sp=r&sv=2026-02-06&sr=b&scid=38ae0030-9820-5d08-9691-df5015d15e62&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T01%3A22%3A19Z&ske=2026-10-03T01%3A22%3A19Z&sks=b&skv=2026-02-06&sig=Ruoyol1mfAI3PKOPFL%2BskAGnqMAsFLMYZP4iTUljuxE%3D",
-  "artifactSha256": "e877f5582e0e34e37e9df2f98610470fe4259c4e5f93f8a894ebfa16d6f25c08",
-  "sourceCommit": "f4760aba71b8240d1233847dafb035ca138f433f",
-  "versionName": "1.6.2",
-  "versionCode": 44,
-  "apkSha256": "c81658af0785deede4b26ebee4bf1a9df8e8676491a90669eee110543cbf503d",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-dce8-820b-8f5e-f78a0366acaf/raw?se=2026-10-02T19%3A06%3A32Z&sp=r&sv=2026-02-06&sr=b&scid=edf57b18-a7c6-5c92-b2c7-cadce90e9fc2&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A41%3A13Z&ske=2026-10-03T02%3A41%3A13Z&sks=b&skv=2026-02-06&sig=UJHNSc20XEPNNAUT3SlFvLySmwHzFlCyesCbxJiPXVM%3D",
+  "artifactSha256": "bdeb46965b261b132bee327da92b57dd474865068846ce7713519896620db914",
+  "sourceCommit": "6924b989284becba0e56866e49ec04b6eab39403",
+  "versionName": "1.6.3",
+  "versionCode": 45,
+  "apkSha256": "7e18e29ff7cce78ad894cd927bf6866160a5d7fa0c60ab68ed98e9eceaf1d210",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.6.2正式版：\n1. 修复使用 GitHub Release Assets 上传图片后，帖子和评论一直停留在“发送中”的问题。\n2. 发送确认同时兼容旧 Git 图片与新的 Release Asset 图片；已进入发送队列的内容升级后会继续自动恢复确认。\n3. 统一广场注册图片渲染逻辑，避免 Release Asset 图片被旧 raw Git URL 判断误拦截。",
+  "updateLog": "v1.6.3正式版：\n1. 修复远端帖子/评论已经成功，但本地仍长期显示“发送中”的问题。\n2. 远端内容读回并校验发送标记后立即完成可见发送状态；图片引用登记改为后台持久任务，不再阻塞发送完成。\n3. APP重启/升级后立即重试已有发送任务，不再等待旧版本留下的退避时间；图片索引暂时滞后时保留远端Markdown图片显示。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-02-v1.6.2-release-asset-send-fix-publication"
+  "requestNonce": "2026-10-02-v1.6.3-outbox-remote-success-publication"
 }
