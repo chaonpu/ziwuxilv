@@ -8,6 +8,7 @@ import copy, hashlib, json, os, re, sys, urllib.request, subprocess
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from profile_registry import api, shell, load_json, write_json, ADMIN_ID, REPOSITORY
+from release_assets import delete_asset, release_asset_url_valid
 
 REGISTRY = 'media/images.json'
 REQUEST = 'ZIWUXILV_IMAGE_LIFECYCLE_V1\n'
@@ -36,6 +37,19 @@ def register(value, path, owner, digest, created_at=None):
     iid = image_id(path, digest)
     value.setdefault('images', {}).setdefault(iid, dict(url=f'https://raw.githubusercontent.com/{REPOSITORY}/main/{path}',
         storage_path=path, owner_id=str(owner), sha256=digest, created_at=created_at or now().isoformat(), references=[]))
+    return iid
+
+def register_release_asset(value, owner, digest, asset_id, release_tag, asset_name, url, created_at=None):
+    if (type(asset_id) is not int or asset_id <= 0 or not re.fullmatch('[a-f0-9]{64}', digest)
+        or not release_asset_url_valid(url, release_tag, asset_name)):
+        raise LifecycleError('Invalid release asset')
+    iid = image_id(f'release_asset/{asset_id}', digest)
+    entry = dict(backend='release_asset', asset_id=asset_id, release_tag=release_tag, asset_name=asset_name,
+        url=url, owner_id=str(owner), sha256=digest, created_at=created_at or now().isoformat(), references=[])
+    existing = value.setdefault('images', {}).get(iid)
+    if existing and any(existing.get(k) != entry.get(k) for k in ('backend','asset_id','release_tag','asset_name','url','owner_id','sha256')):
+        raise LifecycleError('Release asset identity changed')
+    value['images'].setdefault(iid, entry)
     return iid
 
 def graphql(query, variables=None):
@@ -90,7 +104,10 @@ def inventory():
     profiles = load_json('profiles/index.json')
     if not isinstance(profiles, dict) or not isinstance(profiles.get('profiles'), dict): raise LifecycleError('Incomplete avatar inventory')
     for owner, profile in profiles['profiles'].items():
-        if profile.get('avatar_path'):
+        if profile.get('avatar_image_id'):
+            records.append(dict(type='avatar', id=str(owner), body='', owner_id=str(owner),
+                image_id=profile['avatar_image_id']))
+        elif profile.get('avatar_path'):
             records.append(dict(type='avatar', id=str(owner), body='', owner_id=str(owner),
                 path=profile['avatar_path'], digest=profile['avatar_sha256']))
     return records
@@ -215,7 +232,10 @@ def reconcile(value, records, timestamp=None):
     for content in records:
         ids = references(content.get('body', ''))
         if content['type'] == 'avatar':
-            ids.add(register(value, content['path'], content['owner_id'], content['digest'], timestamp))
+            if content.get('image_id'):
+                ids.add(content['image_id'])
+            else:
+                ids.add(register(value, content['path'], content['owner_id'], content['digest'], timestamp))
         for path in URL.findall(content.get('body','')):
             if not MANAGED_PATH.fullmatch(path): continue  # External URLs are never deleted.
             target = Path(path)
@@ -241,13 +261,17 @@ def collect(value, timestamp=None, immediate=None):
         if iid not in immediate and (timestamp - created < timedelta(hours=48) or not orphan):
             entry.setdefault('orphan_since', timestamp.isoformat()); continue
         if iid not in immediate and timestamp - datetime.fromisoformat(orphan.replace('Z','+00:00')) < timedelta(hours=48): continue
-        path = entry['storage_path']
-        if not MANAGED_PATH.fullmatch(path): raise LifecycleError('Unsafe storage path')
-        removed.append((iid,path)); del value['images'][iid]
-    # A replaced avatar may have an older ID for the same path. Never unlink its current blob.
-    surviving_paths = {x['storage_path'] for x in value['images'].values()}
-    return value, [path for _,path in removed if path not in surviving_paths]
-
+        if entry.get('backend') == 'release_asset':
+            asset_id = entry.get('asset_id')
+            if type(asset_id) is not int or asset_id <= 0: raise LifecycleError('Unsafe release asset')
+            target = f'release_asset:{asset_id}'
+        else:
+            target = entry.get('storage_path')
+            if not isinstance(target, str) or not MANAGED_PATH.fullmatch(target): raise LifecycleError('Unsafe storage path')
+        removed.append((iid,target)); del value['images'][iid]
+    # A replaced legacy avatar may have an older ID for the same path. Never unlink its current blob.
+    surviving_paths = {x.get('storage_path') for x in value['images'].values() if x.get('storage_path')}
+    return value, [target for _,target in removed if target.startswith('release_asset:') or target not in surviving_paths]
 def authorized(actor, content):
     if actor == ADMIN_ID: return True
     return content['type'] in ('comment','reply') and (content.get('author') or {}).get('databaseId') == actor
@@ -273,9 +297,14 @@ def verified_request(event, issue, seal):
     return owner, request, hashlib.sha256(body.encode()).hexdigest()
 
 def commit(value, removals=(), receipt_path=None, receipt=None):
-    for path in set(removals):
-        if not MANAGED_PATH.fullmatch(path): raise LifecycleError('Unsafe deletion path')
-        Path(path).unlink(missing_ok=True)
+    for target in set(removals):
+        if target.startswith('release_asset:'):
+            try: asset_id = int(target.split(':', 1)[1])
+            except (TypeError, ValueError): raise LifecycleError('Unsafe release asset deletion')
+            delete_asset(asset_id)
+        else:
+            if not MANAGED_PATH.fullmatch(target): raise LifecycleError('Unsafe deletion path')
+            Path(target).unlink(missing_ok=True)
     write_json(REGISTRY, value)
     if receipt_path: write_json(receipt_path, receipt)
     shell('git', 'add', '--', 'media', 'profiles')
