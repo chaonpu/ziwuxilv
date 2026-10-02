@@ -68,6 +68,11 @@ def storage_backend(kind):
         raise ReleaseAssetError("Invalid storage backend")
     return backend
 
+def negotiated_backend(kind, request):
+    """Enable Release Assets only for a capable client; legacy clients stay on Git."""
+    configured = storage_backend(kind)
+    return 'release_asset' if configured == 'release_asset' and request.get('release_assets') is True else 'git'
+
 def monthly_tag(timestamp=None, shard=1):
     timestamp = timestamp or datetime.now(timezone.utc)
     if type(shard) is not int or not 1 <= shard <= 99:
