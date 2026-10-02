@@ -1,0 +1,97 @@
+name: Migrate historical APKs to Releases
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'storage/migrate-all-apks-request.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-android-release
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Upload every historical APK to GitHub Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          shopt -s nullglob
+
+          migrated=0
+          for apk in android-native/v*/*.apk; do
+            version="$(basename "$(dirname "$apk")")"
+            version="${version#v}"
+            tag="v${version}"
+            asset="ziwuxilv-native-v${version}.apk"
+            digest="$(sha256sum "$apk" | awk '{print $1}')"
+            tmp_sha="/tmp/${asset}.sha256"
+            printf '%s  %s\n' "$digest" "$asset" > "$tmp_sha"
+
+            existing_sha_file="${apk}.sha256"
+            if [[ -f "$existing_sha_file" ]]; then
+              recorded="$(awk '{print tolower($1)}' "$existing_sha_file")"
+              [[ "$recorded" =~ ^[0-9a-f]{64}$ ]]
+              test "$recorded" = "$digest"
+            fi
+
+            if ! gh release view "$tag" --repo "$repo" >/dev/null 2>&1; then
+              gh release create "$tag" --repo "$repo" --target main                 --title "子午汐律 ${version}"                 --notes "Historical signed Android APK migrated from the repository tree to GitHub Release Assets. The binary is unchanged."
+            fi
+
+            gh release upload "$tag" "$apk#$asset" "$tmp_sha#${asset}.sha256"               --repo "$repo" --clobber
+
+            release_json="$(gh api "repos/$repo/releases/tags/$tag")"
+            uploaded_size="$(jq -r --arg n "$asset" '.assets[] | select(.name==$n) | .size' <<<"$release_json")"
+            uploaded_id="$(jq -r --arg n "$asset" '.assets[] | select(.name==$n) | .id' <<<"$release_json")"
+            test "$uploaded_size" = "$(stat -c%s "$apk")"
+            test -n "$uploaded_id"
+            echo "Migrated v${version}: asset ${uploaded_id}, sha256 ${digest}"
+            migrated=$((migrated + 1))
+          done
+
+          legacy="android-native/MeridianMarketRhythm-release.apk"
+          if [[ -f "$legacy" ]]; then
+            tag="legacy-android"
+            asset="MeridianMarketRhythm-release.apk"
+            digest="$(sha256sum "$legacy" | awk '{print $1}')"
+            printf '%s  %s\n' "$digest" "$asset" > "/tmp/${asset}.sha256"
+            if ! gh release view "$tag" --repo "$repo" >/dev/null 2>&1; then
+              gh release create "$tag" --repo "$repo" --target main                 --title "Legacy Android APK"                 --notes "Legacy pre-versioned Android APK migrated out of the Git tree. Kept only for archival rollback."
+            fi
+            gh release upload "$tag" "$legacy#$asset" "/tmp/${asset}.sha256#${asset}.sha256"               --repo "$repo" --clobber
+            migrated=$((migrated + 1))
+          fi
+
+          echo "Uploaded $migrated APK binaries to Releases."
+
+      - name: Remove APK binaries from current Git tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          find android-native -type f \( -name '*.apk' -o -name '*.apk.sha256' \) -print -delete
+
+          git add -A android-native
+          if git diff --cached --quiet; then
+            echo "No APK binaries remain in the current tree."
+            exit 0
+          fi
+          git commit -m "Remove APK binaries from Git tree"
+          git push origin HEAD:main
