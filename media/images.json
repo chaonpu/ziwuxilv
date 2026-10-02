@@ -88,6 +88,15 @@
           "id": "DC_kwDOUnTHZ84BHXHm"
         }
       ]
+    },
+    "img_81fa499f293c483faab825a7737902582ed90243ca7088625d6f97349457406b": {
+      "url": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/media/332854418/85c967ea0c404707a1a3c1a407cf13a1/0.webp",
+      "storage_path": "media/332854418/85c967ea0c404707a1a3c1a407cf13a1/0.webp",
+      "owner_id": "332854418",
+      "sha256": "5b33c1fe18ef9deefc259055eabbfbfadbcbb5a115abe9e48c1c6a8dfdaa731b",
+      "created_at": "2026-10-02T05:49:47.705721+00:00",
+      "references": [],
+      "orphan_since": "2026-10-02T05:49:47.706141+00:00"
     }
   },
   "deleted_contents": {
@@ -103,5 +112,5 @@
     "DC_kwDOUnTHZ84BHW7x": "2026-10-02T00:00:32.625311+00:00",
     "D_kwDOUnTHZ84Aps1t": "2026-10-02T00:07:18.866865+00:00"
   },
-  "last_complete_scan_at": "2026-10-02T00:29:40.462240+00:00"
+  "last_complete_scan_at": "2026-10-02T05:49:47.705223+00:00"
 }
