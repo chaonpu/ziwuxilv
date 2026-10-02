@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "request_id": "3f255e1702a44907aca1d6bc28b2eda9",
+  "github_id": 205125766,
+  "issue_number": 60,
+  "status": "success",
+  "created_at": "2026-10-02T00:12:09.940565+00:00",
+  "images": [
+    {
+      "image_id": "img_fba98f16fc629aadc626076adc87372bcb4dc442fecf958c87f094f23397965e",
+      "index": 0,
+      "upload_sha256": "d0c29454d53e8cf91b4624ed1ba6f59e807070aef3a606da17d7df05cfcf81da",
+      "sha256": "ec720da91e8264c0773789785f8d769a323694c2a04b449fd9dd4a7c51f5bf6b",
+      "width": 1080,
+      "height": 486,
+      "bytes": 55886,
+      "path": "media/205125766/3f255e1702a44907aca1d6bc28b2eda9/0.webp"
+    }
+  ]
+}
