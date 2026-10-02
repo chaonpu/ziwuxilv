@@ -1,7 +1,9 @@
 {
   "runId": 37011780834,
-  "status": "running",
+  "status": "success",
   "versionName": "1.6.0",
   "versionCode": 42,
-  "sourceCommit": "23f8e082a92ef43847381abc5f7de3b56d4775ba"
+  "sourceCommit": "23f8e082a92ef43847381abc5f7de3b56d4775ba",
+  "apkSha256": "da5baa8aa414fd7ba07ab79cea8ca44c02b76075973abbe487a2f0a6dc70e03a",
+  "publicDownloadVerified": true
 }
