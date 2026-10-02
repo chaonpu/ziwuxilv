@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-8454-81fa-b1e1-4be1bea51ef4/raw?se=2026-10-02T15%3A37%3A13Z&sp=r&sv=2026-02-06&sr=b&scid=1062a718-2b40-564e-a38f-743936b79e5f&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A32%3A46Z&ske=2026-10-03T02%3A32%3A46Z&sks=b&skv=2026-02-06&sig=Ns02PJHl1LC1NHs80Fo%2B5ng6YOt2Sd4IEUV7s4RBfO4%3D",
-  "artifactSha256": "50ff62b8d0570b092e5a2969340d93b5f2c3be4ebf9395a4ba623bee2aa958e2",
-  "sourceCommit": "94d24a281cd57c43b04738f081b7d449f219043a",
-  "versionName": "1.6.1",
-  "versionCode": 43,
-  "apkSha256": "8caa488fd386ca493d675c1da5eb0c26466f330c4fba6711d9d957250e33b528",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-391c-820b-8a16-6c528acfdd91/raw?se=2026-10-02T18%3A11%3A01Z&sp=r&sv=2026-02-06&sr=b&scid=38ae0030-9820-5d08-9691-df5015d15e62&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T01%3A22%3A19Z&ske=2026-10-03T01%3A22%3A19Z&sks=b&skv=2026-02-06&sig=Ruoyol1mfAI3PKOPFL%2BskAGnqMAsFLMYZP4iTUljuxE%3D",
+  "artifactSha256": "e877f5582e0e34e37e9df2f98610470fe4259c4e5f93f8a894ebfa16d6f25c08",
+  "sourceCommit": "f4760aba71b8240d1233847dafb035ca138f433f",
+  "versionName": "1.6.2",
+  "versionCode": 44,
+  "apkSha256": "c81658af0785deede4b26ebee4bf1a9df8e8676491a90669eee110543cbf503d",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.6.1正式版：\n1. 广场帖子图片与共享头像新增 GitHub Release Assets 存储能力，新版客户端上传时不再把二进制图片写入 Git 历史。\n2. 保留旧版兼容：旧客户端仍可使用原 Git 图片链路，已有历史图片与头像继续正常读取。\n3. 正式 APK 改由 GitHub Release Assets 托管，Git 仓库仅保留 version.json 等轻量发布元数据。",
+  "updateLog": "v1.6.2正式版：\n1. 修复使用 GitHub Release Assets 上传图片后，帖子和评论一直停留在“发送中”的问题。\n2. 发送确认同时兼容旧 Git 图片与新的 Release Asset 图片；已进入发送队列的内容升级后会继续自动恢复确认。\n3. 统一广场注册图片渲染逻辑，避免 Release Asset 图片被旧 raw Git URL 判断误拦截。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-02-1.6.1-release-assets-publication"
+  "requestNonce": "2026-10-02-v1.6.2-release-asset-send-fix-publication"
 }
