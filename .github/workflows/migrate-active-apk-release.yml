@@ -1,0 +1,71 @@
+name: Migrate active Android APK to Release Asset
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'storage/migrate-active-apk-request.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-android-release
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Migrate current APK without changing version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(python3 -c 'import json; print(json.load(open("android-native/version.json"))["versionName"])')"
+          apk="android-native/v${version}/ziwuxilv-native-v${version}.apk"
+          sha_file="${apk}.sha256"
+          test -f "$apk"
+          test -f "$sha_file"
+          expected="$(awk '{print tolower($1)}' "$sha_file")"
+          [[ "$expected" =~ ^[0-9a-f]{64}$ ]]
+          actual="$(sha256sum "$apk" | awk '{print $1}')"
+          test "$actual" = "$expected"
+
+          tag="v${version}"
+          name="ziwuxilv-native-v${version}.apk"
+          url="https://github.com/chaonpu/ziwuxilv/releases/download/${tag}/${name}"
+
+          if ! gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target main               --title "子午汐律 ${version}"               --notes "Signed Android release ${version}. Migrated from the verified Git-backed APK to GitHub Release Assets without changing the binary."
+          fi
+          gh release upload "$tag" "$apk#$name" "$sha_file#${name}.sha256"             --repo "$GITHUB_REPOSITORY" --clobber
+
+          curl --fail --location --retry 8 --retry-all-errors --retry-delay 5 --max-time 120             -H 'Cache-Control: no-cache' "$url" -o /tmp/release.apk
+          echo "$expected  /tmp/release.apk" | sha256sum -c -
+
+          python3 - "$url" "$expected" <<'PY'
+          import json, sys
+          from pathlib import Path
+          path = Path("android-native/version.json")
+          manifest = json.loads(path.read_text(encoding="utf-8"))
+          manifest["downloadUrl"] = sys.argv[1]
+          manifest["apkSha256"] = sys.argv[2]
+          path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add android-native/version.json
+          if git diff --cached --quiet; then
+            echo "Active manifest already points to the verified Release Asset."
+            exit 0
+          fi
+          git commit -m "Move Android v${version} download to GitHub Release"
+          git push origin HEAD:main
