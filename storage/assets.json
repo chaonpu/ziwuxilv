@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "communityImages": "git",
-  "avatars": "git",
+  "communityImages": "release_asset",
+  "avatars": "release_asset",
   "androidApk": "release_asset",
-  "activationNote": "Community images and avatars stay on legacy Git storage until a Release-Asset-capable Android version is published. Android APK publishing may use Release Assets immediately."
+  "activationNote": "Release Assets are the preferred binary backend. Legacy Android clients without release_assets capability continue to negotiate the Git fallback; capable clients use Release Assets."
 }
