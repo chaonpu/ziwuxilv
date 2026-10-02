@@ -58,9 +58,13 @@ jobs:
                 --notes "Historical signed Android APK migrated from the repository tree to GitHub Release Assets. The binary is unchanged."
             fi
 
-            gh release upload "$tag" "$canonical" "$canonical_sha" --repo "$repo" --clobber
-
             release_json="$(gh api "repos/$repo/releases/tags/$tag")"
+            expected_size="$(stat -c%s "$apk")"
+            existing_size="$(jq -r --arg n "$asset" '.assets[] | select(.name==$n) | .size' <<<"$release_json" | head -n1)"
+            if [[ "$existing_size" != "$expected_size" ]]; then
+              gh release upload "$tag" "$canonical" "$canonical_sha" --repo "$repo" --clobber
+              release_json="$(gh api "repos/$repo/releases/tags/$tag")"
+            fi
             uploaded_size="$(jq -r --arg n "$asset" '.assets[] | select(.name==$n) | .size' <<<"$release_json")"
             uploaded_id="$(jq -r --arg n "$asset" '.assets[] | select(.name==$n) | .id' <<<"$release_json")"
             test "$uploaded_size" = "$(stat -c%s "$apk")"
@@ -83,10 +87,15 @@ jobs:
                 --title "Legacy Android APK" \
                 --notes "Legacy pre-versioned Android APK migrated out of the Git tree. Kept only for archival rollback."
             fi
-            gh release upload "$tag" "$canonical" "$canonical_sha" --repo "$repo" --clobber
             release_json="$(gh api "repos/$repo/releases/tags/$tag")"
+            expected_size="$(stat -c%s "$legacy")"
+            existing_size="$(jq -r --arg n "$asset" '.assets[] | select(.name==$n) | .size' <<<"$release_json" | head -n1)"
+            if [[ "$existing_size" != "$expected_size" ]]; then
+              gh release upload "$tag" "$canonical" "$canonical_sha" --repo "$repo" --clobber
+              release_json="$(gh api "repos/$repo/releases/tags/$tag")"
+            fi
             uploaded_size="$(jq -r --arg n "$asset" '.assets[] | select(.name==$n) | .size' <<<"$release_json")"
-            test "$uploaded_size" = "$(stat -c%s "$legacy")"
+            test "$uploaded_size" = "$expected_size"
             migrated=$((migrated + 1))
           fi
 
@@ -98,6 +107,8 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git reset --hard origin/main
           find android-native -type f \( -name '*.apk' -o -name '*.apk.sha256' \) -print -delete
 
           git add -A android-native
