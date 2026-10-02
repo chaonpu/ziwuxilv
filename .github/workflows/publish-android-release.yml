@@ -190,9 +190,24 @@ jobs:
           )
           PY
 
-          git add "android-native/v${VERSION_NAME}" android-native/version.json
+          # Stage the APK before activating the update manifest.
+          git add "android-native/v${VERSION_NAME}"
+          if ! git diff --cached --quiet; then
+            git commit -m "Stage Android v${VERSION_NAME} APK"
+            git push origin HEAD:main
+          fi
+
+          published_commit=$(git rev-parse HEAD)
+          immutable_url="https://raw.githubusercontent.com/chaonpu/ziwuxilv/$published_commit/android-native/v${VERSION_NAME}/ziwuxilv-native-v${VERSION_NAME}.apk"
+          public_url="https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v${VERSION_NAME}/ziwuxilv-native-v${VERSION_NAME}.apk"
+          curl --fail --location --retry 6 --retry-all-errors --retry-delay 5 --max-time 60 "$immutable_url" -o /tmp/public-immutable.apk
+          echo "$APK_SHA256  /tmp/public-immutable.apk" | sha256sum -c -
+          curl --fail --location --retry 6 --retry-all-errors --retry-delay 5 --max-time 60 -H 'Cache-Control: no-cache' "$public_url" -o /tmp/public-release.apk
+          echo "$APK_SHA256  /tmp/public-release.apk" | sha256sum -c -
+
+          git add android-native/version.json
           if git diff --cached --quiet; then
-            echo "Release already published."
+            echo "Release already published and publicly verified."
             exit 0
           fi
           git commit -m "Publish Android v${VERSION_NAME}"
