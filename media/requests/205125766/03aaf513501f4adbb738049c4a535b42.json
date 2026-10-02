@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "request_id": "03aaf513501f4adbb738049c4a535b42",
+  "github_id": 205125766,
+  "issue_number": 80,
+  "status": "success",
+  "created_at": "2026-10-02T18:21:18.359681+00:00",
+  "images": [
+    {
+      "image_id": "img_59704af513696f4ae2e504b2170a9e46b9d5ec4e1d2103382004e609e226be67",
+      "index": 0,
+      "upload_sha256": "e6a035da1e558d0050b5ab5536a7bb9bae1ff29f3ad838e15eaa8d0358cff244",
+      "sha256": "7ac386a1f11ed225f37136474c4ce92f2690e30e3d4122980fb3771bc7dd3e6d",
+      "width": 1080,
+      "height": 1080,
+      "bytes": 60450,
+      "backend": "release_asset",
+      "path": null,
+      "asset_id": 606209126,
+      "release_tag": "community-assets-2026-10",
+      "asset_name": "media-205125766-03aaf513501f4adbb738049c4a535b42-0-7ac386a1f11e.webp",
+      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-03aaf513501f4adbb738049c4a535b42-0-7ac386a1f11e.webp"
+    }
+  ]
+}
