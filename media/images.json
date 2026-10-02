@@ -187,7 +187,12 @@
       "owner_id": "205125766",
       "sha256": "84db5d5a9b798cdc0868964935d5c30c8c41bda03a02f2e6195de1811fdb74a7",
       "created_at": "2026-10-02T19:18:46.359452+00:00",
-      "references": []
+      "references": [
+        {
+          "type": "post",
+          "id": "D_kwDOUnTHZ84ApujS"
+        }
+      ]
     },
     "img_304ebf82dc4654a92c846385e17e6c84bcbc2f8c71b2f2a6b5d876636b4bde3e": {
       "backend": "release_asset",
@@ -198,7 +203,12 @@
       "owner_id": "205125766",
       "sha256": "af98be321350a04a72b9be18f6fc2a8bd3cd4cba446280dd31a1135046c3d5bd",
       "created_at": "2026-10-02T19:18:46.359452+00:00",
-      "references": []
+      "references": [
+        {
+          "type": "post",
+          "id": "D_kwDOUnTHZ84ApujS"
+        }
+      ]
     },
     "img_fe4fdb37d500d86bad7f5ba24eba7d2dd2ab2b2f1bca3721761aed36eecee157": {
       "backend": "release_asset",
@@ -209,7 +219,12 @@
       "owner_id": "205125766",
       "sha256": "d7d185f5cb441bc421a61d7a828adccf4d317944a37538bc487317ec028f45b5",
       "created_at": "2026-10-02T19:18:46.359452+00:00",
-      "references": []
+      "references": [
+        {
+          "type": "post",
+          "id": "D_kwDOUnTHZ84ApujS"
+        }
+      ]
     }
   },
   "deleted_contents": {
@@ -227,5 +242,5 @@
     "DC_kwDOUnTHZ84BHY09": "2026-10-02T10:43:49.790887+00:00",
     "DC_kwDOUnTHZ84BHZHr": "2026-10-02T12:32:50.103056+00:00"
   },
-  "last_complete_scan_at": "2026-10-02T19:15:41.974394+00:00"
+  "last_complete_scan_at": "2026-10-02T19:19:17.799545+00:00"
 }
