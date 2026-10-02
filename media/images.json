@@ -97,6 +97,14 @@
       "created_at": "2026-10-02T05:49:47.705721+00:00",
       "references": [],
       "orphan_since": "2026-10-02T05:49:47.706141+00:00"
+    },
+    "img_f27909ef9abebe20cea2bf0537f1b457d7a6e704fe8f29670afb124784b05c52": {
+      "url": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/media/205125766/1ee9214e96174cb88fcb2650c47096e9/0.webp",
+      "storage_path": "media/205125766/1ee9214e96174cb88fcb2650c47096e9/0.webp",
+      "owner_id": "205125766",
+      "sha256": "d0fe9af4a01f65e26e22df33c5c2733c60413b4f0d37e6eeb2f8b762cc6a4369",
+      "created_at": "2026-10-02T12:26:39.152826+00:00",
+      "references": []
     }
   },
   "deleted_contents": {
