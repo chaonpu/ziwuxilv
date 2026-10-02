@@ -59,6 +59,7 @@ def pages(fetch):
         seen.add(cursor)
 
 FIELDS = 'id body author { login ... on User { databaseId } }'
+POST_FIELDS = FIELDS + ' number createdAt category { name }'
 COMMENT_FIELDS = FIELDS + ' deletedAt'
 PAGE = 'pageInfo { hasNextPage endCursor }'
 
@@ -66,7 +67,7 @@ def inventory():
     repo = graphql('query { repository(owner:"chaonpu",name:"ziwuxilv") { id } }')['repository']
     if not repo: raise LifecycleError('Missing repository')
     posts = pages(lambda cursor: graphql('query($c:String) { repository(owner:"chaonpu",name:"ziwuxilv") {'
-        ' discussions(first:100,after:$c) { nodes { ' + FIELDS + ' number } ' + PAGE + ' } } }', {'c':cursor})['repository']['discussions'])
+        ' discussions(first:100,after:$c) { nodes { ' + POST_FIELDS + ' } ' + PAGE + ' } } }', {'c':cursor})['repository']['discussions'])
     records = []
     for post in posts:
         post.update(type='post', post_id=post['id'], repository_id=repo['id']); records.append(post)
