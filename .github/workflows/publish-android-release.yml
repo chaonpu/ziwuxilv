@@ -129,9 +129,10 @@ jobs:
             sha256sum -c "ziwuxilv-native-v${VERSION_NAME}.apk.sha256"
           )
 
-      - name: Publish APK and version manifest
+      - name: Publish APK to GitHub Release and activate manifest
         shell: bash
         env:
+          GH_TOKEN: ${{ github.token }}
           SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
           VERSION_NAME: ${{ steps.request.outputs.version_name }}
           VERSION_CODE: ${{ steps.request.outputs.version_code }}
@@ -145,10 +146,20 @@ jobs:
           git fetch origin main
           git reset --hard origin/main
 
-          outdir="android-native/v${VERSION_NAME}"
-          mkdir -p "$outdir"
-          cp "/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk" "$outdir/"
-          cp "/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk.sha256" "$outdir/"
+          apk="/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk"
+          sha_file="/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk.sha256"
+          tag="v${VERSION_NAME}"
+          asset_name="ziwuxilv-native-v${VERSION_NAME}.apk"
+          public_url="https://github.com/chaonpu/ziwuxilv/releases/download/${tag}/${asset_name}"
+
+          if ! gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target main               --title "子午汐律 ${VERSION_NAME}"               --notes "Signed Android release ${VERSION_NAME}. APK integrity is recorded in android-native/version.json and the attached SHA-256 file."
+          fi
+
+          gh release upload "$tag"             "$apk#$asset_name"             "$sha_file#${asset_name}.sha256"             --repo "$GITHUB_REPOSITORY" --clobber
+
+          curl --fail --location --retry 8 --retry-all-errors --retry-delay 5 --max-time 120             -H 'Cache-Control: no-cache' "$public_url" -o /tmp/public-release.apk
+          echo "$APK_SHA256  /tmp/public-release.apk" | sha256sum -c -
 
           python3 - <<'PY'
           import json, os
@@ -157,30 +168,13 @@ jobs:
           req = json.loads(Path("android-publish-request.json").read_text(encoding="utf-8"))
           version = os.environ["VERSION_NAME"]
           code = int(os.environ["VERSION_CODE"])
-          apk_sha = os.environ["APK_SHA256"]
-          cert_sha = os.environ["SIGNING_CERT_SHA256"]
-          source_commit = os.environ["SOURCE_COMMIT"]
-
-          outdir = Path("android-native") / f"v{version}"
-          release_info = {
-              "versionName": version,
-              "versionCode": code,
-              "sourceRepository": "anwpustudent-lab/Test",
-              "sourceCommit": source_commit,
-              "signingRepository": "chaonpu/ziwuxilv-android",
-              "apkFile": f"ziwuxilv-native-v{version}.apk",
-              "apkSha256": apk_sha,
-              "signingCertificateSha256": cert_sha,
-          }
-          (outdir / "release-info.json").write_text(
-              json.dumps(release_info, ensure_ascii=False, indent=2) + "\n",
-              encoding="utf-8",
-          )
-
           manifest = {
               "versionCode": code,
               "versionName": version,
-              "downloadUrl": f"https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v{version}/ziwuxilv-native-v{version}.apk",
+              "downloadUrl": f"https://github.com/chaonpu/ziwuxilv/releases/download/v{version}/ziwuxilv-native-v{version}.apk",
+              "apkSha256": os.environ["APK_SHA256"],
+              "signingCertificateSha256": os.environ["SIGNING_CERT_SHA256"],
+              "sourceCommit": os.environ["SOURCE_COMMIT"],
               "updateLog": req["updateLog"],
               "forceUpdate": bool(req.get("forceUpdate", False)),
           }
@@ -190,25 +184,10 @@ jobs:
           )
           PY
 
-          # Stage the APK before activating the update manifest.
-          git add "android-native/v${VERSION_NAME}"
-          if ! git diff --cached --quiet; then
-            git commit -m "Stage Android v${VERSION_NAME} APK"
-            git push origin HEAD:main
-          fi
-
-          published_commit=$(git rev-parse HEAD)
-          immutable_url="https://raw.githubusercontent.com/chaonpu/ziwuxilv/$published_commit/android-native/v${VERSION_NAME}/ziwuxilv-native-v${VERSION_NAME}.apk"
-          public_url="https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v${VERSION_NAME}/ziwuxilv-native-v${VERSION_NAME}.apk"
-          curl --fail --location --retry 6 --retry-all-errors --retry-delay 5 --max-time 60 "$immutable_url" -o /tmp/public-immutable.apk
-          echo "$APK_SHA256  /tmp/public-immutable.apk" | sha256sum -c -
-          curl --fail --location --retry 6 --retry-all-errors --retry-delay 5 --max-time 60 -H 'Cache-Control: no-cache' "$public_url" -o /tmp/public-release.apk
-          echo "$APK_SHA256  /tmp/public-release.apk" | sha256sum -c -
-
           git add android-native/version.json
           if git diff --cached --quiet; then
-            echo "Release already published and publicly verified."
+            echo "Release asset and manifest already match the requested version."
             exit 0
           fi
-          git commit -m "Publish Android v${VERSION_NAME}"
+          git commit -m "Publish Android v${VERSION_NAME} via GitHub Release"
           git push origin HEAD:main
