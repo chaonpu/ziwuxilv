@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "request_id": "f01e890bd92a4b079afcebeae49236b6",
+  "github_id": 205125766,
+  "issue_number": 88,
+  "status": "success",
+  "created_at": "2026-10-02T19:18:51.056003+00:00",
+  "images": [
+    {
+      "image_id": "img_517b3e0b698078019ecdb196efa45fe80f60a53bf4decbe3310ce1aadf6964d1",
+      "index": 0,
+      "upload_sha256": "7b55e007b988f7f2bd10797de34cd64258cc7d13ea43a71e80f6afeb4e1b39b8",
+      "sha256": "84db5d5a9b798cdc0868964935d5c30c8c41bda03a02f2e6195de1811fdb74a7",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 58190,
+      "backend": "release_asset",
+      "path": null,
+      "asset_id": 606308770,
+      "release_tag": "community-assets-2026-10",
+      "asset_name": "media-205125766-f01e890bd92a4b079afcebeae49236b6-0-84db5d5a9b79.webp",
+      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-f01e890bd92a4b079afcebeae49236b6-0-84db5d5a9b79.webp"
+    },
+    {
+      "image_id": "img_304ebf82dc4654a92c846385e17e6c84bcbc2f8c71b2f2a6b5d876636b4bde3e",
+      "index": 1,
+      "upload_sha256": "36dfeee962a0c7d65b4f9a953763b137559a04facc9593b45522113c834e849b",
+      "sha256": "af98be321350a04a72b9be18f6fc2a8bd3cd4cba446280dd31a1135046c3d5bd",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 62588,
+      "backend": "release_asset",
+      "path": null,
+      "asset_id": 606308815,
+      "release_tag": "community-assets-2026-10",
+      "asset_name": "media-205125766-f01e890bd92a4b079afcebeae49236b6-1-af98be321350.webp",
+      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-f01e890bd92a4b079afcebeae49236b6-1-af98be321350.webp"
+    },
+    {
+      "image_id": "img_fe4fdb37d500d86bad7f5ba24eba7d2dd2ab2b2f1bca3721761aed36eecee157",
+      "index": 2,
+      "upload_sha256": "c393de8ca204f8dd293be65a052b1376adea376aa925dbf25c7be11b808af570",
+      "sha256": "d7d185f5cb441bc421a61d7a828adccf4d317944a37538bc487317ec028f45b5",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 63600,
+      "backend": "release_asset",
+      "path": null,
+      "asset_id": 606308862,
+      "release_tag": "community-assets-2026-10",
+      "asset_name": "media-205125766-f01e890bd92a4b079afcebeae49236b6-2-d7d185f5cb44.webp",
+      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-f01e890bd92a4b079afcebeae49236b6-2-d7d185f5cb44.webp"
+    }
+  ]
+}
