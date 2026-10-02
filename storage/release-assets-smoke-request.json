@@ -1,1 +1,4 @@
-{"requestedAt":"2026-10-02T21:48:00+08:00","purpose":"initial Release Asset backend validation"}
+{
+  "requestedAt": "2026-10-02T22:46:00+08:00",
+  "purpose": "Validate Release Asset upload/delete after storage cutover"
+}
