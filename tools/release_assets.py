@@ -13,7 +13,7 @@ REPOSITORY = "chaonpu/ziwuxilv"
 API = "https://api.github.com"
 UPLOADS = "https://uploads.github.com"
 CONFIG = "storage/assets.json"
-TAG_RE = re.compile(r"community-assets-[0-9]{4}-[0-9]{2}")
+TAG_RE = re.compile(r"community-assets-[0-9]{4}-[0-9]{2}(?:-[0-9]{2})?")
 ASSET_NAME_RE = re.compile(r"(?:media|avatar)-[A-Za-z0-9._-]{1,180}")
 
 class ReleaseAssetError(RuntimeError):
@@ -68,9 +68,12 @@ def storage_backend(kind):
         raise ReleaseAssetError("Invalid storage backend")
     return backend
 
-def monthly_tag(timestamp=None):
+def monthly_tag(timestamp=None, shard=1):
     timestamp = timestamp or datetime.now(timezone.utc)
-    return "community-assets-" + timestamp.astimezone(timezone.utc).strftime("%Y-%m")
+    if type(shard) is not int or not 1 <= shard <= 99:
+        raise ReleaseAssetError("Invalid asset shard")
+    base = "community-assets-" + timestamp.astimezone(timezone.utc).strftime("%Y-%m")
+    return base if shard == 1 else f"{base}-{shard:02d}"
 
 def get_release(tag):
     if not TAG_RE.fullmatch(tag):
@@ -127,6 +130,26 @@ def upload_bytes(tag, name, data, content_type=None):
     if not isinstance(result, dict) or not result.get("id") or not result.get("browser_download_url"):
         raise ReleaseAssetError("Release asset upload failed")
     return result
+
+def upload_monthly_bytes(name, data, content_type=None, timestamp=None):
+    """Upload into the current month, rolling to another Release before GitHub's 1000-asset cap."""
+    if not ASSET_NAME_RE.fullmatch(name):
+        raise ReleaseAssetError("Invalid release asset identity")
+    for shard in range(1, 100):
+        tag = monthly_tag(timestamp, shard)
+        release = get_release(tag)
+        if release:
+            assets = list_assets(release["id"])
+            for asset in assets:
+                if asset.get("name") == name:
+                    if int(asset.get("size") or -1) != len(data):
+                        raise ReleaseAssetError("Existing release asset size mismatch")
+                    return tag, asset
+            if len(assets) >= 950:
+                continue
+        asset = upload_bytes(tag, name, data, content_type)
+        return tag, asset
+    raise ReleaseAssetError("Monthly Release Asset shards exhausted")
 
 def delete_asset(asset_id):
     if not isinstance(asset_id, int) or asset_id <= 0:
