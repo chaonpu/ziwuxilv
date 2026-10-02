@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-4480-81fd-8e51-79c223c506b6/raw?se=2026-10-02T13%3A18%3A06Z&sp=r&sv=2026-02-06&sr=b&scid=de9e839a-aee2-4a25-b1fa-b14eabdc3388&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A32%3A58Z&ske=2026-10-03T02%3A32%3A58Z&sks=b&skv=2026-02-06&sig=gTRS3ZQ9te/fokrmMfFgdj2P9BN9IeIJVW1a1UDnpoY%3D",
-  "artifactSha256": "59aeca109f8bc72ab6fd96580f197a678a70080572e8431b8c826f7a91cc4c2a",
-  "sourceCommit": "23f8e082a92ef43847381abc5f7de3b56d4775ba",
-  "versionName": "1.6.0",
-  "versionCode": 42,
-  "apkSha256": "da5baa8aa414fd7ba07ab79cea8ca44c02b76075973abbe487a2f0a6dc70e03a",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-992c-820b-92b0-ea071a21876e/raw?se=2026-10-02T15%3A35%3A54Z&sp=r&sv=2026-02-06&sr=b&scid=b88a98ab-a0f3-511c-bdd5-2f7c427031f5&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A37%3A10Z&ske=2026-10-03T02%3A37%3A10Z&sks=b&skv=2026-02-06&sig=KBKIkFMAsBOhw%2BJb0lbET2kcdzqlHPCHs5DehpLXSYA%3D",
+  "artifactSha256": "50ff62b8d0570b092e5a2969340d93b5f2c3be4ebf9395a4ba623bee2aa958e2",
+  "sourceCommit": "94d24a281cd57c43b04738f081b7d449f219043a",
+  "versionName": "1.6.1",
+  "versionCode": 43,
+  "apkSha256": "8caa488fd386ca493d675c1da5eb0c26466f330c4fba6711d9d957250e33b528",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.6.0正式版：\n1. 通知中心改为整页展示，按新帖、评论、回复等类型归类，支持未读提示、左滑删除及提醒设置。\n2. 广场支持在APP内发布/回复图片（最多3张），本地立即展示发送中内容，后台持续上传并确认远端结果；优化回复输入栏、聊天气泡图标、键盘恢复和昵称@显示。\n3. 自选统一使用新浪搜索与行情，覆盖A股、美股、港股、指数、期货、商品、外汇和加密货币；优化单屏表头、单行名称/代码及编辑操作。\n4. 完善共享昵称/头像和账号隔离，优化我的页账户卡片、设置、同步状态与退出确认。\n5. 新增注册用户和策略用户身份；用户只提交通用访问申请，身份由管理员决定。管理员可修改身份，策略授权支持自定义天数或永久；注册用户永久授权。\n6. 优化收益绩效日期/状态、实时计算、持仓与清仓卡片、收益曲线、日历和排行榜；待账本确认仅在相关持仓/清仓标的卡片展示。\n7. 按行情品种细化交易日历和时段，修复港股跨夜/半日等判断，调整盘中与休市刷新频率。登录连接失败提示更新。",
+  "updateLog": "v1.6.1正式版：\n1. 广场帖子图片与共享头像新增 GitHub Release Assets 存储能力，新版客户端上传时不再把二进制图片写入 Git 历史。\n2. 保留旧版兼容：旧客户端仍可使用原 Git 图片链路，已有历史图片与头像继续正常读取。\n3. 正式 APK 改由 GitHub Release Assets 托管，Git 仓库仅保留 version.json 等轻量发布元数据。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-02-1.6.0-publication"
+  "requestNonce": "2026-10-02-1.6.1-release-assets-corrected-publication"
 }
