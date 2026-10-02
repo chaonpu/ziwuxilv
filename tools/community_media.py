@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from PIL import Image, UnidentifiedImageError
 from profile_registry import api, shell, load_json, write_json
-from release_assets import storage_backend, upload_monthly_bytes
+from release_assets import negotiated_backend, upload_monthly_bytes
 
 REPOSITORY = 'chaonpu/ziwuxilv'
 REQUEST = 'ZIWUXILV_MEDIA_REQUEST_V1\n'
@@ -124,8 +124,7 @@ def process(event):
         from image_lifecycle import registry, register, register_release_asset, REGISTRY
         image_registry = registry()
         metadata = []
-        configured_backend = storage_backend('community')
-        backend = 'release_asset' if configured_backend == 'release_asset' and request.get('release_assets') is True else 'git'
+        backend = negotiated_backend('community', request)
         created_at = datetime.now(timezone.utc)
         for index, (data, size) in enumerate(decoded):
             digest = hashlib.sha256(data).hexdigest()
