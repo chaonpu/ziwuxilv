@@ -90,6 +90,109 @@ def inventory():
                 path=profile['avatar_path'], digest=profile['avatar_sha256']))
     return records
 
+def pinned_discussion_ids():
+    data = graphql('query { repository(owner:"chaonpu",name:"ziwuxilv") {'
+        ' pinnedDiscussions(first:10) { nodes { discussion { id } } } } }')['repository']
+    if not data or not isinstance(data.get('pinnedDiscussions'), dict):
+        raise LifecycleError('Incomplete pinned discussion inventory')
+    nodes = data['pinnedDiscussions'].get('nodes')
+    if not isinstance(nodes, list): raise LifecycleError('Incomplete pinned discussion inventory')
+    return {row.get('discussion', {}).get('id') for row in nodes
+        if isinstance(row, dict) and isinstance(row.get('discussion'), dict) and row['discussion'].get('id')}
+
+def _parse_github_time(value):
+    try: return datetime.fromisoformat((value or '').replace('Z', '+00:00'))
+    except (TypeError, ValueError): return None
+
+def _admin_retained(post_id, records):
+    for row in records:
+        if row.get('id') != post_id and row.get('post_id') != post_id: continue
+        if (row.get('author') or {}).get('databaseId') != ADMIN_ID: continue
+        body = row.get('body') or ''
+        if RETAIN_MARKER in body or any(line.strip() == RETAIN_LINE for line in body.splitlines()): return True
+    return False
+
+def _protected_category(post):
+    name = ((post.get('category') or {}).get('name') or '').strip().casefold()
+    return bool(name) and any(keyword.casefold() in name for keyword in PROTECTED_CATEGORY_KEYWORDS)
+
+def should_expire_discussion(post, records, pinned_ids, timestamp=None):
+    timestamp = timestamp or now()
+    if post.get('type') != 'post' or post.get('id') in pinned_ids: return False
+    created = _parse_github_time(post.get('createdAt'))
+    if created is None or created >= timestamp - timedelta(days=RETENTION_DAYS): return False
+    if _protected_category(post) or _admin_retained(post.get('id'), records): return False
+    return True
+
+def discussion_tree_ids(post_id, records):
+    return {row['id'] for row in records if row.get('id') == post_id or row.get('post_id') == post_id}
+
+def retention_receipt_path(post_id):
+    return f"{RETENTION_DIR}/{hashlib.sha256(post_id.encode()).hexdigest()}.json"
+
+def _commit_retention_pending(post, records, value):
+    affected = discussion_tree_ids(post['id'], records)
+    image_ids = [iid for iid, entry in value['images'].items()
+        if any(ref.get('id') in affected for ref in entry.get('references', []))]
+    receipt = dict(version=1, status='pending', content_id=post['id'], discussion_number=post.get('number'),
+        created_at=post.get('createdAt'), affected=sorted(affected), image_ids=image_ids,
+        retention_days=RETENTION_DAYS, requested_at=now().isoformat())
+    commit(value, receipt_path=retention_receipt_path(post['id']), receipt=receipt)
+    return receipt
+
+def _finish_retention_delete(receipt):
+    target_id = receipt['content_id']
+    records = inventory()
+    target = next((row for row in records if row.get('id') == target_id and row.get('type') == 'post'), None)
+    if target is not None:
+        result = graphql('mutation($id:ID!) { deleteDiscussion(input:{id:$id}) { discussion { id } } }', {'id':target_id})
+        if result.get('deleteDiscussion', {}).get('discussion', {}).get('id') != target_id:
+            raise LifecycleError('Delete not confirmed')
+    value = reconcile(registry(), inventory())
+    if any(ref.get('id') == target_id for entry in value['images'].values()
+        for ref in entry.get('references', [])):
+        raise LifecycleError('Expired discussion still referenced')
+    stamp = now().isoformat()
+    value.setdefault('deleted_contents', {}).update({content_id: stamp for content_id in receipt['affected']})
+    value, removals = collect(value, immediate=receipt['image_ids'])
+    receipt = dict(receipt, status='success', completed_at=stamp)
+    commit(value, removals, retention_receipt_path(target_id), receipt)
+
+def delete_expired_discussion(post_id, timestamp=None):
+    """Durably delete one eligible discussion and its exclusive media; safe to resume after push loss."""
+    receipt_path = retention_receipt_path(post_id)
+    for attempt in range(4):
+        shell('git', 'fetch', 'origin', 'main'); shell('git', 'reset', '--hard', 'origin/main')
+        receipt = load_json(receipt_path)
+        if receipt and receipt.get('status') == 'success': return False
+        try:
+            if receipt is None:
+                records = inventory()
+                post = next((row for row in records if row.get('id') == post_id and row.get('type') == 'post'), None)
+                if post is None or not should_expire_discussion(post, records, pinned_discussion_ids(), timestamp):
+                    return False
+                receipt = _commit_retention_pending(post, records, reconcile(registry(), records))
+            _finish_retention_delete(receipt)
+            return True
+        except subprocess.CalledProcessError:
+            if attempt == 3: raise
+    return False
+
+def expire_discussions(timestamp=None):
+    """Delete ordinary Discussions older than 90 days; pinned, protected categories and admin-retained posts survive."""
+    timestamp = timestamp or now()
+    shell('git', 'fetch', 'origin', 'main'); shell('git', 'reset', '--hard', 'origin/main')
+    for receipt_file in sorted(Path(RETENTION_DIR).glob('*.json')):
+        receipt = load_json(receipt_file.as_posix())
+        if receipt and receipt.get('status') == 'pending' and receipt.get('content_id'):
+            delete_expired_discussion(receipt['content_id'], timestamp)
+    shell('git', 'fetch', 'origin', 'main'); shell('git', 'reset', '--hard', 'origin/main')
+    records = inventory()
+    pinned = pinned_discussion_ids()
+    candidates = [row['id'] for row in records if should_expire_discussion(row, records, pinned, timestamp)]
+    for post_id in candidates: delete_expired_discussion(post_id, timestamp)
+    return candidates
+
 def references(body):
     ids = set()
     for marker in MARKER.findall(body or ''):
