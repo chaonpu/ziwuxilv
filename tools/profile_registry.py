@@ -76,6 +76,7 @@ def verified_request(event, issue, seal, comments):
         if final['request_id'] != request_id or final['body_sha256'] != hashlib.sha256(body.encode()).hexdigest():
             fail('PROFILE_AUTH_FAILED')
         if request.get('version') != 1: fail('PROFILE_AUTH_FAILED')
+        if 'release_assets' in request and type(request['release_assets']) is not bool: fail('PROFILE_AUTH_FAILED')
         # Submitted IDs/logins cannot determine the target directory or admin exemption.
         if 'github_id' in request and request['github_id'] != actor_id: fail('PROFILE_AUTH_FAILED')
         pieces = {}
@@ -117,7 +118,8 @@ def apply_update(index, actor_id, login, request, avatar, now):
         if owner != str(actor_id) and normalize(profile['nickname'])[1] == key: fail('NICKNAME_ALREADY_USED')
 
     action = request.get('avatar_action', 'keep')
-    backend = storage_backend('avatars')
+    configured_backend = storage_backend('avatars')
+    backend = 'release_asset' if configured_backend == 'release_asset' and request.get('release_assets') is True else 'git'
     previous = previous or {}
     if action == 'keep':
         avatar_path = previous.get('avatar_path')
