@@ -191,3 +191,43 @@ jobs:
           fi
           git commit -m "Publish Android v${VERSION_NAME} via GitHub Release"
           git push origin HEAD:main
+
+      - name: Record publish run status
+        if: always()
+        shell: bash
+        env:
+          JOB_STATUS: ${{ job.status }}
+          RUN_ID: ${{ github.run_id }}
+          VERSION_NAME: ${{ steps.request.outputs.version_name }}
+          VERSION_CODE: ${{ steps.request.outputs.version_code }}
+          SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          payload = {
+              "runId": int(os.environ["RUN_ID"]),
+              "status": os.environ["JOB_STATUS"],
+              "versionName": os.environ.get("VERSION_NAME", ""),
+              "versionCode": int(os.environ["VERSION_CODE"]) if os.environ.get("VERSION_CODE") else None,
+              "sourceCommit": os.environ.get("SOURCE_COMMIT", ""),
+          }
+          Path("/tmp/latest-publish-run.json").write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git switch -C publish-run-status origin/main
+          mkdir -p release
+          cp /tmp/latest-publish-run.json release/latest-publish-run.json
+          git add release/latest-publish-run.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Record Android publish run status"
+          git push origin HEAD:main
