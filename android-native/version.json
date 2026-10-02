@@ -1,7 +1,8 @@
 {
   "versionCode": 42,
   "versionName": "1.6.0",
-  "downloadUrl": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/android-native/v1.6.0/ziwuxilv-native-v1.6.0.apk",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.0/ziwuxilv-native-v1.6.0.apk",
   "updateLog": "v1.6.0正式版：\n1. 通知中心改为整页展示，按新帖、评论、回复等类型归类，支持未读提示、左滑删除及提醒设置。\n2. 广场支持在APP内发布/回复图片（最多3张），本地立即展示发送中内容，后台持续上传并确认远端结果；优化回复输入栏、聊天气泡图标、键盘恢复和昵称@显示。\n3. 自选统一使用新浪搜索与行情，覆盖A股、美股、港股、指数、期货、商品、外汇和加密货币；优化单屏表头、单行名称/代码及编辑操作。\n4. 完善共享昵称/头像和账号隔离，优化我的页账户卡片、设置、同步状态与退出确认。\n5. 新增注册用户和策略用户身份；用户只提交通用访问申请，身份由管理员决定。管理员可修改身份，策略授权支持自定义天数或永久；注册用户永久授权。\n6. 优化收益绩效日期/状态、实时计算、持仓与清仓卡片、收益曲线、日历和排行榜；待账本确认仅在相关持仓/清仓标的卡片展示。\n7. 按行情品种细化交易日历和时段，修复港股跨夜/半日等判断，调整盘中与休市刷新频率。登录连接失败提示更新。",
-  "forceUpdate": false
+  "forceUpdate": false,
+  "apkSha256": "da5baa8aa414fd7ba07ab79cea8ca44c02b76075973abbe487a2f0a6dc70e03a"
 }
