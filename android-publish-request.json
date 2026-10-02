@@ -1,5 +1,5 @@
 {
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-992c-820b-92b0-ea071a21876e/raw?se=2026-10-02T15%3A35%3A54Z&sp=r&sv=2026-02-06&sr=b&scid=b88a98ab-a0f3-511c-bdd5-2f7c427031f5&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A37%3A10Z&ske=2026-10-03T02%3A37%3A10Z&sks=b&skv=2026-02-06&sig=KBKIkFMAsBOhw%2BJb0lbET2kcdzqlHPCHs5DehpLXSYA%3D",
+  "sourceUrl": "https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-8454-81fa-b1e1-4be1bea51ef4/raw?se=2026-10-02T15%3A37%3A13Z&sp=r&sv=2026-02-06&sr=b&scid=1062a718-2b40-564e-a38f-743936b79e5f&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A32%3A46Z&ske=2026-10-03T02%3A32%3A46Z&sks=b&skv=2026-02-06&sig=Ns02PJHl1LC1NHs80Fo%2B5ng6YOt2Sd4IEUV7s4RBfO4%3D",
   "artifactSha256": "50ff62b8d0570b092e5a2969340d93b5f2c3be4ebf9395a4ba623bee2aa958e2",
   "sourceCommit": "94d24a281cd57c43b04738f081b7d449f219043a",
   "versionName": "1.6.1",
@@ -8,5 +8,5 @@
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
   "updateLog": "v1.6.1正式版：\n1. 广场帖子图片与共享头像新增 GitHub Release Assets 存储能力，新版客户端上传时不再把二进制图片写入 Git 历史。\n2. 保留旧版兼容：旧客户端仍可使用原 Git 图片链路，已有历史图片与头像继续正常读取。\n3. 正式 APK 改由 GitHub Release Assets 托管，Git 仓库仅保留 version.json 等轻量发布元数据。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-02-1.6.1-release-assets-corrected-publication"
+  "requestNonce": "2026-10-02-1.6.1-release-assets-publication"
 }
