@@ -4,7 +4,7 @@ import base64, copy, hashlib, io, json, os, re, subprocess, sys, unicodedata, ur
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from PIL import Image, UnidentifiedImageError
-from release_assets import storage_backend, upload_monthly_bytes
+from release_assets import negotiated_backend, upload_monthly_bytes
 
 ADMIN_ID = 205125766
 REPOSITORY = 'chaonpu/ziwuxilv'
@@ -118,8 +118,7 @@ def apply_update(index, actor_id, login, request, avatar, now):
         if owner != str(actor_id) and normalize(profile['nickname'])[1] == key: fail('NICKNAME_ALREADY_USED')
 
     action = request.get('avatar_action', 'keep')
-    configured_backend = storage_backend('avatars')
-    backend = 'release_asset' if configured_backend == 'release_asset' and request.get('release_assets') is True else 'git'
+    backend = negotiated_backend('avatars', request)
     previous = previous or {}
     if action == 'keep':
         avatar_path = previous.get('avatar_path')
