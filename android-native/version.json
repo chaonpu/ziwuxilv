@@ -1,10 +1,10 @@
 {
-  "versionCode": 43,
-  "versionName": "1.6.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.1/ziwuxilv-native-v1.6.1.apk",
-  "apkSha256": "8caa488fd386ca493d675c1da5eb0c26466f330c4fba6711d9d957250e33b528",
+  "versionCode": 44,
+  "versionName": "1.6.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.2/ziwuxilv-native-v1.6.2.apk",
+  "apkSha256": "c81658af0785deede4b26ebee4bf1a9df8e8676491a90669eee110543cbf503d",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "94d24a281cd57c43b04738f081b7d449f219043a",
-  "updateLog": "v1.6.1正式版：\n1. 广场帖子图片与共享头像新增 GitHub Release Assets 存储能力，新版客户端上传时不再把二进制图片写入 Git 历史。\n2. 保留旧版兼容：旧客户端仍可使用原 Git 图片链路，已有历史图片与头像继续正常读取。\n3. 正式 APK 改由 GitHub Release Assets 托管，Git 仓库仅保留 version.json 等轻量发布元数据。",
+  "sourceCommit": "f4760aba71b8240d1233847dafb035ca138f433f",
+  "updateLog": "v1.6.2正式版：\n1. 修复使用 GitHub Release Assets 上传图片后，帖子和评论一直停留在“发送中”的问题。\n2. 发送确认同时兼容旧 Git 图片与新的 Release Asset 图片；已进入发送队列的内容升级后会继续自动恢复确认。\n3. 统一广场注册图片渲染逻辑，避免 Release Asset 图片被旧 raw Git URL 判断误拦截。",
   "forceUpdate": false
 }
