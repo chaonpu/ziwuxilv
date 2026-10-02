@@ -1,0 +1,32 @@
+name: Daily discussion retention
+
+on:
+  schedule:
+    # 03:30 Asia/Shanghai every day (GitHub cron uses UTC).
+    - cron: '30 19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  discussions: write
+
+jobs:
+  retention:
+    name: Delete expired discussions and exclusive media
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    concurrency:
+      group: profile-registry-write
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install Pillow==12.3.0
+      - name: Apply 90-day discussion retention
+        run: python tools/image_lifecycle.py --expire-discussions
+        env:
+          GH_TOKEN: ${{ github.token }}
