@@ -57,6 +57,7 @@ def verify(event, issue, seal, comments):
         rid = request['request_id']
         if not isinstance(rid, str) or not re.fullmatch('[a-f0-9]{32}', rid): reject()
         if request.get('version') != 1 or ('github_id' in request and request['github_id'] != owner): reject()
+        if 'release_assets' in request and type(request['release_assets']) is not bool: reject()
         if final['request_id'] != rid or final['body_sha256'] != hashlib.sha256(body.encode()).hexdigest(): reject()
         images = request['images']
         if not isinstance(images, list) or not 1 <= len(images) <= 3: reject('MEDIA_INVALID_IMAGE')
@@ -123,7 +124,8 @@ def process(event):
         from image_lifecycle import registry, register, register_release_asset, REGISTRY
         image_registry = registry()
         metadata = []
-        backend = storage_backend('community')
+        configured_backend = storage_backend('community')
+        backend = 'release_asset' if configured_backend == 'release_asset' and request.get('release_assets') is True else 'git'
         created_at = datetime.now(timezone.utc)
         for index, (data, size) in enumerate(decoded):
             digest = hashlib.sha256(data).hexdigest()
