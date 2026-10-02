@@ -40,8 +40,10 @@ jobs:
             tag="v${version}"
             asset="ziwuxilv-native-v${version}.apk"
             digest="$(sha256sum "$apk" | awk '{print $1}')"
-            tmp_sha="/tmp/${asset}.sha256"
-            printf '%s  %s\n' "$digest" "$asset" > "$tmp_sha"
+            canonical="/tmp/$asset"
+            canonical_sha="/tmp/${asset}.sha256"
+            cp "$apk" "$canonical"
+            printf '%s  %s\n' "$digest" "$asset" > "$canonical_sha"
 
             existing_sha_file="${apk}.sha256"
             if [[ -f "$existing_sha_file" ]]; then
@@ -51,10 +53,12 @@ jobs:
             fi
 
             if ! gh release view "$tag" --repo "$repo" >/dev/null 2>&1; then
-              gh release create "$tag" --repo "$repo" --target main                 --title "子午汐律 ${version}"                 --notes "Historical signed Android APK migrated from the repository tree to GitHub Release Assets. The binary is unchanged."
+              gh release create "$tag" --repo "$repo" --target main \
+                --title "子午汐律 ${version}" \
+                --notes "Historical signed Android APK migrated from the repository tree to GitHub Release Assets. The binary is unchanged."
             fi
 
-            gh release upload "$tag" "$apk#$asset" "$tmp_sha#${asset}.sha256"               --repo "$repo" --clobber
+            gh release upload "$tag" "$canonical" "$canonical_sha" --repo "$repo" --clobber
 
             release_json="$(gh api "repos/$repo/releases/tags/$tag")"
             uploaded_size="$(jq -r --arg n "$asset" '.assets[] | select(.name==$n) | .size' <<<"$release_json")"
@@ -69,12 +73,20 @@ jobs:
           if [[ -f "$legacy" ]]; then
             tag="legacy-android"
             asset="MeridianMarketRhythm-release.apk"
+            canonical="/tmp/$asset"
+            canonical_sha="/tmp/${asset}.sha256"
+            cp "$legacy" "$canonical"
             digest="$(sha256sum "$legacy" | awk '{print $1}')"
-            printf '%s  %s\n' "$digest" "$asset" > "/tmp/${asset}.sha256"
+            printf '%s  %s\n' "$digest" "$asset" > "$canonical_sha"
             if ! gh release view "$tag" --repo "$repo" >/dev/null 2>&1; then
-              gh release create "$tag" --repo "$repo" --target main                 --title "Legacy Android APK"                 --notes "Legacy pre-versioned Android APK migrated out of the Git tree. Kept only for archival rollback."
+              gh release create "$tag" --repo "$repo" --target main \
+                --title "Legacy Android APK" \
+                --notes "Legacy pre-versioned Android APK migrated out of the Git tree. Kept only for archival rollback."
             fi
-            gh release upload "$tag" "$legacy#$asset" "/tmp/${asset}.sha256#${asset}.sha256"               --repo "$repo" --clobber
+            gh release upload "$tag" "$canonical" "$canonical_sha" --repo "$repo" --clobber
+            release_json="$(gh api "repos/$repo/releases/tags/$tag")"
+            uploaded_size="$(jq -r --arg n "$asset" '.assets[] | select(.name==$n) | .size' <<<"$release_json")"
+            test "$uploaded_size" = "$(stat -c%s "$legacy")"
             migrated=$((migrated + 1))
           fi
 
