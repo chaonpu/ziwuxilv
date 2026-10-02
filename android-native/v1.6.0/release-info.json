@@ -1,0 +1,10 @@
+{
+  "versionName": "1.6.0",
+  "versionCode": 42,
+  "sourceRepository": "anwpustudent-lab/Test",
+  "sourceCommit": "23f8e082a92ef43847381abc5f7de3b56d4775ba",
+  "signingRepository": "chaonpu/ziwuxilv-android",
+  "apkFile": "ziwuxilv-native-v1.6.0.apk",
+  "apkSha256": "da5baa8aa414fd7ba07ab79cea8ca44c02b76075973abbe487a2f0a6dc70e03a",
+  "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105"
+}
