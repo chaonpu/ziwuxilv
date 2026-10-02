@@ -19,6 +19,16 @@ Before the content mutation, a durable pending receipt saves the verified author
 GitHub wipes a parent comment that has replies, preserving those replies. Comment deletion therefore detaches only the selected comment, while post deletion affects the entire discussion. The `deletedAt` field lets a previously authorized pending operation recover after a parent wipe without repeating its mutation or hiding another author's reply. See [GitHub Discussions schema](https://docs.github.com/en/graphql/reference/discussions).
 
 
+## Release Asset binary storage
+
+Binary storage is now abstracted from the Git metadata layer. `storage/assets.json` selects the backend independently for community images, shared avatars, and Android APKs.
+
+Community images and avatars can be stored as GitHub Release Assets under monthly, automatically sharded releases such as `community-assets-2026-10` and `community-assets-2026-10-02`. The repository keeps only registry metadata and durable receipts: asset ID, release tag, asset name, public download URL, owner, SHA-256 and content references. Each monthly release rolls to another shard before the GitHub per-release asset limit is reached.
+
+The lifecycle registry supports both legacy Git-backed entries and Release-Asset-backed entries during migration. A Discussion deletion still performs a complete reference inventory first. If the last reference belongs to a Release Asset, the trusted Action deletes that exact GitHub release asset by numeric asset ID and removes the registry entry. Shared references remain protected.
+
+The rollout is deliberately staged. Community images and avatars remain on the legacy Git backend until a Release-Asset-capable Android version has been published. Android APK publishing can move to Release Assets immediately because existing clients already accept HTTPS update URLs and redirects. After the compatible client is deployed, switching `communityImages` and `avatars` to `release_asset` activates the new storage without changing the user-facing upload protocol.
+
 ## Discussion retention
 
 A separate daily workflow runs at 03:30 Asia/Shanghai and performs a complete Discussions inventory before deleting anything. Ordinary discussions are eligible only when their `createdAt` timestamp is more than 90 days old.

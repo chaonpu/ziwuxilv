@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "communityImages": "git",
+  "avatars": "git",
+  "androidApk": "release_asset",
+  "activationNote": "Community images and avatars stay on legacy Git storage until a Release-Asset-capable Android version is published. Android APK publishing may use Release Assets immediately."
+}
