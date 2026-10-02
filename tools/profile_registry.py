@@ -210,7 +210,8 @@ def process(event):
 
             if clean_avatar is not None:
                 digest = hashlib.sha256(clean_avatar).hexdigest()
-                if storage_backend('avatars') == 'release_asset':
+                backend = negotiated_backend('avatars', request)
+                if backend == 'release_asset':
                     name = f"avatar-{actor_id}-{request['request_id']}-{digest[:12]}.webp"
                     tag, asset = upload_monthly_bytes(name, clean_avatar, 'image/webp', now)
                     iid = register_release_asset(image_registry, actor_id, digest, int(asset['id']), tag, name,
