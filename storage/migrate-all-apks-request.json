@@ -1,6 +1,6 @@
 {
-  "requestedAt": "2026-10-02T22:10:00+08:00",
+  "requestedAt": "2026-10-02T22:15:00+08:00",
   "scope": "all historical APKs",
   "deleteFromCurrentTreeAfterVerifiedUpload": true,
-  "retry": 3
+  "retry": 4
 }
