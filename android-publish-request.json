@@ -1,11 +1,12 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-f998-81fd-ab7b-4d36fc92d37b/raw?se=2026-10-01T04%3A26%3A58Z&sp=r&sv=2026-02-06&sr=b&scid=0c01bad5-f221-580d-8f90-4c47a2816a39&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-01T04%3A11%3A30Z&ske=2026-10-02T04%3A11%3A30Z&sks=b&skv=2026-02-06&sig=gqybshACDO2n6ouVysOlYMkw/WhtRTDsA92i2T1VHlA%3D",
-  "artifactSha256": "79842a74c58fc217236b10cb623f475b973d6b3146863600f00004867ea0506c",
-  "sourceCommit": "51f7da2035104f7036a16f6a5fba18c2c14e4c63",
-  "versionName": "1.5.9",
-  "versionCode": 41,
-  "apkSha256": "e9c4ad9393296a2fc6a6c9fe5248d40650a496e40a3dfd2e2921eb3b74ef7b0a",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-4480-81fd-8e51-79c223c506b6/raw?se=2026-10-02T13%3A18%3A06Z&sp=r&sv=2026-02-06&sr=b&scid=de9e839a-aee2-4a25-b1fa-b14eabdc3388&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A32%3A58Z&ske=2026-10-03T02%3A32%3A58Z&sks=b&skv=2026-02-06&sig=gTRS3ZQ9te/fokrmMfFgdj2P9BN9IeIJVW1a1UDnpoY%3D",
+  "artifactSha256": "59aeca109f8bc72ab6fd96580f197a678a70080572e8431b8c826f7a91cc4c2a",
+  "sourceCommit": "23f8e082a92ef43847381abc5f7de3b56d4775ba",
+  "versionName": "1.6.0",
+  "versionCode": 42,
+  "apkSha256": "da5baa8aa414fd7ba07ab79cea8ca44c02b76075973abbe487a2f0a6dc70e03a",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.5.9正式版：收益页接入A股/美股交易日历，节假日不再显示“当前估值/当日估值”等盘中标签，改为上一交易日估值或已入账状态；修复美股调仓展示，在NEXT_SESSION_OPEN模式下，收到清仓信号的旧持仓会一直保留到下一个实际交易日09:30美东时间开盘前，并继续参与行情与收益展示，开盘后再移除；同步完善待清仓标记、持仓数量展示和账本字段解析。",
-  "forceUpdate": false
+  "updateLog": "v1.6.0正式版：\n1. 通知中心改为整页展示，按新帖、评论、回复等类型归类，支持未读提示、左滑删除及提醒设置。\n2. 广场支持在APP内发布/回复图片（最多3张），本地立即展示发送中内容，后台持续上传并确认远端结果；优化回复输入栏、聊天气泡图标、键盘恢复和昵称@显示。\n3. 自选统一使用新浪搜索与行情，覆盖A股、美股、港股、指数、期货、商品、外汇和加密货币；优化单屏表头、单行名称/代码及编辑操作。\n4. 完善共享昵称/头像和账号隔离，优化我的页账户卡片、设置、同步状态与退出确认。\n5. 新增注册用户和策略用户身份；用户只提交通用访问申请，身份由管理员决定。管理员可修改身份，策略授权支持自定义天数或永久；注册用户永久授权。\n6. 优化收益绩效日期/状态、实时计算、持仓与清仓卡片、收益曲线、日历和排行榜；待账本确认仅在相关持仓/清仓标的卡片展示。\n7. 按行情品种细化交易日历和时段，修复港股跨夜/半日等判断，调整盘中与休市刷新频率。登录连接失败提示更新。",
+  "forceUpdate": false,
+  "requestNonce": "2026-10-02-1.6.0-publication"
 }
