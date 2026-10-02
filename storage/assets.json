@@ -3,5 +3,5 @@
   "communityImages": "release_asset",
   "avatars": "release_asset",
   "androidApk": "release_asset",
-  "activationNote": "Release Assets are the preferred binary backend. Legacy Android clients without release_assets capability continue to negotiate the Git fallback; capable clients use Release Assets."
+  "activationNote": "Release Assets are active for capable Android clients. Legacy clients without the release_assets capability flag continue using the Git backend for community images and avatars; APKs are published only as Release Assets."
 }
