@@ -171,7 +171,12 @@
       "owner_id": "205125766",
       "sha256": "0b8836c37083274c53bf15be1042d51201b5f394e426b062d2d88e0b6f6b4e67",
       "created_at": "2026-10-02T19:15:14.207117+00:00",
-      "references": []
+      "references": [
+        {
+          "type": "post",
+          "id": "D_kwDOUnTHZ84Apui8"
+        }
+      ]
     }
   },
   "deleted_contents": {
@@ -189,5 +194,5 @@
     "DC_kwDOUnTHZ84BHY09": "2026-10-02T10:43:49.790887+00:00",
     "DC_kwDOUnTHZ84BHZHr": "2026-10-02T12:32:50.103056+00:00"
   },
-  "last_complete_scan_at": "2026-10-02T19:05:37.681870+00:00"
+  "last_complete_scan_at": "2026-10-02T19:15:41.974394+00:00"
 }
