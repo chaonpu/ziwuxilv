@@ -44,6 +44,14 @@ class ReleaseAssetHelpersTest(unittest.TestCase):
             finally:
                 os.chdir(old)
 
+    def test_release_backend_requires_capable_client(self):
+        with patch.object(r, "storage_backend", return_value="release_asset"):
+            self.assertEqual("git", r.negotiated_backend("community", {}))
+            self.assertEqual("git", r.negotiated_backend("community", {"release_assets": False}))
+            self.assertEqual("release_asset", r.negotiated_backend("community", {"release_assets": True}))
+        with patch.object(r, "storage_backend", return_value="git"):
+            self.assertEqual("git", r.negotiated_backend("community", {"release_assets": True}))
+
 
 class ReleaseLifecycleTest(unittest.TestCase):
     def test_release_asset_registration_and_collection(self):
@@ -69,8 +77,9 @@ class ReleaseLifecycleTest(unittest.TestCase):
 class ReleaseProfileMetadataTest(unittest.TestCase):
     def test_release_avatar_prepares_metadata_without_git_path(self):
         now = datetime(2026, 10, 2, tzinfo=timezone.utc)
-        request = {"version": 1, "request_id": "a" * 32, "nickname": "海风", "avatar_action": "replace"}
-        with patch.object(p, "storage_backend", return_value="release_asset"):
+        request = {"version": 1, "request_id": "a" * 32, "nickname": "海风", "avatar_action": "replace",
+                   "release_assets": True}
+        with patch.object(p, "negotiated_backend", return_value="release_asset"):
             updated, profile, avatar = p.apply_update({"version": 1, "profiles": {}}, 123, "u", request, b"x", now)
         self.assertIsNone(profile["avatar_path"])
         self.assertIsNone(profile["avatar_url"])
