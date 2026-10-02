@@ -1,10 +1,10 @@
 {
-  "versionCode": 44,
-  "versionName": "1.6.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.2/ziwuxilv-native-v1.6.2.apk",
-  "apkSha256": "c81658af0785deede4b26ebee4bf1a9df8e8676491a90669eee110543cbf503d",
+  "versionCode": 45,
+  "versionName": "1.6.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.3/ziwuxilv-native-v1.6.3.apk",
+  "apkSha256": "7e18e29ff7cce78ad894cd927bf6866160a5d7fa0c60ab68ed98e9eceaf1d210",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "f4760aba71b8240d1233847dafb035ca138f433f",
-  "updateLog": "v1.6.2正式版：\n1. 修复使用 GitHub Release Assets 上传图片后，帖子和评论一直停留在“发送中”的问题。\n2. 发送确认同时兼容旧 Git 图片与新的 Release Asset 图片；已进入发送队列的内容升级后会继续自动恢复确认。\n3. 统一广场注册图片渲染逻辑，避免 Release Asset 图片被旧 raw Git URL 判断误拦截。",
+  "sourceCommit": "6924b989284becba0e56866e49ec04b6eab39403",
+  "updateLog": "v1.6.3正式版：\n1. 修复远端帖子/评论已经成功，但本地仍长期显示“发送中”的问题。\n2. 远端内容读回并校验发送标记后立即完成可见发送状态；图片引用登记改为后台持久任务，不再阻塞发送完成。\n3. APP重启/升级后立即重试已有发送任务，不再等待旧版本留下的退避时间；图片索引暂时滞后时保留远端Markdown图片显示。",
   "forceUpdate": false
 }
