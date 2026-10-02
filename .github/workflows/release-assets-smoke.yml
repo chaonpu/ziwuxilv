@@ -1,0 +1,43 @@
+name: Release Asset storage smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'storage/release-assets-smoke-request.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-registry-write
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Upload, verify metadata, and delete a temporary Release Asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import os
+          from tools.release_assets import upload_monthly_bytes, delete_asset, release_asset_url_valid
+          data = ("ziwuxilv-release-asset-smoke:" + os.environ["RUN_ID"]).encode()
+          name = "media-smoke-" + os.environ["RUN_ID"] + ".bin"
+          tag, asset = upload_monthly_bytes(name, data, "application/octet-stream")
+          assert int(asset["size"]) == len(data)
+          assert release_asset_url_valid(asset["browser_download_url"], tag, name)
+          delete_asset(int(asset["id"]))
+          print("Release Asset smoke passed:", tag, asset["id"])
+          PY
