@@ -13,6 +13,11 @@ REGISTRY = 'media/images.json'
 REQUEST = 'ZIWUXILV_IMAGE_LIFECYCLE_V1\n'
 SUBMIT = 'ZIWUXILV_IMAGE_LIFECYCLE_SUBMIT_V1\n'
 RESULT = 'ZIWUXILV_IMAGE_LIFECYCLE_RESULT_V1\n'
+RETENTION_DAYS = 90
+RETAIN_MARKER = 'ZIWUXILV_RETAIN'
+RETAIN_LINE = '#永久保留'
+PROTECTED_CATEGORY_KEYWORDS = ('公告', '规则', 'announcement', 'announcements', 'rule', 'rules')
+RETENTION_DIR = 'media/retention'
 MARKER = re.compile(r'<!--\s*ZIWUXILV_IMAGES_V1:(\[[^\n]*?\])\s*-->')
 IMAGE_ID = re.compile(r'img_[a-f0-9]{64}')
 MANAGED_PATH = re.compile(r'(?:media/[0-9]+/[a-f0-9]{32}/[0-2]\.webp|profiles/[0-9]+/avatar\.webp)')
@@ -357,7 +362,8 @@ def report_failure(event):
     api(f'/repos/{REPOSITORY}/issues/{number}/comments','POST',{'body':RESULT+json.dumps(result,ensure_ascii=False)})
 
 if __name__ == '__main__':
-    if '--gc' in sys.argv: garbage_collect()
+    if '--expire-discussions' in sys.argv: expire_discussions()
+    elif '--gc' in sys.argv: garbage_collect()
     else:
         event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text(encoding='utf-8'))
         if event.get('comment',{}).get('body','').startswith(SUBMIT):
