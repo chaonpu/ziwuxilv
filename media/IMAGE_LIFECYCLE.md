@@ -18,6 +18,18 @@ Before the content mutation, a durable pending receipt saves the verified author
 
 GitHub wipes a parent comment that has replies, preserving those replies. Comment deletion therefore detaches only the selected comment, while post deletion affects the entire discussion. The `deletedAt` field lets a previously authorized pending operation recover after a parent wipe without repeating its mutation or hiding another author's reply. See [GitHub Discussions schema](https://docs.github.com/en/graphql/reference/discussions).
 
+
+## Discussion retention
+
+A separate daily workflow runs at 03:30 Asia/Shanghai and performs a complete Discussions inventory before deleting anything. Ordinary discussions are eligible only when their `createdAt` timestamp is more than 90 days old.
+
+The retention pass never deletes:
+- pinned discussions;
+- discussions in categories whose names indicate announcements or rules (`公告`, `规则`, `Announcements`, `Rules`);
+- discussions marked for permanent retention by administrator GitHub ID 205125766. The administrator can add a comment containing a line exactly equal to `#永久保留` or the marker `ZIWUXILV_RETAIN`. The same text from a non-admin account is ignored.
+
+Deletion is tree-aware and resumable. Before the remote Discussion mutation, the workflow records the post, all comments/replies, and every managed image referenced by that tree. After GitHub confirms deletion, it performs another complete inventory, adds the deleted node IDs to `deleted_contents`, and immediately removes image blobs that no longer have any surviving reference. Images shared by another live post/comment/reply are retained. A durable receipt under `media/retention/` lets an interrupted run finish without needing to delete the Discussion twice.
+
 ## Collection and migration
 
 Scheduled every six hours and available by manual dispatch. It scans every page and stops on incomplete inventories, malformed refs or a missing avatar index. It reconciles ID markers and recognized legacy managed URLs; external URLs are never owned or deleted. Legacy files are adopted into the registry without editing existing Discussion bodies. Uploads not yet published and other orphan files get at least 48 hours and a second complete scan before collection. Live avatar refs protect avatars; replaced IDs sharing the current avatar path cannot unlink its blob.
