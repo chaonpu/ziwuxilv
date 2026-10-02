@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from PIL import Image, UnidentifiedImageError
 from profile_registry import api, shell, load_json, write_json
-from release_assets import storage_backend, monthly_tag, upload_bytes
+from release_assets import storage_backend, upload_monthly_bytes
 
 REPOSITORY = 'chaonpu/ziwuxilv'
 REQUEST = 'ZIWUXILV_MEDIA_REQUEST_V1\n'
@@ -130,9 +130,8 @@ def process(event):
             common = dict(image_id=None, index=index, upload_sha256=request['images'][index]['sha256'],
                           sha256=digest, width=size[0], height=size[1], bytes=len(data))
             if backend == 'release_asset':
-                tag = monthly_tag(created_at)
                 name = f'media-{owner}-{rid}-{index}-{digest[:12]}.webp'
-                asset = upload_bytes(tag, name, data, 'image/webp')
+                tag, asset = upload_monthly_bytes(name, data, 'image/webp', created_at)
                 iid = register_release_asset(image_registry, owner, digest, int(asset['id']), tag, name,
                                              asset['browser_download_url'], created_at.isoformat())
                 metadata.append(dict(common, image_id=iid, backend='release_asset', path=None,
