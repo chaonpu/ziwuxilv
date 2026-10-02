@@ -139,7 +139,12 @@
       "owner_id": "205125766",
       "sha256": "7ac386a1f11ed225f37136474c4ce92f2690e30e3d4122980fb3771bc7dd3e6d",
       "created_at": "2026-10-02T18:21:16.129427+00:00",
-      "references": []
+      "references": [
+        {
+          "type": "comment",
+          "id": "DC_kwDOUnTHZ84BHaV5"
+        }
+      ]
     },
     "img_6dd17a1f033ce3966ef872292698cf1a0d6b875f00b04a1e3db5579ca2d764f4": {
       "backend": "release_asset",
@@ -150,7 +155,12 @@
       "owner_id": "205125766",
       "sha256": "6d5cb869fb72f3f6e278ab4be8d13ad31a803703a071b930df0487f8393cbb54",
       "created_at": "2026-10-02T18:22:38.585376+00:00",
-      "references": []
+      "references": [
+        {
+          "type": "post",
+          "id": "D_kwDOUnTHZ84ApufL"
+        }
+      ]
     }
   },
   "deleted_contents": {
@@ -168,5 +178,5 @@
     "DC_kwDOUnTHZ84BHY09": "2026-10-02T10:43:49.790887+00:00",
     "DC_kwDOUnTHZ84BHZHr": "2026-10-02T12:32:50.103056+00:00"
   },
-  "last_complete_scan_at": "2026-10-02T18:20:22.414028+00:00"
+  "last_complete_scan_at": "2026-10-02T18:27:31.798373+00:00"
 }
