@@ -11,6 +11,7 @@ on:
       - '.github/workflows/community-media*.yml'
       - '.github/workflows/profile-update.yml'
       - 'media/README.md'
+      - 'storage/assets.json'
   workflow_dispatch:
 
 permissions:
