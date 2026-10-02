@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-dce8-820b-8f5e-f78a0366acaf/raw?se=2026-10-02T19%3A06%3A32Z&sp=r&sv=2026-02-06&sr=b&scid=edf57b18-a7c6-5c92-b2c7-cadce90e9fc2&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A41%3A13Z&ske=2026-10-03T02%3A41%3A13Z&sks=b&skv=2026-02-06&sig=UJHNSc20XEPNNAUT3SlFvLySmwHzFlCyesCbxJiPXVM%3D",
-  "artifactSha256": "bdeb46965b261b132bee327da92b57dd474865068846ce7713519896620db914",
-  "sourceCommit": "6924b989284becba0e56866e49ec04b6eab39403",
-  "versionName": "1.6.3",
-  "versionCode": 45,
-  "apkSha256": "7e18e29ff7cce78ad894cd927bf6866160a5d7fa0c60ab68ed98e9eceaf1d210",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-2ea8-820b-8e33-30616ec32b33/raw?se=2026-10-02T20%3A03%3A55Z&sp=r&sv=2026-02-06&sr=b&scid=7f468615-cd46-57e8-b446-b0672776669c&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T19%3A57%3A58Z&ske=2026-10-03T19%3A57%3A58Z&sks=b&skv=2026-02-06&sig=bBRhd4Ounti2O36y4lVmhclBZLJY0yLHC0CMtM6cTj8%3D",
+  "artifactSha256": "34da9e3f38ab1499a9235d85a7cedc31616ace12b981c307340a6818a610f850",
+  "sourceCommit": "ee767bed888ad60140113d4e455a1eb00a0975bc",
+  "versionName": "1.6.4",
+  "versionCode": 46,
+  "apkSha256": "3a3d0e3fb43b8650eb711b471c98664aa89893349a0bc64da3fd5714e35ca262",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.6.3正式版：\n1. 修复远端帖子/评论已经成功，但本地仍长期显示“发送中”的问题。\n2. 远端内容读回并校验发送标记后立即完成可见发送状态；图片引用登记改为后台持久任务，不再阻塞发送完成。\n3. APP重启/升级后立即重试已有发送任务，不再等待旧版本留下的退避时间；图片索引暂时滞后时保留远端Markdown图片显示。",
+  "updateLog": "v1.6.4正式版：\n1. 优化广场图片首次冷加载：Release Asset 下载增加自动重试、加载占位与点击重试，并预取帖子列表首图。\n2. 广场帖子列表卡片统一固定高度，标题和摘要限制行数，避免不同帖子高度跳动。\n3. 多图帖子在列表中只展示第一张图，并在右上角标注后续图片数量；进入帖子详情后仍展示全部图片。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-02-v1.6.3-outbox-remote-success-publication"
+  "requestNonce": "2026-10-03-v1.6.4-plaza-image-preview-publication"
 }
