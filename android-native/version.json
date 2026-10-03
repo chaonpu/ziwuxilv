@@ -1,10 +1,10 @@
 {
-  "versionCode": 55,
-  "versionName": "1.7.3",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.3/ziwuxilv-native-v1.7.3.apk",
-  "apkSha256": "17e88e08507f112f3bb94e7cf818bbe26ea331d47768d1fac62344be668c0fdd",
+  "versionCode": 56,
+  "versionName": "1.7.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.4/ziwuxilv-native-v1.7.4.apk",
+  "apkSha256": "702d9e8a6a0ff90cd192f7970629568e951159a2a2736cc48cc5bf321f28752e",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "cec3ad079efb4a897b598c94774361b00e681ee7",
-  "updateLog": "v1.7.3正式版：\n1. 修复收益页启动缓存未生效：登录身份已恢复但策略访问记录尚未完成确认时，同账号上次已校验的收益缓存会继续显示。\n2. 权限确认完成前不再提前启动私有策略数据刷新，避免把短暂的“权限未确认”误判为无权限并清空收益页。\n3. 启动权限确认阶段继续保留策略导航和收益页；真正无权限、权限到期或仓库访问被撤销后仍按原规则隐藏策略数据。\n4. 已通过 Android quick check、完整单元测试、Kotlin 编译、Lint 与 Preview APK 构建。",
+  "sourceCommit": "d15b6a7c8a35f31a2751321591f1d01565cf2086",
+  "updateLog": "v1.7.4正式版：\n1. 修复管理员账号启动收益页仍短暂空白：APP 启动时直接使用本机加密保存的上次已验证 GitHub 身份作为 bootstrap identity。\n2. 在 Compose 第一帧之前同步绑定账号并恢复收益页、本地配置、自选、通知等账号级缓存，避免先渲染空 MarketFeeds 再异步回填。\n3. GitHub 身份仍会在后台正常联网重新校验；本地 bootstrap 仅用于更早恢复同账号已验证缓存，不改变权限规则。\n4. 已通过 Android quick check、完整单元测试、Kotlin 编译、Lint 与 Preview APK 构建。",
   "forceUpdate": false
 }
