@@ -114,38 +114,6 @@
         }
       ]
     },
-    "img_7fbc67d40b2afba23f11e3aed6a6fe8c07e555692b17306b19a5c782c0851b36": {
-      "backend": "release_asset",
-      "asset_id": 607009887,
-      "release_tag": "community-assets-2026-10",
-      "asset_name": "media-205125766-72f35cf0a09848f99193cce1560e7097-0-fb08d651f3ef.webp",
-      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-72f35cf0a09848f99193cce1560e7097-0-fb08d651f3ef.webp",
-      "owner_id": "205125766",
-      "sha256": "fb08d651f3ef72aee813c16598a22611bbccaf4718bd15530ca9a96323b7271e",
-      "created_at": "2026-10-03T02:51:40.841629+00:00",
-      "references": [
-        {
-          "type": "post",
-          "id": "D_kwDOUnTHZ84ApvEe"
-        }
-      ]
-    },
-    "img_2f3dcabf6c0370ca228f566373f57293d074a9940a1443477e18df07ea4a1f6a": {
-      "backend": "release_asset",
-      "asset_id": 607011293,
-      "release_tag": "community-assets-2026-10",
-      "asset_name": "media-205125766-c3e09bace0d249b6b90d338829ef1d24-0-06bdba21883f.webp",
-      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-c3e09bace0d249b6b90d338829ef1d24-0-06bdba21883f.webp",
-      "owner_id": "205125766",
-      "sha256": "06bdba21883fdeec25b8e587c41b7b9a2152d4673674c4c33b07521ab4efde69",
-      "created_at": "2026-10-03T02:52:38.635513+00:00",
-      "references": [
-        {
-          "type": "comment",
-          "id": "DC_kwDOUnTHZ84BHbuI"
-        }
-      ]
-    },
     "img_8add3c61c216e87f36c252e95b951bfa1cc2c47bc3b6068e684f54df6749059b": {
       "backend": "release_asset",
       "asset_id": 607063630,
@@ -265,7 +233,9 @@
     "D_kwDOUnTHZ84ApujS": "2026-10-03T09:09:48.104930+00:00",
     "DC_kwDOUnTHZ84BHaoR": "2026-10-03T09:10:17.250135+00:00",
     "DC_kwDOUnTHZ84BHaoa": "2026-10-03T09:10:17.250137+00:00",
-    "D_kwDOUnTHZ84ApupO": "2026-10-03T09:10:17.250139+00:00"
+    "D_kwDOUnTHZ84ApupO": "2026-10-03T09:10:17.250139+00:00",
+    "DC_kwDOUnTHZ84BHbuI": "2026-10-03T09:10:40.877122+00:00",
+    "D_kwDOUnTHZ84ApvEe": "2026-10-03T09:10:40.877125+00:00"
   },
-  "last_complete_scan_at": "2026-10-03T09:10:36.296709+00:00"
+  "last_complete_scan_at": "2026-10-03T09:10:40.877100+00:00"
 }
