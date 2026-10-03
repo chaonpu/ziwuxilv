@@ -1,10 +1,10 @@
 {
-  "versionCode": 54,
-  "versionName": "1.7.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.2/ziwuxilv-native-v1.7.2.apk",
-  "apkSha256": "8225e47994bd9d36b5f35f9c04c9a64329187d2819ab540bf1aaea267ac213b6",
+  "versionCode": 55,
+  "versionName": "1.7.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.3/ziwuxilv-native-v1.7.3.apk",
+  "apkSha256": "17e88e08507f112f3bb94e7cf818bbe26ea331d47768d1fac62344be668c0fdd",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "1162c4db50f6f03bde912c48dc61f88935054fc6",
-  "updateLog": "v1.7.2正式版：\n1. 收益页启动时优先恢复上次校验通过的持仓快照与收益账本，后台静默同步，避免每次启动先显示“待读取”。\n2. 新快照与账本未完成一致性校验时继续保留上一套完整数据，网络失败不再把收益页清空。\n3. 自选页新增账号隔离的行情缓存，启动直接显示上次有效报价并后台刷新；行情源短暂失败时保留原报价，不再整页先显示“—”。\n4. 自动刷新保持静默，仅手动下拉显示刷新动画；自选行情缓存写入增加节流以减少本地存储开销。",
+  "sourceCommit": "cec3ad079efb4a897b598c94774361b00e681ee7",
+  "updateLog": "v1.7.3正式版：\n1. 修复收益页启动缓存未生效：登录身份已恢复但策略访问记录尚未完成确认时，同账号上次已校验的收益缓存会继续显示。\n2. 权限确认完成前不再提前启动私有策略数据刷新，避免把短暂的“权限未确认”误判为无权限并清空收益页。\n3. 启动权限确认阶段继续保留策略导航和收益页；真正无权限、权限到期或仓库访问被撤销后仍按原规则隐藏策略数据。\n4. 已通过 Android quick check、完整单元测试、Kotlin 编译、Lint 与 Preview APK 构建。",
   "forceUpdate": false
 }
