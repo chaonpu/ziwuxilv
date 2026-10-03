@@ -261,6 +261,17 @@
           "id": "DC_kwDOUnTHZ84BHaoa"
         }
       ]
+    },
+    "img_7fbc67d40b2afba23f11e3aed6a6fe8c07e555692b17306b19a5c782c0851b36": {
+      "backend": "release_asset",
+      "asset_id": 607009887,
+      "release_tag": "community-assets-2026-10",
+      "asset_name": "media-205125766-72f35cf0a09848f99193cce1560e7097-0-fb08d651f3ef.webp",
+      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-72f35cf0a09848f99193cce1560e7097-0-fb08d651f3ef.webp",
+      "owner_id": "205125766",
+      "sha256": "fb08d651f3ef72aee813c16598a22611bbccaf4718bd15530ca9a96323b7271e",
+      "created_at": "2026-10-03T02:51:40.841629+00:00",
+      "references": []
     }
   },
   "deleted_contents": {
