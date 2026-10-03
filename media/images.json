@@ -113,54 +113,6 @@
           "id": "DC_kwDOUnTHZ84BHaKb"
         }
       ]
-    },
-    "img_5e90c3f62d4fc1eaef5eaee987db634e13f7e47ca4bb051f64a1bd0466d56807": {
-      "backend": "release_asset",
-      "asset_id": 607947760,
-      "release_tag": "community-assets-2026-10",
-      "asset_name": "media-205125766-af9adaad48094f0cbe874f6a7b45cd7e-0-28e4c209ac4c.webp",
-      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-af9adaad48094f0cbe874f6a7b45cd7e-0-28e4c209ac4c.webp",
-      "owner_id": "205125766",
-      "sha256": "28e4c209ac4c15a5746e8961d9a237e50adc87b1ee2922b8022dc98fafeb5356",
-      "created_at": "2026-10-03T14:28:35.371916+00:00",
-      "references": [
-        {
-          "type": "post",
-          "id": "D_kwDOUnTHZ84Apvsp"
-        }
-      ]
-    },
-    "img_339e4edcb609e02f23878f4e8abfc63a765a815febee382bd7645aae92173b84": {
-      "backend": "release_asset",
-      "asset_id": 607947800,
-      "release_tag": "community-assets-2026-10",
-      "asset_name": "media-205125766-af9adaad48094f0cbe874f6a7b45cd7e-1-0b271b5e7153.webp",
-      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-af9adaad48094f0cbe874f6a7b45cd7e-1-0b271b5e7153.webp",
-      "owner_id": "205125766",
-      "sha256": "0b271b5e715332919f5416737073d296aa00b121c1c91dfcf24decdf9247798f",
-      "created_at": "2026-10-03T14:28:35.371916+00:00",
-      "references": [
-        {
-          "type": "post",
-          "id": "D_kwDOUnTHZ84Apvsp"
-        }
-      ]
-    },
-    "img_5fbd63d3d4f9c41aa66eb7258ea4112f2ff9c401b2ea4eec76b8e5d2261003bb": {
-      "backend": "release_asset",
-      "asset_id": 607947843,
-      "release_tag": "community-assets-2026-10",
-      "asset_name": "media-205125766-af9adaad48094f0cbe874f6a7b45cd7e-2-4a11c1f58d01.webp",
-      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-af9adaad48094f0cbe874f6a7b45cd7e-2-4a11c1f58d01.webp",
-      "owner_id": "205125766",
-      "sha256": "4a11c1f58d01a9c4dac7f2f76d635f15a3e289d08f7592ec8831c9ab0911bf96",
-      "created_at": "2026-10-03T14:28:35.371916+00:00",
-      "references": [
-        {
-          "type": "post",
-          "id": "D_kwDOUnTHZ84Apvsp"
-        }
-      ]
     }
   },
   "deleted_contents": {
@@ -194,7 +146,8 @@
     "D_kwDOUnTHZ84ApvG8": "2026-10-03T09:11:28.073621+00:00",
     "DC_kwDOUnTHZ84BHbzj": "2026-10-03T09:11:46.231111+00:00",
     "D_kwDOUnTHZ84ApvHU": "2026-10-03T09:11:46.231113+00:00",
-    "D_kwDOUnTHZ84ApvJi": "2026-10-03T09:12:05.793465+00:00"
+    "D_kwDOUnTHZ84ApvJi": "2026-10-03T09:12:05.793465+00:00",
+    "D_kwDOUnTHZ84Apvsp": "2026-10-03T14:30:12.330755+00:00"
   },
-  "last_complete_scan_at": "2026-10-03T14:30:09.284236+00:00"
+  "last_complete_scan_at": "2026-10-03T14:30:12.330737+00:00"
 }
