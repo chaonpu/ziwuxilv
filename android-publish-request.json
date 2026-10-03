@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-9898-81fd-ae65-11225d4ef224/raw?se=2026-10-03T03%3A34%3A00Z&sp=r&sv=2026-02-06&sr=b&scid=a0cfd840-4d8a-5742-88aa-c22f458c36e9&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T19%3A49%3A20Z&ske=2026-10-03T19%3A49%3A20Z&sks=b&skv=2026-02-06&sig=HiS%2BroBKyNTlJAQvVeW1NClcdglF7bqGnrE6eZx506I%3D",
-  "artifactSha256": "107bdd3e091c9fbfa18d82c52f544d72dab568eab70be16d79f055f28bc51330",
-  "sourceCommit": "abf9a3a728ffe27d660721d3c1f85aaa5db8e070",
-  "versionName": "1.6.6",
-  "versionCode": 48,
-  "apkSha256": "8e398b5900fe80f63c28cdf7a0232ae7abfd77d5b0a3b846d8d1a6ba47ff324b",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-fa14-820b-b191-283e0b5ae735/raw?se=2026-10-03T04%3A30%3A29Z&sp=r&sv=2026-02-06&sr=b&scid=099d348c-1546-53b3-b92d-9619db8d8268&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T02%3A26%3A30Z&ske=2026-10-04T02%3A26%3A30Z&sks=b&skv=2026-02-06&sig=1a359GBKI17BCZgejkyE692GxPHLrXNbgcd5zakBH94%3D",
+  "artifactSha256": "97215b1322339538708d9260c0c3cad45d604f4093e02bfe2ed656f2301ab4dd",
+  "sourceCommit": "2b8aebbcfb8b226e51fda9134be01e3f556e9fd7",
+  "versionName": "1.6.7",
+  "versionCode": 49,
+  "apkSha256": "5ab2b6d6067ac765daa73432c49c5802a9f5d9c96da97eaecbef953b6c1bf1ec",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.6.6正式版：\n1. 广场帖子卡片进一步收紧高度：无图帖子更紧凑，有图帖子缩小预览高度，减少空白。\n2. 广场帖子卡片不再显示 ZIWUXILV_IMAGES 等内部图片登记标记或图片链接元数据。\n3. 移除发布按钮所在区域的固定黑色留白，列表可自然滚动到按钮下方，并在列表内部保留可滚动的底部安全空间。\n4. 修复带图回复发布成功后短暂消失、稍后又出现的问题；后台图片引用登记不再隐藏已确认回复。\n5. 带图发送的压缩、上传、处理、发布和重试状态直接替换原“发送中”位置显示，不再在广场顶部额外显示。",
+  "updateLog": "v1.6.7正式版：\n1. 发布帖子或发送回复后，界面自动滑动到刚提交的内容；帖子列表和回复详情均尽量将新内容置于屏幕中部，跨分类发布时自动回到可见范围。\n2. 访问管理增加管理员本地缓存：启动 APP 时先恢复上次已确认的待审核数量、成员列表和授权展示，再后台静默刷新 GitHub 最新状态，避免每次先显示 0 后跳变。\n3. 缓存仅用于管理员访问管理和成员展示，GitHub 最新审核结果仍会在启动后自动覆盖。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-03-v1.6.6-plaza-card-send-ux-publication"
+  "requestNonce": "2026-10-03-v1.6.7-community-focus-access-cache-publication"
 }
