@@ -1,10 +1,10 @@
 {
-  "versionCode": 52,
-  "versionName": "1.7.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.0/ziwuxilv-native-v1.7.0.apk",
-  "apkSha256": "5c558f987aaa084d4fe93539c4a4e7f8e37aab153624775fd83ed0f6ac39950c",
+  "versionCode": 53,
+  "versionName": "1.7.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.1/ziwuxilv-native-v1.7.1.apk",
+  "apkSha256": "b85041fdca4f5f04aad393423fe1e1aa9f587a2e63a6d06d6a86f1372ca8bd91",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "9e0d300dbe0a1731e1f09a9178c28a57dbe4086e",
-  "updateLog": "v1.7.0正式版：\n1. 修复每次进入 APP 时访问权限临时状态被误判为真实状态变化，导致重复生成“策略访问状态已更新 / 策略访问权限已撤销”通知的问题。\n2. 访问记录尚未加载完成（recordsLoaded=false）时不再参与通知状态比较，也不会覆盖上一条真实访问状态；只有完成权限记录同步后才判断是否发生真实授权、撤销、拒绝或到期变化。\n3. 保留真实访问状态变化通知，避免影响正常的访问申请与授权提醒；已通过回归测试、Android quick check、单元测试、Kotlin 编译、Lint 与 Preview APK 构建。",
+  "sourceCommit": "08bc217563e1ef00ac446e7d10da2cb34c7235cb",
+  "updateLog": "v1.7.1正式版：\n1. 自选页所有标的统一为名称在上、代码在下，仅调整自选列表，其他页面保持原样。\n2. 删除设置齿轮中的“当前版本”，版本号直接显示在“我的 → 应用更新”右侧；点击应用更新后的检查结果紧贴在该行下方显示。\n3. 优化 GitHub 登录页文案：网络失败提示改为“网络连接失败，请重新启用设备网络重试!”；删除“不在本应用输入或保存 GitHub 密码，也不申请额外权限。”；复制授权码下方改为“登录码仅限本次登录使用，请勿将授权码泄露给陌生人！”。\n4. 已通过 Android quick check、完整单元测试、Kotlin 编译、Lint 与 Preview APK 构建。",
   "forceUpdate": false
 }
