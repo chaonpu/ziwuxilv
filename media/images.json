@@ -293,6 +293,39 @@
           "id": "DC_kwDOUnTHZ84BHbuI"
         }
       ]
+    },
+    "img_8add3c61c216e87f36c252e95b951bfa1cc2c47bc3b6068e684f54df6749059b": {
+      "backend": "release_asset",
+      "asset_id": 607063630,
+      "release_tag": "community-assets-2026-10",
+      "asset_name": "media-205125766-0cf4832ec8214c71b9c9a544f1db5650-0-45ddc5de8882.webp",
+      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-0cf4832ec8214c71b9c9a544f1db5650-0-45ddc5de8882.webp",
+      "owner_id": "205125766",
+      "sha256": "45ddc5de8882ccf362e8e067cbb4b041841248b21ec4048ff93a9c660f4ee63b",
+      "created_at": "2026-10-03T03:37:37.662307+00:00",
+      "references": []
+    },
+    "img_457f5114933439a8099e293f14f6389cdb214a9ec4c39d249cdb5d065c130b74": {
+      "backend": "release_asset",
+      "asset_id": 607063677,
+      "release_tag": "community-assets-2026-10",
+      "asset_name": "media-205125766-0cf4832ec8214c71b9c9a544f1db5650-1-542ed1873991.webp",
+      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-0cf4832ec8214c71b9c9a544f1db5650-1-542ed1873991.webp",
+      "owner_id": "205125766",
+      "sha256": "542ed1873991717d265d2bad78229643ac078882112d859744838bc5d2d52975",
+      "created_at": "2026-10-03T03:37:37.662307+00:00",
+      "references": []
+    },
+    "img_c60db973f25b92e321a0c8526081eac2cc3e747785e8257631b15cfeb351163d": {
+      "backend": "release_asset",
+      "asset_id": 607063705,
+      "release_tag": "community-assets-2026-10",
+      "asset_name": "media-205125766-0cf4832ec8214c71b9c9a544f1db5650-2-29f205440d75.webp",
+      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-0cf4832ec8214c71b9c9a544f1db5650-2-29f205440d75.webp",
+      "owner_id": "205125766",
+      "sha256": "29f205440d757a3d7546074dfc604292833d3dbc5e68b127a9c14c1289c38c1b",
+      "created_at": "2026-10-03T03:37:37.662307+00:00",
+      "references": []
     }
   },
   "deleted_contents": {
