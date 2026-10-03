@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-f618-81fd-a8a1-63cc32860776/raw?se=2026-10-03T12%3A05%3A17Z&sp=r&sv=2026-02-06&sr=b&scid=8cc2e893-4563-5c66-ad4d-4faa8a74ff5a&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T09%3A01%3A58Z&ske=2026-10-04T09%3A01%3A58Z&sks=b&skv=2026-02-06&sig=VkL3td7ortEwuEuWM/hGGKGZRQKBLSuTx8UdwuHU7Xs%3D",
-  "artifactSha256": "e87f2dfeb2bea69c869afcbde64e2bca98c07d0a536b411b466394713c77576d",
-  "sourceCommit": "08bc217563e1ef00ac446e7d10da2cb34c7235cb",
-  "versionName": "1.7.1",
-  "versionCode": 53,
-  "apkSha256": "b85041fdca4f5f04aad393423fe1e1aa9f587a2e63a6d06d6a86f1372ca8bd91",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-e95c-820b-8e6f-e39e65a5d921/raw?se=2026-10-03T19%3A47%3A11Z&sp=r&sv=2026-02-06&sr=b&scid=75fe330a-0622-5440-a6f0-c0c3083fb36e&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T18%3A57%3A29Z&ske=2026-10-04T18%3A57%3A29Z&sks=b&skv=2026-02-06&sig=ScIz%2B9YIIcxiGmjKRJ29oegAKlSqBFZZrEWIq/t1nHw%3D",
+  "artifactSha256": "5f8c86f3053aca7bc29fe5156cfadda2d3be176673628f1a3fe7cffdb7f47878",
+  "sourceCommit": "1162c4db50f6f03bde912c48dc61f88935054fc6",
+  "versionName": "1.7.2",
+  "versionCode": 54,
+  "apkSha256": "8225e47994bd9d36b5f35f9c04c9a64329187d2819ab540bf1aaea267ac213b6",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.7.1正式版：\n1. 自选页所有标的统一为名称在上、代码在下，仅调整自选列表，其他页面保持原样。\n2. 删除设置齿轮中的“当前版本”，版本号直接显示在“我的 → 应用更新”右侧；点击应用更新后的检查结果紧贴在该行下方显示。\n3. 优化 GitHub 登录页文案：网络失败提示改为“网络连接失败，请重新启用设备网络重试!”；删除“不在本应用输入或保存 GitHub 密码，也不申请额外权限。”；复制授权码下方改为“登录码仅限本次登录使用，请勿将授权码泄露给陌生人！”。\n4. 已通过 Android quick check、完整单元测试、Kotlin 编译、Lint 与 Preview APK 构建。",
+  "updateLog": "v1.7.2正式版：\n1. 收益页启动时优先恢复上次校验通过的持仓快照与收益账本，后台静默同步，避免每次启动先显示“待读取”。\n2. 新快照与账本未完成一致性校验时继续保留上一套完整数据，网络失败不再把收益页清空。\n3. 自选页新增账号隔离的行情缓存，启动直接显示上次有效报价并后台刷新；行情源短暂失败时保留原报价，不再整页先显示“—”。\n4. 自动刷新保持静默，仅手动下拉显示刷新动画；自选行情缓存写入增加节流以减少本地存储开销。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-03-v1.7.1-watchlist-profile-login-public"
+  "requestNonce": "2026-10-04-v1.7.2-startup-cache-public"
 }
