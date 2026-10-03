@@ -1,10 +1,10 @@
 {
-  "versionCode": 47,
-  "versionName": "1.6.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.5/ziwuxilv-native-v1.6.5.apk",
-  "apkSha256": "b982cd290c8a90903449463a93968a3ca63c317cd46871016d5817d10d604f03",
+  "versionCode": 48,
+  "versionName": "1.6.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.6/ziwuxilv-native-v1.6.6.apk",
+  "apkSha256": "8e398b5900fe80f63c28cdf7a0232ae7abfd77d5b0a3b846d8d1a6ba47ff324b",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "7b9d97251b42b31b28b613d6ca927fe11902cfbb",
-  "updateLog": "v1.6.5正式版：\n1. 广场无图帖子改为紧凑固定高度，有图帖子维持统一预览高度，避免大块空白。\n2. 帖子列表改为懒加载，仅渲染当前可见卡片；广场缓存恢复、讨论列表查询与置顶读取合并优化，降低滑动和刷新卡顿。\n3. 点进帖子时立即显示列表已缓存的最近回复，再后台补齐完整回复，减少几秒空白等待。\n4. 新发帖子/回复首次不再先扫描历史内容；带图首次上传也跳过历史 Issue 扫描，并显示图片压缩、上传、处理、发布阶段进度。",
+  "sourceCommit": "abf9a3a728ffe27d660721d3c1f85aaa5db8e070",
+  "updateLog": "v1.6.6正式版：\n1. 广场帖子卡片进一步收紧高度：无图帖子更紧凑，有图帖子缩小预览高度，减少空白。\n2. 广场帖子卡片不再显示 ZIWUXILV_IMAGES 等内部图片登记标记或图片链接元数据。\n3. 移除发布按钮所在区域的固定黑色留白，列表可自然滚动到按钮下方，并在列表内部保留可滚动的底部安全空间。\n4. 修复带图回复发布成功后短暂消失、稍后又出现的问题；后台图片引用登记不再隐藏已确认回复。\n5. 带图发送的压缩、上传、处理、发布和重试状态直接替换原“发送中”位置显示，不再在广场顶部额外显示。",
   "forceUpdate": false
 }
