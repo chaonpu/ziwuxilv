@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-2ea8-820b-8e33-30616ec32b33/raw?se=2026-10-02T20%3A03%3A55Z&sp=r&sv=2026-02-06&sr=b&scid=7f468615-cd46-57e8-b446-b0672776669c&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T19%3A57%3A58Z&ske=2026-10-03T19%3A57%3A58Z&sks=b&skv=2026-02-06&sig=bBRhd4Ounti2O36y4lVmhclBZLJY0yLHC0CMtM6cTj8%3D",
-  "artifactSha256": "34da9e3f38ab1499a9235d85a7cedc31616ace12b981c307340a6818a610f850",
-  "sourceCommit": "ee767bed888ad60140113d4e455a1eb00a0975bc",
-  "versionName": "1.6.4",
-  "versionCode": 46,
-  "apkSha256": "3a3d0e3fb43b8650eb711b471c98664aa89893349a0bc64da3fd5714e35ca262",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-7e84-81fd-8ff6-5e08bf49bf10/raw?se=2026-10-03T02%3A49%3A02Z&sp=r&sv=2026-02-06&sr=b&scid=a83bcfd3-b6a6-57fb-bce0-6af77134a4ba&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T19%3A49%3A20Z&ske=2026-10-03T19%3A49%3A20Z&sks=b&skv=2026-02-06&sig=uMTZEtteSip8RQGucrKVayOC6CxrdCC%2BzIvxNBLDRoE%3D",
+  "artifactSha256": "080b7e4ce095730a9fdd179b0ca331aff1e45335180336978ed8417354daaacf",
+  "sourceCommit": "7b9d97251b42b31b28b613d6ca927fe11902cfbb",
+  "versionName": "1.6.5",
+  "versionCode": 47,
+  "apkSha256": "b982cd290c8a90903449463a93968a3ca63c317cd46871016d5817d10d604f03",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.6.4正式版：\n1. 优化广场图片首次冷加载：Release Asset 下载增加自动重试、加载占位与点击重试，并预取帖子列表首图。\n2. 广场帖子列表卡片统一固定高度，标题和摘要限制行数，避免不同帖子高度跳动。\n3. 多图帖子在列表中只展示第一张图，并在右上角标注后续图片数量；进入帖子详情后仍展示全部图片。",
+  "updateLog": "v1.6.5正式版：\n1. 广场无图帖子改为紧凑固定高度，有图帖子维持统一预览高度，避免大块空白。\n2. 帖子列表改为懒加载，仅渲染当前可见卡片；广场缓存恢复、讨论列表查询与置顶读取合并优化，降低滑动和刷新卡顿。\n3. 点进帖子时立即显示列表已缓存的最近回复，再后台补齐完整回复，减少几秒空白等待。\n4. 新发帖子/回复首次不再先扫描历史内容；带图首次上传也跳过历史 Issue 扫描，并显示图片压缩、上传、处理、发布阶段进度。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-03-v1.6.4-plaza-image-preview-publication"
+  "requestNonce": "2026-10-03-v1.6.5-plaza-smoothness-publication"
 }
