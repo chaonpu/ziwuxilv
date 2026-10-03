@@ -1,10 +1,10 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-f7d8-81fd-b48a-9eeb430c3341/raw?se=2026-10-03T05%3A50%3A15Z&sp=r&sv=2026-02-06&sr=b&scid=26af9984-7fe9-5a7e-a9f6-498f4166e743&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T00%3A55%3A36Z&ske=2026-10-04T00%3A55%3A36Z&sks=b&skv=2026-02-06&sig=08Ac7jQ7oIbFf8o/Rpvz8ZGzpOO2xcxYcFmu41o%2BwIE%3D",
-  "artifactSha256": "9b9705f76f168e16ed03a0c92544e06f9e82f946d0775bfec3c33805b1956095",
+  "sourceUrl": "https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-4e70-81fa-8bc6-fe6dda577fbf/raw?se=2026-10-03T05%3A55%3A01Z&sp=r&sv=2026-02-06&sr=b&scid=3fb0a6e9-c8fd-5692-aa18-2341c8b46063&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T04%3A24%3A25Z&ske=2026-10-04T04%3A24%3A25Z&sks=b&skv=2026-02-06&sig=Xe%2BmUqSJyoVpqSPrDOoiZ8p5T4aDYYYsfLucFVBe0P8%3D",
+  "artifactSha256": "6faab2fd19be375b3580c3a60a800dd0b1a2b9584da7871cac0a919965c27501",
   "sourceCommit": "23dffe9e3f3738d387c0ec1eb4ddb32698ed2b58",
   "versionName": "1.6.8",
   "versionCode": 50,
-  "apkSha256": "091baaad35d18190518ca006e53fc81714132236dbe3d28f5a6b5e9f995b928b",
+  "apkSha256": "afbba6ec8c8cd342bff59c010cb4223ab153a2bb991b88fd8d13b8c29ad073e9",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
   "updateLog": "v1.6.8正式版：\n1. 行情-持仓详情改为实时联动，价格、OHLC、行情时间、持仓收益、持仓天数、实际/目标仓位和入场状态随现有行情与账本状态更新，不新增独立轮询。\n2. 当前持仓与收益页已清仓行情改为同市场合并批量请求；离开收益页后已清仓需求自动过期，并继续保留5/15/300秒刷新节奏与每批50个标的限制。\n3. 全球行情 FinScope 改为按需请求；自选可安全复用首页已验证全球行情，只有需要成交量等扩展字段时才补充新浪请求。\n4. 修正自选全球行情的具体时区地点显示，并完成 Android quick check、单测、lint、preview APK 与行情 smoke 验证。",
   "forceUpdate": false,
