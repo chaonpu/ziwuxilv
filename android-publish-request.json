@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-4e70-81fa-8bc6-fe6dda577fbf/raw?se=2026-10-03T05%3A55%3A01Z&sp=r&sv=2026-02-06&sr=b&scid=3fb0a6e9-c8fd-5692-aa18-2341c8b46063&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T04%3A24%3A25Z&ske=2026-10-04T04%3A24%3A25Z&sks=b&skv=2026-02-06&sig=Xe%2BmUqSJyoVpqSPrDOoiZ8p5T4aDYYYsfLucFVBe0P8%3D",
-  "artifactSha256": "6faab2fd19be375b3580c3a60a800dd0b1a2b9584da7871cac0a919965c27501",
-  "sourceCommit": "23dffe9e3f3738d387c0ec1eb4ddb32698ed2b58",
-  "versionName": "1.6.8",
-  "versionCode": 50,
-  "apkSha256": "afbba6ec8c8cd342bff59c010cb4223ab153a2bb991b88fd8d13b8c29ad073e9",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-9594-820b-b96f-e974b59d95a1/raw?se=2026-10-03T07%3A30%3A52Z&sp=r&sv=2026-02-06&sr=b&scid=17912e36-609e-5519-9500-68fa4b533409&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T20%3A01%3A43Z&ske=2026-10-03T20%3A01%3A43Z&sks=b&skv=2026-02-06&sig=EOF7pS6F4MRpVaYgjoRF6R59HcFcmE2LVqgrtmUpYNc%3D",
+  "artifactSha256": "8d0563b017039ad8cd4ef9ba09270cf435aea726279f7ba7118fda116d0fbfc9",
+  "sourceCommit": "2cd62076b8f8f4f3763510047055b87e4a216802",
+  "versionName": "1.6.9",
+  "versionCode": 51,
+  "apkSha256": "2289e82dbc2a525fd9034d799d22c92674c9b8f03bd71830d918ae75f88b006f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.6.8正式版：\n1. 行情-持仓详情改为实时联动，价格、OHLC、行情时间、持仓收益、持仓天数、实际/目标仓位和入场状态随现有行情与账本状态更新，不新增独立轮询。\n2. 当前持仓与收益页已清仓行情改为同市场合并批量请求；离开收益页后已清仓需求自动过期，并继续保留5/15/300秒刷新节奏与每批50个标的限制。\n3. 全球行情 FinScope 改为按需请求；自选可安全复用首页已验证全球行情，只有需要成交量等扩展字段时才补充新浪请求。\n4. 修正自选全球行情的具体时区地点显示，并完成 Android quick check、单测、lint、preview APK 与行情 smoke 验证。",
+  "updateLog": "v1.6.9正式版：\n1. 修复美股调仓开盘后、账本尚未推进时，保留持仓被误判为新开仓的问题；持仓收益、持仓天数与原始入场信息保持连续，真正新增标的仍按实际开盘价建立首次入场。\n2. 保留每次调仓将目标标的重新配置为20%的组合会计逻辑；调仓执行价仅用于单位数、实际仓位和组合净值计算，不覆盖单标的历史入场信息。\n3. 行情-持仓详情与收益页统一使用同一持仓数据层和实时仓位口径，未知历史入场继续显示账本起算信息。\n4. 当天正式账本已推进后，收益页以账本NAV和当日收益为准，不再被同日公网行情覆盖；已完成单元测试、Kotlin编译、Lint与Preview APK验证。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-03-v1.6.8-refresh-merge-live-detail-public"
+  "requestNonce": "2026-10-03-v1.6.9-holding-ledger-sync-public"
 }
