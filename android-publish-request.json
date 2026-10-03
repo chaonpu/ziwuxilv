@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-7e84-81fd-8ff6-5e08bf49bf10/raw?se=2026-10-03T02%3A49%3A02Z&sp=r&sv=2026-02-06&sr=b&scid=a83bcfd3-b6a6-57fb-bce0-6af77134a4ba&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T19%3A49%3A20Z&ske=2026-10-03T19%3A49%3A20Z&sks=b&skv=2026-02-06&sig=uMTZEtteSip8RQGucrKVayOC6CxrdCC%2BzIvxNBLDRoE%3D",
-  "artifactSha256": "080b7e4ce095730a9fdd179b0ca331aff1e45335180336978ed8417354daaacf",
-  "sourceCommit": "7b9d97251b42b31b28b613d6ca927fe11902cfbb",
-  "versionName": "1.6.5",
-  "versionCode": 47,
-  "apkSha256": "b982cd290c8a90903449463a93968a3ca63c317cd46871016d5817d10d604f03",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-9898-81fd-ae65-11225d4ef224/raw?se=2026-10-03T03%3A34%3A00Z&sp=r&sv=2026-02-06&sr=b&scid=a0cfd840-4d8a-5742-88aa-c22f458c36e9&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T19%3A49%3A20Z&ske=2026-10-03T19%3A49%3A20Z&sks=b&skv=2026-02-06&sig=HiS%2BroBKyNTlJAQvVeW1NClcdglF7bqGnrE6eZx506I%3D",
+  "artifactSha256": "107bdd3e091c9fbfa18d82c52f544d72dab568eab70be16d79f055f28bc51330",
+  "sourceCommit": "abf9a3a728ffe27d660721d3c1f85aaa5db8e070",
+  "versionName": "1.6.6",
+  "versionCode": 48,
+  "apkSha256": "8e398b5900fe80f63c28cdf7a0232ae7abfd77d5b0a3b846d8d1a6ba47ff324b",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.6.5正式版：\n1. 广场无图帖子改为紧凑固定高度，有图帖子维持统一预览高度，避免大块空白。\n2. 帖子列表改为懒加载，仅渲染当前可见卡片；广场缓存恢复、讨论列表查询与置顶读取合并优化，降低滑动和刷新卡顿。\n3. 点进帖子时立即显示列表已缓存的最近回复，再后台补齐完整回复，减少几秒空白等待。\n4. 新发帖子/回复首次不再先扫描历史内容；带图首次上传也跳过历史 Issue 扫描，并显示图片压缩、上传、处理、发布阶段进度。",
+  "updateLog": "v1.6.6正式版：\n1. 广场帖子卡片进一步收紧高度：无图帖子更紧凑，有图帖子缩小预览高度，减少空白。\n2. 广场帖子卡片不再显示 ZIWUXILV_IMAGES 等内部图片登记标记或图片链接元数据。\n3. 移除发布按钮所在区域的固定黑色留白，列表可自然滚动到按钮下方，并在列表内部保留可滚动的底部安全空间。\n4. 修复带图回复发布成功后短暂消失、稍后又出现的问题；后台图片引用登记不再隐藏已确认回复。\n5. 带图发送的压缩、上传、处理、发布和重试状态直接替换原“发送中”位置显示，不再在广场顶部额外显示。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-03-v1.6.5-plaza-smoothness-publication"
+  "requestNonce": "2026-10-03-v1.6.6-plaza-card-send-ux-publication"
 }
