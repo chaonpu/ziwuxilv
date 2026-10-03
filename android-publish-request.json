@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-9900-820b-8cc5-29e67d3fad70/raw?se=2026-10-03T20%3A53%3A07Z&sp=r&sv=2026-02-06&sr=b&scid=22cbf153-0670-5f13-808f-37d82f9d361e&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T18%3A55%3A45Z&ske=2026-10-04T18%3A55%3A45Z&sks=b&skv=2026-02-06&sig=npYh6jYOUBf5lPegcjvaQWwaIiDBcui2swW7JZwf0RY%3D",
-  "artifactSha256": "edba14c814cd795d49aed906181a7cc651de8502667757673dd2e5ec57cd3011",
-  "sourceCommit": "cec3ad079efb4a897b598c94774361b00e681ee7",
-  "versionName": "1.7.3",
-  "versionCode": 55,
-  "apkSha256": "17e88e08507f112f3bb94e7cf818bbe26ea331d47768d1fac62344be668c0fdd",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-5a6c-820b-bf56-1278e5da4633/raw?se=2026-10-03T21%3A34%3A08Z&sp=r&sv=2026-02-06&sr=b&scid=9e1cffd6-b403-5f3a-923f-c0d80293d556&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T21%3A19%3A27Z&ske=2026-10-04T21%3A19%3A27Z&sks=b&skv=2026-02-06&sig=wpzGLYTbGkbxdUqi1/K1x9L6CgLbzt8lj%2BdaBpNCAw0%3D",
+  "artifactSha256": "db41d6d9a80d636f5493e5caf6d789ca20bf2140cde96a989d6d188fee60210c",
+  "sourceCommit": "d15b6a7c8a35f31a2751321591f1d01565cf2086",
+  "versionName": "1.7.4",
+  "versionCode": 56,
+  "apkSha256": "702d9e8a6a0ff90cd192f7970629568e951159a2a2736cc48cc5bf321f28752e",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.7.3正式版：\n1. 修复收益页启动缓存未生效：登录身份已恢复但策略访问记录尚未完成确认时，同账号上次已校验的收益缓存会继续显示。\n2. 权限确认完成前不再提前启动私有策略数据刷新，避免把短暂的“权限未确认”误判为无权限并清空收益页。\n3. 启动权限确认阶段继续保留策略导航和收益页；真正无权限、权限到期或仓库访问被撤销后仍按原规则隐藏策略数据。\n4. 已通过 Android quick check、完整单元测试、Kotlin 编译、Lint 与 Preview APK 构建。",
+  "updateLog": "v1.7.4正式版：\n1. 修复管理员账号启动收益页仍短暂空白：APP 启动时直接使用本机加密保存的上次已验证 GitHub 身份作为 bootstrap identity。\n2. 在 Compose 第一帧之前同步绑定账号并恢复收益页、本地配置、自选、通知等账号级缓存，避免先渲染空 MarketFeeds 再异步回填。\n3. GitHub 身份仍会在后台正常联网重新校验；本地 bootstrap 仅用于更早恢复同账号已验证缓存，不改变权限规则。\n4. 已通过 Android quick check、完整单元测试、Kotlin 编译、Lint 与 Preview APK 构建。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-04-v1.7.3-earnings-cache-access-race-public"
+  "requestNonce": "2026-10-04-v1.7.4-admin-first-frame-cache-public"
 }
