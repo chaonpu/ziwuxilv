@@ -1,10 +1,10 @@
 {
-  "versionCode": 46,
-  "versionName": "1.6.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.4/ziwuxilv-native-v1.6.4.apk",
-  "apkSha256": "3a3d0e3fb43b8650eb711b471c98664aa89893349a0bc64da3fd5714e35ca262",
+  "versionCode": 47,
+  "versionName": "1.6.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.5/ziwuxilv-native-v1.6.5.apk",
+  "apkSha256": "b982cd290c8a90903449463a93968a3ca63c317cd46871016d5817d10d604f03",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "ee767bed888ad60140113d4e455a1eb00a0975bc",
-  "updateLog": "v1.6.4正式版：\n1. 优化广场图片首次冷加载：Release Asset 下载增加自动重试、加载占位与点击重试，并预取帖子列表首图。\n2. 广场帖子列表卡片统一固定高度，标题和摘要限制行数，避免不同帖子高度跳动。\n3. 多图帖子在列表中只展示第一张图，并在右上角标注后续图片数量；进入帖子详情后仍展示全部图片。",
+  "sourceCommit": "7b9d97251b42b31b28b613d6ca927fe11902cfbb",
+  "updateLog": "v1.6.5正式版：\n1. 广场无图帖子改为紧凑固定高度，有图帖子维持统一预览高度，避免大块空白。\n2. 帖子列表改为懒加载，仅渲染当前可见卡片；广场缓存恢复、讨论列表查询与置顶读取合并优化，降低滑动和刷新卡顿。\n3. 点进帖子时立即显示列表已缓存的最近回复，再后台补齐完整回复，减少几秒空白等待。\n4. 新发帖子/回复首次不再先扫描历史内容；带图首次上传也跳过历史 Issue 扫描，并显示图片压缩、上传、处理、发布阶段进度。",
   "forceUpdate": false
 }
