@@ -1,10 +1,10 @@
 {
-  "versionCode": 49,
-  "versionName": "1.6.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.7/ziwuxilv-native-v1.6.7.apk",
-  "apkSha256": "5ab2b6d6067ac765daa73432c49c5802a9f5d9c96da97eaecbef953b6c1bf1ec",
+  "versionCode": 50,
+  "versionName": "1.6.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.6.8/ziwuxilv-native-v1.6.8.apk",
+  "apkSha256": "091baaad35d18190518ca006e53fc81714132236dbe3d28f5a6b5e9f995b928b",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "2b8aebbcfb8b226e51fda9134be01e3f556e9fd7",
-  "updateLog": "v1.6.7正式版：\n1. 发布帖子或发送回复后，界面自动滑动到刚提交的内容；帖子列表和回复详情均尽量将新内容置于屏幕中部，跨分类发布时自动回到可见范围。\n2. 访问管理增加管理员本地缓存：启动 APP 时先恢复上次已确认的待审核数量、成员列表和授权展示，再后台静默刷新 GitHub 最新状态，避免每次先显示 0 后跳变。\n3. 缓存仅用于管理员访问管理和成员展示，GitHub 最新审核结果仍会在启动后自动覆盖。",
+  "sourceCommit": "23dffe9e3f3738d387c0ec1eb4ddb32698ed2b58",
+  "updateLog": "v1.6.8正式版：\n1. 行情-持仓详情改为实时联动，价格、OHLC、行情时间、持仓收益、持仓天数、实际/目标仓位和入场状态随现有行情与账本状态更新，不新增独立轮询。\n2. 当前持仓与收益页已清仓行情改为同市场合并批量请求；离开收益页后已清仓需求自动过期，并继续保留5/15/300秒刷新节奏与每批50个标的限制。\n3. 全球行情 FinScope 改为按需请求；自选可安全复用首页已验证全球行情，只有需要成交量等扩展字段时才补充新浪请求。\n4. 修正自选全球行情的具体时区地点显示，并完成 Android quick check、单测、lint、preview APK 与行情 smoke 验证。",
   "forceUpdate": false
 }
