@@ -1,10 +1,10 @@
 {
-  "versionCode": 61,
-  "versionName": "1.7.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.9/ziwuxilv-native-v1.7.9.apk",
-  "apkSha256": "8288f4c719417b57c75f711b473ee748713cd5c17429eaff2554cc7b5362cf94",
+  "versionCode": 62,
+  "versionName": "1.8.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.8.0/ziwuxilv-native-v1.8.0.apk",
+  "apkSha256": "b4d3981cad07c66dcfed0882c787a9ce4626da6616e1a363018466d2d77d2df0",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "0a5c06eedc5e161a3813f40be604ced339010e5b",
-  "updateLog": "v1.7.9正式版：\n1. 按 GitHub 用户 ID 同步保存已确认的身份标签，启动和切换账号时立即恢复注册用户或策略用户标签。\n2. 兼容迁移旧版管理员缓存中该账号已确认的标签；尚未有缓存时显示「身份确认中」，避免误显示普通用户。\n3. 身份标签缓存独立于实时权限校验，后台确认撤销或过期后及时更新；减少刷新时重复读取审核记录。\n4. 补充账号切换、冷启动、过期、撤销、旧缓存迁移及权限隔离回归测试。",
+  "sourceCommit": "1756cfee14850eec1e472681528ca483b6831440",
+  "updateLog": "v1.8.0正式版：\n1. 更新弹窗增加取消和后台更新按钮；后台下载不打断使用，完成后可在「我的」中安装。\n2. 持仓移除操作集中到右上角编辑面板，支持在搜索框下方查看、添加和移除持仓。\n3. 新增持仓价格及持仓收益，保存加入时的有效现价，按加入价格计算累计涨跌幅。\n4. 持仓卡片改为紧凑分组布局，区分日涨跌与持仓收益；旧持仓未记录加入价格时如实显示未记录。",
   "forceUpdate": false
 }
