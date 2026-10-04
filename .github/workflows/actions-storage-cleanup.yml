@@ -1,10 +1,6 @@
 name: Actions storage cleanup
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/actions-storage-cleanup.yml"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -12,8 +8,8 @@ on:
         type: boolean
         default: false
   schedule:
-    # Daily 04:25 Asia/Shanghai (UTC below).
-    - cron: "25 20 * * *"
+    # Sunday 04:25 Asia/Shanghai (Saturday UTC below).
+    - cron: "25 20 * * 6"
 
 permissions:
   actions: write
