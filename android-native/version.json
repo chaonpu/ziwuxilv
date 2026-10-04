@@ -1,10 +1,10 @@
 {
-  "versionCode": 60,
-  "versionName": "1.7.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.8/ziwuxilv-native-v1.7.8.apk",
-  "apkSha256": "778896bad371a8dbb85ad019a0767dee5f746c36988ec03096215dcd5a939cdc",
+  "versionCode": 61,
+  "versionName": "1.7.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.9/ziwuxilv-native-v1.7.9.apk",
+  "apkSha256": "8288f4c719417b57c75f711b473ee748713cd5c17429eaff2554cc7b5362cf94",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "47ba175352cbc6630722dab17866056ab2d88bd5",
-  "updateLog": "v1.7.8正式版：\n1. 修复收益缓存反复失效：Android XML 持久化会在以换行结尾的原始快照后追加缩进空格，导致冷启动 SHA 校验失败；快照与账本改用无换行 Base64 保存原始字节。\n2. 本地恢复旧缓存时，仅在原始 SHA 校验完全一致后移除多余尾部缩进并迁移，无需等待联网重新取得账本。\n3. 使用 Android 12 原始 XML 序列化器补充真实写盘、离线恢复、旧缓存迁移、内容篡改拒绝与账号隔离回归测试。",
+  "sourceCommit": "0a5c06eedc5e161a3813f40be604ced339010e5b",
+  "updateLog": "v1.7.9正式版：\n1. 按 GitHub 用户 ID 同步保存已确认的身份标签，启动和切换账号时立即恢复注册用户或策略用户标签。\n2. 兼容迁移旧版管理员缓存中该账号已确认的标签；尚未有缓存时显示「身份确认中」，避免误显示普通用户。\n3. 身份标签缓存独立于实时权限校验，后台确认撤销或过期后及时更新；减少刷新时重复读取审核记录。\n4. 补充账号切换、冷启动、过期、撤销、旧缓存迁移及权限隔离回归测试。",
   "forceUpdate": false
 }
