@@ -1,10 +1,10 @@
 {
-  "versionCode": 59,
-  "versionName": "1.7.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.7/ziwuxilv-native-v1.7.7.apk",
-  "apkSha256": "af0114936bff312c54da89b407b07f7239a6219de2962ae328cd06a02e0323d0",
+  "versionCode": 60,
+  "versionName": "1.7.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.8/ziwuxilv-native-v1.7.8.apk",
+  "apkSha256": "778896bad371a8dbb85ad019a0767dee5f746c36988ec03096215dcd5a939cdc",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "6abac7e7042cdd5970646321e54dfc59cac3c6b6",
-  "updateLog": "v1.7.7正式版：\n1. 增加「我的 → 设置 → 启动诊断」，记录身份恢复、收益缓存读取、同步写盘与页面显示耗时，可复制报告用于定位真机启动延迟。\n2. 补充实际收益同步后离线重建、跨账号隔离、快照账本更新不同步和缓存损坏回归测试。\n3. 诊断仅保留本次进程状态，不记录登录凭证、账号标识或收益数值。",
+  "sourceCommit": "47ba175352cbc6630722dab17866056ab2d88bd5",
+  "updateLog": "v1.7.8正式版：\n1. 修复收益缓存反复失效：Android XML 持久化会在以换行结尾的原始快照后追加缩进空格，导致冷启动 SHA 校验失败；快照与账本改用无换行 Base64 保存原始字节。\n2. 本地恢复旧缓存时，仅在原始 SHA 校验完全一致后移除多余尾部缩进并迁移，无需等待联网重新取得账本。\n3. 使用 Android 12 原始 XML 序列化器补充真实写盘、离线恢复、旧缓存迁移、内容篡改拒绝与账号隔离回归测试。",
   "forceUpdate": false
 }
