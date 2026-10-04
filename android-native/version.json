@@ -1,10 +1,10 @@
 {
-  "versionCode": 58,
-  "versionName": "1.7.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.6/ziwuxilv-native-v1.7.6.apk",
-  "apkSha256": "d17feca2940b98d09e2ff9581ace326eeea865daa54f37b234a157f392c5f18b",
+  "versionCode": 59,
+  "versionName": "1.7.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.7/ziwuxilv-native-v1.7.7.apk",
+  "apkSha256": "af0114936bff312c54da89b407b07f7239a6219de2962ae328cd06a02e0323d0",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "daee282fecbfdcfd883ae04cf77ab63f789c2397",
-  "updateLog": "v1.7.6正式版：\n1. 修复登录令牌刷新后身份缓存失配：加密会话与轻量身份缓存使用同一次同步提交保存，确保再次启动时可以先恢复同账号收益缓存。\n2. 将已有已验证身份的迁移提前到联网校验前，网络不畅也能完成本机迁移。\n3. 补充令牌刷新、离线迁移、切换账号、会话不匹配和清除登录的回归测试。\n4. 首次升级若尚未建立身份缓存，请等待一次本机身份恢复；后续彻底退出再启动验证缓存显示。",
+  "sourceCommit": "6abac7e7042cdd5970646321e54dfc59cac3c6b6",
+  "updateLog": "v1.7.7正式版：\n1. 增加「我的 → 设置 → 启动诊断」，记录身份恢复、收益缓存读取、同步写盘与页面显示耗时，可复制报告用于定位真机启动延迟。\n2. 补充实际收益同步后离线重建、跨账号隔离、快照账本更新不同步和缓存损坏回归测试。\n3. 诊断仅保留本次进程状态，不记录登录凭证、账号标识或收益数值。",
   "forceUpdate": false
 }
