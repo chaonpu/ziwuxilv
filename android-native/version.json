@@ -1,10 +1,10 @@
 {
-  "versionCode": 56,
-  "versionName": "1.7.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.4/ziwuxilv-native-v1.7.4.apk",
-  "apkSha256": "702d9e8a6a0ff90cd192f7970629568e951159a2a2736cc48cc5bf321f28752e",
+  "versionCode": 57,
+  "versionName": "1.7.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.5/ziwuxilv-native-v1.7.5.apk",
+  "apkSha256": "3a2e2328e75fe9fd8eb8c1b232844f1b917957be34b0eaccdb19c101f6b46569",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "d15b6a7c8a35f31a2751321591f1d01565cf2086",
-  "updateLog": "v1.7.4正式版：\n1. 修复管理员账号启动收益页仍短暂空白：APP 启动时直接使用本机加密保存的上次已验证 GitHub 身份作为 bootstrap identity。\n2. 在 Compose 第一帧之前同步绑定账号并恢复收益页、本地配置、自选、通知等账号级缓存，避免先渲染空 MarketFeeds 再异步回填。\n3. GitHub 身份仍会在后台正常联网重新校验；本地 bootstrap 仅用于更早恢复同账号已验证缓存，不改变权限规则。\n4. 已通过 Android quick check、完整单元测试、Kotlin 编译、Lint 与 Preview APK 构建。",
+  "sourceCommit": "22c7db5722d7446ccac9738dffe336451f593e24",
+  "updateLog": "v1.7.5正式版：\n1. 进一步修复收益页冷启动约4～5秒后才出现的问题：账号识别不再依赖启动时解密 Android Keystore 中的 GitHub OAuth 会话。\n2. 新增轻量的已验证 GitHub 身份缓存，并与当前加密会话指纹绑定；从第二次冷启动起可在第一帧前直接绑定同一账号并恢复收益缓存。\n3. 加密 OAuth 会话仍在后台正常校验；更换账号或会话后旧身份缓存不会被复用，避免跨账号显示策略数据。\n4. 首次升级到本版需要完成一次身份迁移，之后彻底退出再启动用于验证即时恢复效果。",
   "forceUpdate": false
 }
