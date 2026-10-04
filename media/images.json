@@ -27,15 +27,6 @@
         }
       ]
     },
-    "img_2262c83f15ef6c1fde117238e24b759546ee033aabe1d5b47fdd9012de62b24a": {
-      "url": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/media/332854418/fb086b55c91e4de7925583af18df4c04/0.webp",
-      "storage_path": "media/332854418/fb086b55c91e4de7925583af18df4c04/0.webp",
-      "owner_id": "332854418",
-      "sha256": "cca0b667ce199e19acd9c4a4c89c9c328a793682e7229bc67ad679daa9668bc0",
-      "created_at": "2026-10-01T22:23:31.719126+00:00",
-      "references": [],
-      "orphan_since": "2026-10-02T00:00:06.371603+00:00"
-    },
     "img_b7294664c87581a8a628a981ca856a8b6c5d613b1959ec502afd52070d1883aa": {
       "url": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/media/332854418/27ea8ae61b724aaba87389acdb8685b8/0.webp",
       "storage_path": "media/332854418/27ea8ae61b724aaba87389acdb8685b8/0.webp",
@@ -49,15 +40,6 @@
         }
       ]
     },
-    "img_d4589f9c1a358bf90ee3ef7c46d9e99dba5936c7625039f2e040aac129f409f1": {
-      "url": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/media/332854418/2f83c4a077a14dabb1b87e482c41873b/0.webp",
-      "storage_path": "media/332854418/2f83c4a077a14dabb1b87e482c41873b/0.webp",
-      "owner_id": "332854418",
-      "sha256": "8fbeab7480fd2ab9b36e54ac98b1d596bf87c9dc742c45d5e23e6a839a978c25",
-      "created_at": "2026-10-01T22:28:14.474377+00:00",
-      "references": [],
-      "orphan_since": "2026-10-02T00:00:06.371603+00:00"
-    },
     "img_fba98f16fc629aadc626076adc87372bcb4dc442fecf958c87f094f23397965e": {
       "url": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/media/205125766/3f255e1702a44907aca1d6bc28b2eda9/0.webp",
       "storage_path": "media/205125766/3f255e1702a44907aca1d6bc28b2eda9/0.webp",
@@ -70,15 +52,6 @@
           "id": "DC_kwDOUnTHZ84BHXHm"
         }
       ]
-    },
-    "img_81fa499f293c483faab825a7737902582ed90243ca7088625d6f97349457406b": {
-      "url": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/media/332854418/85c967ea0c404707a1a3c1a407cf13a1/0.webp",
-      "storage_path": "media/332854418/85c967ea0c404707a1a3c1a407cf13a1/0.webp",
-      "owner_id": "332854418",
-      "sha256": "5b33c1fe18ef9deefc259055eabbfbfadbcbb5a115abe9e48c1c6a8dfdaa731b",
-      "created_at": "2026-10-02T05:49:47.705721+00:00",
-      "references": [],
-      "orphan_since": "2026-10-02T05:49:47.706141+00:00"
     },
     "img_a8960c26f3676cffa9fed55d7acafa1fb90056a736bf1333c7727c4793f44de2": {
       "backend": "release_asset",
@@ -131,5 +104,5 @@
     "D_kwDOUnTHZ84ApvJi": "2026-10-03T09:12:05.793465+00:00",
     "D_kwDOUnTHZ84Apvsp": "2026-10-03T14:30:12.330755+00:00"
   },
-  "last_complete_scan_at": "2026-10-03T21:25:08.269107+00:00"
+  "last_complete_scan_at": "2026-10-04T06:01:43.301735+00:00"
 }
