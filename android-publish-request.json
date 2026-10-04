@@ -1,12 +1,12 @@
 {
-  "sourceUrl": "https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-d9dc-81fa-8783-8a0908567bbd/raw?se=2026-10-04T14%3A41%3A53Z&sp=r&sv=2026-02-06&sr=b&scid=900addd7-c7e0-4ed3-9cba-f3a84f04c83c&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T01%3A15%3A25Z&ske=2026-10-05T01%3A15%3A25Z&sks=b&skv=2026-02-06&sig=R7gEXRzVCa6VrZYXilBzl9DlQHg50PAbTqXjZBcOZss%3D",
-  "artifactSha256": "f72e0f7e42ec415e0da89d927716a5d29774bc923cd4f602ac4d51ff18bdc0c1",
-  "sourceCommit": "daee282fecbfdcfd883ae04cf77ab63f789c2397",
-  "versionName": "1.7.6",
-  "versionCode": 58,
-  "apkSha256": "d17feca2940b98d09e2ff9581ace326eeea865daa54f37b234a157f392c5f18b",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-841c-81fd-96a9-7bd01e2c2a60/raw?se=2026-10-04T15%3A30%3A37Z&sp=r&sv=2026-02-06&sr=b&scid=1a1ebb41-e549-4f76-8748-2ea6eab906ba&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T19%3A03%3A45Z&ske=2026-10-04T19%3A03%3A45Z&sks=b&skv=2026-02-06&sig=YhSns9hrj9VEbWgqOTl%2BsysSuUMkJQ2kIZrMlhCfAkY%3D",
+  "artifactSha256": "c4c5e6be7ee5a9ce0d8c96017adb9cd8f0156ad0833124a053fc6dd4515e9466",
+  "sourceCommit": "6abac7e7042cdd5970646321e54dfc59cac3c6b6",
+  "versionName": "1.7.7",
+  "versionCode": 59,
+  "apkSha256": "af0114936bff312c54da89b407b07f7239a6219de2962ae328cd06a02e0323d0",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.7.6正式版：\n1. 修复登录令牌刷新后身份缓存失配：加密会话与轻量身份缓存使用同一次同步提交保存，确保再次启动时可以先恢复同账号收益缓存。\n2. 将已有已验证身份的迁移提前到联网校验前，网络不畅也能完成本机迁移。\n3. 补充令牌刷新、离线迁移、切换账号、会话不匹配和清除登录的回归测试。\n4. 首次升级若尚未建立身份缓存，请等待一次本机身份恢复；后续彻底退出再启动验证缓存显示。",
+  "updateLog": "v1.7.7正式版：\n1. 增加「我的 → 设置 → 启动诊断」，记录身份恢复、收益缓存读取、同步写盘与页面显示耗时，可复制报告用于定位真机启动延迟。\n2. 补充实际收益同步后离线重建、跨账号隔离、快照账本更新不同步和缓存损坏回归测试。\n3. 诊断仅保留本次进程状态，不记录登录凭证、账号标识或收益数值。",
   "forceUpdate": false,
-  "requestNonce": "2026-10-04-v1.7.6-atomic-startup-session"
+  "requestNonce": "v1.7.7-diagnostics-1791127561926"
 }
