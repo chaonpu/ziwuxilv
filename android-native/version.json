@@ -1,10 +1,10 @@
 {
-  "versionCode": 57,
-  "versionName": "1.7.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.5/ziwuxilv-native-v1.7.5.apk",
-  "apkSha256": "3a2e2328e75fe9fd8eb8c1b232844f1b917957be34b0eaccdb19c101f6b46569",
+  "versionCode": 58,
+  "versionName": "1.7.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.7.6/ziwuxilv-native-v1.7.6.apk",
+  "apkSha256": "d17feca2940b98d09e2ff9581ace326eeea865daa54f37b234a157f392c5f18b",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "22c7db5722d7446ccac9738dffe336451f593e24",
-  "updateLog": "v1.7.5正式版：\n1. 进一步修复收益页冷启动约4～5秒后才出现的问题：账号识别不再依赖启动时解密 Android Keystore 中的 GitHub OAuth 会话。\n2. 新增轻量的已验证 GitHub 身份缓存，并与当前加密会话指纹绑定；从第二次冷启动起可在第一帧前直接绑定同一账号并恢复收益缓存。\n3. 加密 OAuth 会话仍在后台正常校验；更换账号或会话后旧身份缓存不会被复用，避免跨账号显示策略数据。\n4. 首次升级到本版需要完成一次身份迁移，之后彻底退出再启动用于验证即时恢复效果。",
+  "sourceCommit": "daee282fecbfdcfd883ae04cf77ab63f789c2397",
+  "updateLog": "v1.7.6正式版：\n1. 修复登录令牌刷新后身份缓存失配：加密会话与轻量身份缓存使用同一次同步提交保存，确保再次启动时可以先恢复同账号收益缓存。\n2. 将已有已验证身份的迁移提前到联网校验前，网络不畅也能完成本机迁移。\n3. 补充令牌刷新、离线迁移、切换账号、会话不匹配和清除登录的回归测试。\n4. 首次升级若尚未建立身份缓存，请等待一次本机身份恢复；后续彻底退出再启动验证缓存显示。",
   "forceUpdate": false
 }
