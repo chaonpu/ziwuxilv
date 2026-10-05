@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprsoutheastus3.oaiusercontent.com/files/00000000-c7b8-820c-808a-d0faf307a4d4/raw?se=2026-10-05T13%3A20%3A33Z&sp=r&sv=2026-02-06&sr=b&scid=c73a9f1b-47a1-426c-813c-f28bf371398a&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T12%3A41%3A53Z&ske=2026-10-06T12%3A41%3A53Z&sks=b&skv=2026-02-06&sig=BWM3VLpdHzDDIebwggAmLkDAWbw08A8UIj345I0m2qE%3D",
-  "artifactSha256": "0a3489add3e2f6ce1d378b5afc4b48df814b29236c7db4fe188ea1fdb9c4a73c",
-  "apkSha256": "4cce89a3dfa5de4862dff9adac9406e8bc64a9c23f2e02b1d1647e74dedfdbba",
-  "sourceCommit": "9e32ca2a7844e0b93ac71fb9bfa920ff175cc46f",
+  "sourceUrl": "https://sdmntprwestus.oaiusercontent.com/files/00000000-9fdc-8230-ba0f-bde454cc8cd5/raw?se=2026-10-05T14%3A46%3A24Z&sp=r&sv=2026-02-06&sr=b&scid=c026decb-148d-5ef5-8740-15bb33d91f3a&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T16%3A54%3A15Z&ske=2026-10-05T16%3A54%3A15Z&sks=b&skv=2026-02-06&sig=fOWlxRM/nbt90VKZ0VMDPr3wBocmsyZdlD9NztsdX0w%3D",
+  "artifactSha256": "aa151186cfe67348e47f343444009bd8e1cd5fc8c207ce959ffa22e79738b143",
+  "apkSha256": "aa74762a3d46217fe47450a70278cc84578e8b92fddb11580c2bca2556f0700f",
+  "sourceCommit": "976c13b930c45e33b6b18a2a5e80dfca39ac3700",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.8.8",
-  "versionCode": 70,
-  "updateLog": "v1.8.8正式版：\n1. 配置模式持仓取消标的数量限制。\n2. 累计收益弹窗新增重置按钮，警告确认后归零，并保存新的收益起点。\n3. 重置保留原始持仓成本、入场时间、仓位及当日收益。",
+  "versionName": "1.8.9",
+  "versionCode": 71,
+  "updateLog": "v1.8.9正式版：\n1. 配置模式持仓页的仓位占比按最新行情动态更新，未分配仓位继续按现金计入。\n2. 累计收益重置按钮和二次警告统一改为红色。\n3. 配置权重仍保留为收益计算基准，不改动原持仓成本和累计收益逻辑。",
   "forceUpdate": false
 }
