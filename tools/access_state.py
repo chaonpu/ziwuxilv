@@ -106,6 +106,15 @@ def pages(path):
             return output
     raise ValueError("Incomplete approval history; retaining previous state")
 
+def refresh_required(event, state, now):
+    """Audit events always refresh; heartbeat events avoid redundant full-history reads."""
+    if event not in ("schedule", "workflow_run"):
+        return True
+    if not isinstance(state, dict) or state.get("schemaVersion") != 1 or state.get("repository") != REPOSITORY or state.get("adminId") != ADMIN_ID:
+        return True
+    generated = state.get("generatedAt")
+    return type(generated) is not int or generated <= 0 or generated > now or now - generated >= 10 * 60_000
+
 def generate():
     issues = [row for row in pages(f"/repos/{REPOSITORY}/issues?state=all&sort=created&direction=asc") if is_request(row)]
     comments = {row["number"]: pages(f"/repos/{REPOSITORY}/issues/{row['number']}/comments") for row in issues}

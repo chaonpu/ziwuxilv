@@ -2,13 +2,16 @@ name: Current access state
 on:
   push:
     branches: [main]
-    paths: ["tools/access_state.py", ".github/workflows/access-state.yml"]
+    paths: ["tools/access_state.py", "tests/test_access_state.py", ".github/workflows/access-state.yml", "android-publish-request.json"]
   issues:
     types: [opened, edited, closed, reopened, deleted]
   issue_comment:
     types: [created, edited, deleted]
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '7,22,37,52 * * * *'
+  workflow_run:
+    workflows: ["Publish signed Android release", "Profile Registry update", "Community image upload", "Shared image lifecycle"]
+    types: [completed]
   workflow_dispatch:
 permissions:
   contents: write
@@ -20,8 +23,9 @@ concurrency:
 jobs:
   state:
     if: >-
-      (github.event_name != 'issues' && github.event_name != 'issue_comment') ||
-      startsWith(github.event.issue.body, '<!-- ziwuxilv-native-access:request:v1 -->')
+      ((github.event_name != 'issues' && github.event_name != 'issue_comment') ||
+      startsWith(github.event.issue.body, '<!-- ziwuxilv-native-access:request:v1 -->')) &&
+      (github.event_name != 'workflow_run' || github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -31,7 +35,25 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Check access-state freshness
+        id: freshness
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          python - <<'PY'
+          import json, os, time
+          from pathlib import Path
+          from tools.access_state import refresh_required
+          try: state = json.loads(Path('access/current.json').read_text())
+          except (OSError, ValueError): state = None
+          required = refresh_required(os.environ['EVENT_NAME'], state, int(time.time() * 1000))
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('required=' + str(required).lower() + '\n')
+          print('Access-state refresh required:', required)
+          PY
       - run: python -m unittest discover -s tests -p 'test_access_state.py' -v
+        if: steps.freshness.outputs.required == 'true'
       - run: python tools/access_state.py
+        if: steps.freshness.outputs.required == 'true'
         env:
           GH_TOKEN: ${{ github.token }}

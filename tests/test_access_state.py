@@ -2,7 +2,7 @@ import sys
 import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from access_state import ADMIN_ID, REPOSITORY, REQUEST, GRANT, DECISION, materialize
+from access_state import ADMIN_ID, REPOSITORY, REQUEST, GRANT, DECISION, materialize, refresh_required
 
 class AccessStateTests(unittest.TestCase):
     now = 1790985600000
@@ -32,5 +32,17 @@ class AccessStateTests(unittest.TestCase):
         row = state["records"][0]
         self.assertEqual(2, row["number"]); self.assertTrue(row["registrationRetained"])
         self.assertEqual("registered", row["authorizationRole"])
+    def test_audit_events_refresh_even_when_state_is_fresh(self):
+        state = dict(schemaVersion=1, repository=REPOSITORY, adminId=ADMIN_ID, generatedAt=self.now)
+        for event in ("issues", "issue_comment", "push", "workflow_dispatch"):
+            self.assertTrue(refresh_required(event, state, self.now))
+    def test_heartbeat_events_skip_recent_state_and_refresh_stale_or_invalid_state(self):
+        state = dict(schemaVersion=1, repository=REPOSITORY, adminId=ADMIN_ID, generatedAt=self.now)
+        for event in ("workflow_run", "schedule"):
+            self.assertFalse(refresh_required(event, state, self.now + 599999))
+            self.assertTrue(refresh_required(event, state, self.now + 600000))
+            self.assertTrue(refresh_required(event, state, self.now - 1))
+            self.assertTrue(refresh_required(event, None, self.now))
+            self.assertTrue(refresh_required(event, {**state, "adminId": 42}, self.now))
 
 if __name__ == "__main__": unittest.main()
