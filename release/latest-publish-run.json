@@ -1,6 +1,6 @@
 {
   "runId": 37314715369,
-  "status": "running",
+  "status": "failure",
   "versionName": "1.8.8",
   "versionCode": 70,
   "sourceCommit": "9e32ca2a7844e0b93ac71fb9bfa920ff175cc46f"
