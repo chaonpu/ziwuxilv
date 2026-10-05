@@ -1,10 +1,10 @@
 {
-  "versionCode": 73,
-  "versionName": "1.9.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.1/ziwuxilv-native-v1.9.1.apk",
-  "apkSha256": "8ab5c6689aae3825a322173c4f393cb88446263375eaab6abfb196b6d81bdc42",
+  "versionCode": 74,
+  "versionName": "1.9.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.2/ziwuxilv-native-v1.9.2.apk",
+  "apkSha256": "7b96cc95437dc357788356d038faffbf1986e61eea4ec3627a676af0c8e17a5c",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "8701af89e227a972734cc8ea7b15f7729b4019ea",
-  "updateLog": "v1.9.1正式版：\n1. 行情-持仓中A股和美股汇总卡删除“当日收益”文字，仅保留收益百分比。\n2. 优化汇总卡字号层级、间距和居中布局，并与普通行情卡高度保持一致。",
+  "sourceCommit": "bbb769c5295da7c87bb96d30941f4d9e460aa6f7",
+  "updateLog": "v1.9.2正式版：\n1. 行情-持仓汇总卡删除“共X”，改为单行显示“涨X · 平X · 跌X”。\n2. 优化汇总卡字号、留白和信息层级。\n3. 盘中汇总卡边框随当日收益方向变化：上涨红色、下跌绿色、平盘灰色；非盘中保持中性边框。",
   "forceUpdate": false
 }
