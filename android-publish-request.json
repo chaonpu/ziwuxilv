@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus.oaiusercontent.com/files/00000000-e690-8230-9105-0c155c8d33ef/raw?se=2026-10-05T18%3A58%3A25Z&sp=r&sv=2026-02-06&sr=b&scid=09f33106-8d64-5864-be4b-b7186ff44398&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T13%3A17%3A43Z&ske=2026-10-06T13%3A17%3A43Z&sks=b&skv=2026-02-06&sig=CSQokd04wRtHzW1Evbod0RBrIdoLWBfaiJP/WkcVydQ%3D",
-  "artifactSha256": "5dba99d6e080622ce55c2a96858dcafa5a2b86e99d988d48942df274ed9db614",
-  "apkSha256": "8ab5c6689aae3825a322173c4f393cb88446263375eaab6abfb196b6d81bdc42",
-  "sourceCommit": "8701af89e227a972734cc8ea7b15f7729b4019ea",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-a740-81fd-b30c-40017b90c799/raw?se=2026-10-05T19%3A19%3A56Z&sp=r&sv=2026-02-06&sr=b&scid=d38f1bfb-c781-515a-b529-8d9ec4a062bf&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T13%3A17%3A41Z&ske=2026-10-06T13%3A17%3A41Z&sks=b&skv=2026-02-06&sig=tjU9%2BUVqE2VfrPnihsfECbEP8wHDTXk1NQybrUGtQ%2Bw%3D",
+  "artifactSha256": "fe956f49947b11f306bea80b2cca7d91e6b9bd58a26dbd949d587fb0c7fb005e",
+  "apkSha256": "7b96cc95437dc357788356d038faffbf1986e61eea4ec3627a676af0c8e17a5c",
+  "sourceCommit": "bbb769c5295da7c87bb96d30941f4d9e460aa6f7",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.9.1",
-  "versionCode": 73,
-  "updateLog": "v1.9.1正式版：\n1. 行情-持仓中A股和美股汇总卡删除“当日收益”文字，仅保留收益百分比。\n2. 优化汇总卡字号层级、间距和居中布局，并与普通行情卡高度保持一致。",
+  "versionName": "1.9.2",
+  "versionCode": 74,
+  "updateLog": "v1.9.2正式版：\n1. 行情-持仓汇总卡删除“共X”，改为单行显示“涨X · 平X · 跌X”。\n2. 优化汇总卡字号、留白和信息层级。\n3. 盘中汇总卡边框随当日收益方向变化：上涨红色、下跌绿色、平盘灰色；非盘中保持中性边框。",
   "forceUpdate": false
 }
