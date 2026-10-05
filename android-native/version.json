@@ -1,10 +1,10 @@
 {
-  "versionCode": 69,
-  "versionName": "1.8.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.8.7/ziwuxilv-native-v1.8.7.apk",
-  "apkSha256": "26afd7cca3167f0c8d0290ac526cb6cd4366e6d8a37dcaebb006dd95f60b47f8",
+  "versionCode": 70,
+  "versionName": "1.8.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.8.8/ziwuxilv-native-v1.8.8.apk",
+  "apkSha256": "4cce89a3dfa5de4862dff9adac9406e8bc64a9c23f2e02b1d1647e74dedfdbba",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "e5fe607c75b987a085669ed25dd6060382001730",
-  "updateLog": "v1.8.7正式版：\n1. 日常身份权限读取当前状态，异常时保留完整审核记录回退。\n2. A股和美股共用数据版本清单，数据未变化时复用已核验的账本与持仓缓存。\n3. 全球行情、自选和持仓共用腾讯／新浪请求与短缓存，减少重复请求并保留原始行情时间。\n4. 加强账号切换时的缓存隔离。",
+  "sourceCommit": "9e32ca2a7844e0b93ac71fb9bfa920ff175cc46f",
+  "updateLog": "v1.8.8正式版：\n1. 配置模式持仓取消标的数量限制。\n2. 累计收益弹窗新增重置按钮，警告确认后归零，并保存新的收益起点。\n3. 重置保留原始持仓成本、入场时间、仓位及当日收益。",
   "forceUpdate": false
 }
