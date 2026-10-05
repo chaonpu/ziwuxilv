@@ -26,7 +26,9 @@ class ReferenceTests(unittest.TestCase):
         value,paths=m.collect(value,self.time+timedelta(days=6));self.assertEqual([self.path],paths)
     def test_admin_other_post_and_user_own_reply_permissions(self):
         self.assertTrue(m.authorized(m.ADMIN_ID,self.content('other')))
-        self.assertFalse(m.authorized(123,self.content('post')))
+        self.assertTrue(m.authorized(123,self.content('post')))
+        self.assertFalse(m.authorized(456,self.content('post')))
+        self.assertFalse(m.authorized(123,self.content('avatar','avatar')))
         self.assertTrue(m.authorized(123,self.content('own','reply')))
         self.assertFalse(m.authorized(456,self.content('foreign','comment')))
     def test_avatar_shared_path_not_unlinked_when_current_avatar_survives(self):
@@ -87,6 +89,35 @@ class DeleteWriterTests(unittest.TestCase):
         self.assertFalse(Path(self.path).exists());self.assertNotIn(self.iid,m.registry()['images'])
         self.assertIn('post1',m.registry()['deleted_contents']);self.assertEqual(head,self.git('rev-parse','HEAD'))
         self.assertEqual('success',self.results[-1]['status'])
+    def as_author(self,owner):
+        actor={'id':owner,'login':'owner','type':'User'}
+        self.issue['user']=actor;self.seal['user']=actor
+        self.event.update(sender=actor,comment=self.seal)
+    def test_author_deletes_own_post_and_descendants_preserving_shared_image(self):
+        self.as_author(123)
+        self.records.extend([
+            dict(id='reply1',type='reply',post_id='post1',parent_id='comment1',body=self.records[0]['body'],author={'databaseId':456}),
+            dict(id='outside',type='post',post_id='outside',body=self.records[0]['body'],author={'databaseId':789})])
+        def delete(query,variables):
+            self.assertEqual('post1',variables['id'])
+            self.records=[r for r in self.records if r['post_id']!='post1']
+            return {'deleteDiscussion':{'discussion':{'id':'post1'}}}
+        with patch.object(m,'api',self.api),patch.object(m,'inventory',lambda:copy.deepcopy(self.records)),patch.object(m,'graphql',delete):
+            m.process(self.event)
+        self.assertEqual('success',self.results[-1]['status'])
+        self.assertTrue(Path(self.path).exists())
+        self.assertIn('post1',m.registry()['deleted_contents'])
+        self.assertIn('reply1',m.registry()['deleted_contents'])
+        self.assertNotIn('outside',m.registry()['deleted_contents'])
+        self.assertEqual([{'type':'post','id':'outside'}],m.registry()['images'][self.iid]['references'])
+    def test_authenticated_other_user_cannot_delete_post(self):
+        self.as_author(456)
+        with patch.object(m,'api',self.api),patch.object(m,'inventory',lambda:copy.deepcopy(self.records)),patch.object(m,'graphql') as mutation:
+            with self.assertRaises(m.LifecycleError):m.process(self.event)
+            mutation.assert_not_called()
+        self.assertTrue(Path(self.path).exists())
+        self.assertNotIn('post1',m.registry()['deleted_contents'])
+
     def test_failed_content_delete_keeps_blob_and_all_references_then_retry_finishes(self):
         with patch.object(m,'api',self.api),patch.object(m,'inventory',lambda:copy.deepcopy(self.records)),patch.object(m,'graphql',side_effect=m.LifecycleError('offline')):
             with self.assertRaises(m.LifecycleError):m.process(self.event)

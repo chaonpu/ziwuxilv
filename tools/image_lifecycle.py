@@ -274,7 +274,7 @@ def collect(value, timestamp=None, immediate=None):
     return value, [target for _,target in removed if target.startswith('release_asset:') or target not in surviving_paths]
 def authorized(actor, content):
     if actor == ADMIN_ID: return True
-    return content['type'] in ('comment','reply') and (content.get('author') or {}).get('databaseId') == actor
+    return content['type'] in ('post','comment','reply') and (content.get('author') or {}).get('databaseId') == actor
 
 def verified_request(event, issue, seal):
     actor = issue.get('user', {})
