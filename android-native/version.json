@@ -1,10 +1,10 @@
 {
-  "versionCode": 65,
-  "versionName": "1.8.3",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.8.3/ziwuxilv-native-v1.8.3.apk",
-  "apkSha256": "d193df9e0ca1101a61eb5f2e1aba1d038ed34ddd875eef17745269d878dc5aaf",
+  "versionCode": 66,
+  "versionName": "1.8.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.8.4/ziwuxilv-native-v1.8.4.apk",
+  "apkSha256": "a4cf4f1c2b679cfb01ec13d2f52e0eaab3fe94ca98f0ee7e50be3f017d3cd527",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "69ba7dfcf423cb14433f4ff2dda16845092c836d",
-  "updateLog": "v1.8.3正式版：\n1. 修复日经官网今开、最高、最低解析，支持当前英文标题及收盘标记。\n2. 全部行情缺少开高低时继续独立查找允许的完整报价，保持现价、来源和时间一致。\n3. 修复刷新造成的开高低空白，并严格隔离不同来源、交易日、合约和计价基准。\n4. 保留持仓卡片与收益页样式统一、行业、持股天数、价格、收益和实时行情时间更新。",
+  "sourceCommit": "81b7df775a6f058c60a30f110586ff66c4a9a8ea",
+  "updateLog": "v1.8.4正式版：\n1. 恢复策略持仓及收益页持仓的原卡片样式；配置持仓显示行业并支持点击展开详情。\n2. 自选和持仓的加入入口均要求输入仓位占比，按市场限制合计100%，已有持仓可补充或修改仓位。\n3. 配置持仓顶部增加当日及累计收益，点击查看当前配置持仓最赚和最亏。\n4. 收益页当日及累计收益卡片支持最赚最亏弹窗；最大回撤支持峰值至谷值日期和区间收益曲线。",
   "forceUpdate": false
 }
