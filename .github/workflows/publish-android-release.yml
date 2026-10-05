@@ -178,6 +178,12 @@ jobs:
               "updateLog": req["updateLog"],
               "forceUpdate": bool(req.get("forceUpdate", False)),
           }
+          active_path = Path("android-native/version.json")
+          if active_path.exists():
+              active = json.loads(active_path.read_text(encoding="utf-8"))
+              if int(active.get("versionCode", 0)) > code:
+                  print(f"Keeping newer active version {active.get('versionName')} over {version}")
+                  raise SystemExit(0)
           Path("android-native/version.json").write_text(
               json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
               encoding="utf-8",
