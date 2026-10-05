@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprcentralus.oaiusercontent.com/files/00000000-00c8-81f5-87a1-b718922aa2e3/raw?se=2026-10-05T18%3A40%3A46Z&sp=r&sv=2026-02-06&sr=b&scid=06751a30-7f1b-5dfd-9965-6bcf5425a07f&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T07%3A01%3A58Z&ske=2026-10-06T07%3A01%3A58Z&sks=b&skv=2026-02-06&sig=Rtk5e63ZiOlgNPR0on/KzLn5EIDOANd6b6qkb46bWaQ%3D",
-  "artifactSha256": "7209731af86ad3426ac437d805f0153ff0c253c1cfe4475856451df7a80e301f",
-  "apkSha256": "7cc4c0c04fb8fef6404d95914156f7805b7781dd07c3856db4653a01942ce2e2",
-  "sourceCommit": "efa1018c4c3fc5dc4f991d7c4dc602aebd329725",
+  "sourceUrl": "https://sdmntprwestus.oaiusercontent.com/files/00000000-e690-8230-9105-0c155c8d33ef/raw?se=2026-10-05T18%3A58%3A25Z&sp=r&sv=2026-02-06&sr=b&scid=09f33106-8d64-5864-be4b-b7186ff44398&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T13%3A17%3A43Z&ske=2026-10-06T13%3A17%3A43Z&sks=b&skv=2026-02-06&sig=CSQokd04wRtHzW1Evbod0RBrIdoLWBfaiJP/WkcVydQ%3D",
+  "artifactSha256": "5dba99d6e080622ce55c2a96858dcafa5a2b86e99d988d48942df274ed9db614",
+  "apkSha256": "8ab5c6689aae3825a322173c4f393cb88446263375eaab6abfb196b6d81bdc42",
+  "sourceCommit": "8701af89e227a972734cc8ea7b15f7729b4019ea",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.9.0",
-  "versionCode": 72,
-  "updateLog": "v1.9.0正式版：\n1. 行情-持仓的A股和美股汇总卡新增当日收益百分比，并与涨跌数量居中对齐。\n2. 进入收益页时优先打开当前处于盘中的市场，进入后仍可手动切换。\n3. 使用模式选择删除说明文字并压缩间距，整体布局更紧凑。",
+  "versionName": "1.9.1",
+  "versionCode": 73,
+  "updateLog": "v1.9.1正式版：\n1. 行情-持仓中A股和美股汇总卡删除“当日收益”文字，仅保留收益百分比。\n2. 优化汇总卡字号层级、间距和居中布局，并与普通行情卡高度保持一致。",
   "forceUpdate": false
 }
