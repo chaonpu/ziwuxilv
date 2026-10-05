@@ -190,13 +190,32 @@ jobs:
           )
           PY
 
-          git add android-native/version.json
-          if git diff --cached --quiet; then
-            echo "Release asset and manifest already match the requested version."
-            exit 0
-          fi
-          git commit -m "Publish Android v${VERSION_NAME} via GitHub Release"
-          git push origin HEAD:main
+          cp android-native/version.json /tmp/publish-version.json
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git switch -C publish-manifest origin/main
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          candidate = json.loads(Path("/tmp/publish-version.json").read_text())
+          active_path = Path("android-native/version.json")
+          active = json.loads(active_path.read_text()) if active_path.exists() else {}
+          if int(active.get("versionCode", 0)) <= candidate["versionCode"]:
+              if (active.get("versionCode") == candidate["versionCode"]
+                      and active.get("apkSha256") not in (None, candidate["apkSha256"])):
+                  raise SystemExit("Refusing to replace a different APK for the same version")
+              active_path.write_text(json.dumps(candidate, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          PY
+            git add android-native/version.json
+            if git diff --cached --quiet; then
+              echo "Release manifest already matches or a newer version is active."
+              exit 0
+            fi
+            git commit -m "Publish Android v${VERSION_NAME} via GitHub Release"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          echo "Manifest publication still conflicts after three attempts" >&2
+          exit 1
 
       - name: Record publish run status
         if: always()
