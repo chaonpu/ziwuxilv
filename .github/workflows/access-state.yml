@@ -1,0 +1,37 @@
+name: Current access state
+on:
+  push:
+    branches: [main]
+    paths: ["tools/access_state.py", ".github/workflows/access-state.yml"]
+  issues:
+    types: [opened, edited, closed, reopened, deleted]
+  issue_comment:
+    types: [created, edited, deleted]
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: access-state-write
+  cancel-in-progress: false
+  queue: max
+jobs:
+  state:
+    if: >-
+      (github.event_name != 'issues' && github.event_name != 'issue_comment') ||
+      startsWith(github.event.issue.body, '<!-- ziwuxilv-native-access:request:v1 -->')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -p 'test_access_state.py' -v
+      - run: python tools/access_state.py
+        env:
+          GH_TOKEN: ${{ github.token }}
