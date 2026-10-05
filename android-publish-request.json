@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-77d4-81fd-bfe3-4cf8873a7210/raw?se=2026-10-05T03%3A18%3A48Z&sp=r&sv=2026-02-06&sr=b&scid=8c556ee0-58ed-42ea-9e67-1b9b92ef37dc&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T18%3A08%3A35Z&ske=2026-10-05T18%3A08%3A35Z&sks=b&skv=2026-02-06&sig=LXyANxQZVWJhvStH9iqHzUGewYUCaCviWrrjHEz72bY%3D",
-  "artifactSha256": "968796ed36692a7f8b7e607167f60c7ad64d0add849455f6d47e6d0ed4300c0b",
-  "sourceCommit": "36893f5dc46502a5f94ea59fbfa2f1379221fb09",
-  "versionName": "1.8.5",
-  "versionCode": 67,
-  "apkSha256": "23744d308249235e59365e989e7bd180721bf1170eb116e9ac221d1e6a6de821",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-baf4-81fd-baf7-9680ef7cd8df/raw?se=2026-10-05T04%3A01%3A49Z&sp=r&sv=2026-02-06&sr=b&scid=b7902423-8393-4eea-84c0-c1e1274aca96&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T17%3A56%3A34Z&ske=2026-10-05T17%3A56%3A34Z&sks=b&skv=2026-02-06&sig=EPWekrHBl6XEScYXu7cVfa/o9RlRLJonfb2kNU92GMA%3D",
+  "artifactSha256": "c5cf8965655c391233f028f64519f96b773cd5be99f572d5d5912bab15c210f1",
+  "sourceCommit": "69d57bc4d3d1f0438b021cb7121065a91eb92393",
+  "versionName": "1.8.6",
+  "versionCode": 68,
+  "apkSha256": "fb25ee5e3395d0edd91da61039daad231ba6b74b07c97f61fd19b40d73ee1377",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.8.5正式版：\n1. 配置持仓的行情时间放在最新价格下方，持仓价格下方显示对应入场时间。\n2. 用户可以删除自己发布的帖子，服务端核对真实作者并清理不再引用的图片。\n3. 申请访问页面删除“身份由管理员修改”文案。",
+  "updateLog": "v1.8.6正式版：\n1. 合并启动、页面恢复和通知的重复身份权限刷新，自动刷新复用最近确认结果。\n2. 只读取访问申请的完整审核记录，跳过图片上传等无关评论。\n3. 同一次运行内复用已解密登录会话，避免每个请求反复调用手机加密模块；账号或凭据变化时缓存立即失效。",
   "forceUpdate": false
 }
