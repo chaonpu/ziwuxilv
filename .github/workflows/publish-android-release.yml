@@ -1,239 +1,249 @@
 name: Publish signed Android release
-
-on:
+'on':
   push:
-    branches: [main]
+    branches:
+    - main
     paths:
-      - "android-publish-request.json"
-  workflow_dispatch:
-
+    - android-publish-request.json
+  workflow_dispatch: null
 permissions:
   contents: write
-
 concurrency:
   group: publish-android-release
   cancel-in-progress: false
-
+  queue: max
 jobs:
   publish:
     name: Verify and publish signed APK
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+    - name: Validate reviewed publish approval and version immutability
+      run: python3 tools/publish_policy.py android-publish-request.json android-native/version.json
+    - name: Resolve publish request
+      id: request
+      shell: bash
+      run: |
+        set -euo pipefail
+        test -f android-publish-request.json
+        python3 - <<'PY'
+        import json
+        from pathlib import Path
 
-      - name: Resolve publish request
-        id: request
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f android-publish-request.json
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
+        req = json.loads(Path("android-publish-request.json").read_text(encoding="utf-8"))
+        required = [
+            "sourceUrl", "artifactSha256", "sourceCommit", "versionName",
+            "versionCode", "apkSha256", "signingCertificateSha256", "updateLog",
+        ]
+        for key in required:
+            if key not in req:
+                raise SystemExit(f"Missing field: {key}")
 
-          req = json.loads(Path("android-publish-request.json").read_text(encoding="utf-8"))
-          required = [
-              "sourceUrl", "artifactSha256", "sourceCommit", "versionName",
-              "versionCode", "apkSha256", "signingCertificateSha256", "updateLog",
-          ]
-          for key in required:
-              if key not in req:
-                  raise SystemExit(f"Missing field: {key}")
+        lines = {
+            "source_url": req["sourceUrl"],
+            "artifact_sha256": str(req["artifactSha256"]).lower(),
+            "source_commit": req["sourceCommit"],
+            "version_name": req["versionName"],
+            "version_code": str(req["versionCode"]),
+            "apk_sha256": str(req["apkSha256"]).lower(),
+            "signing_cert_sha256": str(req["signingCertificateSha256"]).lower(),
+        }
+        with open("/tmp/request-output", "w", encoding="utf-8") as out:
+            for k, v in lines.items():
+                out.write(f"{k}={v}\n")
+        PY
+        cat /tmp/request-output >> "$GITHUB_OUTPUT"
+    - name: Record publish run start
+      shell: bash
+      env:
+        RUN_ID: ${{ github.run_id }}
+        VERSION_NAME: ${{ steps.request.outputs.version_name }}
+        VERSION_CODE: ${{ steps.request.outputs.version_code }}
+        SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
+      run: |
+        set -euo pipefail
+        python3 - <<'PY'
+        import json, os
+        from pathlib import Path
+        payload = {
+            "runId": int(os.environ["RUN_ID"]),
+            "status": "running",
+            "versionName": os.environ["VERSION_NAME"],
+            "versionCode": int(os.environ["VERSION_CODE"]),
+            "sourceCommit": os.environ["SOURCE_COMMIT"],
+        }
+        Path("/tmp/latest-publish-run.json").write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        PY
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git fetch origin main
+        git switch -C publish-run-start origin/main
+        mkdir -p release
+        cp /tmp/latest-publish-run.json release/latest-publish-run.json
+        git add release/latest-publish-run.json
+        git commit -m "Record Android publish run start"
+        git push origin HEAD:main
+    - name: Download and verify signed artifact
+      shell: bash
+      env:
+        SOURCE_URL: ${{ steps.request.outputs.source_url }}
+        ARTIFACT_SHA256: ${{ steps.request.outputs.artifact_sha256 }}
+        SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
+        VERSION_NAME: ${{ steps.request.outputs.version_name }}
+        APK_SHA256: ${{ steps.request.outputs.apk_sha256 }}
+        SIGNING_CERT_SHA256: ${{ steps.request.outputs.signing_cert_sha256 }}
+        SIGNED_ARTIFACT_READ_TOKEN: ${{ secrets.SIGNED_ARTIFACT_READ_TOKEN }}
+      run: |
+        set -euo pipefail
+        [[ "$SOURCE_URL" == https://* ]]
+        [[ "$ARTIFACT_SHA256" =~ ^[0-9a-f]{64}$ ]]
+        [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+        [[ "$APK_SHA256" =~ ^[0-9a-f]{64}$ ]]
+        [[ "$SIGNING_CERT_SHA256" =~ ^[0-9a-f]{64}$ ]]
+        test "$SIGNING_CERT_SHA256" = "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105"
 
-          lines = {
-              "source_url": req["sourceUrl"],
-              "artifact_sha256": str(req["artifactSha256"]).lower(),
-              "source_commit": req["sourceCommit"],
-              "version_name": req["versionName"],
-              "version_code": str(req["versionCode"]),
-              "apk_sha256": str(req["apkSha256"]).lower(),
-              "signing_cert_sha256": str(req["signingCertificateSha256"]).lower(),
-          }
-          with open("/tmp/request-output", "w", encoding="utf-8") as out:
-              for k, v in lines.items():
-                  out.write(f"{k}={v}\n")
-          PY
-          cat /tmp/request-output >> "$GITHUB_OUTPUT"
+        headers=()
+        if [[ "$SOURCE_URL" == https://api.github.com/repos/chaonpu/ziwuxilv-android/actions/artifacts/*/zip ]]; then
+          test -n "$SIGNED_ARTIFACT_READ_TOKEN"
+          headers+=(-H "Authorization: Bearer $SIGNED_ARTIFACT_READ_TOKEN" -H "Accept: application/vnd.github+json")
+        fi
+        curl --fail --location --retry 3 --retry-delay 2 "${headers[@]}" "$SOURCE_URL" -o /tmp/signed.zip
+        echo "$ARTIFACT_SHA256  /tmp/signed.zip" | sha256sum -c -
 
-      - name: Record publish run start
-        shell: bash
-        env:
-          RUN_ID: ${{ github.run_id }}
-          VERSION_NAME: ${{ steps.request.outputs.version_name }}
-          VERSION_CODE: ${{ steps.request.outputs.version_code }}
-          SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json, os
-          from pathlib import Path
-          payload = {
-              "runId": int(os.environ["RUN_ID"]),
-              "status": "running",
-              "versionName": os.environ["VERSION_NAME"],
-              "versionCode": int(os.environ["VERSION_CODE"]),
-              "sourceCommit": os.environ["SOURCE_COMMIT"],
-          }
-          Path("/tmp/latest-publish-run.json").write_text(
-              json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-              encoding="utf-8",
-          )
-          PY
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git switch -C publish-run-start origin/main
-          mkdir -p release
-          cp /tmp/latest-publish-run.json release/latest-publish-run.json
-          git add release/latest-publish-run.json
-          git commit -m "Record Android publish run start"
-          git push origin HEAD:main
+        rm -rf /tmp/signed
+        mkdir -p /tmp/signed
+        unzip -q /tmp/signed.zip -d /tmp/signed
 
-      - name: Download and verify signed artifact
-        shell: bash
-        env:
-          SOURCE_URL: ${{ steps.request.outputs.source_url }}
-          ARTIFACT_SHA256: ${{ steps.request.outputs.artifact_sha256 }}
-          SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
-          VERSION_NAME: ${{ steps.request.outputs.version_name }}
-          APK_SHA256: ${{ steps.request.outputs.apk_sha256 }}
-          SIGNING_CERT_SHA256: ${{ steps.request.outputs.signing_cert_sha256 }}
-        run: |
-          set -euo pipefail
-          [[ "$SOURCE_URL" == https://* ]]
-          [[ "$ARTIFACT_SHA256" =~ ^[0-9a-f]{64}$ ]]
-          [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]
-          [[ "$APK_SHA256" =~ ^[0-9a-f]{64}$ ]]
-          [[ "$SIGNING_CERT_SHA256" =~ ^[0-9a-f]{64}$ ]]
-          test "$SIGNING_CERT_SHA256" = "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105"
+        apk="/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk"
+        test -f "$apk"
+        test -f "$apk.sha256"
+        test -f /tmp/signed/source-commit.txt
+        test -f /tmp/signed/signing-cert-sha256.txt
 
-          curl --fail --location --retry 3 --retry-delay 2 "$SOURCE_URL" -o /tmp/signed.zip
-          echo "$ARTIFACT_SHA256  /tmp/signed.zip" | sha256sum -c -
+        test "$(tr -d '\r\n' < /tmp/signed/source-commit.txt)" = "$SOURCE_COMMIT"
+        test "$(tr -d '\r\n' < /tmp/signed/signing-cert-sha256.txt)" = "$SIGNING_CERT_SHA256"
+        echo "$APK_SHA256  $apk" | sha256sum -c -
+        (
+          cd /tmp/signed
+          sha256sum -c "ziwuxilv-native-v${VERSION_NAME}.apk.sha256"
+        )
+    - name: Publish APK to GitHub Release and activate manifest
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
+        VERSION_NAME: ${{ steps.request.outputs.version_name }}
+        VERSION_CODE: ${{ steps.request.outputs.version_code }}
+        APK_SHA256: ${{ steps.request.outputs.apk_sha256 }}
+        SIGNING_CERT_SHA256: ${{ steps.request.outputs.signing_cert_sha256 }}
+      run: |
+        set -euo pipefail
 
-          rm -rf /tmp/signed
-          mkdir -p /tmp/signed
-          unzip -q /tmp/signed.zip -d /tmp/signed
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git fetch origin main
+        git reset --hard origin/main
 
-          apk="/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk"
-          test -f "$apk"
-          test -f "$apk.sha256"
-          test -f /tmp/signed/source-commit.txt
-          test -f /tmp/signed/signing-cert-sha256.txt
+        apk="/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk"
+        sha_file="/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk.sha256"
+        tag="v${VERSION_NAME}"
+        asset_name="ziwuxilv-native-v${VERSION_NAME}.apk"
+        public_url="https://github.com/chaonpu/ziwuxilv/releases/download/${tag}/${asset_name}"
 
-          test "$(tr -d '\r\n' < /tmp/signed/source-commit.txt)" = "$SOURCE_COMMIT"
-          test "$(tr -d '\r\n' < /tmp/signed/signing-cert-sha256.txt)" = "$SIGNING_CERT_SHA256"
-          echo "$APK_SHA256  $apk" | sha256sum -c -
-          (
-            cd /tmp/signed
-            sha256sum -c "ziwuxilv-native-v${VERSION_NAME}.apk.sha256"
-          )
+        if ! gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target main               --title "子午汐律 ${VERSION_NAME}"               --notes "Signed Android release ${VERSION_NAME}. APK integrity is recorded in android-native/version.json and the attached SHA-256 file."
+        fi
 
-      - name: Publish APK to GitHub Release and activate manifest
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
-          VERSION_NAME: ${{ steps.request.outputs.version_name }}
-          VERSION_CODE: ${{ steps.request.outputs.version_code }}
-          APK_SHA256: ${{ steps.request.outputs.apk_sha256 }}
-          SIGNING_CERT_SHA256: ${{ steps.request.outputs.signing_cert_sha256 }}
-        run: |
-          set -euo pipefail
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git reset --hard origin/main
-
-          apk="/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk"
-          sha_file="/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk.sha256"
-          tag="v${VERSION_NAME}"
-          asset_name="ziwuxilv-native-v${VERSION_NAME}.apk"
-          public_url="https://github.com/chaonpu/ziwuxilv/releases/download/${tag}/${asset_name}"
-
-          if ! gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target main               --title "子午汐律 ${VERSION_NAME}"               --notes "Signed Android release ${VERSION_NAME}. APK integrity is recorded in android-native/version.json and the attached SHA-256 file."
+        existing=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" --jq '.assets[].name')
+        for file in "$apk" "$sha_file"; do
+          name=$(basename "$file")
+          if grep -Fxq "$name" <<< "$existing"; then
+            gh release download "$tag" --repo "$GITHUB_REPOSITORY" --pattern "$name" --output "/tmp/existing-$name"
+            cmp "$file" "/tmp/existing-$name" || { echo 'Immutable release asset conflict'; exit 1; }
+          else
+            gh release upload "$tag" "$file#$name" --repo "$GITHUB_REPOSITORY"
           fi
+        done
 
-          gh release upload "$tag"             "$apk#$asset_name"             "$sha_file#${asset_name}.sha256"             --repo "$GITHUB_REPOSITORY" --clobber
+        curl --fail --location --retry 8 --retry-all-errors --retry-delay 5 --max-time 120             -H 'Cache-Control: no-cache' "$public_url" -o /tmp/public-release.apk
+        echo "$APK_SHA256  /tmp/public-release.apk" | sha256sum -c -
 
-          curl --fail --location --retry 8 --retry-all-errors --retry-delay 5 --max-time 120             -H 'Cache-Control: no-cache' "$public_url" -o /tmp/public-release.apk
-          echo "$APK_SHA256  /tmp/public-release.apk" | sha256sum -c -
+        python3 - <<'PY'
+        import json, os
+        from pathlib import Path
 
-          python3 - <<'PY'
-          import json, os
-          from pathlib import Path
+        req = json.loads(Path("android-publish-request.json").read_text(encoding="utf-8"))
+        version = os.environ["VERSION_NAME"]
+        code = int(os.environ["VERSION_CODE"])
+        manifest = {
+            "versionCode": code,
+            "versionName": version,
+            "downloadUrl": f"https://github.com/chaonpu/ziwuxilv/releases/download/v{version}/ziwuxilv-native-v{version}.apk",
+            "apkSha256": os.environ["APK_SHA256"],
+            "signingCertificateSha256": os.environ["SIGNING_CERT_SHA256"],
+            "sourceCommit": os.environ["SOURCE_COMMIT"],
+            "updateLog": req["updateLog"],
+            "forceUpdate": bool(req.get("forceUpdate", False)),
+        }
+        active_path = Path("android-native/version.json")
+        if active_path.exists():
+            active = json.loads(active_path.read_text(encoding="utf-8"))
+            if int(active.get("versionCode", 0)) > code:
+                print(f"Keeping newer active version {active.get('versionName')} over {version}")
+                raise SystemExit(0)
+        Path("android-native/version.json").write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        PY
 
-          req = json.loads(Path("android-publish-request.json").read_text(encoding="utf-8"))
-          version = os.environ["VERSION_NAME"]
-          code = int(os.environ["VERSION_CODE"])
-          manifest = {
-              "versionCode": code,
-              "versionName": version,
-              "downloadUrl": f"https://github.com/chaonpu/ziwuxilv/releases/download/v{version}/ziwuxilv-native-v{version}.apk",
-              "apkSha256": os.environ["APK_SHA256"],
-              "signingCertificateSha256": os.environ["SIGNING_CERT_SHA256"],
-              "sourceCommit": os.environ["SOURCE_COMMIT"],
-              "updateLog": req["updateLog"],
-              "forceUpdate": bool(req.get("forceUpdate", False)),
-          }
-          active_path = Path("android-native/version.json")
-          if active_path.exists():
-              active = json.loads(active_path.read_text(encoding="utf-8"))
-              if int(active.get("versionCode", 0)) > code:
-                  print(f"Keeping newer active version {active.get('versionName')} over {version}")
-                  raise SystemExit(0)
-          Path("android-native/version.json").write_text(
-              json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
-              encoding="utf-8",
-          )
-          PY
+        git add android-native/version.json
+        if git diff --cached --quiet; then
+          echo "Release asset and manifest already match the requested version."
+          exit 0
+        fi
+        git commit -m "Publish Android v${VERSION_NAME} via GitHub Release"
+        git push origin HEAD:main
+    - name: Record publish run status
+      if: always()
+      shell: bash
+      env:
+        JOB_STATUS: ${{ job.status }}
+        RUN_ID: ${{ github.run_id }}
+        VERSION_NAME: ${{ steps.request.outputs.version_name }}
+        VERSION_CODE: ${{ steps.request.outputs.version_code }}
+        SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
+      run: |
+        set -euo pipefail
+        python3 - <<'PY'
+        import json, os
+        from pathlib import Path
+        payload = {
+            "runId": int(os.environ["RUN_ID"]),
+            "status": os.environ["JOB_STATUS"],
+            "versionName": os.environ.get("VERSION_NAME", ""),
+            "versionCode": int(os.environ["VERSION_CODE"]) if os.environ.get("VERSION_CODE") else None,
+            "sourceCommit": os.environ.get("SOURCE_COMMIT", ""),
+        }
+        Path("/tmp/latest-publish-run.json").write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        PY
 
-          git add android-native/version.json
-          if git diff --cached --quiet; then
-            echo "Release asset and manifest already match the requested version."
-            exit 0
-          fi
-          git commit -m "Publish Android v${VERSION_NAME} via GitHub Release"
-          git push origin HEAD:main
-
-      - name: Record publish run status
-        if: always()
-        shell: bash
-        env:
-          JOB_STATUS: ${{ job.status }}
-          RUN_ID: ${{ github.run_id }}
-          VERSION_NAME: ${{ steps.request.outputs.version_name }}
-          VERSION_CODE: ${{ steps.request.outputs.version_code }}
-          SOURCE_COMMIT: ${{ steps.request.outputs.source_commit }}
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json, os
-          from pathlib import Path
-          payload = {
-              "runId": int(os.environ["RUN_ID"]),
-              "status": os.environ["JOB_STATUS"],
-              "versionName": os.environ.get("VERSION_NAME", ""),
-              "versionCode": int(os.environ["VERSION_CODE"]) if os.environ.get("VERSION_CODE") else None,
-              "sourceCommit": os.environ.get("SOURCE_COMMIT", ""),
-          }
-          Path("/tmp/latest-publish-run.json").write_text(
-              json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-              encoding="utf-8",
-          )
-          PY
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git switch -C publish-run-status origin/main
-          mkdir -p release
-          cp /tmp/latest-publish-run.json release/latest-publish-run.json
-          git add release/latest-publish-run.json
-          if git diff --cached --quiet; then
-            exit 0
-          fi
-          git commit -m "Record Android publish run status"
-          git push origin HEAD:main
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git fetch origin main
+        git switch -C publish-run-status origin/main
+        mkdir -p release
+        cp /tmp/latest-publish-run.json release/latest-publish-run.json
+        git add release/latest-publish-run.json
+        if git diff --cached --quiet; then
+          exit 0
+        fi
+        git commit -m "Record Android publish run status"
+        git push origin HEAD:main

@@ -1,0 +1,1 @@
+Archived workflows are inactive outside .github/workflows. Migration completed; manual diagnostics and source exports moved into their unified entry points. Restore only after review, not by copying all files back.
