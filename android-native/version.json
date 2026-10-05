@@ -1,10 +1,10 @@
 {
-  "versionCode": 74,
-  "versionName": "1.9.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.2/ziwuxilv-native-v1.9.2.apk",
-  "apkSha256": "7b96cc95437dc357788356d038faffbf1986e61eea4ec3627a676af0c8e17a5c",
+  "versionCode": 75,
+  "versionName": "1.9.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.3/ziwuxilv-native-v1.9.3.apk",
+  "apkSha256": "0da0978a9ba3f25e4d357f32a5dbe356432017ee02a71d9b1051f94d0dba67d7",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "bbb769c5295da7c87bb96d30941f4d9e460aa6f7",
-  "updateLog": "v1.9.2正式版：\n1. 行情-持仓汇总卡删除“共X”，改为单行显示“涨X · 平X · 跌X”。\n2. 优化汇总卡字号、留白和信息层级。\n3. 盘中汇总卡边框随当日收益方向变化：上涨红色、下跌绿色、平盘灰色；非盘中保持中性边框。",
+  "sourceCommit": "f375f15e3dac38ce1a7c4bb9435d73fec32522d1",
+  "updateLog": "v1.9.3正式版：\n1. 修复行情-持仓汇总卡“涨/平/跌”在窄屏下换行的问题。\n2. 改为三等分单行布局，去除分隔点，确保“涨X 平X 跌X”始终整齐对齐。",
   "forceUpdate": false
 }
