@@ -1,10 +1,10 @@
 {
-  "versionCode": 71,
-  "versionName": "1.8.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.8.9/ziwuxilv-native-v1.8.9.apk",
-  "apkSha256": "aa74762a3d46217fe47450a70278cc84578e8b92fddb11580c2bca2556f0700f",
+  "versionCode": 72,
+  "versionName": "1.9.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.0/ziwuxilv-native-v1.9.0.apk",
+  "apkSha256": "7cc4c0c04fb8fef6404d95914156f7805b7781dd07c3856db4653a01942ce2e2",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "976c13b930c45e33b6b18a2a5e80dfca39ac3700",
-  "updateLog": "v1.8.9正式版：\n1. 配置模式持仓页的仓位占比按最新行情动态更新，未分配仓位继续按现金计入。\n2. 累计收益重置按钮和二次警告统一改为红色。\n3. 配置权重仍保留为收益计算基准，不改动原持仓成本和累计收益逻辑。",
+  "sourceCommit": "efa1018c4c3fc5dc4f991d7c4dc602aebd329725",
+  "updateLog": "v1.9.0正式版：\n1. 行情-持仓的A股和美股汇总卡新增当日收益百分比，并与涨跌数量居中对齐。\n2. 进入收益页时优先打开当前处于盘中的市场，进入后仍可手动切换。\n3. 使用模式选择删除说明文字并压缩间距，整体布局更紧凑。",
   "forceUpdate": false
 }
