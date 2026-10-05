@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-a740-81fd-b30c-40017b90c799/raw?se=2026-10-05T19%3A19%3A56Z&sp=r&sv=2026-02-06&sr=b&scid=d38f1bfb-c781-515a-b529-8d9ec4a062bf&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T13%3A17%3A41Z&ske=2026-10-06T13%3A17%3A41Z&sks=b&skv=2026-02-06&sig=tjU9%2BUVqE2VfrPnihsfECbEP8wHDTXk1NQybrUGtQ%2Bw%3D",
-  "artifactSha256": "fe956f49947b11f306bea80b2cca7d91e6b9bd58a26dbd949d587fb0c7fb005e",
-  "apkSha256": "7b96cc95437dc357788356d038faffbf1986e61eea4ec3627a676af0c8e17a5c",
-  "sourceCommit": "bbb769c5295da7c87bb96d30941f4d9e460aa6f7",
+  "sourceUrl": "https://sdmntprsoutheastus3.oaiusercontent.com/files/00000000-ef08-820c-ae8e-023e261c0cd1/raw?se=2026-10-05T19%3A43%3A23Z&sp=r&sv=2026-02-06&sr=b&scid=0afab217-850c-56fa-998a-aedf139beb83&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T10%3A36%3A32Z&ske=2026-10-06T10%3A36%3A32Z&sks=b&skv=2026-02-06&sig=h5aWT40JpS3MhUY/vTSHzSHMsmS/PaSZT6Q8ClKxiCQ%3D",
+  "artifactSha256": "82e975591844d2e7fd3ddd26e7727bbcaaafb8288abb4f0824dc9782fc822eb2",
+  "apkSha256": "0da0978a9ba3f25e4d357f32a5dbe356432017ee02a71d9b1051f94d0dba67d7",
+  "sourceCommit": "f375f15e3dac38ce1a7c4bb9435d73fec32522d1",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.9.2",
-  "versionCode": 74,
-  "updateLog": "v1.9.2正式版：\n1. 行情-持仓汇总卡删除“共X”，改为单行显示“涨X · 平X · 跌X”。\n2. 优化汇总卡字号、留白和信息层级。\n3. 盘中汇总卡边框随当日收益方向变化：上涨红色、下跌绿色、平盘灰色；非盘中保持中性边框。",
+  "versionName": "1.9.3",
+  "versionCode": 75,
+  "updateLog": "v1.9.3正式版：\n1. 修复行情-持仓汇总卡“涨/平/跌”在窄屏下换行的问题。\n2. 改为三等分单行布局，去除分隔点，确保“涨X 平X 跌X”始终整齐对齐。",
   "forceUpdate": false
 }
