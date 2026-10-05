@@ -1,54 +1,63 @@
 name: Repository maintenance
-
-on:
-  workflow_dispatch:
+'on':
   schedule:
-    # Sunday 10:50 Asia/Shanghai (02:50 UTC)
-    - cron: "50 2 * * 0"
-
+  - cron: 17 20 * * 6
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Only list candidates; scheduled maintenance also starts in dry-run until explicitly enabled
+        type: boolean
+        default: true
+      release_asset_smoke:
+        description: Write, verify and delete a temporary Release Asset
+        type: boolean
+        default: false
 permissions:
-  actions: write
   contents: read
-
+concurrency:
+  group: repository-maintenance
+  cancel-in-progress: false
 jobs:
-  cleanup-orphaned-workflow-runs:
-    runs-on: ubuntu-latest
+  maintenance:
+    if: github.event_name != 'workflow_dispatch' || !inputs.release_asset_smoke
+    uses: ./.github/workflows/_actions-maintenance.yml
+    permissions:
+      actions: write
+      contents: read
+    with:
+      dry_run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || github.event_name == 'schedule' && vars.MAINTENANCE_DELETE_ENABLED
+        != 'true' }}
+      implementation_ref: ${{ github.sha }}
+  release-asset-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
-      - name: Delete completed runs for removed workflows
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          repo="$GITHUB_REPOSITORY"
-
-          mapfile -t current_paths < <(
-            gh api --paginate "repos/$repo/actions/workflows?per_page=100" \
-              --jq '.workflows[].path'
-          )
-
-          is_current_path() {
-            local candidate="$1"
-            local path
-            for path in "${current_paths[@]}"; do
-              [[ "$candidate" == "$path" ]] && return 0
-            done
-            return 1
-          }
-
-          mapfile -t completed_runs < <(
-            gh api --paginate "repos/$repo/actions/runs?per_page=100&status=completed" \
-              --jq '.workflow_runs[] | [.id, .path, .name] | @tsv'
-          )
-
-          deleted=0
-          for row in "${completed_runs[@]}"; do
-            IFS=$'\t' read -r id path name <<< "$row"
-            if ! is_current_path "$path"; then
-              echo "Delete orphaned run: $id | $name | $path"
-              gh api --method DELETE "repos/$repo/actions/runs/$id"
-              deleted=$((deleted + 1))
-            fi
-          done
-
-          echo "Cleanup complete: deleted $deleted orphaned workflow runs."
+    - uses: actions/checkout@v4
+      with:
+        ref: main
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Upload, verify metadata, and delete a temporary Release Asset
+      env:
+        GH_TOKEN: ${{ github.token }}
+        RUN_ID: ${{ github.run_id }}
+      run: |
+        python - <<'PY'
+        import os
+        from tools.release_assets import upload_monthly_bytes, delete_asset, release_asset_url_valid
+        data = ("ziwuxilv-release-asset-smoke:" + os.environ["RUN_ID"]).encode()
+        name = "media-smoke-" + os.environ["RUN_ID"] + ".bin"
+        tag, asset = upload_monthly_bytes(name, data, "application/octet-stream")
+        assert int(asset["size"]) == len(data)
+        assert release_asset_url_valid(asset["browser_download_url"], tag, name)
+        delete_asset(int(asset["id"]))
+        print("Release Asset smoke passed:", tag, asset["id"])
+        PY
+    if: github.event_name == 'workflow_dispatch' && inputs.release_asset_smoke
+    permissions:
+      contents: write
+    concurrency:
+      group: profile-registry-write
+      cancel-in-progress: false
+      queue: max

@@ -1,19 +1,18 @@
 name: Shared image lifecycle
-on:
+'on':
   issue_comment:
-    types: [created]
+    types:
+    - created
   schedule:
-    - cron: '23 */6 * * *'
-  workflow_dispatch:
+  - cron: 23 */6 * * *
+  - cron: 30 19 * * *
+  workflow_dispatch: null
 permissions:
   contents: read
 jobs:
   lifecycle:
-    if: >-
-      github.event_name != 'issue_comment' ||
-      (!github.event.issue.pull_request &&
-      startsWith(github.event.comment.body, 'ZIWUXILV_IMAGE_LIFECYCLE_SUBMIT_V1') &&
-      github.event.comment.user.id == github.event.issue.user.id)
+    if: github.event_name != 'issue_comment' || (!github.event.issue.pull_request && startsWith(github.event.comment.body, 'ZIWUXILV_IMAGE_LIFECYCLE_SUBMIT_V1')
+      && github.event.comment.user.id == github.event.issue.user.id)
     concurrency:
       group: profile-registry-write
       cancel-in-progress: false
@@ -25,25 +24,30 @@ jobs:
       issues: write
       discussions: write
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: python -m pip install Pillow==12.3.0
-      - name: Verify and apply content operation
-        if: github.event_name == 'issue_comment'
-        run: python tools/image_lifecycle.py
-        env:
-          GH_TOKEN: ${{ github.token }}
-      - name: Reconcile every page and collect quarantined orphans
-        if: github.event_name != 'issue_comment'
-        run: python tools/image_lifecycle.py --gc
-        env:
-          GH_TOKEN: ${{ github.token }}
-      - name: Preserve committed result or return resumable status
-        if: failure() && github.event_name == 'issue_comment'
-        run: python tools/image_lifecycle.py --report-failure
-        env:
-          GH_TOKEN: ${{ github.token }}
+    - uses: actions/checkout@v4
+      with:
+        ref: main
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - run: python -m pip install Pillow==12.3.0
+    - name: Verify and apply content operation
+      if: github.event_name == 'issue_comment'
+      run: python tools/image_lifecycle.py
+      env:
+        GH_TOKEN: ${{ github.token }}
+    - name: Reconcile every page and collect quarantined orphans
+      if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '23 */6 * * *')
+      run: python tools/image_lifecycle.py --gc
+      env:
+        GH_TOKEN: ${{ github.token }}
+    - name: Preserve committed result or return resumable status
+      if: failure() && github.event_name == 'issue_comment'
+      run: python tools/image_lifecycle.py --report-failure
+      env:
+        GH_TOKEN: ${{ github.token }}
+    - name: Apply 90-day discussion retention
+      if: github.event_name == 'schedule' && github.event.schedule == '30 19 * * *'
+      run: python tools/image_lifecycle.py --expire-discussions
+      env:
+        GH_TOKEN: ${{ github.token }}
