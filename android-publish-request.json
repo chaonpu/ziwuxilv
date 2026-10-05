@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus.oaiusercontent.com/files/00000000-9fdc-8230-ba0f-bde454cc8cd5/raw?se=2026-10-05T14%3A46%3A24Z&sp=r&sv=2026-02-06&sr=b&scid=c026decb-148d-5ef5-8740-15bb33d91f3a&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T16%3A54%3A15Z&ske=2026-10-05T16%3A54%3A15Z&sks=b&skv=2026-02-06&sig=fOWlxRM/nbt90VKZ0VMDPr3wBocmsyZdlD9NztsdX0w%3D",
-  "artifactSha256": "aa151186cfe67348e47f343444009bd8e1cd5fc8c207ce959ffa22e79738b143",
-  "apkSha256": "aa74762a3d46217fe47450a70278cc84578e8b92fddb11580c2bca2556f0700f",
-  "sourceCommit": "976c13b930c45e33b6b18a2a5e80dfca39ac3700",
+  "sourceUrl": "https://sdmntprcentralus.oaiusercontent.com/files/00000000-00c8-81f5-87a1-b718922aa2e3/raw?se=2026-10-05T18%3A40%3A46Z&sp=r&sv=2026-02-06&sr=b&scid=06751a30-7f1b-5dfd-9965-6bcf5425a07f&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T07%3A01%3A58Z&ske=2026-10-06T07%3A01%3A58Z&sks=b&skv=2026-02-06&sig=Rtk5e63ZiOlgNPR0on/KzLn5EIDOANd6b6qkb46bWaQ%3D",
+  "artifactSha256": "7209731af86ad3426ac437d805f0153ff0c253c1cfe4475856451df7a80e301f",
+  "apkSha256": "7cc4c0c04fb8fef6404d95914156f7805b7781dd07c3856db4653a01942ce2e2",
+  "sourceCommit": "efa1018c4c3fc5dc4f991d7c4dc602aebd329725",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.8.9",
-  "versionCode": 71,
-  "updateLog": "v1.8.9正式版：\n1. 配置模式持仓页的仓位占比按最新行情动态更新，未分配仓位继续按现金计入。\n2. 累计收益重置按钮和二次警告统一改为红色。\n3. 配置权重仍保留为收益计算基准，不改动原持仓成本和累计收益逻辑。",
+  "versionName": "1.9.0",
+  "versionCode": 72,
+  "updateLog": "v1.9.0正式版：\n1. 行情-持仓的A股和美股汇总卡新增当日收益百分比，并与涨跌数量居中对齐。\n2. 进入收益页时优先打开当前处于盘中的市场，进入后仍可手动切换。\n3. 使用模式选择删除说明文字并压缩间距，整体布局更紧凑。",
   "forceUpdate": false
 }
