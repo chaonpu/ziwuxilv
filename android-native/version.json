@@ -1,10 +1,10 @@
 {
-  "versionCode": 62,
-  "versionName": "1.8.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.8.0/ziwuxilv-native-v1.8.0.apk",
-  "apkSha256": "b4d3981cad07c66dcfed0882c787a9ce4626da6616e1a363018466d2d77d2df0",
+  "versionCode": 65,
+  "versionName": "1.8.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.8.3/ziwuxilv-native-v1.8.3.apk",
+  "apkSha256": "d193df9e0ca1101a61eb5f2e1aba1d038ed34ddd875eef17745269d878dc5aaf",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "1756cfee14850eec1e472681528ca483b6831440",
-  "updateLog": "v1.8.0正式版：\n1. 更新弹窗增加取消和后台更新按钮；后台下载不打断使用，完成后可在「我的」中安装。\n2. 持仓移除操作集中到右上角编辑面板，支持在搜索框下方查看、添加和移除持仓。\n3. 新增持仓价格及持仓收益，保存加入时的有效现价，按加入价格计算累计涨跌幅。\n4. 持仓卡片改为紧凑分组布局，区分日涨跌与持仓收益；旧持仓未记录加入价格时如实显示未记录。",
+  "sourceCommit": "69ba7dfcf423cb14433f4ff2dda16845092c836d",
+  "updateLog": "v1.8.3正式版：\n1. 修复日经官网今开、最高、最低解析，支持当前英文标题及收盘标记。\n2. 全部行情缺少开高低时继续独立查找允许的完整报价，保持现价、来源和时间一致。\n3. 修复刷新造成的开高低空白，并严格隔离不同来源、交易日、合约和计价基准。\n4. 保留持仓卡片与收益页样式统一、行业、持股天数、价格、收益和实时行情时间更新。",
   "forceUpdate": false
 }
