@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-dc3c-81fd-85bc-9b98a518f22e/raw?se=2026-10-05T06%3A46%3A33Z&sp=r&sv=2026-02-06&sr=b&scid=b9a3e034-09f1-4199-b955-aebd531960bb&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T17%3A25%3A13Z&ske=2026-10-05T17%3A25%3A13Z&sks=b&skv=2026-02-06&sig=TpJWuDT/cCiyiQBfoVMBFn1itye5C4ea3uH5qm1uq/k%3D",
-  "artifactSha256": "77ce33434290ef2b1f8be1ebb2743b3b3038cc66a67167a4c790110a8015ba6c",
-  "apkSha256": "26afd7cca3167f0c8d0290ac526cb6cd4366e6d8a37dcaebb006dd95f60b47f8",
-  "sourceCommit": "e5fe607c75b987a085669ed25dd6060382001730",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-0778-81fd-a0e1-01401d8d123b/raw?se=2026-10-05T13%3A13%3A28Z&sp=r&sv=2026-02-06&sr=b&scid=e2b040d3-842d-49f2-9f7b-bb4f09d51ca5&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T12%3A41%3A47Z&ske=2026-10-06T12%3A41%3A47Z&sks=b&skv=2026-02-06&sig=906CLCmJdSSNNRp5lv8IPkVUQtMgRny7mtwhRuOhmtQ%3D",
+  "artifactSha256": "0a3489add3e2f6ce1d378b5afc4b48df814b29236c7db4fe188ea1fdb9c4a73c",
+  "apkSha256": "4cce89a3dfa5de4862dff9adac9406e8bc64a9c23f2e02b1d1647e74dedfdbba",
+  "sourceCommit": "9e32ca2a7844e0b93ac71fb9bfa920ff175cc46f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.8.7",
-  "versionCode": 69,
-  "updateLog": "v1.8.7正式版：\n1. 日常身份权限读取当前状态，异常时保留完整审核记录回退。\n2. A股和美股共用数据版本清单，数据未变化时复用已核验的账本与持仓缓存。\n3. 全球行情、自选和持仓共用腾讯／新浪请求与短缓存，减少重复请求并保留原始行情时间。\n4. 加强账号切换时的缓存隔离。",
+  "versionName": "1.8.8",
+  "versionCode": 70,
+  "updateLog": "v1.8.8正式版：\n1. 配置模式持仓取消标的数量限制。\n2. 累计收益弹窗新增重置按钮，警告确认后归零，并保存新的收益起点。\n3. 重置保留原始持仓成本、入场时间、仓位及当日收益。",
   "forceUpdate": false
 }
