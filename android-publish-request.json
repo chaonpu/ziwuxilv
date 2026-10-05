@@ -1,12 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus.oaiusercontent.com/files/00000000-989c-8230-9849-5b722f2064cf/raw?se=2026-10-04T23%3A42%3A52Z&sp=r&sv=2026-02-06&sr=b&scid=45426a28-ac4b-4398-bcc3-181f61d7346e&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T17%3A26%3A12Z&ske=2026-10-05T17%3A26%3A12Z&sks=b&skv=2026-02-06&sig=IVo/GTjiksVk8kVEhTaWxFr%2BX5txXoaMnSRg7mjca0w%3D",
-  "artifactSha256": "0ff03839b9f2cbb19e5daf1d7b387c636687cdeef994c7486bb17e70dfe3a405",
-  "sourceCommit": "1756cfee14850eec1e472681528ca483b6831440",
-  "versionName": "1.8.0",
-  "versionCode": 62,
-  "apkSha256": "b4d3981cad07c66dcfed0882c787a9ce4626da6616e1a363018466d2d77d2df0",
+  "sourceUrl": "https://sdmntprseasia.oaiusercontent.com/files/00000000-c460-8207-a90c-c716f543baaa/raw?se=2026-10-05T01%3A30%3A09Z&sp=r&sv=2026-02-06&sr=b&scid=04b1c713-e48f-41d9-8ea1-331732d92968&skoid=fb469448-2cc9-41bd-a5a6-6e020952b47a&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T17%3A48%3A51Z&ske=2026-10-05T17%3A48%3A51Z&sks=b&skv=2026-02-06&sig=%2B4hBL0l7BSOaohIQQgYmV0D%2BBMGbr4fnb7XOHd3zk20%3D",
+  "artifactSha256": "26fa9b28d86ca319fd649300e87920b5e07abc6cda266b83a03aec1a1be03920",
+  "sourceCommit": "69ba7dfcf423cb14433f4ff2dda16845092c836d",
+  "versionName": "1.8.3",
+  "versionCode": 65,
+  "apkSha256": "d193df9e0ca1101a61eb5f2e1aba1d038ed34ddd875eef17745269d878dc5aaf",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v1.8.0正式版：\n1. 更新弹窗增加取消和后台更新按钮；后台下载不打断使用，完成后可在「我的」中安装。\n2. 持仓移除操作集中到右上角编辑面板，支持在搜索框下方查看、添加和移除持仓。\n3. 新增持仓价格及持仓收益，保存加入时的有效现价，按加入价格计算累计涨跌幅。\n4. 持仓卡片改为紧凑分组布局，区分日涨跌与持仓收益；旧持仓未记录加入价格时如实显示未记录。",
-  "forceUpdate": false,
-  "requestNonce": "v180-publish-1791157105220"
+  "updateLog": "v1.8.3正式版：\n1. 修复日经官网今开、最高、最低解析，支持当前英文标题及收盘标记。\n2. 全部行情缺少开高低时继续独立查找允许的完整报价，保持现价、来源和时间一致。\n3. 修复刷新造成的开高低空白，并严格隔离不同来源、交易日、合约和计价基准。\n4. 保留持仓卡片与收益页样式统一、行业、持股天数、价格、收益和实时行情时间更新。",
+  "forceUpdate": false
 }
