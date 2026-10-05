@@ -48,7 +48,7 @@ jobs:
               if (name.startsWith('release-source-')) return {group: 'release-source', keep: 3, grace: 24 * hour};
               if (name.startsWith('ziwu-xilv-') && name.endsWith('-signed')) return {group: 'signed-apk', keep: 3, grace: 2 * hour};
               if (name === 'ziwu-xilv-preview') return {group: 'preview-apk', keep: 3, grace: 2 * hour};
-              if (name.endsWith('-smoke-results')) return {group: name, keep: 3, grace: 2 * hour, maxAge: 72 * hour};
+              if (name.endsWith('-smoke-results') || /^verification-v/.test(name)) return {group: name, grace: 72 * hour, maxAge: 72 * hour, ageOnly: true};
               return {group: name, keep: 3, grace: 2 * hour, maxAge: 14 * 24 * hour, ageOnly: true};
             }
             function selectArtifacts(artifacts) {
