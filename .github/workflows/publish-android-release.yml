@@ -82,13 +82,18 @@ jobs:
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git switch -C publish-run-start origin/main
-          mkdir -p release
-          cp /tmp/latest-publish-run.json release/latest-publish-run.json
-          git add release/latest-publish-run.json
-          git commit -m "Record Android publish run start"
-          git push origin HEAD:main
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git switch -C publish-run-start origin/main
+            mkdir -p release
+            cp /tmp/latest-publish-run.json release/latest-publish-run.json
+            git add release/latest-publish-run.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Record Android publish run start"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          echo "Publish start record still conflicts after three attempts" >&2
+          exit 1
 
       - name: Download and verify signed artifact
         shell: bash
@@ -156,7 +161,13 @@ jobs:
             gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target main               --title "子午汐律 ${VERSION_NAME}"               --notes "Signed Android release ${VERSION_NAME}. APK integrity is recorded in android-native/version.json and the attached SHA-256 file."
           fi
 
-          gh release upload "$tag"             "$apk#$asset_name"             "$sha_file#${asset_name}.sha256"             --repo "$GITHUB_REPOSITORY" --clobber
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -Fx "$asset_name"; then
+            curl --fail --location --retry 3 "$public_url" -o /tmp/existing-release.apk
+            echo "$APK_SHA256  /tmp/existing-release.apk" | sha256sum -c -
+            echo "Preserving the existing verified release asset."
+          else
+            gh release upload "$tag" "$apk#$asset_name" "$sha_file#${asset_name}.sha256" --repo "$GITHUB_REPOSITORY"
+          fi
 
           curl --fail --location --retry 8 --retry-all-errors --retry-delay 5 --max-time 120             -H 'Cache-Control: no-cache' "$public_url" -o /tmp/public-release.apk
           echo "$APK_SHA256  /tmp/public-release.apk" | sha256sum -c -
@@ -246,13 +257,15 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git switch -C publish-run-status origin/main
-          mkdir -p release
-          cp /tmp/latest-publish-run.json release/latest-publish-run.json
-          git add release/latest-publish-run.json
-          if git diff --cached --quiet; then
-            exit 0
-          fi
-          git commit -m "Record Android publish run status"
-          git push origin HEAD:main
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git switch -C publish-run-status origin/main
+            mkdir -p release
+            cp /tmp/latest-publish-run.json release/latest-publish-run.json
+            git add release/latest-publish-run.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Record Android publish run status"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          echo "Publish status record still conflicts after three attempts" >&2
+          exit 1
