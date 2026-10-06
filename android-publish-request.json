@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-0c60-820b-97a9-8e2789d697ed/raw?se=2026-10-06T10%3A25%3A41Z&sp=r&sv=2026-02-06&sr=b&scid=1466773f-d0f5-5457-b138-6410b478d8ea&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A42%3A49Z&ske=2026-10-07T01%3A42%3A49Z&sks=b&skv=2026-02-06&sig=/K5umLZl6RLwAGHZ2/2vh1Dlp/UYYbebLA/nTn0S3Tc%3D",
-  "artifactSha256": "15334e2de1081f0b52b780392c3e6da54aef360dffced4169c7963e766e610c2",
-  "apkSha256": "e33c1f63ddbb719b2e1e2e94c6b545cabae96a1af9945ff37990146e71e8b45d",
-  "sourceCommit": "0672c51a38ba3496011bec239d9535d57f7e2e24",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-fe88-81fd-a1b4-18b28be9f482/raw?se=2026-10-06T12%3A25%3A45Z&sp=r&sv=2026-02-06&sr=b&scid=aeebbe95-5d55-4832-b21a-c1955699b7a2&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T11%3A57%3A41Z&ske=2026-10-07T11%3A57%3A41Z&sks=b&skv=2026-02-06&sig=cS97FU5GHodU6NX2HsEnceVO7jCndscCY2xnsvhwUk4%3D",
+  "artifactSha256": "630cdb8b74999c07fa2003270238148e3b0296de33bb041dff1b0a969b88c077",
+  "apkSha256": "01bb7204afe7db7618b99c4bfd8cdb5e1820e3fb62a50e6bfe646b63ae7518d7",
+  "sourceCommit": "6e900af3ccbc5fabe69bdc8cb6ac2d2f8ea413d9",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.9.7",
-  "versionCode": 79,
-  "updateLog": "v1.9.7正式版：\n1. 修复全球行情盘中跨交易日旧快照继续展示的问题，通用旧行情兜底收紧为18分钟。\n2. 印度SENSEX切换为BSE官方优先、移除FinScope价格主链，并修复合格滞后行情误触发数据源退避。\n3. 将10秒快源、15秒全球指数及网页慢源拆分为独立刷新lane，慢源不再阻塞快源。\n4. 全局行情连接保持8路，FinScope、BSE、经济通、富途网页及后台合约/备用校验统一限制为最多3路慢请求并发，为实时轻量源保留连接余量。\n5. 合并国内外曲合商品到同一商品刷新lane，修复多lane状态、缓存写入与时间倒退竞态。",
+  "versionName": "1.9.8",
+  "versionCode": 80,
+  "updateLog": "v1.9.8正式版：\n1. 美股自选及行情持仓增加灰色盘前/盘后参考行情，仅在有效时段显示，20:00美东时间后隐藏。\n2. 统一行情格子字体、行距、对齐与紧凑布局。\n3. 启动诊断显示简明摘要，复制诊断保留完整原始报告。\n4. 收益页及收益计算保持原样。",
   "forceUpdate": false
 }
