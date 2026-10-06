@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-fd5c-81fa-aec5-5900f28e622f/raw?se=2026-10-06T08%3A16%3A27Z&sp=r&sv=2026-02-06&sr=b&scid=ce214a3b-76a7-473d-96a8-1308ade53e86&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A52%3A00Z&ske=2026-10-07T01%3A52%3A00Z&sks=b&skv=2026-02-06&sig=WgxvkB05hwaPGDzN7yBt1NYYXXakqohMwhq%2B37XlNaY%3D",
-  "artifactSha256": "abeec9f595783c2b03bf5b63237a3b2c96b3273eb62dea2b516415848cecd8e5",
-  "apkSha256": "4e14ffdaf20608af43e999c630cf8d1d5cb07dcb28268d75337451d6f1674956",
-  "sourceCommit": "14d3a95cf75f05202d008e05026978186806c0d2",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-0c60-820b-97a9-8e2789d697ed/raw?se=2026-10-06T10%3A25%3A41Z&sp=r&sv=2026-02-06&sr=b&scid=1466773f-d0f5-5457-b138-6410b478d8ea&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A42%3A49Z&ske=2026-10-07T01%3A42%3A49Z&sks=b&skv=2026-02-06&sig=/K5umLZl6RLwAGHZ2/2vh1Dlp/UYYbebLA/nTn0S3Tc%3D",
+  "artifactSha256": "15334e2de1081f0b52b780392c3e6da54aef360dffced4169c7963e766e610c2",
+  "apkSha256": "e33c1f63ddbb719b2e1e2e94c6b545cabae96a1af9945ff37990146e71e8b45d",
+  "sourceCommit": "0672c51a38ba3496011bec239d9535d57f7e2e24",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.9.6",
-  "versionCode": 78,
-  "updateLog": "v1.9.6正式版：\n统一修复全部百度指数行情读取，直接读取带报价时间的完整快照，价格与时间成对更新。\n修复并发同步误报“数据账号已改变”及账本连带等待异常，保留已确认的数据版本。\n修复旧账号请求晚到覆盖、收盘占位数据干扰及行情同步状态漏报。\n保持现有10／15秒刷新节奏。",
+  "versionName": "1.9.7",
+  "versionCode": 79,
+  "updateLog": "v1.9.7正式版：\n1. 修复全球行情盘中跨交易日旧快照继续展示的问题，通用旧行情兜底收紧为18分钟。\n2. 印度SENSEX切换为BSE官方优先、移除FinScope价格主链，并修复合格滞后行情误触发数据源退避。\n3. 将10秒快源、15秒全球指数及网页慢源拆分为独立刷新lane，慢源不再阻塞快源。\n4. 全局行情连接保持8路，FinScope、BSE、经济通、富途网页及后台合约/备用校验统一限制为最多3路慢请求并发，为实时轻量源保留连接余量。\n5. 合并国内外曲合商品到同一商品刷新lane，修复多lane状态、缓存写入与时间倒退竞态。",
   "forceUpdate": false
 }
