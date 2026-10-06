@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-d588-81fd-a8e1-d21132ce174a/raw?se=2026-10-06T13%3A20%3A47Z&sp=r&sv=2026-02-06&sr=b&scid=b8059a80-abbf-4188-a391-6f46f13c42ef&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T12%3A31%3A06Z&ske=2026-10-07T12%3A31%3A06Z&sks=b&skv=2026-02-06&sig=4pQ4KnEL40UtksCGMnhvyxOxcoDQTtqR4%2BhMFHwmFFM%3D",
-  "artifactSha256": "10170e85ee9946658778b3637da6083b0b7be3235d75456ca743dde96fd3779b",
-  "apkSha256": "a766c7ce70d42586f6b13774a4337482415a8eb232777ee1f355936a529c5d89",
-  "sourceCommit": "94a6a093259f0bb139b9d03911a6b10a08f4c0de",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-2aa8-820b-868d-8d451106fab7/raw?se=2026-10-06T14%3A46%3A11Z&sp=r&sv=2026-02-06&sr=b&scid=b2de7c8e-4a5c-5291-bba7-30f9811e0c24&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A00%3A38Z&ske=2026-10-07T01%3A00%3A38Z&sks=b&skv=2026-02-06&sig=VwB2ZUwY43Wix5R%2BbwQBBf4msRnY7kEJ8cPtc3y0VME%3D",
+  "artifactSha256": "ea64fe5f8bf1ac1c10ccb4016c7e179c24cacd2c5e2e69dc3b98fc49ce7959d6",
+  "apkSha256": "8fa0f56fcf825c8cbc739fc2134bb9af48179a370a6a70f0bf96de874b360563",
+  "sourceCommit": "a3f6994c8b42ce8749fba2b601f5c7cf38db76c5",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.9.9",
-  "versionCode": 81,
-  "updateLog": "v1.9.9正式版：\n1. 联网身份校验重试保留已恢复的登录身份，避免收益缓存短暂消失。\n2. 修复自选价格与涨跌数据的垂直对齐。\n3. 顶部状态同步反映全局行情问题，同步中心显示未读取或读取失败的品种。\n4. 补充身份校验重试诊断。",
+  "versionName": "2.0.0",
+  "versionCode": 82,
+  "updateLog": "v2.0.0正式版：\n1. 美股策略持仓统一优先显示行情源中文名称，覆盖收益页、已清仓、收益排行、行情-持仓及详情。\n2. 配置模式持仓页的A股和美股入场时间、行情时间统一显示北京时间。\n3. 美股行情时间按纽约市场时区及夏令时自动转换为北京时间，避免跨日显示歧义。",
   "forceUpdate": false
 }
