@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-6db4-81fd-85ca-cbf7d805c32e/raw?se=2026-10-06T06%3A37%3A03Z&sp=r&sv=2026-02-06&sr=b&scid=5aeabc7d-eeda-4ebb-aefa-50ae79dfbb81&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A42%3A32Z&ske=2026-10-07T01%3A42%3A32Z&sks=b&skv=2026-02-06&sig=QOZD0%2BAaLGGiqN5x9igwX6jihKt7KMF7CD01PDysxls%3D",
-  "artifactSha256": "d2fe458e54e003aa69faa80d66de2a3da005568d4d2dfe08fab30b6c261b4131",
-  "apkSha256": "cba60366cb95130a93f1ba8ae2fe51674b4def6d070b2de7b745067928869a51",
-  "sourceCommit": "9a1caebef514806aa93f9796e6b5fe9df79128ba",
+  "sourceUrl": "https://sdmntprwestus2.oaiusercontent.com/files/00000000-8c00-81f8-8e9f-36dcd76ac9aa/raw?se=2026-10-06T07%3A17%3A07Z&sp=r&sv=2026-02-06&sr=b&scid=1b3e588c-3160-44ed-8c87-1383fe94b197&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A47%3A23Z&ske=2026-10-07T01%3A47%3A23Z&sks=b&skv=2026-02-06&sig=swDs4DP8JDmpEQ9uqONvSHxRLpHKIJF7lT6g7hLTdXc%3D",
+  "artifactSha256": "97cf40d51360dbb048a4e5acc44771918766a238187b9f6b2afd67aa7499904c",
+  "apkSha256": "e64e72da5e182f4ab5d17ae2d01efb1508b7e06ec2b746d059091c0b30aa6c7f",
+  "sourceCommit": "f373bbfec50deaaa9b5772a1cfa4b707e9c8437c",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.9.4",
-  "versionCode": 76,
-  "updateLog": "v1.9.4正式版：\n1. 按逐项核验结果匹配公共行情备用源，保留首选源顺序。\n2. 主备并发请求、批量复用和全局连接限流，防止旧报价覆盖。\n3. 国内期货备用跟随首选源实际月份，禁止跨合约混用。\n4. 修复恒指、恒科期货到期切换，以及巴西错误时间戳报价。\n5. 盘中常规15秒刷新，延时源60秒、休市5分钟；APP前台持续刷新。",
+  "versionName": "1.9.5",
+  "versionCode": 77,
+  "updateLog": "v1.9.5正式版：\n1. 按云端接口实测调整行情刷新周期：轻量接口10秒，经济通期货网页、全球指数及巴西15秒。\n2. 休市恢复原周期：通常5分钟，巴西10分钟；盘前与午休保持原规则。\n3. 保留主备并发、连接限流、旧报价保护及换月校验。",
   "forceUpdate": false
 }
