@@ -1,10 +1,10 @@
 {
-  "versionCode": 82,
-  "versionName": "2.0.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.0/ziwuxilv-native-v2.0.0.apk",
-  "apkSha256": "8fa0f56fcf825c8cbc739fc2134bb9af48179a370a6a70f0bf96de874b360563",
+  "versionCode": 83,
+  "versionName": "2.0.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.1/ziwuxilv-native-v2.0.1.apk",
+  "apkSha256": "58ea4bb029d5e76ce048583f550f8ec14bad1d81acabd7aff4317fd29dfc424c",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "a3f6994c8b42ce8749fba2b601f5c7cf38db76c5",
-  "updateLog": "v2.0.0正式版：\n1. 美股策略持仓统一优先显示行情源中文名称，覆盖收益页、已清仓、收益排行、行情-持仓及详情。\n2. 配置模式持仓页的A股和美股入场时间、行情时间统一显示北京时间。\n3. 美股行情时间按纽约市场时区及夏令时自动转换为北京时间，避免跨日显示歧义。",
+  "sourceCommit": "a5f1bfd384987c0650ac08127eebdfbd08d9ab63",
+  "updateLog": "v2.0.1正式版：\n1. 修复巴西IBOVESPA指数新浪行情被错误日期校验丢弃的问题。\n2. 巴西行情改为以新浪机器行情时间判断新鲜度，不再把参考/上一交易日日期误认为当前行情日期。\n3. 保留东方财富分时作为备用链路和现有交易时段、缓存及滞后判断逻辑。",
   "forceUpdate": false
 }
