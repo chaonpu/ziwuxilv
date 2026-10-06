@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus.oaiusercontent.com/files/00000000-f9c8-8230-be41-1ed1246a56c9/raw?se=2026-10-06T20%3A58%3A30Z&sp=r&sv=2026-02-06&sr=b&scid=5ba1f22b-b1c0-5599-b665-10dd5dad355a&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T12%3A50%3A57Z&ske=2026-10-07T12%3A50%3A57Z&sks=b&skv=2026-02-06&sig=qN73jtSHrBKhbSuLeDVKoWb3HaUbXRHFL1mQp1ZO2ik%3D",
-  "artifactSha256": "9488eb334c83453929e4e8c49916f7f770bc279eb26bc2d5a83111d505fe1937",
-  "apkSha256": "1e736b44a8a56a5abec80e25f5b551f6e30007066fa900cb6fefe88bd47bf20e",
-  "sourceCommit": "19b4873045a322554000b86926264325e4af2950",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-c00c-81fd-a0bf-42f30304b0bf/raw?se=2026-10-06T22%3A17%3A07Z&sp=r&sv=2026-02-06&sr=b&scid=6373177c-1388-5cc8-a3de-2d96e9544f7d&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T11%3A57%3A41Z&ske=2026-10-07T11%3A57%3A41Z&sks=b&skv=2026-02-06&sig=vaja62C2/7oVFYbL44MJu/bORmiNezl2uUaL1qa9aIk%3D",
+  "artifactSha256": "bb4e9b5db5878d2e52b54f6850cf9d26fa9aa7c7a65d6d340ea8158e9a39b6ad",
+  "apkSha256": "cfd4ee4b09a5a219de5174ce4e41b509b498b3b9bc86be3271050c5e2acd9330",
+  "sourceCommit": "d5552770d5b36b945e855039bb6333b91a466e74",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "2.0.2",
-  "versionCode": 84,
-  "updateLog": "v2.0.2正式版：\n1. 收益页与持仓页的股票/ETF持仓卡片支持展开图表，展开区只保留分时、日K、周K、月K及成交量。\n2. 自选页与行情-持仓点击股票/ETF直接打开大尺寸图表详情；指数、期货、加密等其他品种继续显示文字详情。\n3. 接入腾讯分时与复权日K数据，周K/月K由日K本地聚合，并支持昨收及持仓入场价参考线。\n4. 优化持仓卡片摘要信息层级与图表高度，减少重复详情。",
+  "versionName": "2.0.3",
+  "versionCode": 85,
+  "updateLog": "v2.0.3正式版：\n1. 持仓卡片按新设计重构，标题、市场/概念/行业标签、当日涨跌、交易日持有时长、实际/目标仓位与入场/最新价重新布局。\n2. 图表仅保留分时与日K；日K固定显示最近60根。\n3. 分时线、K线、成交量及卡片/图表边框严格跟随涨跌使用红绿配色，并保留昨收与入场价参考线。\n4. 支持点击或拖动游标，悬浮显示开盘、最高、最低与涨跌幅。\n5. 修复美股图表链路：美股分时读取腾讯 usMinute，日K自动解析带交易所后缀的历史代码（如 SNDK.OQ），并通过实时烟测验证。\n6. 持仓天数统一改为交易日口径。",
   "forceUpdate": false
 }
