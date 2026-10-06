@@ -1,10 +1,10 @@
 {
-  "versionCode": 80,
-  "versionName": "1.9.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.8/ziwuxilv-native-v1.9.8.apk",
-  "apkSha256": "01bb7204afe7db7618b99c4bfd8cdb5e1820e3fb62a50e6bfe646b63ae7518d7",
+  "versionCode": 81,
+  "versionName": "1.9.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.9/ziwuxilv-native-v1.9.9.apk",
+  "apkSha256": "a766c7ce70d42586f6b13774a4337482415a8eb232777ee1f355936a529c5d89",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "6e900af3ccbc5fabe69bdc8cb6ac2d2f8ea413d9",
-  "updateLog": "v1.9.8正式版：\n1. 美股自选及行情持仓增加灰色盘前/盘后参考行情，仅在有效时段显示，20:00美东时间后隐藏。\n2. 统一行情格子字体、行距、对齐与紧凑布局。\n3. 启动诊断显示简明摘要，复制诊断保留完整原始报告。\n4. 收益页及收益计算保持原样。",
+  "sourceCommit": "94a6a093259f0bb139b9d03911a6b10a08f4c0de",
+  "updateLog": "v1.9.9正式版：\n1. 联网身份校验重试保留已恢复的登录身份，避免收益缓存短暂消失。\n2. 修复自选价格与涨跌数据的垂直对齐。\n3. 顶部状态同步反映全局行情问题，同步中心显示未读取或读取失败的品种。\n4. 补充身份校验重试诊断。",
   "forceUpdate": false
 }
