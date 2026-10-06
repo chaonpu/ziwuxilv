@@ -1,10 +1,10 @@
 {
-  "versionCode": 75,
-  "versionName": "1.9.3",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.3/ziwuxilv-native-v1.9.3.apk",
-  "apkSha256": "0da0978a9ba3f25e4d357f32a5dbe356432017ee02a71d9b1051f94d0dba67d7",
+  "versionCode": 76,
+  "versionName": "1.9.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.4/ziwuxilv-native-v1.9.4.apk",
+  "apkSha256": "cba60366cb95130a93f1ba8ae2fe51674b4def6d070b2de7b745067928869a51",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "f375f15e3dac38ce1a7c4bb9435d73fec32522d1",
-  "updateLog": "v1.9.3正式版：\n1. 修复行情-持仓汇总卡“涨/平/跌”在窄屏下换行的问题。\n2. 改为三等分单行布局，去除分隔点，确保“涨X 平X 跌X”始终整齐对齐。",
+  "sourceCommit": "9a1caebef514806aa93f9796e6b5fe9df79128ba",
+  "updateLog": "v1.9.4正式版：\n1. 按逐项核验结果匹配公共行情备用源，保留首选源顺序。\n2. 主备并发请求、批量复用和全局连接限流，防止旧报价覆盖。\n3. 国内期货备用跟随首选源实际月份，禁止跨合约混用。\n4. 修复恒指、恒科期货到期切换，以及巴西错误时间戳报价。\n5. 盘中常规15秒刷新，延时源60秒、休市5分钟；APP前台持续刷新。",
   "forceUpdate": false
 }
