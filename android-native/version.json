@@ -1,10 +1,10 @@
 {
-  "versionCode": 77,
-  "versionName": "1.9.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.5/ziwuxilv-native-v1.9.5.apk",
-  "apkSha256": "e64e72da5e182f4ab5d17ae2d01efb1508b7e06ec2b746d059091c0b30aa6c7f",
+  "versionCode": 78,
+  "versionName": "1.9.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.6/ziwuxilv-native-v1.9.6.apk",
+  "apkSha256": "4e14ffdaf20608af43e999c630cf8d1d5cb07dcb28268d75337451d6f1674956",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "f373bbfec50deaaa9b5772a1cfa4b707e9c8437c",
-  "updateLog": "v1.9.5正式版：\n1. 按云端接口实测调整行情刷新周期：轻量接口10秒，经济通期货网页、全球指数及巴西15秒。\n2. 休市恢复原周期：通常5分钟，巴西10分钟；盘前与午休保持原规则。\n3. 保留主备并发、连接限流、旧报价保护及换月校验。",
+  "sourceCommit": "14d3a95cf75f05202d008e05026978186806c0d2",
+  "updateLog": "v1.9.6正式版：\n统一修复全部百度指数行情读取，直接读取带报价时间的完整快照，价格与时间成对更新。\n修复并发同步误报“数据账号已改变”及账本连带等待异常，保留已确认的数据版本。\n修复旧账号请求晚到覆盖、收盘占位数据干扰及行情同步状态漏报。\n保持现有10／15秒刷新节奏。",
   "forceUpdate": false
 }
