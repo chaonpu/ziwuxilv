@@ -1,10 +1,10 @@
 {
-  "versionCode": 83,
-  "versionName": "2.0.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.1/ziwuxilv-native-v2.0.1.apk",
-  "apkSha256": "58ea4bb029d5e76ce048583f550f8ec14bad1d81acabd7aff4317fd29dfc424c",
+  "versionCode": 84,
+  "versionName": "2.0.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.2/ziwuxilv-native-v2.0.2.apk",
+  "apkSha256": "1e736b44a8a56a5abec80e25f5b551f6e30007066fa900cb6fefe88bd47bf20e",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "a5f1bfd384987c0650ac08127eebdfbd08d9ab63",
-  "updateLog": "v2.0.1正式版：\n1. 修复巴西IBOVESPA指数新浪行情被错误日期校验丢弃的问题。\n2. 巴西行情改为以新浪机器行情时间判断新鲜度，不再把参考/上一交易日日期误认为当前行情日期。\n3. 保留东方财富分时作为备用链路和现有交易时段、缓存及滞后判断逻辑。",
+  "sourceCommit": "19b4873045a322554000b86926264325e4af2950",
+  "updateLog": "v2.0.2正式版：\n1. 收益页与持仓页的股票/ETF持仓卡片支持展开图表，展开区只保留分时、日K、周K、月K及成交量。\n2. 自选页与行情-持仓点击股票/ETF直接打开大尺寸图表详情；指数、期货、加密等其他品种继续显示文字详情。\n3. 接入腾讯分时与复权日K数据，周K/月K由日K本地聚合，并支持昨收及持仓入场价参考线。\n4. 优化持仓卡片摘要信息层级与图表高度，减少重复详情。",
   "forceUpdate": false
 }
