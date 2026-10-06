@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-fe88-81fd-a1b4-18b28be9f482/raw?se=2026-10-06T12%3A25%3A45Z&sp=r&sv=2026-02-06&sr=b&scid=aeebbe95-5d55-4832-b21a-c1955699b7a2&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T11%3A57%3A41Z&ske=2026-10-07T11%3A57%3A41Z&sks=b&skv=2026-02-06&sig=cS97FU5GHodU6NX2HsEnceVO7jCndscCY2xnsvhwUk4%3D",
-  "artifactSha256": "630cdb8b74999c07fa2003270238148e3b0296de33bb041dff1b0a969b88c077",
-  "apkSha256": "01bb7204afe7db7618b99c4bfd8cdb5e1820e3fb62a50e6bfe646b63ae7518d7",
-  "sourceCommit": "6e900af3ccbc5fabe69bdc8cb6ac2d2f8ea413d9",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-d588-81fd-a8e1-d21132ce174a/raw?se=2026-10-06T13%3A20%3A47Z&sp=r&sv=2026-02-06&sr=b&scid=b8059a80-abbf-4188-a391-6f46f13c42ef&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T12%3A31%3A06Z&ske=2026-10-07T12%3A31%3A06Z&sks=b&skv=2026-02-06&sig=4pQ4KnEL40UtksCGMnhvyxOxcoDQTtqR4%2BhMFHwmFFM%3D",
+  "artifactSha256": "10170e85ee9946658778b3637da6083b0b7be3235d75456ca743dde96fd3779b",
+  "apkSha256": "a766c7ce70d42586f6b13774a4337482415a8eb232777ee1f355936a529c5d89",
+  "sourceCommit": "94a6a093259f0bb139b9d03911a6b10a08f4c0de",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "1.9.8",
-  "versionCode": 80,
-  "updateLog": "v1.9.8正式版：\n1. 美股自选及行情持仓增加灰色盘前/盘后参考行情，仅在有效时段显示，20:00美东时间后隐藏。\n2. 统一行情格子字体、行距、对齐与紧凑布局。\n3. 启动诊断显示简明摘要，复制诊断保留完整原始报告。\n4. 收益页及收益计算保持原样。",
+  "versionName": "1.9.9",
+  "versionCode": 81,
+  "updateLog": "v1.9.9正式版：\n1. 联网身份校验重试保留已恢复的登录身份，避免收益缓存短暂消失。\n2. 修复自选价格与涨跌数据的垂直对齐。\n3. 顶部状态同步反映全局行情问题，同步中心显示未读取或读取失败的品种。\n4. 补充身份校验重试诊断。",
   "forceUpdate": false
 }
