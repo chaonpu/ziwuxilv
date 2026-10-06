@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-315c-820b-998f-2bc490fa4d12/raw?se=2026-10-06T15%3A29%3A43Z&sp=r&sv=2026-02-06&sr=b&scid=a5f65250-4f3f-5ae6-9afa-934bc3e3a568&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A56%3A29Z&ske=2026-10-07T01%3A56%3A29Z&sks=b&skv=2026-02-06&sig=g1DyGTV4I54LMVJy0uOeUe5M318IjaZq89N9G25aPic%3D",
-  "artifactSha256": "0b3f1c76c24bdd281fb3cb0eaa02cbe8ddacf4bfa4a8e9d1bd6450576668f7a9",
-  "apkSha256": "58ea4bb029d5e76ce048583f550f8ec14bad1d81acabd7aff4317fd29dfc424c",
-  "sourceCommit": "a5f1bfd384987c0650ac08127eebdfbd08d9ab63",
+  "sourceUrl": "https://sdmntprwestus.oaiusercontent.com/files/00000000-f9c8-8230-be41-1ed1246a56c9/raw?se=2026-10-06T20%3A58%3A30Z&sp=r&sv=2026-02-06&sr=b&scid=5ba1f22b-b1c0-5599-b665-10dd5dad355a&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T12%3A50%3A57Z&ske=2026-10-07T12%3A50%3A57Z&sks=b&skv=2026-02-06&sig=qN73jtSHrBKhbSuLeDVKoWb3HaUbXRHFL1mQp1ZO2ik%3D",
+  "artifactSha256": "9488eb334c83453929e4e8c49916f7f770bc279eb26bc2d5a83111d505fe1937",
+  "apkSha256": "1e736b44a8a56a5abec80e25f5b551f6e30007066fa900cb6fefe88bd47bf20e",
+  "sourceCommit": "19b4873045a322554000b86926264325e4af2950",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "2.0.1",
-  "versionCode": 83,
-  "updateLog": "v2.0.1正式版：\n1. 修复巴西IBOVESPA指数新浪行情被错误日期校验丢弃的问题。\n2. 巴西行情改为以新浪机器行情时间判断新鲜度，不再把参考/上一交易日日期误认为当前行情日期。\n3. 保留东方财富分时作为备用链路和现有交易时段、缓存及滞后判断逻辑。",
+  "versionName": "2.0.2",
+  "versionCode": 84,
+  "updateLog": "v2.0.2正式版：\n1. 收益页与持仓页的股票/ETF持仓卡片支持展开图表，展开区只保留分时、日K、周K、月K及成交量。\n2. 自选页与行情-持仓点击股票/ETF直接打开大尺寸图表详情；指数、期货、加密等其他品种继续显示文字详情。\n3. 接入腾讯分时与复权日K数据，周K/月K由日K本地聚合，并支持昨收及持仓入场价参考线。\n4. 优化持仓卡片摘要信息层级与图表高度，减少重复详情。",
   "forceUpdate": false
 }
