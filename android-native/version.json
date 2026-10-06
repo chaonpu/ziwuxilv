@@ -1,10 +1,10 @@
 {
-  "versionCode": 76,
-  "versionName": "1.9.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.4/ziwuxilv-native-v1.9.4.apk",
-  "apkSha256": "cba60366cb95130a93f1ba8ae2fe51674b4def6d070b2de7b745067928869a51",
+  "versionCode": 77,
+  "versionName": "1.9.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v1.9.5/ziwuxilv-native-v1.9.5.apk",
+  "apkSha256": "e64e72da5e182f4ab5d17ae2d01efb1508b7e06ec2b746d059091c0b30aa6c7f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "9a1caebef514806aa93f9796e6b5fe9df79128ba",
-  "updateLog": "v1.9.4正式版：\n1. 按逐项核验结果匹配公共行情备用源，保留首选源顺序。\n2. 主备并发请求、批量复用和全局连接限流，防止旧报价覆盖。\n3. 国内期货备用跟随首选源实际月份，禁止跨合约混用。\n4. 修复恒指、恒科期货到期切换，以及巴西错误时间戳报价。\n5. 盘中常规15秒刷新，延时源60秒、休市5分钟；APP前台持续刷新。",
+  "sourceCommit": "f373bbfec50deaaa9b5772a1cfa4b707e9c8437c",
+  "updateLog": "v1.9.5正式版：\n1. 按云端接口实测调整行情刷新周期：轻量接口10秒，经济通期货网页、全球指数及巴西15秒。\n2. 休市恢复原周期：通常5分钟，巴西10分钟；盘前与午休保持原规则。\n3. 保留主备并发、连接限流、旧报价保护及换月校验。",
   "forceUpdate": false
 }
