@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-2aa8-820b-868d-8d451106fab7/raw?se=2026-10-06T14%3A46%3A11Z&sp=r&sv=2026-02-06&sr=b&scid=b2de7c8e-4a5c-5291-bba7-30f9811e0c24&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A00%3A38Z&ske=2026-10-07T01%3A00%3A38Z&sks=b&skv=2026-02-06&sig=VwB2ZUwY43Wix5R%2BbwQBBf4msRnY7kEJ8cPtc3y0VME%3D",
-  "artifactSha256": "ea64fe5f8bf1ac1c10ccb4016c7e179c24cacd2c5e2e69dc3b98fc49ce7959d6",
-  "apkSha256": "8fa0f56fcf825c8cbc739fc2134bb9af48179a370a6a70f0bf96de874b360563",
-  "sourceCommit": "a3f6994c8b42ce8749fba2b601f5c7cf38db76c5",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-315c-820b-998f-2bc490fa4d12/raw?se=2026-10-06T15%3A29%3A43Z&sp=r&sv=2026-02-06&sr=b&scid=a5f65250-4f3f-5ae6-9afa-934bc3e3a568&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A56%3A29Z&ske=2026-10-07T01%3A56%3A29Z&sks=b&skv=2026-02-06&sig=g1DyGTV4I54LMVJy0uOeUe5M318IjaZq89N9G25aPic%3D",
+  "artifactSha256": "0b3f1c76c24bdd281fb3cb0eaa02cbe8ddacf4bfa4a8e9d1bd6450576668f7a9",
+  "apkSha256": "58ea4bb029d5e76ce048583f550f8ec14bad1d81acabd7aff4317fd29dfc424c",
+  "sourceCommit": "a5f1bfd384987c0650ac08127eebdfbd08d9ab63",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "2.0.0",
-  "versionCode": 82,
-  "updateLog": "v2.0.0正式版：\n1. 美股策略持仓统一优先显示行情源中文名称，覆盖收益页、已清仓、收益排行、行情-持仓及详情。\n2. 配置模式持仓页的A股和美股入场时间、行情时间统一显示北京时间。\n3. 美股行情时间按纽约市场时区及夏令时自动转换为北京时间，避免跨日显示歧义。",
+  "versionName": "2.0.1",
+  "versionCode": 83,
+  "updateLog": "v2.0.1正式版：\n1. 修复巴西IBOVESPA指数新浪行情被错误日期校验丢弃的问题。\n2. 巴西行情改为以新浪机器行情时间判断新鲜度，不再把参考/上一交易日日期误认为当前行情日期。\n3. 保留东方财富分时作为备用链路和现有交易时段、缓存及滞后判断逻辑。",
   "forceUpdate": false
 }
