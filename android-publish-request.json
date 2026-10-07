@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-756c-820b-abae-0d3cded617fa/raw?se=2026-10-07T10%3A15%3A03Z&sp=r&sv=2026-02-06&sr=b&scid=7a892d7f-0c38-48c0-bed8-e4a29c569d31&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T00%3A49%3A31Z&ske=2026-10-08T00%3A49%3A31Z&sks=b&skv=2026-02-06&sig=O8bkxnjTcoEeyp3eDXZDw/HnoRHd0L3%2BgxxJ7GORrJY%3D",
-  "artifactSha256": "9ef24ecc68157c0d72a4e7300e49782f00dc608dfd31fbb0b42c5d5c074aff07",
-  "apkSha256": "b820353a0916ab62a832ca00b87f05c1eefe1ac555926dd18f10ccc55dbe1d5f",
-  "sourceCommit": "86ea1e43759545b39ad6057dc3870a56639ad503",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-9050-81fd-8247-d356dd066531/raw?se=2026-10-07T12%3A08%3A41Z&sp=r&sv=2026-02-06&sr=b&scid=47890484-41f4-57cb-8a8e-f93b1f6e0b65&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T00%3A52%3A23Z&ske=2026-10-08T00%3A52%3A23Z&sks=b&skv=2026-02-06&sig=xbMxfWAEDcjKorzhcZuTt/HH4tM9LJvVEmOWOcSSZoE%3D",
+  "artifactSha256": "396c47740178b158fa5a429e18a770047de11bd976540f03ce1d29886f650026",
+  "apkSha256": "08d3266087fda0aeae9c5cafd76a6bd89c82df6cb803192e9551e2d973f0dfc1",
+  "sourceCommit": "af14dad24fc65d56421d91cb4605475d0a36c03d",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "2.0.6",
-  "versionCode": 88,
-  "updateLog": "v2.0.6正式版：\n1. 分时图增加右侧涨跌幅刻度，以昨收为中心；入场价标记不再挤压行情曲线，保持图表尺寸一致。\n2. 分时横轴显示完整交易时段、当前进度和剩余时间。\n3. 修正策略与配置模式展开持仓卡片的居中位置，持仓价与最新价补充日期，移除重复百分比。\n4. 修复沙特、巴西、恒生科技期货及离岸人民币图表；恒科期货接入经济通并校验近月合约及日夜盘。\n5. 图表标题保留原始名称，清除近月、合约月份及交易所等附加文字。",
+  "versionName": "2.0.7",
+  "versionCode": 89,
+  "updateLog": "v2.0.7正式版：\n1. 日K图增加当前可见区间最高点与最低点标注，并自动避让边界。\n2. 修正A股指数分时横轴，按09:30-11:30、13:00-15:00真实交易进度展示，午休不计入交易长度。\n3. 优化恒生指数期货与恒生科技期货分时坐标，压缩休市区间并减少重叠标签。\n4. 修复国内期货行情及图表读取，曲合/Jijinhao保持首选，缺失时使用已校验主力合约备用；按品种处理日盘、夜盘和跨周末交易时段。\n5. 优化图表加载速度，增加短时缓存并减少重复串行请求。",
   "forceUpdate": false
 }
