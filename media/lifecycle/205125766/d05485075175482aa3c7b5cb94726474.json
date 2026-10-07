@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "request_id": "d05485075175482aa3c7b5cb94726474",
+  "github_id": 205125766,
+  "body_sha256": "bd79c1d9d44b0fe8aa27abc0de318173c5254cfc31fb66f6c179361846ef2ea7",
+  "status": "pending",
+  "content_id": "DC_kwDOUnTHZ84BHtJR",
+  "content_type": "comment",
+  "affected": [
+    "DC_kwDOUnTHZ84BHtJR"
+  ],
+  "image_ids": [
+    "img_dac25e8b37e26f5545a2b8419aa7e2dcec1f53018c9f81f1eab94b2395d1448a"
+  ]
+}
