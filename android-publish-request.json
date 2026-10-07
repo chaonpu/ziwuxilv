@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-c00c-81fd-a0bf-42f30304b0bf/raw?se=2026-10-06T22%3A17%3A07Z&sp=r&sv=2026-02-06&sr=b&scid=6373177c-1388-5cc8-a3de-2d96e9544f7d&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T11%3A57%3A41Z&ske=2026-10-07T11%3A57%3A41Z&sks=b&skv=2026-02-06&sig=vaja62C2/7oVFYbL44MJu/bORmiNezl2uUaL1qa9aIk%3D",
-  "artifactSha256": "bb4e9b5db5878d2e52b54f6850cf9d26fa9aa7c7a65d6d340ea8158e9a39b6ad",
-  "apkSha256": "cfd4ee4b09a5a219de5174ce4e41b509b498b3b9bc86be3271050c5e2acd9330",
-  "sourceCommit": "d5552770d5b36b945e855039bb6333b91a466e74",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-05e8-81fd-8271-965ff62a752a/raw?se=2026-10-07T00%3A08%3A22Z&sp=r&sv=2026-02-06&sr=b&scid=acecc97b-a42f-5919-9d2c-ab475a80de58&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A52%3A37Z&ske=2026-10-07T01%3A52%3A37Z&sks=b&skv=2026-02-06&sig=8XIt2HDAFiF5ZlXHcUiJMTquxskH7joxTDvdC6EYKfA%3D",
+  "artifactSha256": "e8117d8e479452064dccb5504f33e117b57031ea5dc36afacd7b3141379ae41f",
+  "apkSha256": "5f8b0e2e5dca234751ad8bb42c20b40c54c63d5d7b65dc519fbec2adca442164",
+  "sourceCommit": "e12294b4c79cc392f805b5fbe80d8e469167aba6",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "2.0.3",
-  "versionCode": 85,
-  "updateLog": "v2.0.3正式版：\n1. 持仓卡片按新设计重构，标题、市场/概念/行业标签、当日涨跌、交易日持有时长、实际/目标仓位与入场/最新价重新布局。\n2. 图表仅保留分时与日K；日K固定显示最近60根。\n3. 分时线、K线、成交量及卡片/图表边框严格跟随涨跌使用红绿配色，并保留昨收与入场价参考线。\n4. 支持点击或拖动游标，悬浮显示开盘、最高、最低与涨跌幅。\n5. 修复美股图表链路：美股分时读取腾讯 usMinute，日K自动解析带交易所后缀的历史代码（如 SNDK.OQ），并通过实时烟测验证。\n6. 持仓天数统一改为交易日口径。",
+  "versionName": "2.0.4",
+  "versionCode": 86,
+  "updateLog": "v2.0.4正式版：\n1. 收益页、策略持仓页、配置模式持仓页统一为同一套紧凑持仓卡片，来源/行业标签、持仓收益、交易日持有时长、实际/目标仓位与入场/最新价保持一致。\n2. 持仓卡片同一时间只允许展开一个标的；收益页展开后自动滚动到屏幕中部附近。\n3. 分时图游标改为长按出现，支持长按拖动；点击图表、时间轴、成交量或详情上方信息区可清除游标。\n4. 日K固定最近60根，采用涨红跌绿、空心阳线/实心阴线；悬浮信息显示完整日期、开高低收与涨跌幅。\n5. 美股分时时间轴统一换算为北京时间；分时保留昨收参考线，分时/日K均显示入场价参考线。\n6. 日K按账本标记最近60根内的入场/清仓日期，并优先使用未复权K线，使交易价格与图表价格口径一致。\n7. 行情-持仓弹出的股票/ETF图表顶部同步持仓详情；长标签支持自动换行，并优化图表高度以适配手机可视区域。",
   "forceUpdate": false
 }
