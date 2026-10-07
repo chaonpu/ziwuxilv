@@ -1,10 +1,10 @@
 {
-  "versionCode": 90,
-  "versionName": "2.0.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.8/ziwuxilv-native-v2.0.8.apk",
-  "apkSha256": "2ea1768f4ed615ecf2cdb00e9185a86578cb2e27194f326f3a8b492c6d9a44fe",
+  "versionCode": 91,
+  "versionName": "2.0.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.9/ziwuxilv-native-v2.0.9.apk",
+  "apkSha256": "5e9ef983d137b86a178c55ece811b874dcdd3275a01fa437f6392ad9dc65990a",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "ad2262051e9c16677cfdfc299f0e12d5a1c35333",
-  "updateLog": "v2.0.8正式版：\n1. 修复全部 A 股指数分时图误用全天时间轴的问题，按 09:30–11:30、13:00–15:00 交易进度展示并压缩午休。\n2. 补全北证 50 日 K 数据，恢复最近 60 个交易日图表。\n3. 修复国内期货长假期间错误显示未读取，保留最后交易日有效收盘报价，开盘后要求更新报价。\n4. 优化持仓卡片字号，放大并加粗持仓收益数字，同时调整持有天数和实际仓位数字，长数值自动缩放。",
+  "sourceCommit": "069754e2587bbc7ba200284b4733af8dd45dd194",
+  "updateLog": "v2.0.9正式版：\n1. 修复国内期货图表与报价的合约错配，分时和日K均使用报价对应的合约。\n2. 恒指、恒科期货图表统一使用经济通对应月份的合约数据；连续商品行情图明确显示独立口径。\n3. 加密资产日K按北京时间00:00起算，分时图读取完整当天数据。\n4. 修正收盘竞价和指数计算时段，并补全图表日期、合约、昨收/昨结及延时说明。\n5. 两侧纵轴移入图表，分时图每侧仅保留最高、最低两个刻度。\n6. 已清仓持股天数改为对应市场的交易日数量，包含入场日和清仓日，排除周末和休市日。",
   "forceUpdate": false
 }
