@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-9050-81fd-8247-d356dd066531/raw?se=2026-10-07T12%3A08%3A41Z&sp=r&sv=2026-02-06&sr=b&scid=47890484-41f4-57cb-8a8e-f93b1f6e0b65&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T00%3A52%3A23Z&ske=2026-10-08T00%3A52%3A23Z&sks=b&skv=2026-02-06&sig=xbMxfWAEDcjKorzhcZuTt/HH4tM9LJvVEmOWOcSSZoE%3D",
-  "artifactSha256": "396c47740178b158fa5a429e18a770047de11bd976540f03ce1d29886f650026",
-  "apkSha256": "08d3266087fda0aeae9c5cafd76a6bd89c82df6cb803192e9551e2d973f0dfc1",
-  "sourceCommit": "af14dad24fc65d56421d91cb4605475d0a36c03d",
+  "sourceUrl": "https://sdmntprcentralus.oaiusercontent.com/files/00000000-fc60-81f5-bde7-9b073bcc804f/raw?se=2026-10-07T13%3A10%3A15Z&sp=r&sv=2026-02-06&sr=b&scid=7cdab090-e50a-4553-8847-03c8de2b244e&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T01%3A09%3A10Z&ske=2026-10-08T01%3A09%3A10Z&sks=b&skv=2026-02-06&sig=w4lnf595e3wmFIlRQ3K4bbmraEoleDfVKS6KdfFdSSM%3D",
+  "artifactSha256": "5ff7b912ddb51f0beb042b2d9b676fc7219b0d1469aa91b204b97bf82d3ff3a7",
+  "sourceCommit": "ad2262051e9c16677cfdfc299f0e12d5a1c35333",
+  "versionName": "2.0.8",
+  "versionCode": 90,
+  "apkSha256": "2ea1768f4ed615ecf2cdb00e9185a86578cb2e27194f326f3a8b492c6d9a44fe",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "2.0.7",
-  "versionCode": 89,
-  "updateLog": "v2.0.7正式版：\n1. 日K图增加当前可见区间最高点与最低点标注，并自动避让边界。\n2. 修正A股指数分时横轴，按09:30-11:30、13:00-15:00真实交易进度展示，午休不计入交易长度。\n3. 优化恒生指数期货与恒生科技期货分时坐标，压缩休市区间并减少重叠标签。\n4. 修复国内期货行情及图表读取，曲合/Jijinhao保持首选，缺失时使用已校验主力合约备用；按品种处理日盘、夜盘和跨周末交易时段。\n5. 优化图表加载速度，增加短时缓存并减少重复串行请求。",
+  "updateLog": "v2.0.8正式版：\n1. 修复全部 A 股指数分时图误用全天时间轴的问题，按 09:30–11:30、13:00–15:00 交易进度展示并压缩午休。\n2. 补全北证 50 日 K 数据，恢复最近 60 个交易日图表。\n3. 修复国内期货长假期间错误显示未读取，保留最后交易日有效收盘报价，开盘后要求更新报价。\n4. 优化持仓卡片字号，放大并加粗持仓收益数字，同时调整持有天数和实际仓位数字，长数值自动缩放。",
   "forceUpdate": false
 }
