@@ -1,10 +1,10 @@
 {
-  "versionCode": 91,
-  "versionName": "2.0.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.9/ziwuxilv-native-v2.0.9.apk",
-  "apkSha256": "5e9ef983d137b86a178c55ece811b874dcdd3275a01fa437f6392ad9dc65990a",
+  "versionCode": 92,
+  "versionName": "2.0.10",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.10/ziwuxilv-native-v2.0.10.apk",
+  "apkSha256": "90f5f1ac4cc9786e494f48e8713e54261d92bfec22ca7f20dd6ed5522eafc6a6",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "069754e2587bbc7ba200284b4733af8dd45dd194",
-  "updateLog": "v2.0.9正式版：\n1. 修复国内期货图表与报价的合约错配，分时和日K均使用报价对应的合约。\n2. 恒指、恒科期货图表统一使用经济通对应月份的合约数据；连续商品行情图明确显示独立口径。\n3. 加密资产日K按北京时间00:00起算，分时图读取完整当天数据。\n4. 修正收盘竞价和指数计算时段，并补全图表日期、合约、昨收/昨结及延时说明。\n5. 两侧纵轴移入图表，分时图每侧仅保留最高、最低两个刻度。\n6. 已清仓持股天数改为对应市场的交易日数量，包含入场日和清仓日，排除周末和休市日。",
+  "sourceCommit": "d13ebdc465be7537263ed6e4fc135fa52fdf53d9",
+  "updateLog": "v2.0.10正式版：\n1. 行情页仅盘中随涨跌显示红绿边框，盘前、午休和休市统一灰色。\n2. 图表弹窗统一上下两框间距，合约和报价说明置于框内，按可用屏幕高度缩放并限制标注边界。\n3. 修复长假期间自选A股行情被七天限制过滤的问题，按交易日判断收盘报价有效性。\n4. 自选接入腾讯与新浪并发行情，补全美股成交额及A股、港股总市值，保留原始币种和报价时间。",
   "forceUpdate": false
 }
