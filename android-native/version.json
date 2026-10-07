@@ -1,10 +1,10 @@
 {
-  "versionCode": 88,
-  "versionName": "2.0.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.6/ziwuxilv-native-v2.0.6.apk",
-  "apkSha256": "b820353a0916ab62a832ca00b87f05c1eefe1ac555926dd18f10ccc55dbe1d5f",
+  "versionCode": 89,
+  "versionName": "2.0.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.0.7/ziwuxilv-native-v2.0.7.apk",
+  "apkSha256": "08d3266087fda0aeae9c5cafd76a6bd89c82df6cb803192e9551e2d973f0dfc1",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "86ea1e43759545b39ad6057dc3870a56639ad503",
-  "updateLog": "v2.0.6正式版：\n1. 分时图增加右侧涨跌幅刻度，以昨收为中心；入场价标记不再挤压行情曲线，保持图表尺寸一致。\n2. 分时横轴显示完整交易时段、当前进度和剩余时间。\n3. 修正策略与配置模式展开持仓卡片的居中位置，持仓价与最新价补充日期，移除重复百分比。\n4. 修复沙特、巴西、恒生科技期货及离岸人民币图表；恒科期货接入经济通并校验近月合约及日夜盘。\n5. 图表标题保留原始名称，清除近月、合约月份及交易所等附加文字。",
+  "sourceCommit": "af14dad24fc65d56421d91cb4605475d0a36c03d",
+  "updateLog": "v2.0.7正式版：\n1. 日K图增加当前可见区间最高点与最低点标注，并自动避让边界。\n2. 修正A股指数分时横轴，按09:30-11:30、13:00-15:00真实交易进度展示，午休不计入交易长度。\n3. 优化恒生指数期货与恒生科技期货分时坐标，压缩休市区间并减少重叠标签。\n4. 修复国内期货行情及图表读取，曲合/Jijinhao保持首选，缺失时使用已校验主力合约备用；按品种处理日盘、夜盘和跨周末交易时段。\n5. 优化图表加载速度，增加短时缓存并减少重复串行请求。",
   "forceUpdate": false
 }
