@@ -9,23 +9,19 @@ on:
     types: [created, edited, deleted]
   schedule:
     - cron: '7,22,37,52 * * * *'
-  workflow_run:
-    workflows: ["Publish signed Android release", "Profile Registry update", "Community image upload", "Shared image lifecycle"]
-    types: [completed]
   workflow_dispatch:
 permissions:
   contents: write
   issues: read
-concurrency:
-  group: access-state-write
-  cancel-in-progress: false
-  queue: max
 jobs:
   state:
     if: >-
-      ((github.event_name != 'issues' && github.event_name != 'issue_comment') ||
-      startsWith(github.event.issue.body, '<!-- ziwuxilv-native-access:request:v1 -->')) &&
-      (github.event_name != 'workflow_run' || github.event.workflow_run.head_branch == 'main')
+      (github.event_name != 'issues' && github.event_name != 'issue_comment') ||
+      startsWith(github.event.issue.body, '<!-- ziwuxilv-native-access:request:v1 -->')
+    concurrency:
+      group: access-state-write
+      cancel-in-progress: false
+      queue: max
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
