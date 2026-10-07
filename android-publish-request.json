@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-8b2c-81fd-be4e-f8b055423e5d/raw?se=2026-10-07T06%3A49%3A48Z&sp=r&sv=2026-02-06&sr=b&scid=87641e34-b4be-5f6e-81c9-3e2139c26934&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T00%3A04%3A06Z&ske=2026-10-08T00%3A04%3A06Z&sks=b&skv=2026-02-06&sig=Mm8JlX12aSAIBiY5Xyg/Os8XPw/JdV51UeR8orgq3zM%3D",
-  "artifactSha256": "b3d90270583cb272dbfedbac437103e80c01a40356eb9fbee48a33d29b69c9b7",
-  "apkSha256": "ddaf5daeddf849e6ddb00ef67c7738db6c51a7e362ed5611ca7480c92e04b7fa",
-  "sourceCommit": "e12ad9eb3dc3a171a12a8e5192331d905c2d6f94",
+  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-756c-820b-abae-0d3cded617fa/raw?se=2026-10-07T10%3A15%3A03Z&sp=r&sv=2026-02-06&sr=b&scid=7a892d7f-0c38-48c0-bed8-e4a29c569d31&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T00%3A49%3A31Z&ske=2026-10-08T00%3A49%3A31Z&sks=b&skv=2026-02-06&sig=O8bkxnjTcoEeyp3eDXZDw/HnoRHd0L3%2BgxxJ7GORrJY%3D",
+  "artifactSha256": "9ef24ecc68157c0d72a4e7300e49782f00dc608dfd31fbb0b42c5d5c074aff07",
+  "apkSha256": "b820353a0916ab62a832ca00b87f05c1eefe1ac555926dd18f10ccc55dbe1d5f",
+  "sourceCommit": "86ea1e43759545b39ad6057dc3870a56639ad503",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "2.0.5",
-  "versionCode": 87,
-  "updateLog": "v2.0.5正式版：\n1. 统一优化行情-持仓、自选、策略/配置持仓的图表展开布局与悬浮信息，名称、代码、来源和行业等信息保持紧凑单行展示。\n2. 配置模式持仓与自选中的股票/ETF补齐图表能力，展开后的持仓卡片重新居中，行业信息与北京时间行情时间同步显示。\n3. 扩展全球指数、期货、外汇、商品与加密标的的图表匹配，仅开放经过实时验证可用的周期；台湾加权等未验证来源继续保持纯行情展示。\n4. 修复全球行情短暂刷新失败时误报“部分行情未读取”的问题，状态判断改为优先依据当前仍可用的已展示行情。\n5. 增加公开行业/标的分类补全与在线校验，提升自选及图表详情中的行业、跟踪标的信息完整性。\n6. 完善图表时间轴、来源时区、游标和行情详情的兼容性，并补充对应实时验证测试。",
+  "versionName": "2.0.6",
+  "versionCode": 88,
+  "updateLog": "v2.0.6正式版：\n1. 分时图增加右侧涨跌幅刻度，以昨收为中心；入场价标记不再挤压行情曲线，保持图表尺寸一致。\n2. 分时横轴显示完整交易时段、当前进度和剩余时间。\n3. 修正策略与配置模式展开持仓卡片的居中位置，持仓价与最新价补充日期，移除重复百分比。\n4. 修复沙特、巴西、恒生科技期货及离岸人民币图表；恒科期货接入经济通并校验近月合约及日夜盘。\n5. 图表标题保留原始名称，清除近月、合约月份及交易所等附加文字。",
   "forceUpdate": false
 }
