@@ -53,22 +53,6 @@
         }
       ]
     },
-    "img_dac25e8b37e26f5545a2b8419aa7e2dcec1f53018c9f81f1eab94b2395d1448a": {
-      "backend": "release_asset",
-      "asset_id": 619082665,
-      "release_tag": "community-assets-2026-10",
-      "asset_name": "media-205125766-a17cbb20a1c74365a215ccf7556cf452-0-cdc8516e4f3b.webp",
-      "url": "https://github.com/chaonpu/ziwuxilv/releases/download/community-assets-2026-10/media-205125766-a17cbb20a1c74365a215ccf7556cf452-0-cdc8516e4f3b.webp",
-      "owner_id": "205125766",
-      "sha256": "cdc8516e4f3b323dac19a4c5f474dc191d02dd0ab56c56acbaadbf4646e9d0c9",
-      "created_at": "2026-10-07T15:37:17.248802+00:00",
-      "references": [
-        {
-          "type": "comment",
-          "id": "DC_kwDOUnTHZ84BHtJR"
-        }
-      ]
-    },
     "img_c2e0272f359528ad8cea7d3f13f7e17ab2e9dc8f803a0467d8654f53a95b623a": {
       "backend": "release_asset",
       "asset_id": 619084536,
@@ -121,7 +105,8 @@
     "D_kwDOUnTHZ84Apvsp": "2026-10-03T14:30:12.330755+00:00",
     "D_kwDOUnTHZ84ApxsT": "2026-10-05T03:19:39.998624+00:00",
     "DC_kwDOUnTHZ84BHaKb": "2026-10-07T15:04:36.900227+00:00",
-    "DC_kwDOUnTHZ84BHtEo": "2026-10-07T15:37:03.068136+00:00"
+    "DC_kwDOUnTHZ84BHtEo": "2026-10-07T15:37:03.068136+00:00",
+    "DC_kwDOUnTHZ84BHtJR": "2026-10-07T15:38:36.550558+00:00"
   },
-  "last_complete_scan_at": "2026-10-07T15:38:29.672265+00:00"
+  "last_complete_scan_at": "2026-10-07T15:38:36.550543+00:00"
 }
