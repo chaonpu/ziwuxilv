@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-05e8-81fd-8271-965ff62a752a/raw?se=2026-10-07T00%3A08%3A22Z&sp=r&sv=2026-02-06&sr=b&scid=acecc97b-a42f-5919-9d2c-ab475a80de58&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A52%3A37Z&ske=2026-10-07T01%3A52%3A37Z&sks=b&skv=2026-02-06&sig=8XIt2HDAFiF5ZlXHcUiJMTquxskH7joxTDvdC6EYKfA%3D",
-  "artifactSha256": "e8117d8e479452064dccb5504f33e117b57031ea5dc36afacd7b3141379ae41f",
-  "apkSha256": "5f8b0e2e5dca234751ad8bb42c20b40c54c63d5d7b65dc519fbec2adca442164",
-  "sourceCommit": "e12294b4c79cc392f805b5fbe80d8e469167aba6",
+  "sourceUrl": "https://sdmntprwestus3.oaiusercontent.com/files/00000000-8b2c-81fd-be4e-f8b055423e5d/raw?se=2026-10-07T06%3A49%3A48Z&sp=r&sv=2026-02-06&sr=b&scid=87641e34-b4be-5f6e-81c9-3e2139c26934&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T00%3A04%3A06Z&ske=2026-10-08T00%3A04%3A06Z&sks=b&skv=2026-02-06&sig=Mm8JlX12aSAIBiY5Xyg/Os8XPw/JdV51UeR8orgq3zM%3D",
+  "artifactSha256": "b3d90270583cb272dbfedbac437103e80c01a40356eb9fbee48a33d29b69c9b7",
+  "apkSha256": "ddaf5daeddf849e6ddb00ef67c7738db6c51a7e362ed5611ca7480c92e04b7fa",
+  "sourceCommit": "e12ad9eb3dc3a171a12a8e5192331d905c2d6f94",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "2.0.4",
-  "versionCode": 86,
-  "updateLog": "v2.0.4正式版：\n1. 收益页、策略持仓页、配置模式持仓页统一为同一套紧凑持仓卡片，来源/行业标签、持仓收益、交易日持有时长、实际/目标仓位与入场/最新价保持一致。\n2. 持仓卡片同一时间只允许展开一个标的；收益页展开后自动滚动到屏幕中部附近。\n3. 分时图游标改为长按出现，支持长按拖动；点击图表、时间轴、成交量或详情上方信息区可清除游标。\n4. 日K固定最近60根，采用涨红跌绿、空心阳线/实心阴线；悬浮信息显示完整日期、开高低收与涨跌幅。\n5. 美股分时时间轴统一换算为北京时间；分时保留昨收参考线，分时/日K均显示入场价参考线。\n6. 日K按账本标记最近60根内的入场/清仓日期，并优先使用未复权K线，使交易价格与图表价格口径一致。\n7. 行情-持仓弹出的股票/ETF图表顶部同步持仓详情；长标签支持自动换行，并优化图表高度以适配手机可视区域。",
+  "versionName": "2.0.5",
+  "versionCode": 87,
+  "updateLog": "v2.0.5正式版：\n1. 统一优化行情-持仓、自选、策略/配置持仓的图表展开布局与悬浮信息，名称、代码、来源和行业等信息保持紧凑单行展示。\n2. 配置模式持仓与自选中的股票/ETF补齐图表能力，展开后的持仓卡片重新居中，行业信息与北京时间行情时间同步显示。\n3. 扩展全球指数、期货、外汇、商品与加密标的的图表匹配，仅开放经过实时验证可用的周期；台湾加权等未验证来源继续保持纯行情展示。\n4. 修复全球行情短暂刷新失败时误报“部分行情未读取”的问题，状态判断改为优先依据当前仍可用的已展示行情。\n5. 增加公开行业/标的分类补全与在线校验，提升自选及图表详情中的行业、跟踪标的信息完整性。\n6. 完善图表时间轴、来源时区、游标和行情详情的兼容性，并补充对应实时验证测试。",
   "forceUpdate": false
 }
