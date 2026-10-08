@@ -1,10 +1,10 @@
 {
-  "versionCode": 103,
-  "versionName": "2.2.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.0/ziwuxilv-native-v2.2.0.apk",
-  "apkSha256": "7398b5fbda10c1926d104802e81c34b26ffdaaa208b9464c284e4490687b29cc",
+  "versionCode": 104,
+  "versionName": "2.2.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.1/ziwuxilv-native-v2.2.1.apk",
+  "apkSha256": "f2a9932c6859d561863dcddc96acd2e574fbd7bcefee033cc2254dcb4081ba09",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "d22101d714210e9e84ac6fffc1dce2c442eadf85",
-  "updateLog": "v2.2.0 正式版：\n1. 分时图与日K图长按悬浮窗的最大宽度统一限制为 100dp，字号、行距及内边距适配更紧凑的布局。\n2. 日K悬浮窗将“现价”改为“收盘价”，准确显示所选交易日当天的收盘价。\n3. 日K悬浮窗底部仅单行显示开盘价、最高价、最低价，不再重复显示收盘价。\n4. 保留原有长按交互、至今涨幅和半透明悬浮窗效果。",
+  "sourceCommit": "f49c0ceab8dfde2b7189c2091dbaa3db6ca11112",
+  "updateLog": "v2.2.1 正式版：\n1. 修复联网身份验证期间收益估值退回上一份账本的问题；同一账号已核验本地缓存可使用公开报价更新估值。\n2. 将行情报价刷新与 GitHub 私有账本同步解耦，减少网络验证延迟对收益显示的影响。\n3. 改进手动刷新及切换账户时的缓存隔离，不改变原有权限和账本规则。",
   "forceUpdate": false
 }
