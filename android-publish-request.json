@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-f9f0-8206-b3ef-bc63a1d13073/raw?se=2026-10-08T13%3A15%3A42Z&sp=r&sv=2026-02-06&sr=b&scid=91b6cbc7-14f6-4adb-b69e-22b5772611ff&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-08T00%3A21%3A35Z&ske=2026-10-09T00%3A21%3A35Z&sks=b&skv=2026-02-06&sig=xasX6LvEJWRaKXsOBi5IWS5VLRcY/aHi2bWVJOrz8wM%3D",
-  "artifactSha256": "64efea38769c111056313f4aeafa75540342ea1bf3acc224977ed63388d4edcf",
-  "sourceCommit": "57f28a46c2063471c74c4d25448865319c4a4a96",
-  "versionName": "2.1.8",
-  "versionCode": 101,
-  "apkSha256": "1815427eea7ba5b011739dbfac683ade7b8eb948b516137c3022efecac497f45",
+  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-11cc-8206-921b-3225af8504b1/raw?se=2026-10-08T14%3A08%3A28Z&sp=r&sv=2026-02-06&sr=b&scid=d4c9081a-7b47-5457-9d9c-6973f9a2a2be&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-08T00%3A13%3A31Z&ske=2026-10-09T00%3A13%3A31Z&sks=b&skv=2026-02-06&sig=wqDHuYHJYCEGsQl4U13YlwB%2BWYZxNeIYR6N16yJQIRk%3D",
+  "artifactSha256": "febfecb3b1f0d228cd66be59aefaa39e655af3e68951489ef725da1f96b34e33",
+  "sourceCommit": "a30d923eadc566774a537c3f7a8c6eaa23d34033",
+  "versionName": "2.1.9",
+  "versionCode": 102,
+  "apkSha256": "35cf7f65289c2bc82bd0cf5de3e4a9e191d2bd6ce9a20b42bab8fbbbd46a6f9b",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v2.1.8 正式版：\n1. 分时图以昨收/昨结为中心调整纵坐标，参考线居中且与曲线、价格标注准确对应。\n2. 分时与日K长按悬浮窗统一使用“涨幅”，优化日期/时间、现价和涨幅展示。\n3. 日K增加“至今涨幅”，按（现价 ÷ 所选日前一交易日收盘价 − 1）× 100% 计算；缺少基准数据时显示“—”。\n4. 放大非股票、ETF行情图表右上角的当日涨幅字号。",
+  "updateLog": "v2.1.9 正式版：\n1. 分时图与日K长按悬浮窗更紧凑，目标显示面积缩小约一半。\n2. 优化日期、价格、涨幅等字段字号及行距，保留原有内容和长按交互。\n3. 悬浮窗背景透明度由 5% 提高至 20%，边框进一步淡化。",
   "forceUpdate": false
 }
