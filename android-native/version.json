@@ -1,10 +1,10 @@
 {
-  "versionCode": 93,
-  "versionName": "2.1.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.0/ziwuxilv-native-v2.1.0.apk",
-  "apkSha256": "af8495b2caf49080a7d74b6a40ee56ee10ab4cfc9b7f3ff7d3e41d3c069a7c5f",
+  "versionCode": 96,
+  "versionName": "2.1.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.3/ziwuxilv-native-v2.1.3.apk",
+  "apkSha256": "39f5767d617c1cce08de91ea780f4f4717e8444c6862b280f4a8bbe44aa103e6",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "8921305ad4e5e3b0ce17e4f73fa93e05e4171512",
-  "updateLog": "v2.1.0正式版：\n1. 修复美元／离岸人民币（USD/CNH）分时图读取失败，使用已在线核验的新浪实时分钟接口，原图表源保留为备用。\n2. 按纽约外汇交易日组织分时数据，正确处理北京时间跨日及夏令时，过滤未来和重复点；昨收仅使用日期匹配的行情参考。",
+  "sourceCommit": "d2ca18562112476c850d8a88a522e5c34c177bff",
+  "updateLog": "v2.1.3正式版：\n1. 修复沙特图表，接入同一富时沙特指数的有效日K，过滤未开盘占位数据，暂时隐藏无有效数据的分时入口。\n2. 纵坐标数字固定在图内左侧，与K线或其他标注重叠时隐藏，保持无背景和边框。\n3. 最高、最低标注回到对应K线附近，尽量避让并以引线指向实际高低点。\n4. 入场价仅长按时显示在入场线上方左侧；分时昨收正常显示在昨收线上方左侧。",
   "forceUpdate": false
 }
