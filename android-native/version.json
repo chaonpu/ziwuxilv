@@ -1,10 +1,10 @@
 {
-  "versionCode": 97,
-  "versionName": "2.1.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.4/ziwuxilv-native-v2.1.4.apk",
-  "apkSha256": "3acb6c656677c1a09cdfd45097c9cb760462240a57be7c314896abb168852b22",
+  "versionCode": 98,
+  "versionName": "2.1.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.5/ziwuxilv-native-v2.1.5.apk",
+  "apkSha256": "6091293593a02717a1c57410b1c63d0fbed1c87262c999a301410a2b49dc4b2d",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "164b4784be42955806836fc2a74528c1401e221a",
-  "updateLog": "v2.1.4正式版：\n1. 为海外指数补充日K，为海外期货与商品补充分时，补充美元指数及离岸人民币日K。\n2. 分时价格固定左侧、涨跌百分比固定右侧，纵坐标跟随曲线实际高低点。\n3. 保留完整跨夜交易日，修复国内期货分钟截断及周末、节假日夜盘拼接。\n4. 沙特保留有效日K，数据源尚未提供可验证的真实分时。",
+  "sourceCommit": "fb4635d340a808a20a2ed90de6d4cbab7797b5d4",
+  "updateLog": "v2.1.5 正式版：\n1. 修复纽约金、纽约银、WTI原油、布伦特原油图表与实时报价合约对应，优先核验同源价格与合约，未核验时明确标注连续参考图。\n2. 布伦特已识别具体合约月份时优先使用对应月份的ICE图表。\n3. 行情同步状态仅在行情未读取时报告异常；延时、滞后、待核验的有效报价计为正常，个别行情仍保留原始状态和时间标记。",
   "forceUpdate": false
 }
