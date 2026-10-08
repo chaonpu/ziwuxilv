@@ -1,10 +1,10 @@
 {
-  "versionCode": 100,
-  "versionName": "2.1.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.7/ziwuxilv-native-v2.1.7.apk",
-  "apkSha256": "47f60fa0a5c7037af21b910136ef1a93def36f86d438488d49eab2c4518240b4",
+  "versionCode": 101,
+  "versionName": "2.1.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.8/ziwuxilv-native-v2.1.8.apk",
+  "apkSha256": "1815427eea7ba5b011739dbfac683ade7b8eb948b516137c3022efecac497f45",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "86aedb8c25d7e1dcbb7dd81545ed7ed052a879e4",
-  "updateLog": "v2.1.7 正式版：\n1. 分时图昨收/昨结参考线固定在绘图区垂直正中间，保留现有价格坐标范围、标注和交互。\n2. 修复收益页和持仓页展开图表下框底边被裁切，按实际可用屏幕高度适配上下两框，兼顾小屏、导航栏和安全区。",
+  "sourceCommit": "57f28a46c2063471c74c4d25448865319c4a4a96",
+  "updateLog": "v2.1.8 正式版：\n1. 分时图以昨收/昨结为中心调整纵坐标，参考线居中且与曲线、价格标注准确对应。\n2. 分时与日K长按悬浮窗统一使用“涨幅”，优化日期/时间、现价和涨幅展示。\n3. 日K增加“至今涨幅”，按（现价 ÷ 所选日前一交易日收盘价 − 1）× 100% 计算；缺少基准数据时显示“—”。\n4. 放大非股票、ETF行情图表右上角的当日涨幅字号。",
   "forceUpdate": false
 }
