@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-88b0-8206-8a22-6fbcc74c2ca8/raw?se=2026-10-08T10%3A35%3A59Z&sp=r&sv=2026-02-06&sr=b&scid=3b575f01-f461-5016-822e-79db4a6f85d4&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T21%3A16%3A29Z&ske=2026-10-08T21%3A16%3A29Z&sks=b&skv=2026-02-06&sig=AE2gWlh%2BksePvRRMgFZyv4LGlg0yNiKEad/62wXrNvU%3D",
-  "artifactSha256": "bbfc610789283ede90360701ede3a5481053807a199b208376d39db61961aed3",
-  "sourceCommit": "94ab48a3d4f15057e06b3ed71a932e31c4585758",
-  "versionName": "2.1.6",
-  "versionCode": 99,
-  "apkSha256": "9ffb8916519605ffb3c70915aa938d738659e0b376785c58db5e2762bee7ccd7",
+  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-df40-8206-a4d3-2d575f079257/raw?se=2026-10-08T11%3A39%3A55Z&sp=r&sv=2026-02-06&sr=b&scid=2a2af638-759f-4686-adf0-628fa9cef375&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-08T00%3A01%3A27Z&ske=2026-10-09T00%3A01%3A27Z&sks=b&skv=2026-02-06&sig=S0A0uVKcqEPT2TPKQcrwxRnVsVrapmW0%2BLpdflnJrwg%3D",
+  "artifactSha256": "d832de687e7b7fb735456723141fe21372532b05ec594c4a6069e1984be6cefb",
+  "sourceCommit": "86aedb8c25d7e1dcbb7dd81545ed7ed052a879e4",
+  "versionName": "2.1.7",
+  "versionCode": 100,
+  "apkSha256": "47f60fa0a5c7037af21b910136ef1a93def36f86d438488d49eab2c4518240b4",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v2.1.6 正式版：\n1. 修复图表因行情报价刷新而闪动、清空或重复重载，保持现有曲线并静默刷新。\n2. 稳定图表纵坐标，同一图表会话内仅在产生新的高低极值时扩展纵轴。\n3. 四项海外商品期货的新浪连续合约图表统一标注“连续合约参考 · 交割月份未核验”，不再误报已确认不同合约；保留已核验的同合约图表优先级。\n4. 跳过海外商品分钟图不可靠的同源历史探测，缩短首次打开等待。",
+  "updateLog": "v2.1.7 正式版：\n1. 分时图昨收/昨结参考线固定在绘图区垂直正中间，保留现有价格坐标范围、标注和交互。\n2. 修复收益页和持仓页展开图表下框底边被裁切，按实际可用屏幕高度适配上下两框，兼顾小屏、导航栏和安全区。",
   "forceUpdate": false
 }
