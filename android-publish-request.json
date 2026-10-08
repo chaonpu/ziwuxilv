@@ -1,11 +1,11 @@
 {
-  "apkSha256": "90f5f1ac4cc9786e494f48e8713e54261d92bfec22ca7f20dd6ed5522eafc6a6",
-  "artifactSha256": "a2de599d52b9bd0d22bc6378a04b07d37580692ef7f533944f5e231d687bf975",
-  "sourceCommit": "d13ebdc465be7537263ed6e4fc135fa52fdf53d9",
+  "sourceUrl": "https://sdmntprwestus.oaiusercontent.com/files/00000000-6284-8230-961b-e7797b3adc58/raw?se=2026-10-08T04%3A25%3A29Z&sp=r&sv=2026-02-06&sr=b&scid=9d187451-fb14-4188-8a54-30f421b136b5&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T23%3A12%3A29Z&ske=2026-10-08T23%3A12%3A29Z&sks=b&skv=2026-02-06&sig=IS9caYAz6RHDRj7OLScolulfn12RsduCNOLa%2BphWjPU%3D",
+  "artifactSha256": "3663f94d1f55e3688c0bb753cee8b69b255fde5339c505c1d2a7b880552e80ba",
+  "sourceCommit": "8921305ad4e5e3b0ce17e4f73fa93e05e4171512",
+  "versionName": "2.1.0",
+  "versionCode": 93,
+  "apkSha256": "af8495b2caf49080a7d74b6a40ee56ee10ab4cfc9b7f3ff7d3e41d3c069a7c5f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "versionName": "2.0.10",
-  "versionCode": 92,
-  "updateLog": "v2.0.10正式版：\n1. 行情页仅盘中随涨跌显示红绿边框，盘前、午休和休市统一灰色。\n2. 图表弹窗统一上下两框间距，合约和报价说明置于框内，按可用屏幕高度缩放并限制标注边界。\n3. 修复长假期间自选A股行情被七天限制过滤的问题，按交易日判断收盘报价有效性。\n4. 自选接入腾讯与新浪并发行情，补全美股成交额及A股、港股总市值，保留原始币种和报价时间。",
-  "forceUpdate": false,
-  "sourceUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-3a28-820b-bd47-c60578c0bd52/raw?se=2026-10-07T19%3A09%3A02Z&sp=r&sv=2026-02-06&sr=b&scid=9d29c0f1-af95-4f69-a86c-6cf32b4bc5bf&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T22%3A01%3A12Z&ske=2026-10-07T22%3A01%3A12Z&sks=b&skv=2026-02-06&sig=2%2BbR2NID1reNdUjiPqHwfzNgMquu4uZMCh5oiL7YSTs%3D"
+  "updateLog": "v2.1.0正式版：\n1. 修复美元／离岸人民币（USD/CNH）分时图读取失败，使用已在线核验的新浪实时分钟接口，原图表源保留为备用。\n2. 按纽约外汇交易日组织分时数据，正确处理北京时间跨日及夏令时，过滤未来和重复点；昨收仅使用日期匹配的行情参考。",
+  "forceUpdate": false
 }
