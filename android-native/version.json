@@ -1,10 +1,10 @@
 {
-  "versionCode": 99,
-  "versionName": "2.1.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.6/ziwuxilv-native-v2.1.6.apk",
-  "apkSha256": "9ffb8916519605ffb3c70915aa938d738659e0b376785c58db5e2762bee7ccd7",
+  "versionCode": 100,
+  "versionName": "2.1.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.7/ziwuxilv-native-v2.1.7.apk",
+  "apkSha256": "47f60fa0a5c7037af21b910136ef1a93def36f86d438488d49eab2c4518240b4",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "94ab48a3d4f15057e06b3ed71a932e31c4585758",
-  "updateLog": "v2.1.6 正式版：\n1. 修复图表因行情报价刷新而闪动、清空或重复重载，保持现有曲线并静默刷新。\n2. 稳定图表纵坐标，同一图表会话内仅在产生新的高低极值时扩展纵轴。\n3. 四项海外商品期货的新浪连续合约图表统一标注“连续合约参考 · 交割月份未核验”，不再误报已确认不同合约；保留已核验的同合约图表优先级。\n4. 跳过海外商品分钟图不可靠的同源历史探测，缩短首次打开等待。",
+  "sourceCommit": "86aedb8c25d7e1dcbb7dd81545ed7ed052a879e4",
+  "updateLog": "v2.1.7 正式版：\n1. 分时图昨收/昨结参考线固定在绘图区垂直正中间，保留现有价格坐标范围、标注和交互。\n2. 修复收益页和持仓页展开图表下框底边被裁切，按实际可用屏幕高度适配上下两框，兼顾小屏、导航栏和安全区。",
   "forceUpdate": false
 }
