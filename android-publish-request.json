@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-a918-81fa-ac53-3370951ae12c/raw?se=2026-10-08T07%3A59%3A24Z&sp=r&sv=2026-02-06&sr=b&scid=072f4b5a-033c-49a2-9fc6-100e4d23d2b5&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-08T00%3A22%3A08Z&ske=2026-10-09T00%3A22%3A08Z&sks=b&skv=2026-02-06&sig=KzT%2B7XsVQ4ZknkO8rSW0bCMr7PSQFA%2BKh/L4uorSEfU%3D",
-  "artifactSha256": "a87359ffe868f58c4466a18c1b6ada74883ffec49408a95f5352a3a5baea1430",
-  "sourceCommit": "164b4784be42955806836fc2a74528c1401e221a",
-  "versionName": "2.1.4",
-  "versionCode": 97,
-  "apkSha256": "3acb6c656677c1a09cdfd45097c9cb760462240a57be7c314896abb168852b22",
+  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-f4d4-8206-a592-860cd3011950/raw?se=2026-10-08T08%3A55%3A23Z&sp=r&sv=2026-02-06&sr=b&scid=1e3a3d09-05e7-52f3-975e-796198614c52&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T21%3A39%3A22Z&ske=2026-10-08T21%3A39%3A22Z&sks=b&skv=2026-02-06&sig=FULcFpYIOO0tM6foxiJHAAm7XylpnTxUbC5j0ig6dkw%3D",
+  "artifactSha256": "c874fdd094fc83030c7bb126d21ee216daacdabfb11f55af655de2c56cc428a1",
+  "sourceCommit": "fb4635d340a808a20a2ed90de6d4cbab7797b5d4",
+  "versionName": "2.1.5",
+  "versionCode": 98,
+  "apkSha256": "6091293593a02717a1c57410b1c63d0fbed1c87262c999a301410a2b49dc4b2d",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v2.1.4正式版：\n1. 为海外指数补充日K，为海外期货与商品补充分时，补充美元指数及离岸人民币日K。\n2. 分时价格固定左侧、涨跌百分比固定右侧，纵坐标跟随曲线实际高低点。\n3. 保留完整跨夜交易日，修复国内期货分钟截断及周末、节假日夜盘拼接。\n4. 沙特保留有效日K，数据源尚未提供可验证的真实分时。",
+  "updateLog": "v2.1.5 正式版：\n1. 修复纽约金、纽约银、WTI原油、布伦特原油图表与实时报价合约对应，优先核验同源价格与合约，未核验时明确标注连续参考图。\n2. 布伦特已识别具体合约月份时优先使用对应月份的ICE图表。\n3. 行情同步状态仅在行情未读取时报告异常；延时、滞后、待核验的有效报价计为正常，个别行情仍保留原始状态和时间标记。",
   "forceUpdate": false
 }
