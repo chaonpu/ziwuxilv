@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-df40-8206-a4d3-2d575f079257/raw?se=2026-10-08T11%3A39%3A55Z&sp=r&sv=2026-02-06&sr=b&scid=2a2af638-759f-4686-adf0-628fa9cef375&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-08T00%3A01%3A27Z&ske=2026-10-09T00%3A01%3A27Z&sks=b&skv=2026-02-06&sig=S0A0uVKcqEPT2TPKQcrwxRnVsVrapmW0%2BLpdflnJrwg%3D",
-  "artifactSha256": "d832de687e7b7fb735456723141fe21372532b05ec594c4a6069e1984be6cefb",
-  "sourceCommit": "86aedb8c25d7e1dcbb7dd81545ed7ed052a879e4",
-  "versionName": "2.1.7",
-  "versionCode": 100,
-  "apkSha256": "47f60fa0a5c7037af21b910136ef1a93def36f86d438488d49eab2c4518240b4",
+  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-f9f0-8206-b3ef-bc63a1d13073/raw?se=2026-10-08T13%3A15%3A42Z&sp=r&sv=2026-02-06&sr=b&scid=91b6cbc7-14f6-4adb-b69e-22b5772611ff&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-08T00%3A21%3A35Z&ske=2026-10-09T00%3A21%3A35Z&sks=b&skv=2026-02-06&sig=xasX6LvEJWRaKXsOBi5IWS5VLRcY/aHi2bWVJOrz8wM%3D",
+  "artifactSha256": "64efea38769c111056313f4aeafa75540342ea1bf3acc224977ed63388d4edcf",
+  "sourceCommit": "57f28a46c2063471c74c4d25448865319c4a4a96",
+  "versionName": "2.1.8",
+  "versionCode": 101,
+  "apkSha256": "1815427eea7ba5b011739dbfac683ade7b8eb948b516137c3022efecac497f45",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v2.1.7 正式版：\n1. 分时图昨收/昨结参考线固定在绘图区垂直正中间，保留现有价格坐标范围、标注和交互。\n2. 修复收益页和持仓页展开图表下框底边被裁切，按实际可用屏幕高度适配上下两框，兼顾小屏、导航栏和安全区。",
+  "updateLog": "v2.1.8 正式版：\n1. 分时图以昨收/昨结为中心调整纵坐标，参考线居中且与曲线、价格标注准确对应。\n2. 分时与日K长按悬浮窗统一使用“涨幅”，优化日期/时间、现价和涨幅展示。\n3. 日K增加“至今涨幅”，按（现价 ÷ 所选日前一交易日收盘价 − 1）× 100% 计算；缺少基准数据时显示“—”。\n4. 放大非股票、ETF行情图表右上角的当日涨幅字号。",
   "forceUpdate": false
 }
