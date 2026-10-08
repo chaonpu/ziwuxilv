@@ -1,10 +1,10 @@
 {
-  "versionCode": 102,
-  "versionName": "2.1.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.9/ziwuxilv-native-v2.1.9.apk",
-  "apkSha256": "35cf7f65289c2bc82bd0cf5de3e4a9e191d2bd6ce9a20b42bab8fbbbd46a6f9b",
+  "versionCode": 103,
+  "versionName": "2.2.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.0/ziwuxilv-native-v2.2.0.apk",
+  "apkSha256": "7398b5fbda10c1926d104802e81c34b26ffdaaa208b9464c284e4490687b29cc",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "a30d923eadc566774a537c3f7a8c6eaa23d34033",
-  "updateLog": "v2.1.9 正式版：\n1. 分时图与日K长按悬浮窗更紧凑，目标显示面积缩小约一半。\n2. 优化日期、价格、涨幅等字段字号及行距，保留原有内容和长按交互。\n3. 悬浮窗背景透明度由 5% 提高至 20%，边框进一步淡化。",
+  "sourceCommit": "d22101d714210e9e84ac6fffc1dce2c442eadf85",
+  "updateLog": "v2.2.0 正式版：\n1. 分时图与日K图长按悬浮窗的最大宽度统一限制为 100dp，字号、行距及内边距适配更紧凑的布局。\n2. 日K悬浮窗将“现价”改为“收盘价”，准确显示所选交易日当天的收盘价。\n3. 日K悬浮窗底部仅单行显示开盘价、最高价、最低价，不再重复显示收盘价。\n4. 保留原有长按交互、至今涨幅和半透明悬浮窗效果。",
   "forceUpdate": false
 }
