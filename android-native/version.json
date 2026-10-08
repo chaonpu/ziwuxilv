@@ -1,10 +1,10 @@
 {
-  "versionCode": 98,
-  "versionName": "2.1.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.5/ziwuxilv-native-v2.1.5.apk",
-  "apkSha256": "6091293593a02717a1c57410b1c63d0fbed1c87262c999a301410a2b49dc4b2d",
+  "versionCode": 99,
+  "versionName": "2.1.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.1.6/ziwuxilv-native-v2.1.6.apk",
+  "apkSha256": "9ffb8916519605ffb3c70915aa938d738659e0b376785c58db5e2762bee7ccd7",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "fb4635d340a808a20a2ed90de6d4cbab7797b5d4",
-  "updateLog": "v2.1.5 正式版：\n1. 修复纽约金、纽约银、WTI原油、布伦特原油图表与实时报价合约对应，优先核验同源价格与合约，未核验时明确标注连续参考图。\n2. 布伦特已识别具体合约月份时优先使用对应月份的ICE图表。\n3. 行情同步状态仅在行情未读取时报告异常；延时、滞后、待核验的有效报价计为正常，个别行情仍保留原始状态和时间标记。",
+  "sourceCommit": "94ab48a3d4f15057e06b3ed71a932e31c4585758",
+  "updateLog": "v2.1.6 正式版：\n1. 修复图表因行情报价刷新而闪动、清空或重复重载，保持现有曲线并静默刷新。\n2. 稳定图表纵坐标，同一图表会话内仅在产生新的高低极值时扩展纵轴。\n3. 四项海外商品期货的新浪连续合约图表统一标注“连续合约参考 · 交割月份未核验”，不再误报已确认不同合约；保留已核验的同合约图表优先级。\n4. 跳过海外商品分钟图不可靠的同源历史探测，缩短首次打开等待。",
   "forceUpdate": false
 }
