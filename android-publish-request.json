@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntpreastus2.oaiusercontent.com/files/00000000-d410-81f6-b34f-c6f8852dc15c/raw?se=2026-10-09T12%3A55%3A38Z&sp=r&sv=2026-02-06&sr=b&scid=f0ee2d5b-c114-5320-86d1-8f5c2e83f361&skoid=5e713cdb-766b-475e-a3ca-8adb6cf99aa0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-09T12%3A48%3A43Z&ske=2026-10-10T12%3A48%3A43Z&sks=b&skv=2026-02-06&sig=kzT8zT3ZDvSGdkq7uR%2B%2BXDYDlLOk6P3Is2YM1gK5LnU%3D",
-  "artifactSha256": "202d789c4d0505d4ca4e56fab77c6d7ae37b1481d6451e7d3fcf6791050b625a",
-  "sourceCommit": "8292367eb9aa9b27cfaea48a97024cf6d2ee7376",
-  "versionName": "2.2.6",
-  "versionCode": 109,
-  "apkSha256": "5630e09cbc41c09e5de3ec8dd9de6699bc3e89ff2866293d3ff3efb6e8e842f6",
+  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-d234-8206-be79-debcf7a8429d/raw?se=2026-10-09T17%3A31%3A11Z&sp=r&sv=2026-02-06&sr=b&scid=72c6cf37-16fb-4fec-b132-1538291b2e58&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-09T01%3A18%3A25Z&ske=2026-10-10T01%3A18%3A25Z&sks=b&skv=2026-02-06&sig=Dwrl4nBll9hnE0oSii4aOoO%2BldypC4lR7MeSlxO9gtw%3D",
+  "artifactSha256": "f9e2dd327c9255a080636528b6ce5523f27d615db69cfdc25248168a4db0aa77",
+  "sourceCommit": "b458febc770c6f315a78bcb2ca45a8ceb73e5437",
+  "versionName": "2.2.7",
+  "versionCode": 110,
+  "apkSha256": "0cb2d42a9b7b9f884746ec7cab6038bd41ae341d9d4a8700905ac802a8abc6c2",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v2.2.6 正式版：\n1. 配置模式修改实际仓位保留已获得的组合累计收益，只对后续行情按新仓位累计。\n2. 保留同日当日收益的连续性；配置模式调整或增减持仓不自动重置累计收益。\n3. 仓位修改新增原仓位、新仓位及收益规则二次确认，仅确认后保存。\n4. 只有累计收益里的“重置”操作会清零；配置数据与策略数据继续隔离。\n5. 已清仓日K图表上方来源显示为胶囊；展示清仓收益、清仓以来涨幅及其下方的清仓价。",
+  "updateLog": "v2.2.7 正式版：\n1. A股、美股当日最赚和最亏统一按相对昨日收盘组合净值的贡献排名。\n2. 纳入当日清仓标的，清仓后贡献固定；继续持有标的合并调仓前后贡献。\n3. 盘中、持仓页和历史日历统一贡献口径，显示贡献百分点。\n4. 修复收益交易日与账本日期混淆，报价时间统一显示北京时间。\n5. 历史贡献仅在数据完整且与组合收益核对一致时展示。",
   "forceUpdate": false
 }
