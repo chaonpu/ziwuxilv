@@ -1,10 +1,10 @@
 {
-  "versionCode": 110,
-  "versionName": "2.2.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.7/ziwuxilv-native-v2.2.7.apk",
-  "apkSha256": "0cb2d42a9b7b9f884746ec7cab6038bd41ae341d9d4a8700905ac802a8abc6c2",
+  "versionCode": 111,
+  "versionName": "2.2.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.8/ziwuxilv-native-v2.2.8.apk",
+  "apkSha256": "289799836abbfba326d428bad1a6d469bf4705e3fa833515ec565ba50b64e813",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "b458febc770c6f315a78bcb2ca45a8ceb73e5437",
-  "updateLog": "v2.2.7 正式版：\n1. A股、美股当日最赚和最亏统一按相对昨日收盘组合净值的贡献排名。\n2. 纳入当日清仓标的，清仓后贡献固定；继续持有标的合并调仓前后贡献。\n3. 盘中、持仓页和历史日历统一贡献口径，显示贡献百分点。\n4. 修复收益交易日与账本日期混淆，报价时间统一显示北京时间。\n5. 历史贡献仅在数据完整且与组合收益核对一致时展示。",
+  "sourceCommit": "f2d81acb72e468608e1a4e91470774107cab409f",
+  "updateLog": "v2.2.8 正式版：\n1. 修复美股全部清仓转现金及空仓后再入场的净值计算。\n2. 修复拆股或复权导致的排行榜虚假亏损，清仓收益使用可比价格。\n3. 累计最赚和最亏按组合累计净值贡献排名，合并同标的持仓及历史清仓。\n4. 当日和累计贡献统一显示百分号，盘中估值同步累计贡献。\n5. 历史贡献须与组合净值核对一致，资料不足时不回退为单标的涨跌幅。",
   "forceUpdate": false
 }
