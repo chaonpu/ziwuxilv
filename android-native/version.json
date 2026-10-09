@@ -1,10 +1,10 @@
 {
-  "versionCode": 108,
-  "versionName": "2.2.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.5/ziwuxilv-native-v2.2.5.apk",
-  "apkSha256": "1834190ea36b2390c8919642668331897b7f81ca7e9c386714cbe37ae4f8a34e",
+  "versionCode": 109,
+  "versionName": "2.2.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.6/ziwuxilv-native-v2.2.6.apk",
+  "apkSha256": "5630e09cbc41c09e5de3ec8dd9de6699bc3e89ff2866293d3ff3efb6e8e842f6",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "04746e3033410850f05a440b9ffb0a7dd5a97f96",
-  "updateLog": "v2.2.5 正式版：\n1. 收益页、持仓页及已清仓卡片统一使用金色概念/来源、蓝色行业/跟踪标的胶囊。\n2. 配置模式仓位调整移入右上角编辑页，每个标的提供仓位与移除按钮，只显示实际仓位。\n3. 配置模式调整/增减标的时按完整有效行情重新建立收益起点，隔离本地清仓历史与日K买卖标记。\n4. 同一账号下配置模式与策略模式完全隔离持仓标签、图表入场/清仓点和来源分类。\n5. 修复切换使用模式时旧模式页面短暂残留。",
+  "sourceCommit": "8292367eb9aa9b27cfaea48a97024cf6d2ee7376",
+  "updateLog": "v2.2.6 正式版：\n1. 配置模式修改实际仓位保留已获得的组合累计收益，只对后续行情按新仓位累计。\n2. 保留同日当日收益的连续性；配置模式调整或增减持仓不自动重置累计收益。\n3. 仓位修改新增原仓位、新仓位及收益规则二次确认，仅确认后保存。\n4. 只有累计收益里的“重置”操作会清零；配置数据与策略数据继续隔离。\n5. 已清仓日K图表上方来源显示为胶囊；展示清仓收益、清仓以来涨幅及其下方的清仓价。",
   "forceUpdate": false
 }
