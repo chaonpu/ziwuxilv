@@ -1,10 +1,10 @@
 {
-  "versionCode": 109,
-  "versionName": "2.2.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.6/ziwuxilv-native-v2.2.6.apk",
-  "apkSha256": "5630e09cbc41c09e5de3ec8dd9de6699bc3e89ff2866293d3ff3efb6e8e842f6",
+  "versionCode": 110,
+  "versionName": "2.2.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.7/ziwuxilv-native-v2.2.7.apk",
+  "apkSha256": "0cb2d42a9b7b9f884746ec7cab6038bd41ae341d9d4a8700905ac802a8abc6c2",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "8292367eb9aa9b27cfaea48a97024cf6d2ee7376",
-  "updateLog": "v2.2.6 正式版：\n1. 配置模式修改实际仓位保留已获得的组合累计收益，只对后续行情按新仓位累计。\n2. 保留同日当日收益的连续性；配置模式调整或增减持仓不自动重置累计收益。\n3. 仓位修改新增原仓位、新仓位及收益规则二次确认，仅确认后保存。\n4. 只有累计收益里的“重置”操作会清零；配置数据与策略数据继续隔离。\n5. 已清仓日K图表上方来源显示为胶囊；展示清仓收益、清仓以来涨幅及其下方的清仓价。",
+  "sourceCommit": "b458febc770c6f315a78bcb2ca45a8ceb73e5437",
+  "updateLog": "v2.2.7 正式版：\n1. A股、美股当日最赚和最亏统一按相对昨日收盘组合净值的贡献排名。\n2. 纳入当日清仓标的，清仓后贡献固定；继续持有标的合并调仓前后贡献。\n3. 盘中、持仓页和历史日历统一贡献口径，显示贡献百分点。\n4. 修复收益交易日与账本日期混淆，报价时间统一显示北京时间。\n5. 历史贡献仅在数据完整且与组合收益核对一致时展示。",
   "forceUpdate": false
 }
