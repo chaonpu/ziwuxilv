@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-bf64-8206-ac3b-f784d09e8659/raw?se=2026-10-09T09%3A08%3A18Z&sp=r&sv=2026-02-06&sr=b&scid=177f40e4-a32c-5e82-ae9f-a37bc84293d0&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-09T01%3A33%3A17Z&ske=2026-10-10T01%3A33%3A17Z&sks=b&skv=2026-02-06&sig=Nlt%2BtEhsHT6mmQKQG3v0Fi2Aobds5sFD2LESgWqG9lA%3D",
-  "artifactSha256": "b6d9799b99f8c4201d8e18638f6b6ce14ebc57f03c157304e8e10d720eb8a817",
-  "sourceCommit": "0f00874b8ae825426db0a0180bc0c8ddcb1bd52f",
-  "versionName": "2.2.4",
-  "versionCode": 107,
-  "apkSha256": "cf4db7722f83569170ae21aa37b9317895e594ae56c6279cb9b659b4bc682647",
+  "sourceUrl": "https://sdmntprindiasocentral.oaiusercontent.com/files/00000000-dbfc-8211-a4f6-e578017484dd/raw?se=2026-10-09T10%3A16%3A07Z&sp=r&sv=2026-02-06&sr=b&scid=f07ac9b5-c103-515a-a81f-c5fb2d67451b&skoid=fb469448-2cc9-41bd-a5a6-6e020952b47a&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-09T01%3A19%3A54Z&ske=2026-10-10T01%3A19%3A54Z&sks=b&skv=2026-02-06&sig=WbzatNjSHMFrVbS1SqQCKyDoemwhaiIPOGmWskpJDs8%3D",
+  "artifactSha256": "58696743fd21bd07582cdbd7c6d56fb32578ed740292697453a36f8de8f8b47e",
+  "sourceCommit": "04746e3033410850f05a440b9ffb0a7dd5a97f96",
+  "versionName": "2.2.5",
+  "versionCode": 108,
+  "apkSha256": "1834190ea36b2390c8919642668331897b7f81ca7e9c386714cbe37ae4f8a34e",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v2.2.4 正式版：\n1. 行情图表上方隐藏财经行情来源；概念/赛道使用金色胶囊，行业/跟踪标的使用蓝色胶囊。\n2. 修复行情、自选及持仓日K的历史左右滑动，短历史自动保留可浏览范围。\n3. 访问管理审核数和成员数完整单行显示，空间不足时向左扩展，不省略。\n4. 修复印度SENSEX分时图与报价时间不一致问题，同交易日仅补充真实行情快照。\n5. 全球日K历史扩展至240根，并更新对应验证标准。",
+  "updateLog": "v2.2.5 正式版：\n1. 收益页、持仓页及已清仓卡片统一使用金色概念/来源、蓝色行业/跟踪标的胶囊。\n2. 配置模式仓位调整移入右上角编辑页，每个标的提供仓位与移除按钮，只显示实际仓位。\n3. 配置模式调整/增减标的时按完整有效行情重新建立收益起点，隔离本地清仓历史与日K买卖标记。\n4. 同一账号下配置模式与策略模式完全隔离持仓标签、图表入场/清仓点和来源分类。\n5. 修复切换使用模式时旧模式页面短暂残留。",
   "forceUpdate": false
 }
