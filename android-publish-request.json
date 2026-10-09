@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-5320-8206-a7c0-e8f3466fc6a9/raw?se=2026-10-08T21%3A00%3A02Z&sp=r&sv=2026-02-06&sr=b&scid=ff17de03-8058-572e-94a2-5e0c620b7313&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-07T23%3A42%3A35Z&ske=2026-10-08T23%3A42%3A35Z&sks=b&skv=2026-02-06&sig=LeT1W9LLv/I76yPVZCzzGbp7QC92gobJWEgpPooP6wg%3D",
-  "artifactSha256": "b1db5db12de56162a5372a0bd666cfeaf7e461a735894fe19948396eebec5e1c",
-  "sourceCommit": "f49c0ceab8dfde2b7189c2091dbaa3db6ca11112",
-  "versionName": "2.2.1",
-  "versionCode": 104,
-  "apkSha256": "f2a9932c6859d561863dcddc96acd2e574fbd7bcefee033cc2254dcb4081ba09",
+  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-92f8-8206-a288-9927df143408/raw?se=2026-10-09T07%3A01%3A35Z&sp=r&sv=2026-02-06&sr=b&scid=e6f853e9-d51d-4731-b7d4-8385da356ae8&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-09T01%3A20%3A44Z&ske=2026-10-10T01%3A20%3A44Z&sks=b&skv=2026-02-06&sig=w1z6hwRtOJwY/aYP0Br2M8s6rL0AQduWXBmqvQpakJ0%3D",
+  "artifactSha256": "5e1fc83b62902f1a4cef73c11e9732c55b21c16ae1274973c98bfe59f620c54c",
+  "sourceCommit": "63537cab977f6c55025d949ebb8190e1161e51bf",
+  "versionName": "2.2.3",
+  "versionCode": 106,
+  "apkSha256": "2cf722646bdc41a966f8458afc3d09b884b0faf0cc96e4c715e94a9d55e09258",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v2.2.1 正式版：\n1. 修复联网身份验证期间收益估值退回上一份账本的问题；同一账号已核验本地缓存可使用公开报价更新估值。\n2. 将行情报价刷新与 GitHub 私有账本同步解耦，减少网络验证延迟对收益显示的影响。\n3. 改进手动刷新及切换账户时的缓存隔离，不改变原有权限和账本规则。",
+  "updateLog": "v2.2.3 正式版：\n1. 修复巴西指数跨午夜分时显示；恢复沙特指数有效报价，修复碳酸锂合约核验与图表显示。\n2. 已清仓卡片支持点击打开日K；行情、自选及收益页股票/ETF日K统一显示已记录的历史入场和清仓标志，支持滑动查看更早K线。\n3. 修复收益日历顶部空白及节假日显示，统一图表截至说明为北京时间。\n4. 统一港股股票/ETF图表设计，行情来源改为普通文字，修复切换分时/日K时的布局跳动。\n5. 访问管理移入齿轮；启动诊断移至同步中心底部，与重新同步并列。",
   "forceUpdate": false
 }
