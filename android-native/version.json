@@ -1,10 +1,10 @@
 {
-  "versionCode": 116,
-  "versionName": "2.3.3",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.3/ziwuxilv-native-v2.3.3.apk",
-  "apkSha256": "413ccc3150480f7d0d898e6e49d36d900c581e12d47671d6d8296ea414183977",
+  "versionCode": 117,
+  "versionName": "2.3.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.4/ziwuxilv-native-v2.3.4.apk",
+  "apkSha256": "4cafb7072dfdcf728ce304ea212a720d4723a57aa881f381fb8ba868e5d755e1",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "37b77ffc81a031e7310bd1a3687d7445384338c1",
-  "updateLog": "v2.3.3 正式版：\n1. A股、美股、港股股票和ETF日K统一使用可验证的前复权（QFQ）行情，禁止在获取失败时静默混用不复权数据。\n2. 周K、月K沿用前复权日K聚合；入场参考线和历史交易标记按可核验比例映射至前复权图表。\n3. 缺少可信比例时不绘制误导性历史入场价参考线；账本成交记录与收益计算不变。\n4. 指数、期货、外汇、加密货币沿用原有行情口径。",
+  "sourceCommit": "a27f34582a9c99b3a33fbd99bbd137659f93f2f1",
+  "updateLog": "v2.3.4 正式版：\n1. 修复巴西ETF易方达520870等标的前复权日K不可核验导致图表空白的问题。\n2. A股股票及ETF：腾讯前复权优先，东方财富前复权备用；均不可用时显示明确标注的「不复权」原始K线。\n3. 美股、港股前复权不可用时允许有明确标注的不复权K线；周K、月K继承日K口径。\n4. 历史入场价和清仓价仅在取得可信换算比例时映射到前复权图表，不改账本、快照和收益计算。\n5. 修复收益曲线与展开持仓K线横向滑动误触发A股/美股市场切换的问题，保留非图表区域左右切换手势。",
   "forceUpdate": false
 }
