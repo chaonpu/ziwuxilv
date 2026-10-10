@@ -1,10 +1,10 @@
 {
-  "versionCode": 113,
-  "versionName": "2.3.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.0/ziwuxilv-native-v2.3.0.apk",
-  "apkSha256": "d40554b98fa4cafd492f2242aab887340a670ba215a27435c701c7dadfc0570e",
+  "versionCode": 114,
+  "versionName": "2.3.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.1/ziwuxilv-native-v2.3.1.apk",
+  "apkSha256": "b15bba7adc6be1f0a005691456a7a6ecb5bda3f3915be2c98ef3f23ca6c897de",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "24eda1e4db8ba491ff55f406a86baa8925dd9618",
-  "updateLog": "v2.3.0 正式版：\n1. 加密货币改用 Gate 原生日K，分时与当日行情按UTC0换日，北京时间08:00开始新交易日。\n2. 所有图表新增周K、月K、年K，按自然周期聚合真实日线。\n3. 新周期支持历史拖动、长按开高低收详情及入场/清仓标记，保留真实图表截至日期。\n4. 扩展可获取日线历史，首尾不完整周期按已有交易日展示。\n5. 修复巴西BOVESPA指数历史日K，优先接入新浪IBOV原生历史，恢复周K、月K、年K。",
+  "sourceCommit": "ee2fc53b9ef6b8d810ee1debee5f86e5b126fc7b",
+  "updateLog": "v2.3.1 正式版：\n1. 全部图表移除年K，保留分时、日K、周K、月K及现有历史标记与换日逻辑。\n2. 已清仓卡片及对应图表胶囊直接显示完整行业或跟踪标的名称，单行自动缩小字号完整显示，不再添加分类前缀。\n3. 将“清仓以来涨幅”统一精简为“清仓以来”；其他收益计算不变。",
   "forceUpdate": false
 }
