@@ -1,10 +1,10 @@
 {
-  "versionCode": 111,
-  "versionName": "2.2.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.2.8/ziwuxilv-native-v2.2.8.apk",
-  "apkSha256": "289799836abbfba326d428bad1a6d469bf4705e3fa833515ec565ba50b64e813",
+  "versionCode": 113,
+  "versionName": "2.3.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.0/ziwuxilv-native-v2.3.0.apk",
+  "apkSha256": "d40554b98fa4cafd492f2242aab887340a670ba215a27435c701c7dadfc0570e",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "f2d81acb72e468608e1a4e91470774107cab409f",
-  "updateLog": "v2.2.8 正式版：\n1. 修复美股全部清仓转现金及空仓后再入场的净值计算。\n2. 修复拆股或复权导致的排行榜虚假亏损，清仓收益使用可比价格。\n3. 累计最赚和最亏按组合累计净值贡献排名，合并同标的持仓及历史清仓。\n4. 当日和累计贡献统一显示百分号，盘中估值同步累计贡献。\n5. 历史贡献须与组合净值核对一致，资料不足时不回退为单标的涨跌幅。",
+  "sourceCommit": "24eda1e4db8ba491ff55f406a86baa8925dd9618",
+  "updateLog": "v2.3.0 正式版：\n1. 加密货币改用 Gate 原生日K，分时与当日行情按UTC0换日，北京时间08:00开始新交易日。\n2. 所有图表新增周K、月K、年K，按自然周期聚合真实日线。\n3. 新周期支持历史拖动、长按开高低收详情及入场/清仓标记，保留真实图表截至日期。\n4. 扩展可获取日线历史，首尾不完整周期按已有交易日展示。\n5. 修复巴西BOVESPA指数历史日K，优先接入新浪IBOV原生历史，恢复周K、月K、年K。",
   "forceUpdate": false
 }
