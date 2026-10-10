@@ -1,10 +1,10 @@
 {
-  "versionCode": 114,
-  "versionName": "2.3.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.1/ziwuxilv-native-v2.3.1.apk",
-  "apkSha256": "b15bba7adc6be1f0a005691456a7a6ecb5bda3f3915be2c98ef3f23ca6c897de",
+  "versionCode": 115,
+  "versionName": "2.3.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.2/ziwuxilv-native-v2.3.2.apk",
+  "apkSha256": "f23af721996ad47ed94b1897b3cfa07eafebf7166b4c96090a9f4d6b802ce092",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "ee2fc53b9ef6b8d810ee1debee5f86e5b126fc7b",
-  "updateLog": "v2.3.1 正式版：\n1. 全部图表移除年K，保留分时、日K、周K、月K及现有历史标记与换日逻辑。\n2. 已清仓卡片及对应图表胶囊直接显示完整行业或跟踪标的名称，单行自动缩小字号完整显示，不再添加分类前缀。\n3. 将“清仓以来涨幅”统一精简为“清仓以来”；其他收益计算不变。",
+  "sourceCommit": "e0078feb4343e2719678651f63c75f57f077d69e",
+  "updateLog": "v2.3.2 正式版：\n1. 已清仓卡片与对应图表的来源和行业／跟踪标的胶囊恢复与持仓一致的同一行布局。\n2. 已清仓胶囊维持单行显示、长名称自动缩小字体及不添加分类前缀的规则。\n3. 收益计算与其他持仓布局保持不变。",
   "forceUpdate": false
 }
