@@ -1,10 +1,10 @@
 {
-  "versionCode": 115,
-  "versionName": "2.3.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.2/ziwuxilv-native-v2.3.2.apk",
-  "apkSha256": "f23af721996ad47ed94b1897b3cfa07eafebf7166b4c96090a9f4d6b802ce092",
+  "versionCode": 116,
+  "versionName": "2.3.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.3/ziwuxilv-native-v2.3.3.apk",
+  "apkSha256": "413ccc3150480f7d0d898e6e49d36d900c581e12d47671d6d8296ea414183977",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "e0078feb4343e2719678651f63c75f57f077d69e",
-  "updateLog": "v2.3.2 正式版：\n1. 已清仓卡片与对应图表的来源和行业／跟踪标的胶囊恢复与持仓一致的同一行布局。\n2. 已清仓胶囊维持单行显示、长名称自动缩小字体及不添加分类前缀的规则。\n3. 收益计算与其他持仓布局保持不变。",
+  "sourceCommit": "37b77ffc81a031e7310bd1a3687d7445384338c1",
+  "updateLog": "v2.3.3 正式版：\n1. A股、美股、港股股票和ETF日K统一使用可验证的前复权（QFQ）行情，禁止在获取失败时静默混用不复权数据。\n2. 周K、月K沿用前复权日K聚合；入场参考线和历史交易标记按可核验比例映射至前复权图表。\n3. 缺少可信比例时不绘制误导性历史入场价参考线；账本成交记录与收益计算不变。\n4. 指数、期货、外汇、加密货币沿用原有行情口径。",
   "forceUpdate": false
 }
