@@ -1,11 +1,11 @@
 {
-  "sourceCommit": "ee2fc53b9ef6b8d810ee1debee5f86e5b126fc7b",
-  "versionName": "2.3.1",
-  "versionCode": 114,
+  "sourceCommit": "e0078feb4343e2719678651f63c75f57f077d69e",
+  "versionName": "2.3.2",
+  "versionCode": 115,
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v2.3.1 正式版：\n1. 全部图表移除年K，保留分时、日K、周K、月K及现有历史标记与换日逻辑。\n2. 已清仓卡片及对应图表胶囊直接显示完整行业或跟踪标的名称，单行自动缩小字号完整显示，不再添加分类前缀。\n3. 将“清仓以来涨幅”统一精简为“清仓以来”；其他收益计算不变。",
+  "updateLog": "v2.3.2 正式版：\n1. 已清仓卡片与对应图表的来源和行业／跟踪标的胶囊恢复与持仓一致的同一行布局。\n2. 已清仓胶囊维持单行显示、长名称自动缩小字体及不添加分类前缀的规则。\n3. 收益计算与其他持仓布局保持不变。",
   "forceUpdate": false,
-  "sourceUrl": "https://sdmntprjapaneast.oaiusercontent.com/files/00000000-83fc-8209-b3cf-6d9a3c21beea/raw?se=2026-10-10T02%3A44%3A24Z&sp=r&sv=2026-02-06&sr=b&scid=b39d90d5-2a25-563e-9e84-66e83d6e958a&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-10T02%3A10%3A32Z&ske=2026-10-11T02%3A10%3A32Z&sks=b&skv=2026-02-06&sig=3fQatGjNcY9f%2BN8NOXquSgjKkGSgkmslieXPt2AXCzM%3D",
-  "artifactSha256": "bc1fe5b659c99c536806e8fd16ada5807dfd15a111eb8f4e4152fb5ed6466bbf",
-  "apkSha256": "b15bba7adc6be1f0a005691456a7a6ecb5bda3f3915be2c98ef3f23ca6c897de"
+  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-0464-8206-b167-a5a7e8f8d734/raw?se=2026-10-10T03%3A21%3A42Z&sp=r&sv=2026-02-06&sr=b&scid=a38b2c30-0e38-5581-83fa-5a36026f48cc&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-10T01%3A11%3A56Z&ske=2026-10-11T01%3A11%3A56Z&sks=b&skv=2026-02-06&sig=IUkc%2BXyouxyS1QgCnHndXdreEjxkbijvMCLAVhbfkzM%3D",
+  "artifactSha256": "8eb6db4aeb4bbf99f7ff4b2aa94b1b1903e899e435f2e97bc5d8cab648e245e6",
+  "apkSha256": "f23af721996ad47ed94b1897b3cfa07eafebf7166b4c96090a9f4d6b802ce092"
 }
