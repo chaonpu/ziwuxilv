@@ -1,11 +1,11 @@
 {
-  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-d6e4-8206-a8e5-6ee441e0dec4/raw?se=2026-10-09T18%3A59%3A31Z&sp=r&sv=2026-02-06&sr=b&scid=643b7833-7fa9-4b25-a3f3-3b4cd3d6b343&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-09T01%3A31%3A49Z&ske=2026-10-10T01%3A31%3A49Z&sks=b&skv=2026-02-06&sig=tZnNri%2B/z4QfWlEHvTsePtom1GgZYkpqHodvMKCh0Yw%3D",
-  "artifactSha256": "cab9dc43849c0d8bd5a63451e90c835863cd82db903efe463e2bb164a0576e60",
-  "sourceCommit": "f2d81acb72e468608e1a4e91470774107cab409f",
-  "versionName": "2.2.8",
-  "versionCode": 111,
-  "apkSha256": "289799836abbfba326d428bad1a6d469bf4705e3fa833515ec565ba50b64e813",
+  "sourceCommit": "24eda1e4db8ba491ff55f406a86baa8925dd9618",
+  "versionName": "2.3.0",
+  "versionCode": 113,
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "updateLog": "v2.2.8 正式版：\n1. 修复美股全部清仓转现金及空仓后再入场的净值计算。\n2. 修复拆股或复权导致的排行榜虚假亏损，清仓收益使用可比价格。\n3. 累计最赚和最亏按组合累计净值贡献排名，合并同标的持仓及历史清仓。\n4. 当日和累计贡献统一显示百分号，盘中估值同步累计贡献。\n5. 历史贡献须与组合净值核对一致，资料不足时不回退为单标的涨跌幅。",
-  "forceUpdate": false
+  "updateLog": "v2.3.0 正式版：\n1. 加密货币改用 Gate 原生日K，分时与当日行情按UTC0换日，北京时间08:00开始新交易日。\n2. 所有图表新增周K、月K、年K，按自然周期聚合真实日线。\n3. 新周期支持历史拖动、长按开高低收详情及入场/清仓标记，保留真实图表截至日期。\n4. 扩展可获取日线历史，首尾不完整周期按已有交易日展示。\n5. 修复巴西BOVESPA指数历史日K，优先接入新浪IBOV原生历史，恢复周K、月K、年K。",
+  "forceUpdate": false,
+  "sourceUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-a428-8206-8e80-5f1933a3f442/raw?se=2026-10-10T01%3A25%3A38Z&sp=r&sv=2026-02-06&sr=b&scid=852cd36e-c863-4550-a23a-bd6c6f39b25b&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-10T00%3A25%3A36Z&ske=2026-10-11T00%3A25%3A36Z&sks=b&skv=2026-02-06&sig=nJCud3FMshJU0rK661X4nMrwmi7n2hJG/MexBKt0PXI%3D",
+  "artifactSha256": "5fa46d28067783857009026c6fa9426ef781bdbe748a96b3f9b6edae11c41dd5",
+  "apkSha256": "d40554b98fa4cafd492f2242aab887340a670ba215a27435c701c7dadfc0570e"
 }
