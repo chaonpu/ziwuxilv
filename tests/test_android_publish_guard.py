@@ -58,6 +58,12 @@ class AndroidPublishGuardTests(unittest.TestCase):
         p["sourceUrl"] = "https://example.com/file.zip?expires=1792206060"
         self.assert_blocked(p, "source_url_expired")
 
+    def test_future_signed_url_credentials_cannot_enter_public_request(self):
+        p = valid()
+        p["sourceUrl"] = ("https://example.com/release.zip"
+                          "?se=2026-11-01T00%3A00%3A00Z&sig=SECRET")
+        self.assert_blocked(p, "source_url_embeds_public_credentials")
+
     def test_wrong_certificate_blocked(self):
         p = valid()
         p["signingCertificateSha256"] = "0" * 64
