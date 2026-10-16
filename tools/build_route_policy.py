@@ -1,8 +1,8 @@
 """Fail-closed Android build path policy. Recommendation ONLY; never dispatches.
 
 Priority: Test hosted Ubuntu -> private signing repo hosted Ubuntu ->
-Test self-hosted Windows (unsigned APK). After Windows builds, an independent
-private signing runner is still required for an installable release.
+Test self-hosted Windows (unsigned APK) -> private Windows signing runner.
+The two Windows runner services share one physical PC. All routes are advisory.
 
 Sample: python tools/build_route_policy.py scenario.json
 Tests:  python tools/build_route_policy.py --self-test
@@ -18,6 +18,7 @@ from pathlib import Path
 UBUNTU = "ubuntu_test"
 SIGNER = "signing_repo_hosted"
 WINDOWS = "windows_test_unsigned"
+WINDOWS_SIGNER = "windows_signer_private"
 HOLD = "hold"
 USE_HANDOFF = "use_verified_unsigned_handoff"
 SIGNED_READY = "use_verified_signed_release"
@@ -106,10 +107,32 @@ def decide(plan):
     # Stage 3: Both PRIVATE GitHub-hosted budgets have documented exhaustion.
     # Existing Windows runner is installed only in Test and builds unsigned APK.
     if ws == "success":
-        if windows.get("verifiedHandoff") is True:
-            return Decision(USE_HANDOFF,
-                            "Windows unsigned APK verified; signing is BLOCKED without signer capacity.")
-        return Decision(HOLD, "Windows completed but its unsigned handoff is not verified.")
+        if windows.get("verifiedHandoff") is not True:
+            return Decision(HOLD, "Windows completed but its unsigned handoff is not verified.")
+        # Private Windows signing was independently validated in October 2026.
+        # Never treat an unsigned APK as a signed, distributable release.
+        private_signer = plan.get("windowsSigning")
+        if not isinstance(private_signer, dict):
+            return Decision(HOLD, "Windows unsigned handoff verified; private signing status missing.")
+        sign_state = _state(private_signer, "windowsSigning")
+        test_sha = windows.get("sourceCommit")
+        if not isinstance(test_sha, str) or len(test_sha) != 40 or any(
+            ch not in "0123456789abcdef" for ch in test_sha
+        ):
+            return Decision(HOLD, "Exact Test source SHA missing for Windows private signing.")
+        if sign_state == "success":
+            if (private_signer.get("verifiedSignedArtifact") is True
+                    and private_signer.get("sourceCommit") == test_sha):
+                return Decision(SIGNED_READY, "Windows private signing artifact verified for exact Test SHA.")
+            return Decision(HOLD, "Windows signer success lacks exact-source signed APK verification.")
+        if sign_state == "not_started":
+            if (private_signer.get("runnerOnline") is True
+                    and private_signer.get("sourceVerified") is True
+                    and private_signer.get("testRunVerified") is True
+                    and private_signer.get("sourceCommit") == test_sha):
+                return Decision(WINDOWS_SIGNER, "Route verified Test handoff to private Windows signing runner.")
+            return Decision(HOLD, "Private Windows signing runner, source or Test-run validation missing.")
+        return Decision(HOLD, "Private Windows signing queued, running or failed; never duplicate or bypass.")
     if ws == "in_progress":
         return Decision(HOLD, "Windows self-hosted build already running.")
     if ws == "not_started":
@@ -223,14 +246,54 @@ class TestRoutes(unittest.TestCase):
         p["windows"]["runnerOnline"] = False
         self.assertEqual(decide(p).route, HOLD)
 
-    def test_windows_unsigned_success_cannot_count_as_signed(self):
+    def test_windows_unsigned_success_requires_private_signing(self):
         p = self.base()
         self.exhaust(p, "ubuntu")
         self.exhaust(p, "signing")
-        p["windows"] = {"state": "success", "verifiedHandoff": True}
-        result = decide(p)
-        self.assertEqual(result.route, USE_HANDOFF)
-        self.assertIn("signing is BLOCKED", result.reason)
+        p["windows"] = {"state": "success", "verifiedHandoff": True,
+                        "sourceCommit": "a" * 40}
+        self.assertEqual(decide(p).route, HOLD)
+
+    def test_windows_private_signing_after_both_quota_failures(self):
+        p = self.base()
+        self.exhaust(p, "ubuntu")
+        self.exhaust(p, "signing")
+        p["windows"] = {"state": "success", "verifiedHandoff": True,
+                        "sourceCommit": "a" * 40}
+        p["windowsSigning"] = {"state": "not_started", "runnerOnline": True,
+                               "sourceVerified": True, "testRunVerified": True,
+                               "sourceCommit": "a" * 40}
+        self.assertEqual(decide(p).route, WINDOWS_SIGNER)
+
+    def test_windows_signed_exact_source_can_finish(self):
+        p = self.base()
+        self.exhaust(p, "ubuntu")
+        self.exhaust(p, "signing")
+        p["windows"] = {"state": "success", "verifiedHandoff": True,
+                        "sourceCommit": "a" * 40}
+        p["windowsSigning"] = {"state": "success", "verifiedSignedArtifact": True,
+                               "sourceCommit": "a" * 40}
+        self.assertEqual(decide(p).route, SIGNED_READY)
+
+    def test_windows_signer_rejects_mismatched_source(self):
+        p = self.base()
+        self.exhaust(p, "ubuntu")
+        self.exhaust(p, "signing")
+        p["windows"] = {"state": "success", "verifiedHandoff": True,
+                        "sourceCommit": "a" * 40}
+        p["windowsSigning"] = {"state": "not_started", "runnerOnline": True,
+                               "sourceVerified": True, "testRunVerified": True,
+                               "sourceCommit": "b" * 40}
+        self.assertEqual(decide(p).route, HOLD)
+
+    def test_windows_signer_rejects_duplicate_running_build(self):
+        p = self.base()
+        self.exhaust(p, "ubuntu")
+        self.exhaust(p, "signing")
+        p["windows"] = {"state": "success", "verifiedHandoff": True,
+                        "sourceCommit": "a" * 40}
+        p["windowsSigning"] = {"state": "in_progress", "sourceCommit": "a" * 40}
+        self.assertEqual(decide(p).route, HOLD)
 
     def test_windows_busy_no_duplicate(self):
         p = self.base()
