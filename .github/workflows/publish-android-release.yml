@@ -22,6 +22,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Validate new public release request before any repository or Release writes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/android_publish_guard.py \
+            --request android-publish-request.json \
+            --active android-native/version.json
+
       - name: Resolve publish request
         id: request
         shell: bash
