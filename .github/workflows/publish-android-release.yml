@@ -142,6 +142,22 @@ jobs:
             sha256sum -c "ziwuxilv-native-v${VERSION_NAME}.apk.sha256"
           )
 
+      - name: Independently verify signed APK certificate and package before publication
+        shell: bash
+        env:
+          VERSION_NAME: ${{ steps.request.outputs.version_name }}
+          VERSION_CODE: ${{ steps.request.outputs.version_code }}
+          APK_SHA256: ${{ steps.request.outputs.apk_sha256 }}
+          SIGNING_CERT_SHA256: ${{ steps.request.outputs.signing_cert_sha256 }}
+        run: |
+          set -euo pipefail
+          python3 tools/verify_signed_apk.py \
+            --apk "/tmp/signed/ziwuxilv-native-v${VERSION_NAME}.apk" \
+            --sha256 "$APK_SHA256" \
+            --certificate "$SIGNING_CERT_SHA256" \
+            --version-name "$VERSION_NAME" \
+            --version-code "$VERSION_CODE"
+
       - name: Publish APK to GitHub Release and activate manifest
         shell: bash
         env:
