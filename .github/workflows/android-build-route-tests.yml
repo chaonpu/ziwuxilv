@@ -1,0 +1,27 @@
+name: Android three-tier routing policy tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/build_route_policy.py"
+      - ".github/workflows/android-build-route-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  routing-policy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify fail-closed routing decisions
+        run: python3 tools/build_route_policy.py --self-test
+      - name: Confirm test-only isolation
+        run: |
+          echo 'Routing policy verification only.'
+          echo 'No private Test repository access, no signing keys, no cross-repo dispatch.'
