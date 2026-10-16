@@ -58,6 +58,13 @@ def check_url(value, now):
                     raise GuardError("source_url_expiration_invalid") from e
                 if dt.datetime.fromtimestamp(timestamp, dt.timezone.utc) <= now + dt.timedelta(minutes=10):
                     raise GuardError("source_url_expired")
+        # android-publish-request.json is committed to a PUBLIC repository.
+        # Never embed pre-signed download credentials or bearer tokens there.
+        sensitive = {"sig", "signature", "token", "access_token", "auth",
+                     "x-amz-signature", "x-amz-credential", "x-goog-signature",
+                     "ske", "skt", "sks", "skoid", "sktid", "sp", "sr", "scid"}
+        if sensitive.intersection(k.lower() for k in query):
+            raise GuardError("source_url_embeds_public_credentials")
     except (ValueError, UnicodeError) as e:
         if isinstance(e, GuardError):
             raise
