@@ -35,10 +35,19 @@
 
 真实公开版 v2.3.4 的重新验签及只读测试：Run `38952795677`、`38953371827`，均成功。旧 v2.3.4 发布请求被测试确认为不可重复发布。
 
-## 仍未接通的受控传输
+## 已部署：在 Runner 创建受人工批准的公共暂存预发布
 
-GitHub **私有 Actions Artifact** 不等于公共可匿名下载的 ZIP。没有批准的公开传输端点或发布专用授权，不能宣称已实现“私有签名完成后全自动公开发布”。
+公开 `chaonpu/Runner` 已新增 `stage-android-apk.yml`，**手动输入确切签名 Run / Test Run / 源 SHA / 新版本 / 版本专用批准口令**后才会尝试创建公开 `Pre-release`。暂存工作流使用现有私有令牌读取精确私有产物，再严格白名单打包签名 APK、侧边校验文件和候选 metadata；通过 apksigner/aapt 验证生产证书、包名、versionCode、versionName。公开 `Runner` 的 `GITHUB_TOKEN` 仅发布在 Runner 自身，不把私有令牌授权给本站。
 
-下一阶段需明确允许的方式：仅将最终签名 APK 与最小校验文件（**不含源码或密钥**）上传到经过授权的公开只读下载地址，再由公开仓库自身验证发布请求。上传本身会使 APK 提前公开，应设置独立发布批准条件、版本去重和错误恢复。
+公共下载格式：
+- Tag：`staged-apk-v<VERSION>-signrun-<RUN_ID>`
+- ZIP：`https://github.com/chaonpu/Runner/releases/download/<TAG>/ziwuxilv-verified-v<VERSION>.zip`
+- 同 Release 的 `staging-receipt.json` 明确 ZIP SHA256、内部 APK SHA256、证书及源版本。此 URL 不带凭据，可作为后续 `android-publish-request.json` 的 `sourceUrl`。
 
-在此之前，**保持私有签名产物、公开发布和站点版本清单三者隔离，不擅自发布 v2.3.4 或新版本。**
+已在 Runner Run `38954953009` 通过 39 项单元测试，**尚未对任何真实新版本生成公开暂存 Release**。历史 v2.3.4 不满足新版本条件，不能被再次暂存。用户已允许在正式版发布前公开暂存**经过明确批准的未来新 APK**。
+
+## 仍待接通的正式发布请求
+
+新工作流已经提供 Runner 自身的公开 Pre-release 传输通道，但**这是手动按版本批准的暂存工具，不是自动正式发布**。正式版本仍需另外审批并提交 `android-publish-request.json`，使原 `publish-android-release.yml` 验证 ZIP/APK/证书、升级 GitHub Release 和 APP 版本清单。后续可增加独立的正式发布请求工作流，但不能仅因私有签名 Success 或 Runner 预发布创建成功就自动修改 APP 更新地址。
+
+在此之前，**私有签名、Runner 暂存、ziwuxilv 正式发布三者保持独立的授权和去重门禁**。
