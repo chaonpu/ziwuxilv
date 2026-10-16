@@ -1,0 +1,64 @@
+name: Android public release guardrails (read-only)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/android_publish_guard.py"
+      - "tools/verify_signed_apk.py"
+      - "tests/test_android_publish_guard.py"
+      - "tests/test_verify_signed_apk.py"
+      - ".github/workflows/android-publication-guard-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify publish eligibility, certificate and existing APK without publishing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout only the public repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          clean: true
+      - name: Test publish request policy and cryptographic verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_android_publish_guard.py' -v
+          python3 -m unittest discover -s tests -p 'test_verify_signed_apk.py' -v
+      - name: Confirm previous public request cannot republish existing version
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          python3 tools/android_publish_guard.py --request android-publish-request.json --active android-native/version.json
+          rc=$?
+          set -e
+          if [ "$rc" -ne 2 ]; then
+            echo "Expected the old same-version publish request to be safely blocked." >&2
+            exit 1
+          fi
+      - name: Independently verify already-public APK certificate (no release writes)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          v = json.loads(Path("android-native/version.json").read_text())
+          with open("/tmp/current-release-fields", "w") as stream:
+              for key in ("versionName", "versionCode", "apkSha256", "signingCertificateSha256", "downloadUrl"):
+                  stream.write(str(v[key]) + "\n")
+          PY
+          mapfile -t fields < /tmp/current-release-fields
+          curl --fail --location --retry 3 --retry-delay 2 --max-time 180 "${fields[4]}" -o /tmp/current-public-release.apk
+          python3 tools/verify_signed_apk.py --apk /tmp/current-public-release.apk \
+            --sha256 "${fields[2]}" --certificate "${fields[3]}" \
+            --version-name "${fields[0]}" --version-code "${fields[1]}"
+      - name: Confirm no public release or manifest updates occurred
+        run: echo 'Read-only release verification only; no workflow_dispatch, GH release, git push or publication.'
