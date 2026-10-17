@@ -6,6 +6,12 @@ on:
     paths:
       - "android-publish-request.json"
   workflow_dispatch:
+    inputs:
+      publish_request:
+        description: "粘贴 RUNNER 生成的 android-publish-request.json 完整内容；留空读取原仓库请求"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -16,18 +22,35 @@ concurrency:
 
 jobs:
   publish:
+    if: github.ref == 'refs/heads/main' && github.actor == 'chaonpu'
     name: Verify and publish signed APK
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
+      - name: Snapshot exact requested publication independently of later repository commits
+        env:
+          INPUT_PUBLISH_REQUEST: ${{ inputs.publish_request }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          entered = os.environ.get("INPUT_PUBLISH_REQUEST", "")
+          request = json.loads(entered) if entered.strip() else json.loads(Path("android-publish-request.json").read_text(encoding="utf-8"))
+          if not isinstance(request, dict):
+              raise SystemExit("Invalid publication document")
+          Path("/tmp/publish-request.json").write_text(json.dumps(request, ensure_ascii=False) + "\n", encoding="utf-8")
+          PY
+
       - name: Validate new public release request before any repository or Release writes
         shell: bash
         run: |
           set -euo pipefail
           python3 tools/android_publish_guard.py \
-            --request android-publish-request.json \
+            --request /tmp/publish-request.json \
             --active android-native/version.json
 
       - name: Resolve publish request
@@ -35,12 +58,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -f android-publish-request.json
+          test -f /tmp/publish-request.json
           python3 - <<'PY'
           import json
           from pathlib import Path
 
-          req = json.loads(Path("android-publish-request.json").read_text(encoding="utf-8"))
+          req = json.loads(Path("/tmp/publish-request.json").read_text(encoding="utf-8"))
           required = [
               "sourceUrl", "artifactSha256", "sourceCommit", "versionName",
               "versionCode", "apkSha256", "signingCertificateSha256", "updateLog",
@@ -200,7 +223,7 @@ jobs:
           import json, os
           from pathlib import Path
 
-          req = json.loads(Path("android-publish-request.json").read_text(encoding="utf-8"))
+          req = json.loads(Path("/tmp/publish-request.json").read_text(encoding="utf-8"))
           version = os.environ["VERSION_NAME"]
           code = int(os.environ["VERSION_CODE"])
           manifest = {
@@ -253,7 +276,7 @@ jobs:
           exit 1
 
       - name: Record publish run status
-        if: always()
+        if: always() && steps.request.outputs.version_code != ''
         shell: bash
         env:
           JOB_STATUS: ${{ job.status }}
@@ -293,3 +316,4 @@ jobs:
           done
           echo "Publish status record still conflicts after three attempts" >&2
           exit 1
+
