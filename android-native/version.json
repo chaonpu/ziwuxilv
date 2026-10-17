@@ -1,10 +1,10 @@
 {
-  "versionCode": 117,
-  "versionName": "2.3.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.4/ziwuxilv-native-v2.3.4.apk",
-  "apkSha256": "4cafb7072dfdcf728ce304ea212a720d4723a57aa881f381fb8ba868e5d755e1",
+  "versionCode": 118,
+  "versionName": "2.3.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.5/ziwuxilv-native-v2.3.5.apk",
+  "apkSha256": "eac1dd0e4df4df8b2b8e588e387ede54b48514103040ec94fa5e5befcb59c4d8",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "a27f34582a9c99b3a33fbd99bbd137659f93f2f1",
-  "updateLog": "v2.3.4 正式版：\n1. 修复巴西ETF易方达520870等标的前复权日K不可核验导致图表空白的问题。\n2. A股股票及ETF：腾讯前复权优先，东方财富前复权备用；均不可用时显示明确标注的「不复权」原始K线。\n3. 美股、港股前复权不可用时允许有明确标注的不复权K线；周K、月K继承日K口径。\n4. 历史入场价和清仓价仅在取得可信换算比例时映射到前复权图表，不改账本、快照和收益计算。\n5. 修复收益曲线与展开持仓K线横向滑动误触发A股/美股市场切换的问题，保留非图表区域左右切换手势。",
+  "sourceCommit": "538b3ded770fdf7b54885ca773755fd7587ffae5",
+  "updateLog": "更新至 2.3.5（118）。",
   "forceUpdate": false
 }
