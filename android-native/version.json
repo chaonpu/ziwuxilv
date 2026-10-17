@@ -1,10 +1,10 @@
 {
-  "versionCode": 118,
-  "versionName": "2.3.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.5/ziwuxilv-native-v2.3.5.apk",
-  "apkSha256": "eac1dd0e4df4df8b2b8e588e387ede54b48514103040ec94fa5e5befcb59c4d8",
+  "versionCode": 119,
+  "versionName": "2.3.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.6/ziwuxilv-native-v2.3.6.apk",
+  "apkSha256": "4604f9678257c49cccd4036aad6a961381a8702f0d1ae1108ec820c9264de7db",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "538b3ded770fdf7b54885ca773755fd7587ffae5",
-  "updateLog": "更新至 2.3.5（118）。",
+  "sourceCommit": "6420b8dcdcc57e3ca326789559c66442c0f889b6",
+  "updateLog": "更新至 2.3.6（119）。",
   "forceUpdate": false
 }
