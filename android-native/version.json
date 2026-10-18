@@ -1,10 +1,10 @@
 {
-  "versionCode": 122,
-  "versionName": "2.3.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.9/ziwuxilv-native-v2.3.9.apk",
-  "apkSha256": "8c04479d7af4ed29bad54d9e8b8692b4b6e5165d8654713d68e374c4ad6ce8da",
+  "versionCode": 123,
+  "versionName": "2.4.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.0/ziwuxilv-native-v2.4.0.apk",
+  "apkSha256": "7cfc52939ecb344f856b6697da10ba6407607d01c5c6f65609873d9112b0b491",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "c569c0b6caca21cf7f32d32b6d7426c41b5076c7",
-  "updateLog": "v2.3.9：\n1. 将 K 线买入 B、卖出 S 标记的边长缩小为此前的一半，并同步缩小字母和圆角。\n2. 保持金色 B、蓝色 S 标记与对应 K 线居中对齐，虚线连接成交价格点。\n3. 自选搜索结果新增独立加号按钮；点击标的查看图表，图表弹窗中也可加入自选，关闭后返回原搜索位置。",
+  "sourceCommit": "ed516fc5f89b37a38d0dc54e9a1845b89f39594f",
+  "updateLog": "v2.4.0：\n1. 优化 K 线 B/S 买卖标记：保持当前紧凑标签大小，并与对应 K 线严格居中对齐；成交价格点与标签之间改用固定 8dp 短虚线。\n2. 对调入场价参考线与 B/S 连接虚线的颜色，保留金色 B、蓝色 S 标签及成交价格点。\n3. 自选搜索结果新增独立加号按钮；点击标的查看图表，图表弹窗中也可加入自选，关闭后返回原搜索位置。",
   "forceUpdate": false
 }
