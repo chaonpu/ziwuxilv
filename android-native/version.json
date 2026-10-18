@@ -1,10 +1,10 @@
 {
-  "versionCode": 124,
-  "versionName": "2.4.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.1/ziwuxilv-native-v2.4.1.apk",
-  "apkSha256": "1497cc0de62a40dec442ccf4e8a63f3fb09ea1c4596f322775af8c4544ddf932",
+  "versionCode": 125,
+  "versionName": "2.4.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.2/ziwuxilv-native-v2.4.2.apk",
+  "apkSha256": "9becb2f5a67438ece376ef4affd19d40f4ab7469f5c83522ed6cb85a8379fdda",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "7afed48615b508af11a4ea7c53acb40d73c46e16",
-  "updateLog": "v2.4.1：\n1. 修复布伦特原油因曲合缺少昨结算价而显示“未读取”的问题，东方财富备用源可独立确认月份合约并读取报价。\n2. 布伦特主备源并发读取，严格核验合约身份、昨结算价及开高低数据。\n3. 增加布伦特报价链路实测及失败原因记录，保留休市行情的真实来源时间。",
+  "sourceCommit": "fc65c623de83e27d2c57265c5de0aa94e72bb4a7",
+  "updateLog": "v2.4.2：\n1. 修复沙特指数休市冷启动时因主源仅返回凌晨占位而显示未读取的问题，仅恢复最近有效收盘价，不伪造当日涨跌。\n2. 沙特东方财富备用源增加独立延时节点，并优先保留真实完整报价。\n3. 日K历史刷新缩短至30秒；报价更新时同步当前日K，严格校验标的、合约、交易日及复权口径。\n4. 新增沙特报价冷启动实测与日K同步回归测试。",
   "forceUpdate": false
 }
