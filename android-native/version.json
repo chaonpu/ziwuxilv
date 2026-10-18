@@ -1,10 +1,10 @@
 {
-  "versionCode": 120,
-  "versionName": "2.3.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.7/ziwuxilv-native-v2.3.7.apk",
-  "apkSha256": "4cee8b5e276a599963b6d26f85c18f64d6cb0a781b1f93c41b33704757fe59ec",
+  "versionCode": 121,
+  "versionName": "2.3.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.3.8/ziwuxilv-native-v2.3.8.apk",
+  "apkSha256": "e0ff802a84b59db2b6424b266b0363a30c94fd4c74ecfbe5fc652c18cf3f32fc",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "e20d59e487f3615ab1c5c594ea7e045e509c6b0e",
-  "updateLog": "更新至 2.3.7（120）。",
+  "sourceCommit": "efde2087d0286be33aa9fd7d3c05f70ed219306c",
+  "updateLog": "更新至 2.3.8（121）。",
   "forceUpdate": false
 }
