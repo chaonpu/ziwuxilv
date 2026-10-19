@@ -1,10 +1,10 @@
 {
-  "versionCode": 125,
-  "versionName": "2.4.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.2/ziwuxilv-native-v2.4.2.apk",
-  "apkSha256": "9becb2f5a67438ece376ef4affd19d40f4ab7469f5c83522ed6cb85a8379fdda",
+  "versionCode": 126,
+  "versionName": "2.4.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.3/ziwuxilv-native-v2.4.3.apk",
+  "apkSha256": "037c044c5b3a472a51fab266e8815b431146e86aa1eeb074c4a4427afaf27a5a",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "fc65c623de83e27d2c57265c5de0aa94e72bb4a7",
-  "updateLog": "v2.4.2：\n1. 修复沙特指数休市冷启动时因主源仅返回凌晨占位而显示未读取的问题，仅恢复最近有效收盘价，不伪造当日涨跌。\n2. 沙特东方财富备用源增加独立延时节点，并优先保留真实完整报价。\n3. 日K历史刷新缩短至30秒；报价更新时同步当前日K，严格校验标的、合约、交易日及复权口径。\n4. 新增沙特报价冷启动实测与日K同步回归测试。",
+  "sourceCommit": "74345b0256c38de5d3cff1d3c1abbd9489708f77",
+  "updateLog": "v2.4.3：\n1. 修复B/S交易标签与K线上下影线重叠的问题，标签位置随完整影线变化。\n2. 标签保持与对应K线同列，纵向避让相邻K线及已有标签。\n3. 连接虚线继续指向真实成交价，长度随避让距离调整。",
   "forceUpdate": false
 }
