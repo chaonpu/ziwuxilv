@@ -1,10 +1,10 @@
 {
-  "versionCode": 129,
-  "versionName": "2.4.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.6/ziwuxilv-native-v2.4.6.apk",
-  "apkSha256": "44fe3c7cefdedde98629f5a07f889a7def1b811b7efb86539dd72469878b1034",
+  "versionCode": 130,
+  "versionName": "2.4.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.7/ziwuxilv-native-v2.4.7.apk",
+  "apkSha256": "b5a94789e1be58121c84579c87a3d94553825d6578c6f0c9b04b088885bd7259",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "fd584264ece7fae470b7bf1728e28d551dda881b",
-  "updateLog": "v2.4.6：\n1. 我的页新增策略报告，支持切换 A股/美股，按日期倒序查看 database 中的 HTML 完整选股报告。\n2. 报告在 APP 内按网页渲染，支持手机滚动阅读、章节跳转与折叠。\n3. 调仓通知补充买入、调出、保留标的名称与代码、目标仓位、现金比例及执行状态。\n4. 点击 APP 内或系统调仓通知可打开对应报告，按市场与数据日期核对，适配美股跨日报告。",
+  "sourceCommit": "4db3f3f4e49eb4a56e20e3375f431d505147fda6",
+  "updateLog": "v2.4.7：\n1. 策略报告列表改为单行显示日期与当日买入、卖出、保留数量，整行点击打开报告。\n2. 报告阅读页仅保留顶部安全区，移除 APP 顶栏、市场切换、刷新、日期说明及底部导航。\n3. 保留系统返回手势和调仓通知直达对应报告，报告概要缺失时明确提示，不推测操作。\n4. 报告工具区支持下载完整 HTML，可选择保存位置并离线阅读。",
   "forceUpdate": false
 }
