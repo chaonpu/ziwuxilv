@@ -1,10 +1,10 @@
 {
-  "versionCode": 128,
-  "versionName": "2.4.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.5/ziwuxilv-native-v2.4.5.apk",
-  "apkSha256": "a8b8eae092daa605d4a89f6986032cf889104777b7122898ad0c93b1711daa6f",
+  "versionCode": 129,
+  "versionName": "2.4.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.6/ziwuxilv-native-v2.4.6.apk",
+  "apkSha256": "44fe3c7cefdedde98629f5a07f889a7def1b811b7efb86539dd72469878b1034",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "8ea1d740cfe4872ceb0d899dfc2b42755e7db2f7",
-  "updateLog": "v2.4.5：\n1. 日K、周K、月K统一随最新报价更新，修复跨周期数据不同步。\n2. 纽约金、纽约银、WTI和布伦特图表对应经核验的实际交割月份。\n3. 修复至今涨幅混用报价合约价格，以及同标的涨跌基准与开高低口径不一致的问题。\n4. 修复德国DAX分时线与时间轴对应，正确处理时区、夏令时、跨日和缺失分钟。",
+  "sourceCommit": "fd584264ece7fae470b7bf1728e28d551dda881b",
+  "updateLog": "v2.4.6：\n1. 我的页新增策略报告，支持切换 A股/美股，按日期倒序查看 database 中的 HTML 完整选股报告。\n2. 报告在 APP 内按网页渲染，支持手机滚动阅读、章节跳转与折叠。\n3. 调仓通知补充买入、调出、保留标的名称与代码、目标仓位、现金比例及执行状态。\n4. 点击 APP 内或系统调仓通知可打开对应报告，按市场与数据日期核对，适配美股跨日报告。",
   "forceUpdate": false
 }
