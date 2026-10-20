@@ -1,10 +1,10 @@
 {
-  "versionCode": 127,
-  "versionName": "2.4.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.4/ziwuxilv-native-v2.4.4.apk",
-  "apkSha256": "f9212ea774e57b826b9a3ec3b6040164de6bd9c2a2fe76078ec7bc5c8bf80fb1",
+  "versionCode": 128,
+  "versionName": "2.4.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.5/ziwuxilv-native-v2.4.5.apk",
+  "apkSha256": "a8b8eae092daa605d4a89f6986032cf889104777b7122898ad0c93b1711daa6f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "053f4338499c2ff0061d5a02f84912661cd04e11",
-  "updateLog": "v2.4.4：\n1. 调淡并细化B/S标签连接虚线，减少对K线走势的干扰。\n2. 连接虚线绘制时避开K线影线和实体区域，保持影线清晰。\n3. 提亮入场价线及价格文字，方便识别入场位置。\n4. 修复配置模式B/S标签日期匹配：保存报价交易日，兼容旧记录在休市或开盘前操作的情况，并保留同日清仓、重新加入的顺序。",
+  "sourceCommit": "8ea1d740cfe4872ceb0d899dfc2b42755e7db2f7",
+  "updateLog": "v2.4.5：\n1. 日K、周K、月K统一随最新报价更新，修复跨周期数据不同步。\n2. 纽约金、纽约银、WTI和布伦特图表对应经核验的实际交割月份。\n3. 修复至今涨幅混用报价合约价格，以及同标的涨跌基准与开高低口径不一致的问题。\n4. 修复德国DAX分时线与时间轴对应，正确处理时区、夏令时、跨日和缺失分钟。",
   "forceUpdate": false
 }
