@@ -1,7 +1,7 @@
 {
-  "runId": 39212186852,
-  "status": "success",
-  "versionName": "2.4.4",
-  "versionCode": 127,
-  "sourceCommit": "053f4338499c2ff0061d5a02f84912661cd04e11"
+  "runId": 39438411664,
+  "status": "running",
+  "versionName": "2.4.5",
+  "versionCode": 128,
+  "sourceCommit": "8ea1d740cfe4872ceb0d899dfc2b42755e7db2f7"
 }
