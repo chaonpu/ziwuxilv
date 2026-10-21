@@ -39,19 +39,6 @@
           "id": "DC_kwDOUnTHZ84BHW7D"
         }
       ]
-    },
-    "img_fba98f16fc629aadc626076adc87372bcb4dc442fecf958c87f094f23397965e": {
-      "url": "https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/media/205125766/3f255e1702a44907aca1d6bc28b2eda9/0.webp",
-      "storage_path": "media/205125766/3f255e1702a44907aca1d6bc28b2eda9/0.webp",
-      "owner_id": "205125766",
-      "sha256": "ec720da91e8264c0773789785f8d769a323694c2a04b449fd9dd4a7c51f5bf6b",
-      "created_at": "2026-10-02T00:12:09.940509+00:00",
-      "references": [
-        {
-          "type": "reply",
-          "id": "DC_kwDOUnTHZ84BHXHm"
-        }
-      ]
     }
   },
   "deleted_contents": {
@@ -91,7 +78,8 @@
     "DC_kwDOUnTHZ84BHaKb": "2026-10-07T15:04:36.900227+00:00",
     "DC_kwDOUnTHZ84BHtEo": "2026-10-07T15:37:03.068136+00:00",
     "DC_kwDOUnTHZ84BHtJR": "2026-10-07T15:38:36.550558+00:00",
-    "DC_kwDOUnTHZ84BHtJY": "2026-10-07T15:39:14.390572+00:00"
+    "DC_kwDOUnTHZ84BHtJY": "2026-10-07T15:39:14.390572+00:00",
+    "DC_kwDOUnTHZ84BHXHm": "2026-10-21T02:41:41.956519+00:00"
   },
-  "last_complete_scan_at": "2026-10-21T02:41:37.738933+00:00"
+  "last_complete_scan_at": "2026-10-21T02:41:41.956505+00:00"
 }
