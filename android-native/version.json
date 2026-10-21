@@ -1,10 +1,10 @@
 {
-  "versionCode": 130,
-  "versionName": "2.4.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.7/ziwuxilv-native-v2.4.7.apk",
-  "apkSha256": "b5a94789e1be58121c84579c87a3d94553825d6578c6f0c9b04b088885bd7259",
+  "versionCode": 131,
+  "versionName": "2.4.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.8/ziwuxilv-native-v2.4.8.apk",
+  "apkSha256": "a3098381bd833e42f48486c7780bbb2dcd1284db916eff84c5451e594c3f355f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "4db3f3f4e49eb4a56e20e3375f431d505147fda6",
-  "updateLog": "v2.4.7：\n1. 策略报告列表改为单行显示日期与当日买入、卖出、保留数量，整行点击打开报告。\n2. 报告阅读页仅保留顶部安全区，移除 APP 顶栏、市场切换、刷新、日期说明及底部导航。\n3. 保留系统返回手势和调仓通知直达对应报告，报告概要缺失时明确提示，不推测操作。\n4. 报告工具区支持下载完整 HTML，可选择保存位置并离线阅读。",
+  "sourceCommit": "d9bc02d3652fe5c69bffc420888090814e50b497",
+  "updateLog": "v2.4.8：\n1. 策略报告增加按账号、市场隔离的本地缓存，优先显示缓存并静默检查更新，网络异常时继续阅读已缓存报告。\n2. 自动预缓存A股、美股最近报告，支持应用内定期刷新和系统后台静默刷新。\n3. 调仓通知移除保留持仓明细，仅保留数量、买入调出明细及仓位摘要。\n4. 持仓卡片仅在盘中显示涨跌色边框，盘前、午休、盘后及休市统一显示灰色。",
   "forceUpdate": false
 }
