@@ -72,6 +72,22 @@ class CalendarTests(unittest.TestCase):
             with self.assertRaises(ValueError):runtime.pin_latest(target,revision='0'*64,fetch=offline)
         runtime._snapshot=None
 
+    def test_verified_version_survives_job_temp_cleanup(self):
+        import os
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as td,patch.dict(os.environ,{'RUNNER_TOOL_CACHE':str(Path(td)/'tools')},clear=True):
+            data=deepcopy(self.snapshot['data']);data['baselineReviewedAt']='persistence-fixture'
+            raw=runtime.canonical(data);revision=hashlib.sha256(raw).hexdigest()
+            first=Path(td)/'first-job.json'
+            runtime.pin_latest(first,revision=revision,fetch=lambda path:raw)
+            first.unlink()
+            def offline(path):raise OSError('offline')
+            second=Path(td)/'second-job.json'
+            result=runtime.pin_latest(second,revision=revision,fetch=offline)
+            self.assertEqual(result['calendarOrigin'],'verified_cache')
+            self.assertEqual(second.read_bytes(),raw)
+        runtime._snapshot=None
+
     def test_daily_only_q4_and_missing_next_year(self):
         now=datetime(2026,10,23,8,17,tzinfo=ZoneInfo('Asia/Shanghai'))
         state={'lastAttemptAt':(now-timedelta(days=1,minutes=1)).isoformat()}
@@ -80,6 +96,12 @@ class CalendarTests(unittest.TestCase):
         self.assertEqual(sync.should_check(us,state,now),(False,'weekly'))
         self.assertFalse(sync.should_check(cn,state,now.replace(month=9))[0])
         self.assertTrue(sync.should_check(us,state,now,force=True)[0])
+
+    def test_weekly_and_daily_checks_tolerate_scheduler_jitter(self):
+        now=datetime(2026,10,25,8,17,tzinfo=ZoneInfo('Asia/Shanghai'))
+        us=self.snapshot['data']['calendars']['US_EQ'];cn=self.snapshot['data']['calendars']['CN_EQ']
+        self.assertTrue(sync.should_check(us,{'lastAttemptAt':(now-timedelta(days=7)+timedelta(minutes=9)).isoformat()},now)[0])
+        self.assertTrue(sync.should_check(cn,{'lastAttemptAt':(now-timedelta(days=1)+timedelta(minutes=9)).isoformat()},now)[0])
 
     def test_failed_sources_preserve_active_bytes_and_check_skip_does_no_network(self):
         import shutil

@@ -169,24 +169,41 @@ def pin_latest(cache, *, revision="", fetch=fetch_public):
     """Refresh once; a requested revision can never fall back to another one."""
     global _snapshot
     cache = Path(cache)
+    tool_cache = os.environ.get("RUNNER_TOOL_CACHE")
+    persistent = Path(tool_cache) / "ziwuxilv-public-calendars" if tool_cache else None
     try:
         raw, snapshot = remote(revision, fetch=fetch)
         install(raw, cache)
         origin = "remote"
     except (OSError, ValueError, KeyError, TypeError):
-        candidates = [cache, seed_path()]
+        candidates = [cache]
+        if persistent:
+            if revision:
+                candidates.append(persistent / (revision + ".json"))
+            candidates.append(persistent / "current.json")
+        candidates.append(seed_path())
         snapshot = None
         for path in candidates:
             try:
                 found = validate(path.read_bytes())
                 if not revision or found["revision"] == revision:
                     raw, snapshot = path.read_bytes(), found
-                    origin = "verified_cache" if path == cache else "bundled"
+                    origin = "bundled" if path == seed_path() else "verified_cache"
                     break
             except (OSError, ValueError, KeyError, TypeError):
                 continue
         require(snapshot is not None, "calendar_requested_revision_unavailable")
         install(raw, cache)
+    if persistent:
+        # Keep content-addressed copies across Windows job temp cleanup.
+        # Persistence failure must not invalidate a verified current-run copy.
+        try:
+            version_file = persistent / (snapshot["revision"] + ".json")
+            if not version_file.exists() or version_file.read_bytes() != raw:
+                install(raw, version_file)
+            install(raw, persistent / "current.json")
+        except OSError:
+            pass
     _snapshot = snapshot
     os.environ["ZIWU_CALENDAR_FILE"] = str(cache.resolve())
     os.environ["ZIWU_CALENDAR_REVISION"] = snapshot["revision"]

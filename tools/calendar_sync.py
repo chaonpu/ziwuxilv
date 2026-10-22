@@ -165,9 +165,12 @@ def should_check(cal, health, now, force=False):
     hours=24 if daily else 168
     previous=health.get('lastAttemptAt')
     if not previous:return True,'q4_missing_next_year' if daily else 'weekly'
-    try:age=(now-datetime.fromisoformat(previous)).total_seconds()
+    try:
+        prior=datetime.fromisoformat(previous).astimezone(now.tzinfo)
+        age=(now-prior).total_seconds()
     except (TypeError,ValueError):return True,'invalid_check_timestamp'
-    return force or age>=hours*3600, 'manual' if force else 'q4_missing_next_year' if daily else 'weekly'
+    period_changed=(now.date()>prior.date()) if daily else (now.date()>prior.date() and now.isocalendar()[:2]!=prior.isocalendar()[:2])
+    return force or period_changed or age>=hours*3600, 'manual' if force else 'q4_missing_next_year' if daily else 'weekly'
 
 
 def source_get(url):
@@ -281,6 +284,18 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
         (root/'calendars/current.json').write_bytes(canonical({'schemaVersion':1,'sha256':revision,'path':path}))
     else:revision=current['revision']
     health['activeRevision']=revision
+    warnings=[]
+    for key,cal in bundle['calendars'].items():
+        year=now.year
+        if str(year) not in cal['years']:
+            warnings.append({'calendarId':key,'level':'critical','reason':'current_year_not_covered'})
+            continue
+        while str(year+1) in cal['years']:year+=1
+        remaining=(date(year,12,31)-now.date()).days
+        if remaining<=90:
+            warnings.append({'calendarId':key,'level':'critical' if remaining<=7 else 'warning',
+                             'reason':'next_year_not_covered','daysRemaining':remaining})
+    health['coverageWarnings']=warnings
     if checked:hp.write_bytes(canonical(health))
     return {'activeRevision':revision,'checkedCalendars':checked,'changedCalendars':changed,
             'sourceChecks':len(urls),'results':{k:health['calendars'][k]['status'] for k in checked}}
