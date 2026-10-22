@@ -1,10 +1,10 @@
 {
-  "versionCode": 131,
-  "versionName": "2.4.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.8/ziwuxilv-native-v2.4.8.apk",
-  "apkSha256": "a3098381bd833e42f48486c7780bbb2dcd1284db916eff84c5451e594c3f355f",
+  "versionCode": 132,
+  "versionName": "2.4.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.9/ziwuxilv-native-v2.4.9.apk",
+  "apkSha256": "abf2b28ded106d3bf93d82e97db873ffe8bdc8de9eebeddc683c023145571936",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "d9bc02d3652fe5c69bffc420888090814e50b497",
-  "updateLog": "v2.4.8：\n1. 策略报告增加按账号、市场隔离的本地缓存，优先显示缓存并静默检查更新，网络异常时继续阅读已缓存报告。\n2. 自动预缓存A股、美股最近报告，支持应用内定期刷新和系统后台静默刷新。\n3. 调仓通知移除保留持仓明细，仅保留数量、买入调出明细及仓位摘要。\n4. 持仓卡片仅在盘中显示涨跌色边框，盘前、午休、盘后及休市统一显示灰色。",
+  "sourceCommit": "8ad40a606a5648a801d25029b5ef0f7e2168c3a8",
+  "updateLog": "v2.4.9：\n1. A股、美股组合收益曲线按零轴分色：零轴以上红色、以下绿色，穿越零轴时准确切换颜色。\n2. 曲线选中点随收益正负变色，零收益平段显示灰色。\n3. 零轴文字按实际纵轴比例定位。",
   "forceUpdate": false
 }
