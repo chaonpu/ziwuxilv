@@ -1,0 +1,74 @@
+name: 交易日历检查与更新
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 立即检查全部已登记来源
+        type: boolean
+        default: false
+  schedule:
+    # Weekly all year; additional daily checks in Q4 skip fully covered calendars.
+    - cron: '17 0 * * 0'
+    - cron: '17 0 * 10-12 1-6'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/calendar_*.py'
+      - 'tools/calendar-seed.json'
+      - 'tests/test_calendar_*.py'
+      - 'calendars/**'
+      - '.github/workflows/calendar-sync.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: public-calendar-maintenance
+  cancel-in-progress: false
+
+jobs:
+  calendar:
+    if: github.repository == 'chaonpu/ziwuxilv' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate immutable calendar, cache, cadence and parser contracts
+        run: python3 -m unittest discover -s tests -p 'test_calendar_*.py' -v
+      - name: Check official sources only when due
+        env:
+          FORCE: ${{ inputs.force && 'true' || 'false' }}
+        run: |
+          args=()
+          if [ "$FORCE" = true ]; then args+=(--force); fi
+          python3 tools/calendar_sync.py "${args[@]}" | tee calendar-check.json
+      - name: Publish only calendars and source health atomically
+        run: |
+          set -euo pipefail
+          git add -- calendars
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Update verified exchange calendars and source check status'
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+      - name: Read published pinned bytes from public API
+        run: |
+          PYTHONPATH=tools python3 - <<'PY'
+          import json
+          from calendar_runtime import remote
+          from pathlib import Path
+          index=json.loads(Path('calendars/current.json').read_bytes())
+          raw,snapshot=remote(index['sha256'])
+          assert snapshot['revision']==index['sha256']
+          print(json.dumps({'publicReadback':'passed','revision':snapshot['revision'],'bytes':len(raw)}))
+          PY
+      - name: Preserve public calendar check evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: calendar-source-check
+          path: calendar-check.json
+          retention-days: 14
