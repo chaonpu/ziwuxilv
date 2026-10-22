@@ -19,6 +19,13 @@ class CalendarTests(unittest.TestCase):
         self.assertEqual(runtime.day_rule(self.snapshot,'US_EQ','2027-01-04')['kind'],'NORMAL')
         self.assertEqual(runtime.day_rule(self.snapshot,'US_EQ','2027-11-26')['closeMinute'],780)
 
+    def test_no_published_equity_year_silently_becomes_an_empty_calendar(self):
+        for key,calendar in self.snapshot['data']['calendars'].items():
+            if not key.endswith('_EQ'):continue
+            for year,record in calendar['years'].items():
+                with self.subTest(calendar=key,year=year):
+                    self.assertGreaterEqual(len(record['holidays']),5)
+
     def test_cross_year_and_unknown_adjacent_never_guess(self):
         self.assertEqual(runtime.adjacent(self.snapshot,'US_EQ',date(2027,1,4),-1),date(2026,12,31))
         self.assertIsNone(runtime.adjacent(self.snapshot,'CN_EQ',date(2026,12,31),1))
@@ -91,7 +98,7 @@ class CalendarTests(unittest.TestCase):
             self.assertFalse(calls);self.assertEqual(result['sourceChecks'],0)
 
     def test_incomplete_and_changed_format_never_parse_as_no_holidays(self):
-        for parser in (sync.parse_china,sync.parse_nyse,sync.parse_nasdaq):
+        for parser in (sync.parse_china,sync.parse_china_english,sync.parse_nyse,sync.parse_nasdaq,sync.parse_jpx):
             with self.subTest(parser=parser.__name__),self.assertRaises(ValueError):parser('<html>unexpected error page</html>')
 
     def test_cn_annual_parser_holiday_ranges(self):
@@ -105,6 +112,44 @@ class CalendarTests(unittest.TestCase):
         def get(path):calls.append(path);return self.raw
         self.assertEqual(runtime.remote(version,fetch=get)[1]['revision'],version)
         self.assertEqual(calls,['calendars/releases/'+version+'.json'])
+
+    def test_nasdaq_year_header_is_not_a_holiday_row(self):
+        record=self.snapshot['data']['calendars']['US_EQ']['years']['2026']
+        html='<h1>U.S. Equity and Options Markets Holiday Schedule 2026</h1><table><tr><th>2026</th><th>Holiday</th><th>Status</th></tr>'
+        for day in record['holidays']:
+            html+='<tr><td>'+date.fromisoformat(day).strftime('%B %d, %Y')+'</td><td>Holiday</td><td>Closed</td></tr>'
+        for day in record['overrides']:
+            html+='<tr><td>'+date.fromisoformat(day).strftime('%B %d, %Y')+'</td><td>Early Close</td><td>1:00 p.m.</td></tr>'
+        parsed=sync.parse_nasdaq(html+'</table>')['2026']
+        self.assertEqual(set(parsed['holidays']),set(record['holidays']))
+        self.assertEqual(parsed['overrides'],record['overrides'])
+
+    def test_jpx_annual_heading_and_weekend_rows(self):
+        record=self.snapshot['data']['calendars']['JP_EQ']['years']['2027']
+        html='<h2><span>2027</span></h2><table>'
+        for day in [*record['holidays'],'2027-01-02','2027-01-03']:
+            html+='<tr><td>'+date.fromisoformat(day).strftime('%b. %-d (%a.)')+'</td><td>Holiday</td></tr>'
+        parsed=sync.parse_jpx(html+'</table>')['2027']
+        self.assertEqual(set(parsed['holidays']),set(record['holidays']))
+
+    def test_nyse_multi_year_table_keeps_2028_new_year_exception(self):
+        labels=['New Year','Martin Luther','Washington','Good Friday','Memorial','Juneteenth','Independence','Labor','Thanksgiving','Christmas']
+        years=self.snapshot['data']['calendars']['US_EQ']['years']
+        html='<table><tr><th>Holiday</th><th>2026</th><th>2027</th><th>2028</th></tr>'
+        names=['元旦','马丁·路德·金纪念日','华盛顿诞辰日','耶稣受难日','阵亡将士纪念日','六月节','独立日','劳动节','感恩节','圣诞节']
+        for label,name in zip(labels,names):
+            html+='<tr><td>'+label+'</td>'
+            for year in ('2026','2027','2028'):
+                day=next((d for d,n in years[year]['holidays'].items() if n==name),None)
+                html+='<td>'+(date.fromisoformat(day).strftime('%A, %B %d') if day else '—*')+'</td>'
+            html+='</tr>'
+        html+='</table><p>Each market will close early at 1:00 p.m. on '
+        html+=', '.join(date.fromisoformat(d).strftime('%A, %B %d, %Y') for y in years.values() for d in y['overrides'])
+        html+='. All times are Eastern Time.</p>'
+        parsed=sync.parse_nyse(html)
+        self.assertNotIn('2028-01-01',parsed['2028']['holidays'])
+        self.assertNotIn('2027-12-31',parsed['2027']['holidays'])
+        self.assertEqual(parsed['2027']['overrides'],years['2027']['overrides'])
 
 
 if __name__=='__main__':unittest.main()

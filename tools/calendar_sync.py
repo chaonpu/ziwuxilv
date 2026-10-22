@@ -70,6 +70,41 @@ def parse_china(html):
     return {str(year):out}
 
 
+def parse_china_english(html):
+    text=Page(html).plain()
+    title=re.search(r'Stock Market Holiday Schedule\s*\(\s*(20\s*\d\s*\d)\s*\)',text)
+    require(title is not None,'szse_english_annual_title_missing')
+    year=int(re.sub(r'\s','',title[1]));out=blank(year,[])
+    names=('New Year','Spring Festival','Qingming Festival','Labour Day','Dragon Boat Festival','Mid-Autumn Festival','National Day')
+    for name,label in zip(names,LABELS):
+        found=re.search(re.escape(name)+r'\s*[:：](.*?)resume trading',text[title.end():],re.S)
+        require(found is not None,'szse_english_holiday_missing:'+name)
+        values=re.findall(r'('+'|'.join(MONTHS)+r')\s*(\d{1,2})(?:st|nd|rd|th)?',found[1])
+        require(len(values) in (1,2),'szse_english_range_ambiguous')
+        start=date(year,MONTHS[values[0][0]],int(values[0][1]));end=date(year,MONTHS[values[-1][0]],int(values[-1][1]))
+        require(0<=(end-start).days<=16,'szse_english_range_invalid')
+        while start<=end:out['holidays'][start.isoformat()]=label;start+=timedelta(days=1)
+    require(15<=len(out['holidays'])<=55,'szse_english_annual_count_invalid')
+    return {str(year):out}
+
+
+def parse_jpx(html):
+    out={}
+    short={name[:3]:number for name,number in MONTHS.items()}
+    for year,block in re.findall(r'<h2\b[^>]*>\s*(?:<[^>]+>\s*)*(20\d{2})(?:\s*</[^>]+>)*\s*</h2>(.*?)(?=<h2\b|$)',html,re.S):
+        record=blank(year,[])
+        for row in Page(block).rows:
+            if len(row)!=2:continue
+            found=re.fullmatch(r'([A-Z][a-z]{2})\.?\s+(\d{1,2})\s*\([A-Za-z]+\.?\)',row[0])
+            require(found is not None,'jpx_holiday_row_format_changed')
+            day=date(int(year),short[found[1]],int(found[2]))
+            if day.isoweekday()<=5:record['holidays'][day.isoformat()]='休市'
+        require(15<=len(record['holidays'])<=25,'jpx_annual_count_invalid')
+        out[year]=record
+    require(bool(out),'jpx_annual_tables_missing')
+    return out
+
+
 def english_day(cell, year):
     found=re.search(r'('+'|'.join(MONTHS)+r')\s+(\d{1,2})\b',cell)
     if not found:
@@ -149,12 +184,7 @@ def source_get(url):
     return raw
 
 
-SOURCES={key:{'adapter':'source-monitor','urls':list(dict.fromkeys(s for r in cal['years'].values() for s in r['sources']))}
-         for key,cal in json.loads((ROOT/'tools/calendar-seed.json').read_bytes())['calendars'].items()}
-SOURCES.update({
- 'CN_EQ':{'adapter':'china-pair','urls':['https://www.sse.com.cn/disclosure/dealinstruc/closed/','https://www.szse.cn/disclosure/notice/general/index.html']},
- 'US_EQ':{'adapter':'us-pair','urls':['https://www.nyse.com/trade/hours-calendars','https://www.nasdaqtrader.com/Trader.aspx?id=Calendar']},
-})
+SOURCES=json.loads((ROOT/'calendars/sources.json').read_bytes())['calendars']
 
 
 def stable_record(record):
@@ -199,26 +229,17 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
     changed=[];checked=[]
     for key,(spec,reason) in active.items():
         records=[results[u] for u in spec['urls']]
+        original_years=deepcopy(bundle['calendars'][key]['years'])
         state={'lastAttemptAt':now.isoformat(timespec='seconds'),'cadence':reason,
                'adapter':spec['adapter'],'sourceResults':[{k:v for k,v in r.items() if k!='text'}|{'url':u} for u,r in zip(spec['urls'],records)]}
         try:
             require(all(r['status']=='ok' for r in records),'official_source_unavailable')
             if spec['adapter']=='china-pair':
-                # The SZSE index is for discovery only. Follow a visible annual
-                # notice link of the same verified year, never infer from its title.
                 first=parse_china(records[0]['text'])
                 year=next(iter(first))
-                links=re.findall(r'href=[\"\']([^\"\']+)[\"\'][^>]*>([^<]*(?:<[^>]+>[^<]*)*)',records[1]['text'])
-                target=next((href for href,label in links if year+'年部分节假日休市安排' in re.sub('<[^>]+>','',label)),None)
-                require(target is not None,'szse_annual_notice_not_visible')
-                url=urljoin(spec['urls'][1],target)
-                require(urlparse(url).hostname=='www.szse.cn','szse_notice_domain_invalid')
-                # A discovered official same-domain annual announcement is an
-                # explicitly bounded extension of the fixed source allowlist.
-                body=fetch(url)
-                require(len(body)<=2_000_000,'szse_notice_oversized')
-                second=parse_china(body.decode('utf-8-sig'))
-                require(first.keys()==second.keys() and first[year]['holidays']==second[year]['holidays'],'china_official_sources_conflict')
+                second=parse_china_english(records[1]['text'])
+                weekdays=lambda values:{d for d in values if date.fromisoformat(d).isoweekday()<=5}
+                require(first.keys()==second.keys() and weekdays(first[year]['holidays'])==weekdays(second[year]['holidays']),'china_official_sources_conflict')
                 candidates=first
             elif spec['adapter']=='us-pair':
                 first=parse_nyse(records[0]['text']);second=parse_nasdaq(records[1]['text'])
@@ -228,6 +249,8 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                             and first[year]['overrides']==second[year]['overrides'],'us_official_sources_conflict')
                     candidates[year]=first[year]
                 require(bool(candidates),'us_matching_annual_sources_missing')
+            elif spec['adapter']=='jpx-annual':
+                candidates=parse_jpx(records[0]['text'])
             else:
                 state['status']='source_checked_format_requires_adapter'
                 candidates={}
@@ -243,6 +266,8 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
             state.setdefault('status','verified_no_change' if not any(c.startswith(key+':') for c in changed) else 'published')
             state['lastSourceSuccessAt']=now.isoformat(timespec='seconds')
         except (ValueError,KeyError,TypeError,UnicodeError,OSError) as exc:
+            bundle['calendars'][key]['years']=original_years
+            changed=[c for c in changed if not c.startswith(key+':')]
             state['status']='held_preserving_active_calendar';state['reason']=str(exc)[:200]
         health['calendars'][key]=state;checked.append(key)
     new_raw=canonical(bundle);snapshot=validate(new_raw)

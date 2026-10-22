@@ -38,7 +38,7 @@ jobs:
         run: python3 -m unittest discover -s tests -p 'test_calendar_*.py' -v
       - name: Check official sources only when due
         env:
-          FORCE: ${{ inputs.force && 'true' || 'false' }}
+          FORCE: ${{ (github.event_name == 'push' || inputs.force) && 'true' || 'false' }}
         run: |
           args=()
           if [ "$FORCE" = true ]; then args+=(--force); fi

@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "calendars": {
+    "A50_CFD": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.futunn.com/quote/CNmain-SG"
+      ]
+    },
+    "BR_EQ": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.b3.com.br/en_us/solutions/platforms/puma-trading-system/for-members-and-traders/trading-calendar/"
+      ]
+    },
+    "CME_FUTURES": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.cmegroup.com/tools-information/holiday-calendar.html"
+      ]
+    },
+    "CN_EQ": {
+      "adapter": "china-pair",
+      "urls": [
+        "https://www.sse.com.cn/disclosure/dealinstruc/closed/",
+        "https://investor.szse.cn/English/services/trading/calendar/index.html"
+      ]
+    },
+    "CN_FUTURES": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.shfe.com.cn/",
+        "https://www.ine.cn/",
+        "https://www.dce.com.cn/",
+        "https://www.czce.com.cn/"
+      ]
+    },
+    "DE_EQ": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.xetra.com/xetra-en/trading/trading-calendar-and-trading-hours"
+      ]
+    },
+    "FR_EQ": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.euronext.com/en/trade/trading-hours-holidays"
+      ]
+    },
+    "HK_EQ": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.hkex.com.hk/Services/Trading/Securities/Overview/Trading-Calendar-and-Holiday-Schedule?sc_lang=en"
+      ]
+    },
+    "ICE_BRENT": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.ice.com/holiday-hours"
+      ]
+    },
+    "IN_EQ": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.bseindia.com/static/markets/marketinfo/listholi.aspx"
+      ]
+    },
+    "JP_EQ": {
+      "adapter": "jpx-annual",
+      "urls": [
+        "https://www.jpx.co.jp/english/corporate/about-jpx/calendar/index.html"
+      ]
+    },
+    "KR_EQ": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://global.krx.co.kr/"
+      ]
+    },
+    "SA_EQ": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.saudiexchange.sa/"
+      ]
+    },
+    "SGX_NIKKEI": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.sgx.com/derivatives/holiday-calendar"
+      ]
+    },
+    "TW_EQ": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.twse.com.tw/en/trading/holiday.html"
+      ]
+    },
+    "UK_EQ": {
+      "adapter": "source-monitor",
+      "urls": [
+        "https://www.londonstockexchange.com/trade/trading-access/business-days"
+      ]
+    },
+    "US_EQ": {
+      "adapter": "us-pair",
+      "urls": [
+        "https://www.nyse.com/trade/hours-calendars",
+        "https://www.nasdaqtrader.com/Trader.aspx?id=Calendar"
+      ]
+    }
+  }
+}
