@@ -86,3 +86,33 @@ def sgx_facts(raw, year):
             require(10<=len(events)<=90, 'sgx_calendar_month_events_incomplete')
             months.append({'month':month,'days':count,'events':events})
         return {'format':'sgx_vector_calendar_v1','year':year,'contract':'NK','months':months}
+
+
+def bse_equity_tables(raw):
+    """Read only section 2.2 of the official Equity Segment Master Circular."""
+    import fitz
+    require(raw.startswith(b'%PDF') and len(raw)<=6_000_000,'bse_equity_pdf_invalid')
+    with fitz.open(stream=raw,filetype='pdf') as doc:
+        require(2<=len(doc)<=120,'bse_equity_pdf_page_count_invalid')
+        lead=' '.join(doc[i].get_text() for i in range(min(4,len(doc))))
+        require('Equity' in lead and 'Master' in lead and 'Circular' in lead,'bse_equity_master_scope_missing')
+        active=False;tables=[];texts=[]
+        for page in doc:
+            text=page.get_text();start=re.search(r'2\.2\.?\s+Trading Holidays',text,re.I)
+            end=re.search(r'2\.3\.?\s+',text,re.I)
+            if start:active=True
+            if not active:continue
+            top=0;bottom=page.rect.height
+            if start:
+                hits=page.search_for('Trading Holidays')
+                require(hits,'bse_equity_section_heading_changed');top=hits[-1].y0
+            if end:
+                hits=page.search_for('2.3')
+                require(hits,'bse_equity_section_end_changed');bottom=hits[-1].y0
+            if bottom>top:
+                clip=fitz.Rect(0,top,page.rect.width,bottom)
+                texts.append(page.get_text(clip=clip))
+                for table in page.find_tables(clip=clip).tables:tables.append(table.extract())
+            if end:active=False
+        require(tables,'bse_equity_annual_pdf_tables_missing')
+        return {'format':'bse_equity_master_tables_v1','texts':texts,'tables':tables}

@@ -137,5 +137,18 @@ class OperationsTests(unittest.TestCase):
         ops.install_json(health,self.root/'calendars/health.json')
         with self.assertRaises(ValueError):ops.reviewed_plan(self.root,*args,date(2026,10,23))
 
+    def test_old_candidate_cannot_revert_other_markets_in_current_version(self):
+        args=self.prepare_review();data=deepcopy(self.after['data'])
+        data['calendars']['CN_EQ']['session']['openMinute']=571
+        raw=runtime.canonical(data);active=runtime.validate(raw)
+        (self.root/'calendars/releases'/(active['revision']+'.json')).write_bytes(raw)
+        ops.install_json({'schemaVersion':1,'sha256':active['revision'],'path':'calendars/releases/'+active['revision']+'.json'},self.root/'calendars/current.json')
+        health=json.loads((self.root/'calendars/health.json').read_bytes());health['activeRevision']=active['revision']
+        ops.install_json(health,self.root/'calendars/health.json')
+        args=(args[0],active['revision'],*args[2:])
+        plan,proposed=ops.reviewed_plan(self.root,*args,date(2026,10,23))
+        self.assertEqual(571,runtime.validate(proposed)['data']['calendars']['CN_EQ']['session']['openMinute'])
+        self.assertEqual(1,plan['changedDays'])
+
 
 if __name__=='__main__':unittest.main()

@@ -81,7 +81,9 @@
     "IN_EQ": {
       "adapter": "bse-equities-annual",
       "urls": [
-        "https://www.bseindia.com/static/markets/marketinfo/listholi"
+        "https://www.bseindia.com/static/markets/marketinfo/listholi.aspx",
+        "https://beta.bseindia.com/static/markets/marketinfo/listholi.aspx",
+        "https://www.bseindia.com/Downloads/UploadDocs/Notices/Attach/Equity_Master_Circular%24b0cfd71f-2ac1-4205-b6c5-5085f322e1ae.pdf"
       ],
       "capability": "awaiting_live_validation",
       "publishEnabled": false,

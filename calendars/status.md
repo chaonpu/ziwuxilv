@@ -1,8 +1,8 @@
 # 交易日历运行状态
 
-检查时间：2026-10-23T15:24:24+08:00
+检查时间：2026-10-23T15:33:37+08:00
 
-当前版本：`2ace4e43c1e72a95ee96a62e8da1170e4b4fe1908e198cafd777bbcfd5cb4756`
+当前版本：`e85207b7b92b08761709a856fcf0bdd7ef9f857b8b0ef337472042b7d4b340bc`
 
 | 市场/产品 | 适配能力 | 已知年份 | 最近来源状态 | 待处理原因 |
 |---|---|---|---|---|
@@ -18,7 +18,7 @@
 | IN_EQ | awaiting_live_validation | 2026 | held_preserving_active_calendar | bse_equity_annual_scope_missing |
 | JP_EQ | annual | 2026, 2027 | verified_no_change | — |
 | KR_EQ | annual | 2026, 2027 | verified_no_change | — |
-| SA_EQ | annual_partial_sessions | 2026, 2027, 2028 | held_preserving_active_calendar | 2027:candidate_removes_holiday; 2026:candidate_removes_holiday |
+| SA_EQ | annual_partial_sessions | 2026, 2027, 2028 | reviewed_published_with_held_years | 2026:candidate_removes_holiday |
 | SGX_NIKKEI | annual | 2026, 2027, 2028 | verified_no_change | only_complete_official_vector_calendar_years_are_parsed |
 | TW_EQ | annual | 2026 | verified_no_change | — |
 | UK_EQ | annual | 2026, 2027, 2028 | verified_no_change | — |

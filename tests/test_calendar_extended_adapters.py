@@ -170,6 +170,22 @@ class ExtendedAdaptersTests(unittest.TestCase):
         raw='<meta charset="gb2312"><h1>富时中国A50期货CFD</h1>'.encode('gb18030')
         self.assertIn('富时中国A50期货CFD',s.source_text(raw))
 
+    def test_bse_master_equity_section_excludes_weekend_table_and_keeps_muhurat_unknown(self):
+        base=runtime.validate(runtime.seed_path().read_bytes())['data']['calendars']['IN_EQ']['years']['2026']
+        rows=[['Sr. No.','Holiday','Date','Day']]
+        for d,label in sorted(base['holidays'].items()):
+            day=date.fromisoformat(d)
+            rows.append([str(len(rows)),'Republic Day' if d=='2026-01-26' else 'Christmas' if d=='2026-12-25' else label,
+                         day.strftime('%B %d, %Y'),day.strftime('%A')])
+        obj={'format':'bse_equity_master_tables_v1','texts':['2.2 Trading Holidays for 2026. Muhurat Trading will be conducted on Sunday, November 08, 2026.'],
+             'tables':[rows,[['1','Weekend holiday','February 15, 2026','Sunday']]]}
+        record=a.parse_bse_master(json.dumps(obj))['2026']
+        self.assertEqual(set(base['holidays']),set(record['holidays']))
+        self.assertEqual(['2026-11-08'],record['unknownDates'])
+        self.assertNotIn('2026-02-15',record['holidays'])
+        obj['format']='bse_commodity_master_tables_v1'
+        with self.assertRaises(ValueError):a.parse_bse_master(json.dumps(obj))
+
     def test_source_transfers_reject_cross_host_redirect_before_following(self):
         import urllib.request
         request=urllib.request.Request('https://www.hkex.com.hk/calendar')

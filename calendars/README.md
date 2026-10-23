@@ -79,7 +79,7 @@ python3 tools/calendar_ops.py rollback --target <历史发布SHA> --expected-cur
 回滚只修改活动指针、状态及审计记录，不修改历史发布字节或账本。当前版本改变或
 跨日期计划失效时必须重新预览。云端通过“交易日历检查与更新”的高级 `ops_request`
 输入JSON运行同一接口：`status`、`impact`、`rollback-plan`、`rollback`。字段仅允许
-`operation`、`target`、`expectedCurrent`、`reason`、`confirmation`，不接受私有路径
+`operation`、`target`、`expectedCurrent`、`reason`、`confirmation`、`calendarId`、`year`，不接受私有路径
 或命令。报告保留为Actions附件；实际发布需通过当前版本并发校验。
 
 已实现候选的人工复核发布：`review-plan` / `publish-reviewed`。必须指定

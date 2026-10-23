@@ -326,6 +326,9 @@ def fetch_krx(year):
 
 
 def source_text(raw, url=None):
+    if url and 'bseindia.com' in (urlparse(url).hostname or '') and '/Equity_Master_Circular' in url:
+        from calendar_pdf import bse_equity_tables
+        return canonical(bse_equity_tables(raw)).decode()
     if url and urlparse(url).hostname=='api2.sgx.com' and re.search(r'/SGX%20Calendar%20(20\d{2})(?:_[0-9]+)?\.pdf$',url):
         from calendar_pdf import sgx_facts
         year=int(re.search(r'SGX%20Calendar%20(20\d{2})',url)[1])
@@ -352,7 +355,7 @@ def source_get(url):
     with urllib.request.build_opener(SameHostRedirect()).open(req,timeout=15) as response:
         final=response.geturl()
         require(urlparse(final).scheme=='https' and urlparse(final).hostname==urlparse(url).hostname,'calendar_source_redirect_domain_changed')
-        maximum=6_000_000 if urlparse(url).hostname=='api2.sgx.com' and '/SGX%20Calendar%20' in url else 2_000_000
+        maximum=6_000_000 if (urlparse(url).hostname=='api2.sgx.com' and '/SGX%20Calendar%20' in url) or '/Equity_Master_Circular' in url else 2_000_000
         raw=response.read(maximum+1)
     require(0<len(raw)<=maximum,'calendar_source_size_invalid')
     return raw
@@ -412,7 +415,16 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
     def fetch_one(url):
         try:
             body=fetch(url)
-            return url,{'status':'ok','sha256':hashlib.sha256(body).hexdigest(),'text':source_text(body,url)}
+            decoded=source_text(body,url)
+            require('当前正在对访问请求进行人机识别检测' not in Page(decoded).plain(),
+                    'official_source_human_verification_required')
+            result={'status':'ok','sha256':hashlib.sha256(body).hexdigest(),'text':decoded}
+            if urlparse(url).hostname in ('www.bseindia.com','beta.bseindia.com'):
+                titles=re.findall(r'<title[^>]*>(.*?)</title>',decoded,re.S|re.I)
+                result['formatHints']={'title':Page(titles[0]).plain()[:100] if titles else None,
+                    'annualHeadingPresent':bool(re.search(r'Trading\s+Holidays\s+for',Page(decoded).plain(),re.I)),
+                    'scripts':[u for u in re.findall(r'<script[^>]+src=["\']([^"\']+)',decoded,re.I) if 'holiday' in u.lower() or 'main' in u.lower()][:3]}
+            return url,result
         except Exception as exc:
             return url,{'status':'unavailable','reason':type(exc).__name__}
     with ThreadPoolExecutor(max_workers=4) as pool:results=dict(pool.map(fetch_one,urls))
@@ -433,7 +445,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
             if spec['adapter'].startswith('blocked-'):
                 from calendar_adapters import guarded_source
                 guarded_source(spec['adapter'], [r.get('text','') for r in records])
-            if spec['adapter']!='china-futures-consensus':
+            if spec['adapter'] not in ('china-futures-consensus','bse-equities-annual'):
                 require(all(r['status']=='ok' for r in records),'official_source_unavailable')
             if spec['adapter']=='china-pair':
                 first=parse_china(records[0]['text'])
@@ -526,8 +538,22 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 from calendar_adapters import parse_saudi
                 candidates=parse_saudi(records[0]['text'],now.year)
             elif spec['adapter']=='bse-equities-annual':
-                from calendar_adapters import parse_bse
-                candidates=parse_bse(records[0]['text'])
+                from calendar_adapters import parse_bse,parse_bse_master
+                candidates={};verified=[];state['alternativeValidation']=[]
+                for u,r in zip(spec['urls'],records):
+                    try:
+                        require(r['status']=='ok','official_source_unavailable')
+                        parsed=parse_bse_master(r['text']) if '/Equity_Master_Circular' in u else parse_bse(r['text'])
+                        for year,record in parsed.items():
+                            require(year not in candidates or stable_record(candidates[year])==stable_record(record),'bse_official_sources_conflict')
+                            candidates[year]=record
+                        verified.append(u)
+                        state['alternativeValidation'].append({'url':u,'status':'parsed','years':sorted(parsed)})
+                    except (ValueError,KeyError,TypeError) as exc:
+                        if str(exc)=='bse_official_sources_conflict':raise
+                        state['alternativeValidation'].append({'url':u,'status':'held','reason':str(exc)[:150]})
+                require(bool(candidates),'bse_official_equity_annual_table_unavailable')
+                state['verifiedSourceUrls']=verified
             elif spec['adapter']=='sgx-nikkei-vector':
                 from calendar_adapters import parse_sgx
                 candidates=parse_sgx(records[0]['text'])
@@ -537,7 +563,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
             held={}
             for year,new in candidates.items():
                 if int(year)<now.year:continue
-                new['sources']=spec['urls']
+                new['sources']=state.get('verifiedSourceUrls',spec['urls'])
                 old=bundle['calendars'][key]['years'].get(year)
                 try:
                     require(spec.get('publishEnabled',True), spec.get('blockReason','first_live_validation_required'))

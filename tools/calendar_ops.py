@@ -123,7 +123,7 @@ def reviewed_plan(root, candidate, expected, calendar_id, year, reason, cutoff=N
             'ops_review_unvalidated_product_or_source')
     require(state.get('candidateRevisions',{}).get(year)==candidate,'ops_review_latest_candidate_required')
     record=proposed['data']['calendars'][calendar_id]['years'][year]
-    proof=state.get('sourceResults',[])
+    proof=[p for p in state.get('sourceResults',[]) if p.get('url') in record['sources']]
     require(proof and all(p.get('status')=='ok' and HEX.fullmatch(p.get('sha256','')) for p in proof)
             and set(record['sources'])=={p.get('url') for p in proof},'ops_review_source_proof_missing')
     # Merge only the explicitly reviewed calendar/year into the latest active
@@ -137,6 +137,8 @@ def reviewed_plan(root, candidate, expected, calendar_id, year, reason, cutoff=N
     plan={'schemaVersion':1,'operation':'publish-reviewed','candidateRevision':candidate,'fromRevision':expected,
           'toRevision':merged['revision'],'calendarId':calendar_id,'year':year,'reason':reason.strip(),
           'reviewDate':cutoff.isoformat(),'sourceProofSha256':hashlib.sha256(canonical(proof)).hexdigest(),
+          'sourceCheckedAt':state.get('lastAttemptAt'),
+          'sources':[{'url':p['url'],'sha256':p['sha256']} for p in proof],
           'impactSha256':hashlib.sha256(canonical(report)).hexdigest(),'changedDays':report['changedDays'],
           'historicalChangedDays':0,'ledgerWrites':0}
     return {**plan,'confirmationSha256':hashlib.sha256(canonical(plan)).hexdigest()},merged_raw

@@ -281,6 +281,33 @@ def parse_bse(html):
     return out
 
 
+def parse_bse_master(payload):
+    import json
+    from html import escape
+    obj=json.loads(payload)
+    require(obj.get('format')=='bse_equity_master_tables_v1','bse_master_normalized_scope_invalid')
+    text=' '.join(obj['texts']);rows=[];years=set()
+    for table in obj['tables']:
+        for row in table:
+            if len(row)!=4 or row[0] is None or not str(row[0]).strip().isdigit():continue
+            row=[' '.join(str(v or '').split()) for v in row]
+            day=None
+            for pattern in ('%d-%b-%y','%d-%b-%Y','%B %d, %Y','%d %B %Y','%B %d %Y'):
+                try:
+                    from datetime import datetime
+                    day=datetime.strptime(row[2],pattern).date();break
+                except ValueError:pass
+            require(day is not None,'bse_master_row_date_invalid')
+            require(day.strftime('%A')==row[3],'bse_equity_weekday_mismatch')
+            if day.isoweekday()>5:continue # Separate weekend-holiday table.
+            years.add(str(day.year));rows.append([str(len(rows)+1),row[1],day.strftime('%d-%b-%y'),row[3]])
+    require(len(years)==1,'bse_master_annual_year_ambiguous');year=next(iter(years))
+    require(year in text and 'Trading Holidays' in text,'bse_master_annual_heading_missing')
+    html='Trading Holidays for '+year+' - Equity Segment, Equity Derivative Segment<table>'
+    html+=''.join('<tr>'+''.join('<td>'+escape(v)+'</td>' for v in row)+'</tr>' for row in rows)+'</table><p>'+escape(text)+'</p>'
+    return parse_bse(html)
+
+
 def parse_sgx(payload):
     import json, calendar
     obj=json.loads(payload);year=obj.get('year')
