@@ -10,6 +10,54 @@ import unicodedata
 from calendar_runtime import require
 
 
+def save_reference_cache(root, identity, holiday_html, contracts, source_hashes, urls, now):
+    """Persist only a successfully parsed live reference; cache hits never renew it."""
+    import hashlib
+    from html import escape
+    from calendar_sync import Page
+    from calendar_runtime import canonical
+    reference_schedule(identity,holiday_html,contracts,now.date())
+    tables=[]
+    for table in re.findall(r'<table\b[^>]*>.*?</table>',holiday_html,re.I|re.S):
+        rows=Page(table).rows
+        selected=[row for row in rows if row and row[0]=='中国A50指数']
+        if selected:
+            tables.append('<table>'+''.join('<tr>'+''.join('<td>'+escape(cell)+'</td>' for cell in row)+'</tr>'
+                                           for row in [rows[0]]+selected)+'</table>')
+    body='交易时间和节假日安排 即将到来的节假日 北京时间(GMT+8) '+''.join(tables)+' © FOREX.COM '+str(now.year)
+    obj={'schemaVersion':1,'checkedAt':now.isoformat(timespec='seconds'),'urls':urls,
+         'sourceSha256':source_hashes,'holidayHtml':body}
+    require(len(source_hashes)==3 and all(re.fullmatch('[0-9a-f]{64}',h) for h in source_hashes),'a50_cache_source_proof_missing')
+    raw=canonical(obj);digest=hashlib.sha256(raw).hexdigest()
+    directory=root/'calendars/a50-reference-cache';directory.mkdir(parents=True,exist_ok=True)
+    path=directory/(digest+'.json')
+    if path.exists():require(path.read_bytes()==raw,'a50_cache_immutable_conflict')
+    else:path.write_bytes(raw)
+    (directory/'current.json').write_bytes(canonical({'schemaVersion':1,'sha256':digest}))
+    return digest
+
+
+def load_reference_cache(root, identity, contracts, contract_hash, urls, now):
+    import hashlib,json
+    from datetime import datetime
+    directory=root/'calendars/a50-reference-cache'
+    index=json.loads((directory/'current.json').read_bytes());digest=index.get('sha256','')
+    require(index.get('schemaVersion')==1 and re.fullmatch('[0-9a-f]{64}',digest),'a50_cache_pointer_invalid')
+    raw=(directory/(digest+'.json')).read_bytes()
+    require(hashlib.sha256(raw).hexdigest()==digest,'a50_cache_digest_mismatch')
+    obj=json.loads(raw);stamp=datetime.fromisoformat(obj['checkedAt'])
+    require(stamp.tzinfo is not None and 0<=(now-stamp).total_seconds()<=7*86400,'a50_cache_expired')
+    require(obj.get('schemaVersion')==1 and obj.get('urls')==urls
+            and len(obj.get('sourceSha256',[]))==3
+            and all(re.fullmatch('[0-9a-f]{64}',h) for h in obj['sourceSha256'])
+            and obj['sourceSha256'][2]==contract_hash,'a50_cache_source_scope_changed')
+    reference=reference_schedule(identity,obj['holidayHtml'],contracts,stamp.date())
+    reference['start']=(now.date()+timedelta(days=1)).isoformat()
+    require(reference['start']<=reference['end'],'a50_cache_reference_window_expired')
+    return reference,{'mode':'validated_reference_cache','sourceCheckedAt':obj['checkedAt'],
+                      'sourceSha256':obj['sourceSha256'][1],'cacheSha256':digest,'maximumAgeDays':7}
+
+
 def reference_schedule(identity, holiday_html, contracts, today):
     from calendar_sync import Page
     require('富时中国A50' in identity and 'CFD' in identity

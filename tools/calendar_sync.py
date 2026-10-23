@@ -490,7 +490,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
             if spec['adapter'].startswith('blocked-') and not uncertainty_only:
                 from calendar_adapters import guarded_source
                 guarded_source(spec['adapter'], [r.get('text','') for r in records])
-            if spec['adapter'] not in ('china-futures-consensus','bse-equities-annual','sgx-nikkei-vector','hkex-securities-pdf'):
+            if spec['adapter'] not in ('a50-cfd-reference','china-futures-consensus','bse-equities-annual','sgx-nikkei-vector','hkex-securities-pdf'):
                 require(all(r['status']=='ok' for r in records),'official_source_unavailable')
             if uncertainty_only:
                 from calendar_adapters import a50_unknown_provider_calendar
@@ -498,8 +498,16 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 state['uncertaintyFrom']=spec['uncertaintyFrom']
                 state['sourceMode']='provider_uncertainty_policy'
             elif spec['adapter']=='a50-cfd-reference':
-                from calendar_a50 import reference_schedule,apply_reference
-                reference=reference_schedule(records[0]['text'],records[1]['text'],records[2]['text'],now.date())
+                from calendar_a50 import reference_schedule,apply_reference,save_reference_cache,load_reference_cache
+                require(records[0]['status']=='ok' and records[2]['status']=='ok','a50_identity_or_contract_source_unavailable')
+                if records[1]['status']=='ok':
+                    reference=reference_schedule(records[0]['text'],records[1]['text'],records[2]['text'],now.date())
+                    save_reference_cache(root,records[0]['text'],records[1]['text'],records[2]['text'],
+                                         [r['sha256'] for r in records],spec['urls'],now)
+                else:
+                    reference,proof=load_reference_cache(root,records[0]['text'],records[2]['text'],records[2]['sha256'],spec['urls'],now)
+                    state['referenceCache']=proof
+                    state['recoverableSourceFailure']=True
                 candidates=apply_reference(bundle['calendars'][key],reference,now.date())
                 state.update(sourceMode='third_party_cfd_reference',evidenceLevel='third_party_reference',
                              referenceProvider=reference['provider'],referenceValidFrom=reference['start'],
@@ -731,7 +739,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 state['status']='published_unknown_provider_calendar' if any(c.startswith(key+':') for c in changed) else 'preserving_unknown_provider_calendar'
                 state['reason']='a50_provider_annual_schedule_unverified_future_dates_unknown'
             state.setdefault('status','verified_no_change' if not any(c.startswith(key+':') for c in changed) else 'published')
-            if not state.get('reviewedFallbackVenues') and not state.get('cachedVenues') and not uncertainty_only:state['lastSourceSuccessAt']=now.isoformat(timespec='seconds')
+            if not state.get('reviewedFallbackVenues') and not state.get('cachedVenues') and not state.get('referenceCache') and not uncertainty_only:state['lastSourceSuccessAt']=now.isoformat(timespec='seconds')
             if candidates and not uncertainty_only:state['lastVerifiedAt']=now.isoformat(timespec='seconds')
         except (ValueError,KeyError,TypeError,UnicodeError,OSError) as exc:
             bundle['calendars'][key]['years']=original_years

@@ -36,6 +36,29 @@ def baseline():
 
 
 class A50ReferenceTests(unittest.TestCase):
+    def test_cache_is_bounded_and_cannot_extend_original_window(self):
+        import hashlib
+        hashes=[hashlib.sha256(x.encode()).hexdigest() for x in (IDENTITY,html(),SPEC)]
+        urls=s.SOURCES['A50_CFD']['urls']
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);digest=a.save_reference_cache(root,IDENTITY,html(),SPEC,hashes,urls,NOW)
+            ref,proof=a.load_reference_cache(root,IDENTITY,SPEC,hashes[2],urls,NOW+timedelta(days=2))
+            self.assertEqual(('2026-10-26','2026-11-27'),(ref['start'],ref['end']))
+            self.assertEqual(digest,proof['cacheSha256']);self.assertEqual(NOW.isoformat(timespec='seconds'),proof['sourceCheckedAt'])
+            with self.assertRaises(ValueError):a.load_reference_cache(root,IDENTITY,SPEC,hashes[2],urls,NOW+timedelta(days=8))
+            with self.assertRaises(ValueError):a.load_reference_cache(root,IDENTITY,SPEC,hashes[2],urls,NOW-timedelta(seconds=1))
+
+    def test_cache_rejects_tampering_changed_contract_and_wrong_product(self):
+        import hashlib
+        hashes=[hashlib.sha256(x.encode()).hexdigest() for x in (IDENTITY,html(),SPEC)]
+        urls=s.SOURCES['A50_CFD']['urls']
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);digest=a.save_reference_cache(root,IDENTITY,html(),SPEC,hashes,urls,NOW)
+            for identity,contract in ((IDENTITY,'0'*64),(IDENTITY.replace('CHA50CFD','MCA'),hashes[2])):
+                with self.assertRaises(ValueError):a.load_reference_cache(root,identity,SPEC,contract,urls,NOW)
+            p=root/'calendars/a50-reference-cache'/(digest+'.json');p.write_bytes(p.read_bytes()+b' ')
+            with self.assertRaises(ValueError):a.load_reference_cache(root,IDENTITY,SPEC,hashes[2],urls,NOW)
+
     def test_actual_broker_rows_resolve_only_published_rolling_window(self):
         ref=a.reference_schedule(IDENTITY,html(),SPEC,NOW.date())
         self.assertEqual(('2026-10-24','2026-11-27'),(ref['start'],ref['end']))
@@ -119,6 +142,16 @@ class A50ReferenceTests(unittest.TestCase):
             self.assertEqual('published_third_party_reference',state['status']);self.assertFalse(state['providerScheduleVerified'])
             self.assertEqual('2026-11-27',state['referenceValidThrough'])
             active=ops.snapshot(root)[1];self.assertEqual(0,ops.impact(before,active,NOW.date())['historicalChangedDays'])
+            def holiday_offline(url):
+                if url==spec['urls'][1]:raise OSError('holiday site unavailable')
+                return fetch(url)
+            cached=s.sync(root,force=True,now=NOW+timedelta(days=1),fetch=holiday_offline)
+            cache_state=json.loads((root/'calendars/health.json').read_bytes())['calendars']['A50_CFD']
+            self.assertEqual('verified_third_party_reference',cached['results']['A50_CFD'])
+            self.assertTrue(cache_state['recoverableSourceFailure'])
+            self.assertEqual(NOW.isoformat(timespec='seconds'),cache_state['referenceCache']['sourceCheckedAt'])
+            self.assertEqual('2026-11-27',cache_state['referenceValidThrough'])
+            self.assertEqual(NOW.isoformat(timespec='seconds'),cache_state['lastSourceSuccessAt'])
             def offline(url):raise OSError('network unavailable')
             again=s.sync(root,force=True,now=NOW+timedelta(days=1),fetch=offline)
             self.assertEqual(result['activeRevision'],again['activeRevision'])
