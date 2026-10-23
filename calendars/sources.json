@@ -107,9 +107,8 @@
       "urls": [
         "https://www.saudiexchange.sa/wps/portal/saudiexchange/about-saudi-exchange/exchange-media-centre/saudi-exchange-holiday-calendar"
       ],
-      "capability": "awaiting_live_validation",
-      "publishEnabled": false,
-      "blockReason": "official_calendar_currently_http_403_lunar_estimates_not_final"
+      "capability": "annual_partial_sessions",
+      "blockReason": "lunar_forecasts_stay_unknown_existing_known_holiday_changes_require_review"
     },
     "SGX_NIKKEI": {
       "adapter": "blocked-sgx-product",
