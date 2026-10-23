@@ -594,11 +594,14 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                     fresh_invalid=any(results[f['url']]['status']=='ok' for f in failures)
                     if not annual or conflict or fresh_invalid and not live_succeeded:
                         state['venueValidation'][venue]={'status':'held','failures':failures};continue
-                    modes={p['status'] for p in proofs}
-                    if not live_succeeded and 'reviewed_fallback' in modes:reviewed.append(venue)
-                    if not live_succeeded and 'validated_source_cache' in modes:cached.append(venue)
+                    fresh_years={y for p in proofs if p['status']=='parsed' for y in p['years']}
+                    cached_years={y for p in proofs if p['status']=='validated_source_cache' for y in p['years']}-fresh_years
+                    reviewed_years={y for p in proofs if p['status']=='reviewed_fallback' for y in p['years']}-fresh_years-cached_years
+                    if reviewed_years:reviewed.append(venue)
+                    if cached_years:cached.append(venue)
                     state['venueValidation'][venue]={'status':'parsed' if live_succeeded else 'validated_source_cache' if venue in cached else 'reviewed_fallback',
-                        'years':sorted(annual),'sources':proofs,'failures':failures,'nightSuspensionDates':sorted(set(d for n in night_by_year.values() for d in n))}
+                        'years':sorted(annual),'liveYears':sorted(fresh_years),'cachedYears':sorted(cached_years),'reviewedYears':sorted(reviewed_years),
+                        'sources':proofs,'failures':failures,'nightSuspensionDates':sorted(set(d for n in night_by_year.values() for d in n))}
                     evidence={'schemaVersion':1,'venue':venue,'sources':proofs,'calendars':annual,'nightSuspensionDates':night_by_year}
                     evidence_raw=canonical(evidence);digest=hashlib.sha256(evidence_raw).hexdigest()
                     path=root/'calendars/evidence/CN_FUTURES'/venue/(digest+'.json');path.parent.mkdir(parents=True,exist_ok=True)
