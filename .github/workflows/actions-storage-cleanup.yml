@@ -1,6 +1,9 @@
 name: Actions storage cleanup
 
 on:
+  push:
+    branches: [main]
+    paths: ['config/retired-workflow-cleanup.json']
   workflow_dispatch:
     inputs:
       dry_run:
@@ -21,6 +24,7 @@ concurrency:
 
 jobs:
   cleanup:
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -111,3 +115,30 @@ jobs:
                 ['Policy', 'Keep 3 preview APKs, 3 signed APKs, 3 source handoffs; reports 3 days; other artifacts 14 days'],
                 ['Preserved', 'Source files, ledgers, discussions, images, and Release assets']
               ]).write();
+
+  retired-history:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.actor == 'chaonpu'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        repository: [chaonpu/ziwuxilv]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify exact-run cleanup boundaries
+        run: node --test tests/retired_run_cleanup.test.cjs
+      - name: Delete only the approved retired run records
+        uses: actions/github-script@v7
+        env:
+          CLEANUP_TARGET: ${{ matrix.repository }}
+        with:
+          github-token: ${{ matrix.repository == 'chaonpu/Stock' && secrets.CHAONPU_ACTIONS_READ_TOKEN || github.token }}
+          script: |
+            const clean = require('./tools/retired_run_cleanup.cjs');
+            const plan = require('./config/retired-workflow-cleanup.json');
+            const result = await clean({github, context, plan, target: process.env.CLEANUP_TARGET});
+            await core.summary.addHeading('Retired workflow history cleanup').addCodeBlock(JSON.stringify(result, null, 2)).write();

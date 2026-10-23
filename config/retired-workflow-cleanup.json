@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "operation": "delete-approved-retired-run-history",
+  "root": "chaonpu/ziwuxilv",
+  "createdAt": "2026-10-23T17:48:20.550Z",
+  "expiresAt": "2026-10-24T05:48:20.550Z",
+  "runs": [
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 37291347399,
+      "path": ".github/workflows/backend-ci.yml",
+      "createdAt": "2026-10-05T09:38:09Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 36560690062,
+      "path": ".github/workflows/finscope-probe.yml",
+      "createdAt": "2026-09-29T11:16:13Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 36560473400,
+      "path": ".github/workflows/finscope-probe.yml",
+      "createdAt": "2026-09-29T11:14:07Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 36560217689,
+      "path": ".github/workflows/finscope-probe.yml",
+      "createdAt": "2026-09-29T11:11:37Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 37026364304,
+      "path": ".github/workflows/release-assets-smoke.yml",
+      "createdAt": "2026-10-02T15:21:11Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 37017720839,
+      "path": ".github/workflows/migrate-all-apks-releases.yml",
+      "createdAt": "2026-10-02T14:07:56Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 37017363051,
+      "path": ".github/workflows/migrate-all-apks-releases.yml",
+      "createdAt": "2026-10-02T14:04:49Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 37016872647,
+      "path": ".github/workflows/migrate-all-apks-releases.yml",
+      "createdAt": "2026-10-02T14:00:38Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 37016554921,
+      "path": ".github/workflows/migrate-all-apks-releases.yml",
+      "createdAt": "2026-10-02T13:57:55Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 37016019132,
+      "path": ".github/workflows/migrate-active-apk-release.yml",
+      "createdAt": "2026-10-02T13:53:16Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 37015448309,
+      "path": ".github/workflows/release-assets-smoke.yml",
+      "createdAt": "2026-10-02T13:48:20Z"
+    },
+    {
+      "repo": "chaonpu/ziwuxilv",
+      "id": 37642338428,
+      "path": ".github/workflows/access-state.yml",
+      "createdAt": "2026-10-07T15:06:54Z",
+      "cancelStaleQueued": true
+    }
+  ]
+}
