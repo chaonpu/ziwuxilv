@@ -2,22 +2,27 @@
   "schemaVersion": 1,
   "calendars": {
     "A50_CFD": {
-      "adapter": "source-monitor",
+      "adapter": "blocked-a50-provider",
       "urls": [
-        "https://www.futunn.com/quote/CNmain-SG"
-      ]
+        "https://finance.sina.com.cn/futures/quotes/CN.shtml"
+      ],
+      "capability": "blocked",
+      "blockReason": "app_uses_sina_cfd_sgx_futures_calendar_is_not_provider_calendar"
     },
     "BR_EQ": {
-      "adapter": "source-monitor",
+      "adapter": "b3-equities-annual",
       "urls": [
-        "https://www.b3.com.br/en_us/solutions/platforms/puma-trading-system/for-members-and-traders/trading-calendar/"
-      ]
+        "https://www.b3.com.br/en_us/solutions/platforms/puma-trading-system/for-members-and-traders/trading-calendar/holidays/"
+      ],
+      "capability": "annual"
     },
     "CME_FUTURES": {
-      "adapter": "source-monitor",
+      "adapter": "cme-globex-affected-days",
       "urls": [
-        "https://www.cmegroup.com/tools-information/holiday-calendar.html"
-      ]
+        "https://www.cmegroup.com/trading-hours.html"
+      ],
+      "capability": "annual_partial_sessions",
+      "blockReason": "product_specific_holiday_hours_remain_unknown"
     },
     "CN_EQ": {
       "adapter": "china-pair",
@@ -27,13 +32,17 @@
       ]
     },
     "CN_FUTURES": {
-      "adapter": "source-monitor",
+      "adapter": "china-futures-consensus",
       "urls": [
-        "https://www.shfe.com.cn/",
-        "https://www.ine.cn/",
-        "https://www.dce.com.cn/",
-        "https://www.czce.com.cn/"
-      ]
+        "https://www.shfe.com.cn/services/calenderandholidays/holiday/",
+        "https://www.ine.cn/publicnotice/notice/202512/t20251217_829804.html",
+        "https://www.dce.com.cn/dce/content/2025/ywggytz/18625615.html",
+        "https://www.czce.com.cn/",
+        "https://www.gfex.com.cn/"
+      ],
+      "capability": "awaiting_source_consensus",
+      "publishEnabled": false,
+      "blockReason": "five_venue_annual_holidays_and_night_rules_must_agree"
     },
     "DE_EQ": {
       "adapter": "xetra-annual",
@@ -48,22 +57,35 @@
       ]
     },
     "HK_EQ": {
-      "adapter": "source-monitor",
+      "adapter": "hkex-securities-pdf",
       "urls": [
+        "https://www.hkex.com.hk/-/media/HKEX-Market/Services/Circulars-and-Notices/Participant-and-Members-Circulars/SEHK/2025/ce_SEHK_CT_075_2025.pdf",
+        "https://www.hkex.com.hk/-/media/HKEX-Market/Services/Circulars-and-Notices/Participant-and-Members-Circulars/SEHK/2026/ce_SEHK_CT_077_2026.pdf",
+        "https://www.hkex.com.hk/Services/Trading-hours-and-Severe-Weather-Arrangements/Trading-Hours/Securities-Market?sc_lang=en"
+      ],
+      "capability": "annual",
+      "discoveryUrls": [
         "https://www.hkex.com.hk/Services/Trading/Securities/Overview/Trading-Calendar-and-Holiday-Schedule?sc_lang=en"
+      ],
+      "documentPatterns": [
+        "https://www\\.hkex\\.com\\.hk/-/media/HKEX-Market/Services/Circulars-and-Notices/Participant-and-Members-Circulars/SEHK/20[0-9]{2}/ce_SEHK_CT_[0-9]+_20[0-9]{2}\\.pdf"
       ]
     },
     "ICE_BRENT": {
-      "adapter": "source-monitor",
+      "adapter": "ice-brent-pdf",
       "urls": [
-        "https://www.ice.com/holiday-hours"
-      ]
+        "https://www.ice.com/publicdocs/Trading_Schedule.pdf"
+      ],
+      "capability": "annual_partial_sessions"
     },
     "IN_EQ": {
-      "adapter": "source-monitor",
+      "adapter": "bse-equities-annual",
       "urls": [
-        "https://www.bseindia.com/static/markets/marketinfo/listholi.aspx"
-      ]
+        "https://www.bseindia.com/static/markets/marketinfo/listholi"
+      ],
+      "capability": "awaiting_live_validation",
+      "publishEnabled": false,
+      "blockReason": "official_equity_annual_page_currently_http_403_special_sunday_sessions_need_notice"
     },
     "JP_EQ": {
       "adapter": "jpx-annual",
@@ -72,22 +94,30 @@
       ]
     },
     "KR_EQ": {
-      "adapter": "source-monitor",
+      "adapter": "krx-public-form",
       "urls": [
-        "https://global.krx.co.kr/"
-      ]
+        "https://global.krx.co.kr/contents/GLB/05/0501/0501110000/GLB0501110000.jsp"
+      ],
+      "capability": "annual",
+      "yearQuery": true,
+      "yearParameter": "search_bas_yy"
     },
     "SA_EQ": {
-      "adapter": "source-monitor",
+      "adapter": "saudi-exchange-annual",
       "urls": [
-        "https://www.saudiexchange.sa/"
-      ]
+        "https://www.saudiexchange.sa/wps/portal/saudiexchange/about-saudi-exchange/exchange-media-centre/saudi-exchange-holiday-calendar"
+      ],
+      "capability": "awaiting_live_validation",
+      "publishEnabled": false,
+      "blockReason": "official_calendar_currently_http_403_lunar_estimates_not_final"
     },
     "SGX_NIKKEI": {
-      "adapter": "source-monitor",
+      "adapter": "blocked-sgx-product",
       "urls": [
-        "https://www.sgx.com/derivatives/holiday-calendar"
-      ]
+        "https://www.sgx.com/trading-0"
+      ],
+      "capability": "blocked",
+      "blockReason": "calendar_vectors_mix_last_trade_expiry_and_closed_requires_exact_nikkei_product_schedule"
     },
     "TW_EQ": {
       "adapter": "twse-pair",

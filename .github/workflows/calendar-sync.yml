@@ -7,6 +7,10 @@ on:
         description: 立即检查全部已登记来源
         type: boolean
         default: false
+      ops_request:
+        description: 高级日历运维JSON；留空按正常规则检查
+        type: string
+        default: ''
   schedule:
     # Weekly all year; additional daily checks in Q4 skip fully covered calendars.
     - cron: '17 0 * * 0'
@@ -34,15 +38,30 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
+        with: {ref: main}
+      - name: Prepare official PDF text extraction
+        run: |
+          if ! command -v pdftotext >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils
+          fi
       - name: Validate immutable calendar, cache, cadence and parser contracts
         run: python3 -m unittest discover -s tests -p 'test_calendar_*.py' -v
       - name: Check official sources only when due
+        if: inputs.ops_request == ''
         env:
           FORCE: ${{ (github.event_name == 'push' || inputs.force) && 'true' || 'false' }}
         run: |
           args=()
           if [ "$FORCE" = true ]; then args+=(--force); fi
           python3 tools/calendar_sync.py "${args[@]}" | tee calendar-check.json
+      - name: Run explicit calendar operations request
+        if: inputs.ops_request != ''
+        env:
+          CALENDAR_OPS_REQUEST: ${{ inputs.ops_request }}
+        run: |
+          set -euo pipefail
+          python3 tools/calendar_ops.py request | tee calendar-operations-report.json
       - name: Publish only calendars and source health atomically
         run: |
           set -euo pipefail
@@ -52,6 +71,10 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'Update verified exchange calendars and source check status'
           git fetch origin main
+          if ! git diff --quiet HEAD^..origin/main -- calendars/current.json; then
+            echo 'Active calendar changed during this operation; no publication was attempted.'
+            exit 1
+          fi
           git rebase origin/main
           git push origin HEAD:main
       - name: Read published pinned bytes from public API
@@ -70,5 +93,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: calendar-source-check
-          path: calendar-check.json
+          path: |
+            calendar-check.json
+            calendar-operations-report.json
           retention-days: 14

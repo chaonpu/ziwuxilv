@@ -96,6 +96,13 @@ class WatchdogTests(unittest.TestCase):
         self.assertNotIn('CN_FUTURES',report['overdueCalendars'])
         self.assertEqual(next(x for x in report['calendars'] if x['calendarId']=='CN_FUTURES')['limitHours'],192)
 
+    def test_scope_blocked_or_unvalidated_adapters_use_weekly_threshold(self):
+        for adapter,capability in [('blocked-a50-provider','blocked'),('bse-equities-annual','awaiting_live_validation'),
+                                   ('china-futures-consensus','awaiting_source_consensus')]:
+            self.health['calendars']['CN_FUTURES'].update(adapter=adapter,capability=capability,
+                lastAttemptAt=(self.now-timedelta(days=3)).isoformat())
+            self.assertNotIn('CN_FUTURES',self.assess()['overdueCalendars'])
+
     def test_recovery_has_fixed_allowlist_and_no_force_or_strategy_dispatch(self):
         report = {**self.assess(), 'recoveryDecision': 'recovery_due'}
         env = {'GITHUB_REPOSITORY': watch.REPO, 'GITHUB_REF': 'refs/heads/main', 'GH_TOKEN': 'test-only'}

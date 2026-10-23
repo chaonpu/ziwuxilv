@@ -1,0 +1,120 @@
+{
+  "year": 2027,
+  "market": "KRX_CASH",
+  "response": {
+    "block1": [
+      {
+        "calnd_dd": "2027-01-01",
+        "dy_tp_cd": "FRI",
+        "calnd_dd_dy": "2027-01-01",
+        "kr_dy_tp": "Friday",
+        "holdy_eng_nm": "New Year's Day"
+      },
+      {
+        "calnd_dd": "2027-02-08",
+        "dy_tp_cd": "MON",
+        "calnd_dd_dy": "2027-02-08",
+        "kr_dy_tp": "Monday",
+        "holdy_eng_nm": "Seollal (New Year's Day by the lunar)"
+      },
+      {
+        "calnd_dd": "2027-02-09",
+        "dy_tp_cd": "TUE",
+        "calnd_dd_dy": "2027-02-09",
+        "kr_dy_tp": "Tuesday",
+        "holdy_eng_nm": "Substitution Holiday"
+      },
+      {
+        "calnd_dd": "2027-03-01",
+        "dy_tp_cd": "MON",
+        "calnd_dd_dy": "2027-03-01",
+        "kr_dy_tp": "Monday",
+        "holdy_eng_nm": "Independence Movement Day"
+      },
+      {
+        "calnd_dd": "2027-05-03",
+        "dy_tp_cd": "MON",
+        "calnd_dd_dy": "2027-05-03",
+        "kr_dy_tp": "Monday",
+        "holdy_eng_nm": "Substitution Holiday"
+      },
+      {
+        "calnd_dd": "2027-05-05",
+        "dy_tp_cd": "WED",
+        "calnd_dd_dy": "2027-05-05",
+        "kr_dy_tp": "Wednesday",
+        "holdy_eng_nm": "Children's Day"
+      },
+      {
+        "calnd_dd": "2027-05-13",
+        "dy_tp_cd": "THU",
+        "calnd_dd_dy": "2027-05-13",
+        "kr_dy_tp": "Thursday",
+        "holdy_eng_nm": "Buddha's Birthday"
+      },
+      {
+        "calnd_dd": "2027-07-19",
+        "dy_tp_cd": "MON",
+        "calnd_dd_dy": "2027-07-19",
+        "kr_dy_tp": "Monday",
+        "holdy_eng_nm": "Substitution Holiday"
+      },
+      {
+        "calnd_dd": "2027-08-16",
+        "dy_tp_cd": "MON",
+        "calnd_dd_dy": "2027-08-16",
+        "kr_dy_tp": "Monday",
+        "holdy_eng_nm": "Substitution Holiday"
+      },
+      {
+        "calnd_dd": "2027-09-14",
+        "dy_tp_cd": "TUE",
+        "calnd_dd_dy": "2027-09-14",
+        "kr_dy_tp": "Tuesday",
+        "holdy_eng_nm": "Chuseok (Korean Thanksgiving)"
+      },
+      {
+        "calnd_dd": "2027-09-15",
+        "dy_tp_cd": "WED",
+        "calnd_dd_dy": "2027-09-15",
+        "kr_dy_tp": "Wednesday",
+        "holdy_eng_nm": "Chuseok (Korean Thanksgiving)"
+      },
+      {
+        "calnd_dd": "2027-09-16",
+        "dy_tp_cd": "THU",
+        "calnd_dd_dy": "2027-09-16",
+        "kr_dy_tp": "Thursday",
+        "holdy_eng_nm": "Chuseok (Korean Thanksgiving)"
+      },
+      {
+        "calnd_dd": "2027-10-04",
+        "dy_tp_cd": "MON",
+        "calnd_dd_dy": "2027-10-04",
+        "kr_dy_tp": "Monday",
+        "holdy_eng_nm": "Substitution Holiday"
+      },
+      {
+        "calnd_dd": "2027-10-11",
+        "dy_tp_cd": "MON",
+        "calnd_dd_dy": "2027-10-11",
+        "kr_dy_tp": "Monday",
+        "holdy_eng_nm": "Substitution Holiday"
+      },
+      {
+        "calnd_dd": "2027-12-27",
+        "dy_tp_cd": "MON",
+        "calnd_dd_dy": "2027-12-27",
+        "kr_dy_tp": "Monday",
+        "holdy_eng_nm": "Substitution Holiday"
+      },
+      {
+        "calnd_dd": "2027-12-31",
+        "dy_tp_cd": "FRI",
+        "calnd_dd_dy": "2027-12-31",
+        "kr_dy_tp": "Friday",
+        "holdy_eng_nm": "End of Year Holiday"
+      }
+    ]
+  }
+}

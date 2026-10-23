@@ -31,15 +31,44 @@ jobs:
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
-        with: {persist-credentials: false}
+        with: {ref: main, persist-credentials: false}
       - name: Test overdue, missing coverage and bounded recovery contracts
         run: python3 -m unittest discover -s tests -p 'test_calendar_watchdog.py' -v
       - name: Independently inspect public state and recover only calendar maintenance
         env:
           GH_TOKEN: ${{ github.token }}
-          DRILL: ${{ (github.event_name == 'push' || inputs.recovery_drill) && 'true' || 'false' }}
+          DRILL: ${{ inputs.recovery_drill && 'true' || 'false' }}
         run: |
           set -euo pipefail
           args=(--recover)
           if [[ "$DRILL" == true ]]; then args+=(--drill); fi
           python3 -u tools/calendar_watchdog.py "${args[@]}"
+  observation:
+    needs: health
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+    concurrency:
+      group: public-calendar-maintenance
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - name: Persist validated daily observation and readable calendar status
+        run: python3 tools/calendar_ops.py status --observe
+      - name: Publish observation without changing calendar release bytes
+        run: |
+          set -euo pipefail
+          git add -- calendars/status.json calendars/status.md calendars/operations/history.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Record validated daily calendar observation'
+          git fetch origin main
+          if ! git diff --quiet HEAD^..origin/main -- calendars/current.json; then
+            echo 'Calendar advanced while preparing observation; stop without publishing stale status.'
+            exit 1
+          fi
+          git rebase origin/main
+          git push origin HEAD:main

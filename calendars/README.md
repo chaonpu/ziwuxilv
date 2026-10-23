@@ -16,9 +16,26 @@ GitHub 的第四季度入口每日唤醒，但已完整覆盖的日历在发起�
 台股自动查询当年和下一年；空数据不代表全年开市。伦交所滚动表中不完整的
 首尾年份不被发布为全年覆盖。德股最后交易日和法股半日市在精确时段未确认前
 保持局部UNKNOWN，不套用其他产品或交易所的收盘时间。
-其他市场/产品保留已核验数据并检查登记来源；特殊或尚未支持的格式不会自动
-解释为交易日。状态 `source_checked_format_requires_adapter` 表示来源已读取但
-该格式需要适配，`held_preserving_active_calendar` 表示继续保留现行版本。
+新增适配器与限制：
+
+| 市场/产品 | 自动处理范围 | 发布边界 |
+|---|---|---|
+| 港股 HK_EQ | 港交所证券市场年度PDF与现金市场半日时段 | 不套用衍生品收盘时间 |
+| 巴西 BR_EQ | B3当年12个月股票交易安排，含灰星期三延迟开盘 | 忽略外币清算、银行及其他产品条目 |
+| 韩国 KR_EQ | KRX匿名公开年度查询，查询当年和下一年 | 请求年度、现金市场及每行星期必须一致；空结果不发布 |
+| ICE_BRENT | ICE年度油品表中的布伦特休市与受影响日期 | 未核准的特殊时段返回UNKNOWN，不套用农产品安排 |
+| CME_FUTURES | CME Globex完整年度表中的受影响日期 | 产品组时段不统一，受影响日期保留UNKNOWN |
+| CN_FUTURES | 国内期货年度解析与节前夜盘核对 | 五家交易所完整来源一致后才启用；当前保留现行数据 |
+| IN_EQ | BSE股票年度表解析 | 官方直连403且特殊开市未核准，尚未启用自动发布 |
+| SA_EQ | 沙交年度表与停市/复市区间解析 | 官方直连403，尚未启用；阴历预测只能成为UNKNOWN |
+| SGX_NIKKEI | 登记SGX官方资料并报告产品范围障碍 | 年历图的最后交易、到期、休市标记不能混用，保持阻断 |
+| A50_CFD | 登记行情提供方来源并报告产品范围障碍 | 新浪CFD不能套用SGX交易所期货日历，保持阻断 |
+
+`sources.json` 的 `capability`、`publishEnabled` 和 `blockReason` 明确区分可自动
+发布、局部时段未知、待首次实测及产品范围阻断。未启用来源按周检查，不触发第四
+季度每日抓取。来源格式变化、年度不完整或内容冲突均保留现行版本。
+`held_preserving_active_calendar` 表示整体保留；`published_with_held_years` 表示
+只有独立通过校验的年份发布，其他年份留下候选及影响报告供复核。
 
 股票、期货和CFD日历独立。不得把A股新年度自动复制为国内期货新年度。
 日历覆盖不足或产品特殊时段未知时返回UNKNOWN；不能退回相邻自然日。
@@ -30,7 +47,43 @@ Runner每日09:17独立读取同一状态。这里只读公共状态，不每日
 GITHUB_TOKEN派发自身calendar-sync工作流，不增加跨仓库令牌权限。已有任务时
 不重复派发，排队超过30分钟单独提示；补检派发冷却24小时，响应不确定不重试。
 来源读取失败、缺少适配器、覆盖不足分别显示于Actions摘要与警告；不发送邮件。
-监测代码变更时进行一次明确标记的补检派发演练；日常定时巡检不主动演练。
+手动勾选 `recovery_drill` 可进行明确标记的补检派发演练。
+
+## 状态、历史影响与回滚
+
+`status.md` / `status.json` 提供17类日历的能力、已知年份、来源状态和未解决原因。
+每日监测成功后记录真实Actions运行号及观察日期；连续30个自然日才标记观察完成。
+当前年度缺失及下一年覆盖不足按90/30/7天阈值显示，不能把来源读取成功当作覆盖完整。
+
+历史日期新增变化不会直接激活：候选保存在 `candidates/<SHA>.json`，对应
+`.impact.json` 按日期比较休市、未知、时区、开收盘及半日语义，并单列历史变化。
+已核验的旧休市、半日或未知日期被删除/覆盖时仍直接拒绝，不能绕过保护。
+本地可选 `--ledger-dir` 仅提取日期作交叉检查；计数是日历/日期候选，不是已确认
+受影响持仓或账本记录数。命令不改账、不重跑策略，也不把私有记录写入公开报告。
+
+只读命令：
+
+```bash
+python3 tools/calendar_ops.py status
+python3 tools/calendar_ops.py impact --target <候选或历史发布SHA>
+python3 tools/calendar_ops.py rollback-plan --target <历史发布SHA> --expected-current <当前SHA> --reason '明确的回滚原因'
+```
+
+回滚仅接受已存在且哈希校验通过的不可变发布文件。预览计划绑定当前版本、目标
+版本、原因、复核日期和影响哈希；执行还必须提供计划的 `confirmationSha256`：
+
+```bash
+python3 tools/calendar_ops.py rollback --target <历史发布SHA> --expected-current <当前SHA> --reason '与预览完全一致的原因' --confirmation <计划确认SHA>
+```
+
+回滚只修改活动指针、状态及审计记录，不修改历史发布字节或账本。当前版本改变或
+跨日期计划失效时必须重新预览。云端通过“交易日历检查与更新”的高级 `ops_request`
+输入JSON运行同一接口：`status`、`impact`、`rollback-plan`、`rollback`。字段仅允许
+`operation`、`target`、`expectedCurrent`、`reason`、`confirmation`，不接受私有路径
+或命令。报告保留为Actions附件；实际发布需通过当前版本并发校验。
+
+例如只读影响报告：`{"operation":"impact","target":"<完整64位SHA>"}`。
+空 `ops_request` 继续执行正常来源检查。历史影响与回滚命令没有自动改账入口。
 
 运行：`python3 -m unittest discover -s tests -p 'test_calendar_*.py' -v`；
 检查：`python3 tools/calendar_sync.py`；即时检查：增加 `--force`。

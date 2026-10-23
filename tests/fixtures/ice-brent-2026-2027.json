@@ -1,0 +1,219 @@
+{
+  "years": {
+    "2026": [
+      {
+        "date": "2026-01-01",
+        "status": "Closed",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-01-19",
+        "status": "A",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-02-16",
+        "status": "A",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-02-16",
+        "status": "A",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-04-02",
+        "status": "TD",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-04-03",
+        "status": "Closed",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-04-06",
+        "status": "TD",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2026-04-30",
+        "status": "TD",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-05-04",
+        "status": "TD",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2026-05-25",
+        "status": "D",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2026-05-29",
+        "status": "TD",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-06-19",
+        "status": "C",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-07-03",
+        "status": "C",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-08-07",
+        "status": "TD",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-08-31",
+        "status": "TD",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2026-09-07",
+        "status": "C",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-11-06",
+        "status": "TD",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-11-26",
+        "status": "C",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-11-27",
+        "status": "B",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-12-25",
+        "status": "Closed",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2026-12-28",
+        "status": "Appendix",
+        "otherProductsClosed": true
+      }
+    ],
+    "2027": [
+      {
+        "date": "2027-01-01",
+        "status": "Closed",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-01-18",
+        "status": "A",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-02-05",
+        "status": "TD",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-02-15",
+        "status": "A",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-03-25",
+        "status": "TD",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-03-26",
+        "status": "Closed",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-03-29",
+        "status": "TD",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2027-05-03",
+        "status": "TD",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2027-05-31",
+        "status": "D",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2027-06-18",
+        "status": "C",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-07-05",
+        "status": "C",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-08-30",
+        "status": "TD",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2027-09-06",
+        "status": "C",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-11-25",
+        "status": "C*",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-11-26",
+        "status": "B",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-12-24",
+        "status": "Appendix",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2027-12-27",
+        "status": "Appendix",
+        "otherProductsClosed": true
+      },
+      {
+        "date": "2027-12-28",
+        "status": "Appendix",
+        "otherProductsClosed": false
+      },
+      {
+        "date": "2027-12-31",
+        "status": "Appendix",
+        "otherProductsClosed": false
+      }
+    ]
+  },
+  "appendixDates": [
+    "2026-12-24",
+    "2026-12-25",
+    "2026-12-28",
+    "2026-12-31",
+    "2027-12-24",
+    "2027-12-27",
+    "2027-12-28",
+    "2027-12-31"
+  ],
+  "sourceSha256": "0f46a2b316933b4fcf25be81411273e7bf7119bbcf22dcee0d40ce456b86b9a0"
+}
