@@ -301,7 +301,7 @@ def parse_bse_master(payload):
             require(day.strftime('%A')==row[3],'bse_equity_weekday_mismatch')
             if day.isoweekday()>5:continue # Separate weekend-holiday table.
             years.add(str(day.year));rows.append([str(len(rows)+1),row[1],day.strftime('%d-%b-%y'),row[3]])
-    require(len(years)==1,'bse_master_annual_year_ambiguous');year=next(iter(years))
+    require(len(years)==1,'bse_master_annual_year_ambiguous:'+','.join(sorted(years)));year=next(iter(years))
     require(year in text and 'Trading Holidays' in text,'bse_master_annual_heading_missing')
     html='Trading Holidays for '+year+' - Equity Segment, Equity Derivative Segment<table>'
     html+=''.join('<tr>'+''.join('<td>'+escape(v)+'</td>' for v in row)+'</tr>' for row in rows)+'</table><p>'+escape(text)+'</p>'

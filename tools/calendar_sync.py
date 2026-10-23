@@ -424,6 +424,12 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 result['formatHints']={'title':Page(titles[0]).plain()[:100] if titles else None,
                     'annualHeadingPresent':bool(re.search(r'Trading\s+Holidays\s+for',Page(decoded).plain(),re.I)),
                     'scripts':[u for u in re.findall(r'<script[^>]+src=["\']([^"\']+)',decoded,re.I) if 'holiday' in u.lower() or 'main' in u.lower()][:3]}
+                if result['formatHints']['annualHeadingPresent']:
+                    result['formatHints']['annualDateRows']=[row for row in Page(decoded).rows
+                        if any(re.search(r'\b\d{2}-[A-Za-z]{3}-\d{2}\b',cell) for cell in row)][:24]
+                elif '/Equity_Master_Circular' in url:
+                    obj=json.loads(decoded)
+                    result['formatHints']['tableRows']=[row for table in obj['tables'] for row in table][:24]
             return url,result
         except Exception as exc:
             return url,{'status':'unavailable','reason':type(exc).__name__}
