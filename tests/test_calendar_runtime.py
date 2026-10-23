@@ -107,8 +107,8 @@ class CalendarTests(unittest.TestCase):
         import shutil
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);(root/'calendars/releases').mkdir(parents=True)
-            shutil.copyfile(sync.ROOT/'calendars/current.json',root/'calendars/current.json')
-            index=json.loads((root/'calendars/current.json').read_bytes())
+            index={'schemaVersion':1,'sha256':self.snapshot['revision'],'path':'calendars/releases/'+self.snapshot['revision']+'.json'}
+            (root/'calendars/current.json').write_bytes(runtime.canonical(index))
             (root/index['path']).write_bytes(self.raw)
             now=datetime(2026,10,23,8,17,tzinfo=ZoneInfo('Asia/Shanghai'))
             def fail(url):raise OSError('offline')

@@ -1,0 +1,109 @@
+{
+  "stat": "ok",
+  "date": "20260101",
+  "title": "Holiday Schedule of 2026",
+  "fields": [
+    "Date",
+    "Description"
+  ],
+  "data": [
+    [
+      "2026-01-01",
+      "New Year"
+    ],
+    [
+      "2026-02-12",
+      "No Trading. Market opens only for Clearing & Settlement"
+    ],
+    [
+      "2026-02-13",
+      "No Trading. Market opens only for Clearing & Settlement"
+    ],
+    [
+      "2026-02-15",
+      "Chinese New Year"
+    ],
+    [
+      "2026-02-16",
+      "Chinese New Year"
+    ],
+    [
+      "2026-02-17",
+      "Chinese New Year"
+    ],
+    [
+      "2026-02-18",
+      "Chinese New Year"
+    ],
+    [
+      "2026-02-19",
+      "Chinese New Year"
+    ],
+    [
+      "2026-02-20",
+      "Adjusted Holiday"
+    ],
+    [
+      "2026-02-27",
+      "Adjusted Holiday"
+    ],
+    [
+      "2026-02-28",
+      "Peace Memorial Day"
+    ],
+    [
+      "2026-04-03",
+      "Adjusted Holiday"
+    ],
+    [
+      "2026-04-04",
+      "Children’s Day"
+    ],
+    [
+      "2026-04-05",
+      "Tomb-sweeping Day"
+    ],
+    [
+      "2026-04-06",
+      "Adjusted Holiday"
+    ],
+    [
+      "2026-05-01",
+      "Labor Day"
+    ],
+    [
+      "2026-06-19",
+      "Dragon Boat Festival"
+    ],
+    [
+      "2026-09-25",
+      "Mid-autumn / Moon Festival"
+    ],
+    [
+      "2026-09-28",
+      "Teacher’s Day"
+    ],
+    [
+      "2026-10-09",
+      "Adjusted Holiday"
+    ],
+    [
+      "2026-10-10",
+      "National Day"
+    ],
+    [
+      "2026-10-25",
+      "Taiwan Restoration Day"
+    ],
+    [
+      "2026-10-26",
+      "Adjusted Holiday"
+    ],
+    [
+      "2026-12-25",
+      "Constitution Day"
+    ]
+  ],
+  "queryYear": 2026,
+  "total": 27
+}

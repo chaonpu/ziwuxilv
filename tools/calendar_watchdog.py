@@ -98,6 +98,7 @@ def assess(snapshot, health, runs, now):
                           'adapter': record.get('adapter', 'unknown'),
                           'lastSourceSuccessAt': record.get('lastSourceSuccessAt'),
                           'lastVerifiedAt': record.get('lastVerifiedAt'),
+                          'knownUnknownSessions': sum(day>=now.date().isoformat() for r in cal['years'].values() for day in r['unknownDates']),
                           'coverageDaysRemaining': remaining,
                           'coverageLevel': 'critical' if remaining <= 7 else 'warning' if remaining <= 90 else 'ok'})
     valid_runs = [r for r in runs if r.get('head_branch') == 'main'
@@ -117,7 +118,7 @@ def assess(snapshot, health, runs, now):
                 else 'recovery_due' if needs_recovery else 'within_cadence')
     attention = any(c['checkOverdue'] or c['coverageLevel'] != 'ok'
                     or c['sourceStatus'] in ('held_preserving_active_calendar', 'not_checked')
-                    or c['adapter'] == 'source-monitor' for c in calendars)
+                    or c['adapter'] == 'source-monitor' or c['knownUnknownSessions'] for c in calendars)
     stuck = [r['id'] for r in active if age_hours(r.get('created_at'), now) is None
              or age_hours(r['created_at'], now) > 0.5]
     return {'status': 'attention' if attention or needs_recovery or stuck else 'healthy',
@@ -243,7 +244,8 @@ def main():
                      or report.get('recoveryResult', 'success') != 'success'
                      or (report['recoveryDecision'] == 'recovery_due' and not args.recover)) else 0
     except (OSError, ValueError, KeyError, TypeError) as exc:
-        print(json.dumps({'status': 'unavailable', 'reason': type(exc).__name__, 'dispatched': 0}), flush=True)
+        print(json.dumps({'status': 'unavailable', 'reason': type(exc).__name__,
+                          'httpStatus': getattr(exc, 'code', None), 'dispatched': 0}), flush=True)
         print('::error title=交易日历监测不可用::无法确认最新状态；未盲目重试补检。')
         return 2
 

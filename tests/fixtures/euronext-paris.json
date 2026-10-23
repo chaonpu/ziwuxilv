@@ -1,0 +1,883 @@
+{
+  "retrievedAt": "2026-10-23",
+  "tables": [
+    [
+      [
+        "Euronext Holidays",
+        "Amsterdam",
+        "Brussels",
+        "Dublin",
+        "Lisbon",
+        "Milan",
+        "Oslo",
+        "Paris"
+      ],
+      [
+        "Thursday 1 January 2026 (New Year’s Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Friday 2 January 2026 (Substitute for New Year's Day)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Monday 5 and Tuesday 6 January 2026",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Wednesday 1 April (Half trading day, Wednesday before Easter)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "**Half Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Thursday 2 April 2026 (Maundy Thursday)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Closed",
+        "Full Trading Day"
+      ],
+      [
+        "Friday 3 April 2026 (Good Friday)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 6 April 2026 (Easter Monday)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Friday 1 May 2026 (Labour Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 4 May 2026 (Irish May Bank Holiday)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Closed",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Thursday 14 May 2026 (Ascension Day)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Closed",
+        "Full Trading Day"
+      ],
+      [
+        "Monday 25 May 2026 (Whit Monday)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Closed",
+        "Full Trading Day"
+      ],
+      [
+        "Monday 1 and Tuesday 2 June 2026",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "August 2026 (Milan – All business days)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Monday 7 and Tuesday 8 December 2026",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Monday 21 to Wednesday 23 December 2026",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Thursday 24 December 2026",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "Closed",
+        "Closed",
+        "**Half Trading Day"
+      ],
+      [
+        "Friday 25 December 2026 (Christmas)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 28 December 2026 (Substitute for St Stephen’s Day/Boxing Day)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Closed",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Monday 28 to Wednesday 30 December 2026",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Thursday 31 December 2026",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "Closed",
+        "Closed",
+        "**Half Trading Day"
+      ]
+    ],
+    [
+      [
+        "Euronext Holidays",
+        "Amsterdam",
+        "Brussels",
+        "Dublin",
+        "Lisbon",
+        "Milan",
+        "Oslo",
+        "Paris"
+      ],
+      [
+        "Wednesday 1 January (New Year’s Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Thursday 2 January 2025 (Substitute for New Year's Day)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Friday 3 January 2025",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Monday 6 January 2025",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Wednesday 16 April (Half trading day, Wednesday before Easter)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "**Half Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Thursday 17 April 2025 (Maundy Thursday)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Closed",
+        "Full Trading Day"
+      ],
+      [
+        "Friday 18 April 2025 (Good Friday)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 21 April 2025 (Easter Monday)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Friday 25 April 2025",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Thursday 1 May 2025 (Labour Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 5 May (Irish May Bank Holiday)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Closed",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Thursday 29 May 2025 (Ascension Day)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Closed",
+        "Full Trading Day"
+      ],
+      [
+        "Monday 9 June 2025 (Whit Monday)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Closed",
+        "Full Trading Day"
+      ],
+      [
+        "Friday 15 August 2025 (Ferragosto)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Closed",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "August 2025 (Milan – All business days)",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Wednesday 24 December 2025",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "Closed",
+        "Closed",
+        "**Half Trading Day"
+      ],
+      [
+        "Thursday 25 December 2025 (Christmas)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Friday 26 December 2025 (St Stephens Day / Boxing Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 29 and 30 December 2025",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "Full Trading Day",
+        "*No TAH",
+        "Full Trading Day",
+        "Full Trading Day"
+      ],
+      [
+        "Wednesday 31 December 2025",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "**Half Trading Day",
+        "Closed",
+        "Closed",
+        "**Half Trading Day"
+      ]
+    ],
+    [
+      [
+        "Euronext Holidays",
+        "Amsterdam",
+        "Brussels",
+        "Dublin",
+        "Lisbon",
+        "Milan",
+        "Oslo",
+        "Paris"
+      ],
+      [
+        "Monday 1 January (New Year’s Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Tuesday 2 January 2024 (Substitute for New Year's Day)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Wednesday 3 January – Friday 5 January 2024",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Wednesday 27 March 2024 (Half trading day, Wednesday before Easter)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Half Day Trading**",
+        "Full Day Trading"
+      ],
+      [
+        "Thursday 28 March 2024 (Maundy Thursday)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Closed",
+        "Full Day Trading"
+      ],
+      [
+        "Friday 29 March 2024 (Good Friday)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 1 April 2024 (Easter Monday)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Thursday 25 April and Friday 26 April 2024",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Wednesday 1 May 2024 (Labour Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 6 May (Irish May Bank Holiday)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Thursday 9 May 2024 (Ascension Day)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading"
+      ],
+      [
+        "Friday 17 May 2024 (Constitution Day)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading"
+      ],
+      [
+        "Monday 20 May 2024 (Whit Monday)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading"
+      ],
+      [
+        "Thursday 15 August 2024 (Ferragosto)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "August 2024 (Milan – All business days)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Friday 1 November 2024",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Monday 23 December 2024",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Tuesday 24 December 2024",
+        "Half Day Trading**",
+        "Half Day Trading**",
+        "Half Day Trading**",
+        "Half Day Trading**",
+        "Closed",
+        "Closed",
+        "Half Day Trading**"
+      ],
+      [
+        "Wednesday 25 December 2024 (Christmas)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Thursday 26 December 2024 (St Stephens Day / Boxing Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Friday 27 December and Monday 30 December 2024",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Tuesday 31 December 2024",
+        "Half Day Trading**",
+        "Half Day Trading**",
+        "Half Day Trading**",
+        "Half Day Trading**",
+        "Closed",
+        "Closed",
+        "Half Day Trading**"
+      ]
+    ],
+    [
+      [
+        "Euronext Holidays",
+        "Amsterdam",
+        "Brussels",
+        "Dublin",
+        "Lisbon",
+        "Milan",
+        "Oslo",
+        "Paris"
+      ],
+      [
+        "Monday 2 January 2023 (Substitute for New Year's Day)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Tuesday 3 January – Friday 6 January 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Wednesday 5 April 2023 (Half trading day, Wednesday before Easter)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Half Day Trading**",
+        "Full Day Trading"
+      ],
+      [
+        "Thursday 6 April 2023 (Maundy Thursday)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Closed",
+        "Full Day Trading"
+      ],
+      [
+        "Friday 7 April 2023 (Good Friday)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 10 April 2023 (Easter Monday)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Monday 24 and Tuesday 25 April 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Monday 1 May 2023 (May Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Wednesday 17 May 2023 (Constitution Day)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading"
+      ],
+      [
+        "Thursday 18 May 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading"
+      ],
+      [
+        "Monday 29 May 2023 (Whit Monday)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading"
+      ],
+      [
+        "Friday 2 June 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Monday 31 July – Friday 1 September 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Tuesday 15 August 2023 (Ferragosto)",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Closed",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Wednesday 1 November 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Thursday 7 and Friday 8 December 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Friday 22 December 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Half Day Trading**",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Monday 25 December 2023 (Christmas)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Tuesday 26 December 2023 (St Stephens Day / Boxing Day)",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed",
+        "Closed"
+      ],
+      [
+        "Wednesday 27 and Thursday 28 December 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ],
+      [
+        "Friday 29 December 2023",
+        "Full Day Trading",
+        "Full Day Trading",
+        "Half Day Trading**",
+        "Full Day Trading",
+        "No TAH*",
+        "Full Day Trading",
+        "Full Day Trading"
+      ]
+    ]
+  ]
+}

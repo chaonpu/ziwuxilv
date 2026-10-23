@@ -158,6 +158,108 @@ def parse_nasdaq(html):
     return {year:out}
 
 
+def parse_twse(payload, *, english=False):
+    obj=json.loads(payload)
+    if obj.get('stat')=='很抱歉，沒有符合條件的資料!':return {}
+    require(obj.get('stat')=='ok' and isinstance(obj.get('data'),list),'twse_response_invalid')
+    year=str(obj.get('queryYear',''))
+    require(bool(re.fullmatch(r'20\d{2}',year)) and obj.get('date')==year+'0101','twse_year_invalid')
+    title=obj.get('title','')
+    require((title=='Holiday Schedule of '+year) if english else bool(re.fullmatch(str(int(year)-1911)+r'\s*年市場開休市日期',title)), 'twse_annual_title_invalid')
+    require(obj.get('fields')==(['Date','Description'] if english else ['日期','名稱','說明']),'twse_fields_changed')
+    if not obj['data'] and obj.get('total')==0:return {}
+    out=blank(year,[]);seen=set()
+    for row in obj['data']:
+        require(isinstance(row,list) and len(row)==(2 if english else 3),'twse_row_invalid')
+        day=date.fromisoformat(row[0]);name=row[1]
+        require(str(day.year)==year and day.isoformat() not in seen and isinstance(name,str) and bool(name),'twse_row_date_invalid')
+        seen.add(day.isoformat())
+        if not english and ('開始交易日' in name or '最後交易日' in name):continue
+        if not english:require('放假' in row[2] or '補假' in row[2] or '市場無交易' in name,'twse_unknown_event')
+        if day.isoweekday()<=5:out['holidays'][day.isoformat()]=name
+    require(12<=len(out['holidays'])<=30,'twse_annual_incomplete')
+    return {year:out}
+
+
+def parse_lse(html):
+    out={};names={}
+    for row in Page(html).rows:
+        if len(row)!=4 or not re.search(r'20\d{2}',row[0]):continue
+        found=re.fullmatch(r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday) (\d{1,2}) ('+'|'.join(MONTHS)+r') (20\d{2})',row[0])
+        require(found is not None,'lse_date_format_changed')
+        weekday,number,month,year=found.groups();day=date(int(year),MONTHS[month],int(number))
+        require(day.strftime('%A')==weekday,'lse_date_weekday_mismatch')
+        record=out.setdefault(year,blank(year,[]));labels=names.setdefault(year,[])
+        require(day.isoformat() not in record['holidays'] and day.isoformat() not in record['overrides'],'lse_duplicate_date')
+        if row[2].startswith('NON-trading day.'):
+            record['holidays'][day.isoformat()]=row[1];labels.append(row[1])
+        elif row[2].startswith('Markets closing process commences from 12:30 London time.'):
+            require('half day' in row[1],'lse_special_session_changed')
+            record['overrides'][day.isoformat()]={'closeMinute':750}
+        else:raise ValueError('lse_unknown_market_status')
+    expected=('New Year','Good Friday','Easter Monday','Early May','Spring Bank','Summer Bank','Christmas Day','Boxing Day')
+    # The LSE table is rolling. Partial first/last years are never full coverage.
+    complete={y:r for y,r in out.items() if len(r['holidays'])==8 and len(r['overrides'])==2
+              and all(sum(n in label for label in names[y])==1 for n in expected)}
+    require(bool(complete),'lse_complete_annual_schedule_missing')
+    return complete
+
+
+def parse_xetra(html):
+    page=Page(html);text=page.plain()
+    require('Non-trading days at Frankfurter' in text and 'No trading but settlement is open' in text,'xetra_scope_missing')
+    rows=page.rows;header=next((r for r in rows if r and not r[0] and len(r)>1 and all(re.fullmatch(r'20\d{2}',c) for c in r[1:])),None)
+    require(header is not None and len(set(header[1:]))==len(header)-1,'xetra_year_header_invalid')
+    out={y:blank(y,[]) for y in header[1:]}
+    labels=("New Year's Day",'Good Friday','Easter Monday','Labor Day','Christmas Eve**','Christmas Day','Boxing Day',"New Year's Eve**")
+    selected=rows[rows.index(header)+1:rows.index(header)+9]
+    require(len(selected)==8,'xetra_annual_rows_missing')
+    months={name[:3]:m for name,m in MONTHS.items()}
+    for row,label in zip(selected,labels):
+        require(len(row)==len(header) and row[0]==label,'xetra_holiday_table_changed')
+        for year,cell in zip(header[1:],row[1:]):
+            found=re.fullmatch(r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday) ([A-Z][a-z]{2}) (\d{2}), '+year,cell)
+            require(found is not None,'xetra_date_format_changed')
+            weekday,month,number=found.groups();day=date(int(year),months[month],int(number))
+            require(day.strftime('%A')==weekday,'xetra_date_weekday_mismatch')
+            out[year]['holidays'][day.isoformat()]=label
+    # The annual page explicitly leaves the final session's clocks to a later
+    # circular. Keep that one session UNKNOWN; never infer normal closing time.
+    for year,record in out.items():
+        cursor=date(int(year),12,31)
+        while cursor.isoweekday()>5 or cursor.isoformat() in record['holidays']:cursor-=timedelta(days=1)
+        record['unknownDates']=[cursor.isoformat()]
+    return out
+
+
+def parse_euronext_paris(html):
+    require('Calendar of business days' in Page(html).plain(),'euronext_annual_title_missing')
+    groups=[Page(table).rows for table in re.findall(r'<table\b[^>]*>.*?</table>',html,re.S)]
+    groups=[g for g in groups if g and g[0] and g[0][0]=='Euronext Holidays']
+    out={}
+    for group in groups:
+        header=group[0]
+        require(header.count('Paris')==1,'euronext_paris_column_missing')
+        column=header.index('Paris');years={y for r in group[1:] for y in re.findall(r'20\d{2}',r[0])}
+        require(len(years)==1,'euronext_annual_year_ambiguous')
+        year=years.pop();record=blank(year,[])
+        for row in group[1:]:
+            require(len(row)==len(header),'euronext_row_shape_changed')
+            status=row[column].strip('* ')
+            if status in ('Full Trading Day','Full Day Trading'):continue
+            require(status in ('Closed','Half Trading Day','Half Day Trading'),'euronext_paris_status_unknown')
+            found=re.fullmatch(r'(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday) (\d{1,2}) ('+'|'.join(MONTHS)+r')(?: '+year+r')?(?: \(.*\))?',row[0])
+            require(found is not None,'euronext_single_date_missing')
+            day=date(int(year),MONTHS[found[2]],int(found[1])).isoformat()
+            require(day not in record['holidays'] and day not in record['unknownDates'],'euronext_duplicate_date')
+            if status=='Closed':record['holidays'][day]='休市'
+            else:record['unknownDates'].append(day)
+        require(5<=len(record['holidays'])<=8 and 0<=len(record['unknownDates'])<=3,'euronext_annual_incomplete')
+        out[year]=record
+    require(bool(out),'euronext_annual_table_missing')
+    return out
+
+
 def should_check(cal, health, now, force=False):
     next_year=str(now.year+1)
     missing=next_year not in cal['years']
@@ -177,7 +279,8 @@ def source_get(url):
     allowed={url for spec in SOURCES.values() for url in spec['urls']}
     discovered_szse=(urlparse(url).scheme=='https' and urlparse(url).hostname=='www.szse.cn'
                      and bool(re.fullmatch(r'/disclosure/notice/general/t[0-9]{8}_[0-9]+\.html',urlparse(url).path)))
-    require(url in allowed or discovered_szse,'unregistered_calendar_source')
+    year_query=any(spec.get('yearQuery') and any(re.fullmatch(re.escape(base)+r'&date=20\d{2}0101',url) for base in spec['urls']) for spec in SOURCES.values())
+    require(url in allowed or discovered_szse or year_query,'unregistered_calendar_source')
     req=urllib.request.Request(url,headers={'User-Agent':'ziwuxilv-public-calendar/1.0','Accept':'text/html'})
     with urllib.request.urlopen(req,timeout=15) as response:
         final=response.geturl()
@@ -194,8 +297,8 @@ def stable_record(record):
     return {k:v for k,v in record.items() if k not in ('sources','evidenceHash')}
 
 
-def accept(old, candidate):
-    require(not candidate['unknownDates'],'candidate_contains_unverified_sessions')
+def accept(old, candidate, *, allow_unknown=False):
+    require(allow_unknown or not candidate['unknownDates'],'candidate_contains_unverified_sessions')
     if old:
         # Calendar name wording is not a session change. Existing dates may be
         # added only in the future; deletion/retroactive change is held.
@@ -203,6 +306,7 @@ def accept(old, candidate):
         require(set(old['overrides'])<=set(candidate['overrides']),'candidate_removes_special_session')
         for day,clocks in old['overrides'].items():
             require(candidate['overrides'][day]==clocks,'candidate_changes_existing_session')
+        require(set(old['unknownDates'])<=set(candidate['unknownDates'])|set(candidate['holidays'])|set(candidate['overrides']),'candidate_silently_resolves_unknown_session')
     return candidate
 
 
@@ -220,6 +324,8 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
         due,reason=should_check(cal,state,now,force)
         if not due:continue
         spec=SOURCES.get(key,{'adapter':'source-monitor','urls':list(dict.fromkeys(s for r in cal['years'].values() for s in r['sources']))})
+        if spec.get('yearQuery'):
+            spec={**spec,'urls':[url+'&date='+str(year)+'0101' for year in (now.year,now.year+1) for url in spec['urls']]}
         active[key]=(spec,reason)
     urls=sorted({url for spec,_ in active.values() for url in spec['urls']})
     def fetch_one(url):
@@ -259,16 +365,31 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 require(bool(candidates),'us_matching_annual_sources_missing')
             elif spec['adapter']=='jpx-annual':
                 candidates=parse_jpx(records[0]['text'])
+            elif spec['adapter']=='twse-pair':
+                candidates={};unpublished=[]
+                for i in range(0,len(records),2):
+                    year=re.search(r'&date=(20\d{2})0101$',spec['urls'][i])[1]
+                    first=parse_twse(records[i]['text']);second=parse_twse(records[i+1]['text'],english=True)
+                    require(first.keys()==second.keys(),'twse_official_year_conflict')
+                    if not first:unpublished.append(year);continue
+                    require(set(first)=={year} and set(first[year]['holidays'])==set(second[year]['holidays']),'twse_official_sources_conflict')
+                    candidates[year]=first[year]
+                require(bool(candidates),'twse_no_published_years')
+                state['unpublishedYears']=unpublished
+            elif spec['adapter']=='lse-annual':candidates=parse_lse(records[0]['text'])
+            elif spec['adapter']=='xetra-annual':candidates=parse_xetra(records[0]['text'])
+            elif spec['adapter']=='euronext-paris':candidates=parse_euronext_paris(records[0]['text'])
             else:
                 state['status']='source_checked_format_requires_adapter'
                 candidates={}
             for year,new in candidates.items():
+                if int(year)<now.year:continue
                 new['sources']=spec['urls']
                 old=bundle['calendars'][key]['years'].get(year)
-                accept(old,new)
-                if old and set(old['holidays'])==set(new['holidays']) and old['overrides']==new['overrides']:continue
+                accept(old,new,allow_unknown=spec['adapter'] in ('xetra-annual','euronext-paris'))
+                if old and set(old['holidays'])==set(new['holidays']) and old['overrides']==new['overrides'] and set(old['unknownDates'])==set(new['unknownDates']):continue
                 if old:
-                    additions=(set(new['holidays'])-set(old['holidays']))|(set(new['overrides'])-set(old['overrides']))
+                    additions=(set(new['holidays'])-set(old['holidays']))|(set(new['overrides'])-set(old['overrides']))|(set(new['unknownDates'])-set(old['unknownDates']))
                     require(all(d>=now.date().isoformat() for d in additions),'candidate_changes_past_dates')
                 bundle['calendars'][key]['years'][year]=new;changed.append(key+':'+year)
             state.setdefault('status','verified_no_change' if not any(c.startswith(key+':') for c in changed) else 'published')

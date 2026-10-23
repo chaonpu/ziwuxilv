@@ -36,15 +36,15 @@
       ]
     },
     "DE_EQ": {
-      "adapter": "source-monitor",
+      "adapter": "xetra-annual",
       "urls": [
-        "https://www.xetra.com/xetra-en/trading/trading-calendar-and-trading-hours"
+        "https://www.cashmarket.deutsche-boerse.com/cash-en/trading/trading-calendar-and-trading-hours"
       ]
     },
     "FR_EQ": {
-      "adapter": "source-monitor",
+      "adapter": "euronext-paris",
       "urls": [
-        "https://www.euronext.com/en/trade/trading-hours-holidays"
+        "https://www.euronext.com/en/trading/trading-hours-holidays"
       ]
     },
     "HK_EQ": {
@@ -90,15 +90,17 @@
       ]
     },
     "TW_EQ": {
-      "adapter": "source-monitor",
+      "adapter": "twse-pair",
+      "yearQuery": true,
       "urls": [
-        "https://www.twse.com.tw/en/trading/holiday.html"
+        "https://www.twse.com.tw/holidaySchedule/holidaySchedule?response=json",
+        "https://www.twse.com.tw/rwd/en/holidaySchedule/holidaySchedule?response=json"
       ]
     },
     "UK_EQ": {
-      "adapter": "source-monitor",
+      "adapter": "lse-annual",
       "urls": [
-        "https://www.londonstockexchange.com/trade/trading-access/business-days"
+        "https://www.londonstockexchange.com/en/resources/markets-products/business-days"
       ]
     },
     "US_EQ": {
