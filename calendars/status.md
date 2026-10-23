@@ -1,6 +1,6 @@
 # 交易日历运行状态
 
-检查时间：2026-10-23T15:33:37+08:00
+检查时间：2026-10-23T15:34:02+08:00
 
 当前版本：`e85207b7b92b08761709a856fcf0bdd7ef9f857b8b0ef337472042b7d4b340bc`
 
@@ -15,10 +15,10 @@
 | FR_EQ | annual | 2026 | verified_no_change | — |
 | HK_EQ | annual | 2026, 2027 | verified_no_change | — |
 | ICE_BRENT | annual_partial_sessions | 2026, 2027 | held_preserving_active_calendar | 2026:candidate_changes_past_dates |
-| IN_EQ | awaiting_live_validation | 2026 | held_preserving_active_calendar | bse_equity_annual_scope_missing |
+| IN_EQ | awaiting_live_validation | 2026 | held_preserving_active_calendar | bse_official_equity_annual_table_unavailable |
 | JP_EQ | annual | 2026, 2027 | verified_no_change | — |
 | KR_EQ | annual | 2026, 2027 | verified_no_change | — |
-| SA_EQ | annual_partial_sessions | 2026, 2027, 2028 | reviewed_published_with_held_years | 2026:candidate_removes_holiday |
+| SA_EQ | annual_partial_sessions | 2026, 2027, 2028 | held_preserving_active_calendar | 2026:candidate_removes_holiday |
 | SGX_NIKKEI | annual | 2026, 2027, 2028 | verified_no_change | only_complete_official_vector_calendar_years_are_parsed |
 | TW_EQ | annual | 2026 | verified_no_change | — |
 | UK_EQ | annual | 2026, 2027, 2028 | verified_no_change | — |
