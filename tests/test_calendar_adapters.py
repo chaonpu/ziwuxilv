@@ -78,6 +78,14 @@ class AnnualAdaptersTests(unittest.TestCase):
         for parser in (sync.parse_xetra,sync.parse_lse,sync.parse_euronext_paris,sync.parse_twse):
             with self.subTest(parser=parser.__name__),self.assertRaises(ValueError):parser('<html>Error page</html>')
 
+    def test_paris_weekend_heavy_year_has_three_closures_but_year_end_cannot_be_omitted(self):
+        rows=[['Euronext Holidays','Paris'],["Friday 1 January 2027 (New Year’s Day)",'Closed'],
+              ['Friday 26 March 2027 (Good Friday)','Closed'],['Monday 29 March 2027 (Easter Monday)','Closed'],
+              ['Friday 24 December 2027','Half Trading Day'],['Friday 31 December 2027','Half Trading Day']]
+        parsed=sync.parse_euronext_paris('Calendar of business days'+table(rows))
+        self.assertEqual(len(parsed['2027']['holidays']),3)
+        with self.assertRaises(ValueError):sync.parse_euronext_paris('Calendar of business days'+table(rows[:-1]))
+
     def test_real_source_facts_publish_future_years_atomically_and_hold_conflicts(self):
         raw=runtime.seed_path().read_bytes()
         lse=table(fixture('lse-rolling.json')['rows'])

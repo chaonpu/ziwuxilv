@@ -242,19 +242,31 @@ def parse_euronext_paris(html):
         require(header.count('Paris')==1,'euronext_paris_column_missing')
         column=header.index('Paris');years={y for r in group[1:] for y in re.findall(r'20\d{2}',r[0])}
         require(len(years)==1,'euronext_annual_year_ambiguous')
-        year=years.pop();record=blank(year,[])
+        year=years.pop();record=blank(year,[]);explicit=set();closed_labels=[]
         for row in group[1:]:
             require(len(row)==len(header),'euronext_row_shape_changed')
             status=row[column].strip('* ')
+            found=re.fullmatch(r'(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday) (\d{1,2}) ('+'|'.join(MONTHS)+r')(?: '+year+r')?(?: \(.*\))?',row[0])
+            if found:explicit.add(date(int(year),MONTHS[found[2]],int(found[1])).isoformat())
             if status in ('Full Trading Day','Full Day Trading'):continue
             require(status in ('Closed','Half Trading Day','Half Day Trading'),'euronext_paris_status_unknown')
-            found=re.fullmatch(r'(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday) (\d{1,2}) ('+'|'.join(MONTHS)+r')(?: '+year+r')?(?: \(.*\))?',row[0])
             require(found is not None,'euronext_single_date_missing')
             day=date(int(year),MONTHS[found[2]],int(found[1])).isoformat()
             require(day not in record['holidays'] and day not in record['unknownDates'],'euronext_duplicate_date')
-            if status=='Closed':record['holidays'][day]='休市'
+            if status=='Closed':record['holidays'][day]='休市';closed_labels.append(row[0])
             else:record['unknownDates'].append(day)
-        require(5<=len(record['holidays'])<=8 and 0<=len(record['unknownDates'])<=3,'euronext_annual_incomplete')
+        require(2<=len(record['holidays'])<=8 and 0<=len(record['unknownDates'])<=3
+                and all(any(label in row for row in closed_labels) for label in ('Good Friday','Easter Monday')),'euronext_annual_incomplete')
+        # Weekends can leave Paris with only three full weekday closures (2027).
+        # Verify the expected annual sections instead of imposing a five-day
+        # count, and require explicit year-end rows so truncation cannot silently
+        # turn an omitted half-day into a normal full trading session.
+        for month,number in ((1,1),(5,1),(12,25),(12,26)):
+            d=date(int(year),month,number)
+            require(d.isoweekday()>5 or d.isoformat() in record['holidays'],'euronext_fixed_holiday_section_missing')
+        for number in (24,31):
+            d=date(int(year),12,number)
+            require(d.isoweekday()>5 or d.isoformat() in explicit,'euronext_year_end_section_missing')
         out[year]=record
     require(bool(out),'euronext_annual_table_missing')
     return out
