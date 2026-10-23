@@ -19,6 +19,7 @@ import urllib.request
 from urllib.parse import urlparse, urljoin, parse_qs, urlencode
 from zoneinfo import ZoneInfo
 from calendar_runtime import canonical, validate, require
+from calendar_automation import fetch_retry, discover_documents, future_record, save_venue_cache, load_venue_cache, sgx_cms_url
 
 ROOT = Path(__file__).resolve().parents[1]
 MONTHS = {name:i for i,name in enumerate(('January','February','March','April','May','June','July','August','September','October','November','December'),1)}
@@ -54,12 +55,13 @@ def blank(year, sources):
 
 def parse_china(html):
     text=Page(html).plain()
-    title=re.search(r'(20\d{2})年(?:部分节假日)?休市安排',text)
+    text=re.sub(r'(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])','',text)
+    title=re.search(r'(20\d{2})\s*年\s*(?:部分节假日)?\s*休市安排',text)
     require(title is not None,'china_annual_title_missing')
     year=int(title[1]); out=blank(year,[])
     # Both exchange pages explicitly name all seven annual holiday groups.
     for label in LABELS:
-        part=re.search(re.escape(label)+r'\s*[:：](.*?)休市',text[title.end():],re.S)
+        part=re.search(re.escape(label)+r'\s*[:：]?\s*(.*?)休市',text[title.end():],re.S)
         require(part is not None,'china_annual_holiday_missing:'+label)
         values=re.findall(r'(\d{1,2})月(\d{1,2})日',part[1])
         require(len(values) in (1,2),'china_holiday_range_ambiguous')
@@ -276,7 +278,7 @@ def parse_euronext_paris(html):
 
 def should_check(cal, health, now, force=False, *, adapter=None):
     next_year=str(now.year+1)
-    missing=next_year not in cal['years']
+    missing=next_year not in cal['years'] or ('parsedYears' in health and next_year not in health['parsedYears'])
     daily=now.month>=10 and missing and adapter!='source-monitor' and not (adapter or '').startswith('blocked-')
     hours=24 if daily else 168
     previous=health.get('lastAttemptAt')
@@ -288,6 +290,9 @@ def should_check(cal, health, now, force=False, *, adapter=None):
         age=(now-prior).total_seconds()
         require(age>=-300,'future_check_timestamp')
     except (TypeError,ValueError):return True,'invalid_check_timestamp'
+    if (health.get('recoverableSourceFailure') and adapter!='source-monitor'
+            and not (adapter or '').startswith('blocked-') and age>=24*3600):
+        return True,'automatic_source_recovery'
     # The weekly cron runs on Sunday, not the ISO Monday week boundary.
     week_start=lambda value:value.date()-timedelta(days=value.isoweekday()%7)
     period_changed=(now.date()>prior.date()) if daily else week_start(now)>week_start(prior)
@@ -343,12 +348,21 @@ def source_text(raw, url=None):
 
 def source_get(url):
     allowed={url for spec in SOURCES.values() for url in spec['urls']+spec.get('discoveryUrls',[])}
+    allowed.update(u for spec in SOURCES.values() for values in spec.get('venueAlternatives',{}).values() for u in values)
+    allowed.update(u for spec in SOURCES.values() for rule in spec.get('venueDiscovery',[]) for u in rule['urls'])
+    allowed.update(spec['discoveryConfig'] for spec in SOURCES.values() if spec.get('discoveryConfig'))
     discovered_szse=(urlparse(url).scheme=='https' and urlparse(url).hostname=='www.szse.cn'
                      and bool(re.fullmatch(r'/disclosure/notice/general/t[0-9]{8}_[0-9]+\.html',urlparse(url).path)))
     year_query=any(spec.get('yearQuery') and any(re.fullmatch(re.escape(base)+
         (r'\?search_bas_yy=20\d{2}' if spec.get('yearParameter') else r'&date=20\d{2}0101'),url) for base in spec['urls']) for spec in SOURCES.values())
     discovered_document=any(re.fullmatch(pattern,url) for spec in SOURCES.values() for pattern in spec.get('documentPatterns',[]))
-    require(url in allowed or discovered_szse or year_query or discovered_document,'unregistered_calendar_source')
+    discovered_document=discovered_document or any(re.fullmatch(p,url) for spec in SOURCES.values() for r in spec.get('venueDiscovery',[]) for p in r['documentPatterns'])
+    parsed=urlparse(url);query=parse_qs(parsed.query)
+    sgx_cms=(parsed.scheme=='https' and parsed.netloc=='api2.sgx.com' and parsed.path=='/content-api'
+             and set(query)=={'queryId','variables'} and len(query['queryId'])==len(query['variables'])==1
+             and re.fullmatch('[0-9a-f]{40}:page',query['queryId'][0])
+             and json.loads(query['variables'][0])=={'path':'/fx-solutions/trading','lang':'EN'})
+    require(url in allowed or discovered_szse or year_query or discovered_document or sgx_cms,'unregistered_calendar_source')
     if urlparse(url).hostname == 'global.krx.co.kr' and year_query:
         return fetch_krx(parse_qs(urlparse(url).query)['search_bas_yy'][0])
     req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 ZiWuXiLv-Calendar/1.0','Accept':'text/html,application/pdf,application/json'})
@@ -395,30 +409,52 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
         spec=SOURCES.get(key,{'adapter':'source-monitor','urls':list(dict.fromkeys(s for r in cal['years'].values() for s in r['sources']))})
         due,reason=should_check(cal,state,now,force,adapter=spec['adapter'] if spec.get('publishEnabled',True) else 'source-monitor')
         if not due:continue
+        retained=[u for u in state.get('discovery',{}).get('urls',[]) if isinstance(u,str)
+                  and any(re.fullmatch(p,u) for p in spec.get('documentPatterns',[]))]
+        if retained:spec={**spec,'urls':list(dict.fromkeys(spec['urls']+retained))}
         if spec.get('yearQuery'):
             suffix = (lambda y:'?search_bas_yy='+str(y)) if spec.get('yearParameter') else (lambda y:'&date='+str(y)+'0101')
             spec={**spec,'urls':[url+suffix(year) for year in (now.year,now.year+1) for url in spec['urls']]}
+        if spec.get('discoveryConfig'):
+            try:
+                body,_=fetch_retry(fetch,spec['discoveryConfig'])
+                spec={**spec,'discoveryUrls':spec.get('discoveryUrls',[])+[sgx_cms_url(body)]}
+            except Exception as exc:discoveries[key]={'status':'unavailable','reason':'public_cms_config:'+type(exc).__name__}
         for listing in spec.get('discoveryUrls', []):
             try:
-                raw_listing = fetch(listing); html = source_text(raw_listing)
-                found = []
-                for href, label in re.findall(r'<a\b[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>', html, re.S|re.I):
-                    document = urljoin(listing, href)
-                    if 'holiday' in Page(label).plain().lower() and any(re.fullmatch(p,document) for p in spec.get('documentPatterns', [])):
-                        found.append(document)
-                require(len(set(found)) <= 6, 'calendar_discovery_limit_exceeded')
+                raw_listing,_ = fetch_retry(fetch,listing); html = source_text(raw_listing)
+                found=discover_documents(html,listing,spec.get('documentPatterns',[]),label_pattern=spec.get('discoveryLabelPattern','holiday'))
+                if key=='SGX_NIKKEI':
+                    found=[u for u in found if re.search(r'SGX%20Calendar%20('+str(now.year)+'|'+str(now.year+1)+r')(?:_[0-9]+)?\.pdf$',u)]
                 spec = {**spec, 'urls':list(dict.fromkeys(spec['urls']+found))}
-                discoveries[key] = {'status':'ok', 'documents':len(set(found)), 'sha256':hashlib.sha256(raw_listing).hexdigest()}
+                discoveries[key] = {'status':'ok', 'documents':len(set(found)), 'urls':sorted(set(retained+found)), 'listingUrl':listing,'sha256':hashlib.sha256(raw_listing).hexdigest()}
             except Exception as exc:discoveries[key] = {'status':'unavailable', 'reason':type(exc).__name__}
+        if spec['adapter']=='china-futures-consensus':
+            groups={v:list(dict.fromkeys([u]+spec.get('venueAlternatives',{}).get(v,[]))) for v,u in zip(('SHFE','INE','DCE','CZCE','GFEX'),spec['urls'])}
+            for rule in spec.get('venueDiscovery',[]):
+                retained=[u for u in state.get('venueSourceUrls',{}).get(rule['venue'],[]) if isinstance(u,str)
+                          and any(re.fullmatch(p,u) for p in rule['documentPatterns'])]
+                groups[rule['venue']]=list(dict.fromkeys(groups[rule['venue']]+retained))
+            discovery=[]
+            for rule in spec.get('venueDiscovery',[]):
+                for listing in rule['urls']:
+                    try:
+                        body,_=fetch_retry(fetch,listing)
+                        found=discover_documents(source_text(body),listing,rule['documentPatterns'],label_pattern=rule['labelPattern'])
+                        groups[rule['venue']]=list(dict.fromkeys(groups[rule['venue']]+found))
+                        discovery.append({'venue':rule['venue'],'url':listing,'status':'ok','documents':found,'sha256':hashlib.sha256(body).hexdigest()})
+                    except Exception as exc:discovery.append({'venue':rule['venue'],'url':listing,'status':'unavailable','reason':type(exc).__name__})
+            spec={**spec,'venueUrls':groups,'urls':list(dict.fromkeys(u for group in groups.values() for u in group))}
+            if discovery:discoveries[key]={'venues':discovery}
         active[key]=(spec,reason)
     urls=sorted({url for spec,_ in active.values() for url in spec['urls']})
     def fetch_one(url):
         try:
-            body=fetch(url)
+            body,attempts=fetch_retry(fetch,url)
             decoded=source_text(body,url)
             require('当前正在对访问请求进行人机识别检测' not in Page(decoded).plain(),
                     'official_source_human_verification_required')
-            result={'status':'ok','sha256':hashlib.sha256(body).hexdigest(),'text':decoded}
+            result={'status':'ok','sha256':hashlib.sha256(body).hexdigest(),'text':decoded,'attempts':attempts}
             if urlparse(url).hostname in ('www.bseindia.com','beta.bseindia.com'):
                 titles=re.findall(r'<title[^>]*>(.*?)</title>',decoded,re.S|re.I)
                 result['formatHints']={'title':Page(titles[0]).plain()[:100] if titles else None,
@@ -441,6 +477,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
         state={'lastAttemptAt':now.isoformat(timespec='seconds'),'cadence':reason,
                'adapter':spec['adapter'],'sourceResults':[{k:v for k,v in r.items() if k!='text'}|{'url':u} for u,r in zip(spec['urls'],records)]}
         if spec.get('capability'):state['capability']=spec['capability']
+        if spec.get('venueUrls'):state['venueSourceUrls']=spec['venueUrls']
         if key in discoveries:state['discovery']=discoveries[key]
         # A failed attempt must not erase the last successful source/verification
         # timestamps. They are distinct from this attempt and from content age.
@@ -452,7 +489,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
             if spec['adapter'].startswith('blocked-') and not uncertainty_only:
                 from calendar_adapters import guarded_source
                 guarded_source(spec['adapter'], [r.get('text','') for r in records])
-            if spec['adapter'] not in ('china-futures-consensus','bse-equities-annual'):
+            if spec['adapter'] not in ('china-futures-consensus','bse-equities-annual','sgx-nikkei-vector','hkex-securities-pdf'):
                 require(all(r['status']=='ok' for r in records),'official_source_unavailable')
             if uncertainty_only:
                 from calendar_adapters import a50_unknown_provider_calendar
@@ -492,14 +529,16 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
             elif spec['adapter']=='euronext-paris':candidates=parse_euronext_paris(records[0]['text'])
             elif spec['adapter']=='hkex-securities-pdf':
                 from calendar_adapters import parse_hkex
-                hours=next(r['text'] for u,r in zip(spec['urls'],records) if 'Securities-Market?' in u)
+                hours=next((r['text'] for u,r in zip(spec['urls'],records) if 'Securities-Market?' in u and r['status']=='ok'),None)
+                require(hours is not None,'hkex_half_day_hours_source_unavailable')
                 candidates={}
                 for u,r in zip(spec['urls'],records):
-                    if '.pdf' not in u:continue
+                    if '.pdf' not in u or r['status']!='ok':continue
                     parsed=parse_hkex(r['text'],hours)
                     for year,new in parsed.items():
                         require(year not in candidates or stable_record(candidates[year])==stable_record(new),'hkex_annual_sources_conflict')
                         candidates[year]=new
+                require(bool(candidates),'hkex_annual_sources_unavailable')
             elif spec['adapter']=='b3-equities-annual':
                 from calendar_adapters import parse_b3
                 candidates=parse_b3(records[0]['text'])
@@ -521,38 +560,69 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 require(bool(candidates),'krx_published_annual_data_missing')
             elif spec['adapter']=='china-futures-consensus':
                 from calendar_adapters import parse_china_futures,parse_china_futures_english,reviewed_china_futures
-                parsed=[];state['venueValidation']={};reviewed=[]
-                for venue,u,r in zip(('SHFE','INE','DCE','CZCE','GFEX'),spec['urls'],records):
-                    try:
-                        if r['status']=='ok':
-                            if venue=='GFEX':data,night=parse_china(r['text']),[]
-                            elif venue=='CZCE' and 'english.czce.com.cn' in u:data,night=parse_china_futures_english(r['text'])
-                            else:data,night=parse_china_futures(r['text'])
-                            evidence={'schemaVersion':1,'venue':venue,'sourceUrl':u,'sourceSha256':r['sha256'],'mode':'live_parse'}
-                            mode='parsed'
-                        else:
-                            data,night,proof=reviewed_china_futures(root,spec,venue,u,now)
-                            evidence={'schemaVersion':1,'venue':venue,**proof};mode='reviewed_fallback';reviewed.append(venue)
-                        state['venueValidation'][venue]={'status':mode,'years':sorted(data),'nightSuspensionDates':night}
-                        evidence.update(calendars=data,nightSuspensionDates=night)
-                        evidence_raw=canonical(evidence);digest=hashlib.sha256(evidence_raw).hexdigest()
-                        path=root/'calendars/evidence/CN_FUTURES'/venue/(digest+'.json')
-                        path.parent.mkdir(parents=True,exist_ok=True)
-                        if not path.exists():path.write_bytes(evidence_raw)
-                        state['venueValidation'][venue]['evidenceSha256']=digest
-                        parsed.append((data,night))
-                    except (ValueError,KeyError,TypeError) as exc:
-                        state['venueValidation'][venue]={'status':'held','reason':str(exc)[:150]}
+                parsed={};state['venueValidation']={};reviewed=[];cached=[]
+                for venue,venue_urls in spec['venueUrls'].items():
+                    annual={};night_by_year={};proofs=[];failures=[];conflict=False;live_succeeded=False
+                    for u in venue_urls:
+                        r=results[u]
+                        try:
+                            if r['status']=='ok':
+                                if venue=='GFEX':data,night=parse_china(r['text']),[]
+                                elif venue=='CZCE' and 'english.czce.com.cn' in u:data,night=parse_china_futures_english(r['text'])
+                                else:data,night=parse_china_futures(r['text'])
+                                mode='parsed';proof={'mode':'live_parse','sourceUrl':u,'sourceSha256':r['sha256']}
+                                live_succeeded=True
+                                save_venue_cache(root,venue,u,r['sha256'],data,night,now)
+                            else:
+                                try:
+                                    data,night,proof=load_venue_cache(root,venue,u,now);mode='validated_source_cache'
+                                except (ValueError,KeyError,OSError,TypeError):
+                                    data,night,proof=reviewed_china_futures(root,spec,venue,u,now);mode='reviewed_fallback'
+                            for year,record in data.items():
+                                if int(year)<now.year:continue
+                                if year in annual:
+                                    require(set(annual[year]['holidays'])==set(record['holidays']) and night_by_year[year]==night,
+                                            'china_same_venue_sources_conflict')
+                                annual[year]=record;night_by_year[year]=night
+                            proofs.append({'url':u,'status':mode,'years':sorted(data),**proof})
+                        except (ValueError,KeyError,TypeError,OSError) as exc:
+                            conflict=conflict or str(exc)=='china_same_venue_sources_conflict'
+                            failures.append({'url':u,'reason':str(exc)[:150]})
+                    # A format change on a freshly read page is not repaired by
+                    # that page's old cache. An independently parsed alternative
+                    # can establish the venue's current facts.
+                    fresh_invalid=any(results[f['url']]['status']=='ok' for f in failures)
+                    if not annual or conflict or fresh_invalid and not live_succeeded:
+                        state['venueValidation'][venue]={'status':'held','failures':failures};continue
+                    modes={p['status'] for p in proofs}
+                    if not live_succeeded and 'reviewed_fallback' in modes:reviewed.append(venue)
+                    if not live_succeeded and 'validated_source_cache' in modes:cached.append(venue)
+                    state['venueValidation'][venue]={'status':'parsed' if live_succeeded else 'validated_source_cache' if venue in cached else 'reviewed_fallback',
+                        'years':sorted(annual),'sources':proofs,'failures':failures,'nightSuspensionDates':sorted(set(d for n in night_by_year.values() for d in n))}
+                    evidence={'schemaVersion':1,'venue':venue,'sources':proofs,'calendars':annual,'nightSuspensionDates':night_by_year}
+                    evidence_raw=canonical(evidence);digest=hashlib.sha256(evidence_raw).hexdigest()
+                    path=root/'calendars/evidence/CN_FUTURES'/venue/(digest+'.json');path.parent.mkdir(parents=True,exist_ok=True)
+                    if not path.exists():path.write_bytes(evidence_raw)
+                    state['venueValidation'][venue]['evidenceSha256']=digest
+                    parsed[venue]=(annual,night_by_year)
                 require(len(parsed)==5,'china_five_venue_complete_sources_required')
-                fifth=parsed.pop()[0]
-                candidates=parsed[0][0]
-                require(all(p[0].keys()==candidates.keys() and all(set(p[0][y]['holidays'])==set(candidates[y]['holidays']) for y in candidates) for p in parsed)
-                        and fifth.keys()==candidates.keys() and all(set(fifth[y]['holidays'])==set(candidates[y]['holidays']) for y in candidates), 'china_five_venue_holidays_conflict')
-                require(all(p[1]==parsed[0][1] for p in parsed), 'china_futures_night_rules_conflict')
-                state['nightSuspensionDates']=parsed[0][1]
+                years=set.intersection(*(set(data) for data,_ in parsed.values()))
+                require(bool(years),'china_five_venue_matching_years_required')
+                candidates={};state['nightSuspensionDatesByYear']={}
+                for year in sorted(years):
+                    first=parsed['SHFE'][0][year]
+                    require(all(set(data[year]['holidays'])==set(first['holidays']) for data,_ in parsed.values()),'china_five_venue_holidays_conflict')
+                    night=parsed['SHFE'][1][year]
+                    require(all(parsed[v][1][year]==night for v in ('INE','DCE','CZCE')),'china_futures_night_rules_conflict')
+                    candidates[year]=first;state['nightSuspensionDatesByYear'][year]=night
+                state['nightSuspensionDates']=sorted(set(d for n in state['nightSuspensionDatesByYear'].values() for d in n))
                 if reviewed:
                     state['reviewedFallbackVenues']=reviewed
                     state['sourceMode']='mixed_live_and_reviewed'
+                if cached:
+                    state['cachedVenues']=cached
+                    state['sourceMode']='mixed_live_cached_and_reviewed' if reviewed else 'mixed_live_and_validated_cache'
+                state.setdefault('sourceMode','live_official_consensus')
             elif spec['adapter']=='saudi-exchange-annual':
                 from calendar_adapters import parse_saudi
                 candidates=parse_saudi(records[0]['text'],now.year)
@@ -577,7 +647,16 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 state['verifiedSourceUrls']=verified
             elif spec['adapter']=='sgx-nikkei-vector':
                 from calendar_adapters import parse_sgx
-                candidates=parse_sgx(records[0]['text'])
+                candidates={};verified=[]
+                for u,r in zip(spec['urls'],records):
+                    if r['status']!='ok':continue
+                    parsed=parse_sgx(r['text'])
+                    for year,new in parsed.items():
+                        require(year not in candidates or stable_record(candidates[year])==stable_record(new),'sgx_annual_sources_conflict')
+                        candidates[year]=new
+                    verified.append(u)
+                require(bool(candidates),'sgx_complete_annual_sources_unavailable')
+                state['verifiedSourceUrls']=verified
             else:
                 state['status']='source_checked_format_requires_adapter'
                 candidates={}
@@ -586,13 +665,15 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 if int(year)<now.year:continue
                 new['sources']=state.get('verifiedSourceUrls',spec['urls'])
                 old=bundle['calendars'][key]['years'].get(year)
+                automatic=(spec.get('automaticFutureOnly') is True and spec.get('publishEnabled',True)
+                           and not spec['adapter'].startswith('blocked-'))
                 try:
                     require(spec.get('publishEnabled',True), spec.get('blockReason','first_live_validation_required'))
                     accept(old,new,allow_unknown=uncertainty_only or spec.get('capability')=='annual_partial_sessions' or spec['adapter'] in ('xetra-annual','euronext-paris'))
                     if old and set(old['holidays'])==set(new['holidays']) and old['overrides']==new['overrides'] and set(old['unknownDates'])==set(new['unknownDates']):continue
                     if old:
                         additions=(set(new['holidays'])-set(old['holidays']))|(set(new['overrides'])-set(old['overrides']))|(set(new['unknownDates'])-set(old['unknownDates']))
-                        require(all(d>=now.date().isoformat() for d in additions),'candidate_changes_past_dates')
+                        require(all(d>now.date().isoformat() for d in additions),'candidate_changes_past_dates')
                 except ValueError as exc:
                     held[year]=str(exc)
                     proposal=deepcopy(current['data']);proposal['calendars'][key]['years'][year]=new
@@ -605,32 +686,58 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                     assessment=impact(current,proposal_snapshot,now.date())
                     (path.with_suffix('.impact.json')).write_bytes(canonical(assessment))
                     state.setdefault('candidateRevisions',{})[year]=proposal_snapshot['revision']
-                    continue
+                    if not automatic:continue
+                if automatic:
+                    new=future_record(old,new,now.date())
+                    proposal=deepcopy(bundle);proposal['calendars'][key]['years'][year]=new
+                    from calendar_ops import impact
+                    projected=validate(canonical(proposal))
+                    assessment=impact(validate(canonical(bundle)),projected,now.date())
+                    require(assessment['historicalChangedDays']==0,'automatic_calendar_must_preserve_history')
+                    state.setdefault('automaticFutureYears',[]).append(year)
+                    state['historyPreservedThrough']=now.date().isoformat()
+                    if assessment['changedDays']==0:continue
                 bundle['calendars'][key]['years'][year]=new;changed.append(key+':'+year)
             state['parsedYears']=[] if uncertainty_only else sorted(candidates)
             if uncertainty_only:state['unknownOnlyYears']=sorted(candidates)
             if held:
                 state['heldYears']=held
-                state['status']='published_with_held_years' if any(c.startswith(key+':') for c in changed) else 'held_preserving_active_calendar'
+                if automatic:
+                    state['status']='published_future_preserving_history' if any(c.startswith(key+':') for c in changed) else 'verified_future_preserving_history'
+                else:state['status']='published_with_held_years' if any(c.startswith(key+':') for c in changed) else 'held_preserving_active_calendar'
                 state['reason']='; '.join(y+':'+r for y,r in held.items())[:200]
             elif state.get('reviewedFallbackVenues'):
                 state['status']='published_with_reviewed_fallback' if any(c.startswith(key+':') for c in changed) else 'verified_with_reviewed_fallback'
                 state['reason']='year_bounded_official_notice_review_used_for:'+','.join(state['reviewedFallbackVenues'])
+            elif state.get('cachedVenues'):
+                state['status']='published_with_validated_cache' if any(c.startswith(key+':') for c in changed) else 'verified_with_validated_cache'
+                state['reason']='bounded_previous_official_parse_used_for:'+','.join(state['cachedVenues'])
             elif uncertainty_only:
                 state['status']='published_unknown_provider_calendar' if any(c.startswith(key+':') for c in changed) else 'preserving_unknown_provider_calendar'
                 state['reason']='a50_provider_annual_schedule_unverified_future_dates_unknown'
             state.setdefault('status','verified_no_change' if not any(c.startswith(key+':') for c in changed) else 'published')
-            if not state.get('reviewedFallbackVenues'):state['lastSourceSuccessAt']=now.isoformat(timespec='seconds')
+            if not state.get('reviewedFallbackVenues') and not state.get('cachedVenues') and not uncertainty_only:state['lastSourceSuccessAt']=now.isoformat(timespec='seconds')
             if candidates and not uncertainty_only:state['lastVerifiedAt']=now.isoformat(timespec='seconds')
         except (ValueError,KeyError,TypeError,UnicodeError,OSError) as exc:
             bundle['calendars'][key]['years']=original_years
             changed=[c for c in changed if not c.startswith(key+':')]
             state['status']='held_preserving_active_calendar';state['reason']=str(exc)[:200]
+            state['recoverableSourceFailure']=any(r['status']=='unavailable' for r in records)
         health['calendars'][key]=state;checked.append(key)
     new_raw=canonical(bundle);snapshot=validate(new_raw)
     # The seed is canonical; checks alone never change the active revision.
     revision=snapshot['revision']
     if changed:
+        from calendar_ops import impact
+        assessment=impact(current,snapshot,now.date())
+        require(assessment['historicalChangedDays']==0,'automatic_publication_changes_history')
+        audit={'schemaVersion':1,'operation':'automatic-future-publication','at':now.isoformat(timespec='seconds'),
+               'fromRevision':current['revision'],'toRevision':revision,'changedCalendars':changed,
+               'impact':assessment,'sources':{k:health['calendars'][k] for k in checked if any(c.startswith(k+':') for c in changed)},'ledgerWrites':0}
+        audit_raw=canonical(audit);audit_path=root/'calendars/operations/automatic'/(hashlib.sha256(audit_raw).hexdigest()+'.json')
+        audit_path.parent.mkdir(parents=True,exist_ok=True)
+        if audit_path.exists():require(audit_path.read_bytes()==audit_raw,'immutable_automatic_audit_conflict')
+        else:audit_path.write_bytes(audit_raw)
         path='calendars/releases/'+revision+'.json'
         target=root/path
         if target.exists():require(target.read_bytes()==new_raw,'immutable_calendar_conflict')

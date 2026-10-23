@@ -252,6 +252,8 @@ def status(root=ROOT, now=None, observe=False):
                      'years':sorted(cal['years']), 'sourceStatus':item.get('status', 'not_checked'),
                      'parsedYears':item.get('parsedYears',[]),'sourceMode':item.get('sourceMode'),
                      'reviewedFallbackVenues':item.get('reviewedFallbackVenues',[]),
+                     'cachedVenues':item.get('cachedVenues',[]),'automaticFutureOnly':spec.get('automaticFutureOnly',False),
+                     'historyPreservedThrough':item.get('historyPreservedThrough'),
                      'lastAttemptAt':item.get('lastAttemptAt'), 'lastVerifiedAt':item.get('lastVerifiedAt'),
                      'reason':item.get('reason') or spec.get('blockReason'),
                      'unknownSessions':sum(len(r['unknownDates']) for r in cal['years'].values())})
@@ -266,8 +268,13 @@ def status(root=ROOT, now=None, observe=False):
             dates.add(observed.astimezone(now.tzinfo).date())
     cursor = now.date(); consecutive = 0
     while cursor in dates:consecutive += 1; cursor -= timedelta(days=1)
+    blocked=[row['calendarId'] for row in rows if row['capability']=='blocked']
+    attention=[row['calendarId'] for row in rows if row['sourceStatus'].startswith('held_')]
     result = {'schemaVersion':1, 'activeRevision':active['revision'], 'observedAt':now.isoformat(timespec='seconds'),
               'calendars':rows, 'coverageWarnings':coverage(active,now.date()),
+              'automation':{'unattendedMaintenance':True,'automaticCalendars':[r['calendarId'] for r in rows if r['automaticFutureOnly']],
+                            'providerBlockedCalendars':blocked,'latestHeldCalendars':attention,
+                            'allProviderSchedulesVerified':not blocked and all(r['lastVerifiedAt'] for r in rows)},
               'observation':{'distinctDays':len(dates), 'consecutiveDays':consecutive,
                              'thirtyDayObservationComplete':consecutive >= 30}, 'ledgerWrites':0}
     install_json(result, root/'calendars/status.json')
@@ -277,7 +284,9 @@ def status(root=ROOT, now=None, observe=False):
     for row in rows:
         cells = [row['calendarId'], row['capability'], ', '.join(row['years']), ', '.join(row['parsedYears']) or '—', row['sourceStatus'], row.get('reason') or '—']
         lines.append('| '+' | '.join(str(c).replace('|', '\\|').replace('\n', ' ') for c in cells)+' |')
-    lines += ['', '连续观察：'+str(consecutive)+'天；达到30天：'+('是' if consecutive >= 30 else '否')+'。',
+    lines += ['', '自动维护：发现、校验、未来发布、失败恢复均无需手动派发；今天及历史日期保持不变。',
+              '提供方日历未核准：'+(', '.join(blocked) or '无')+'。缺失或冲突资料不会被当作已确认时段。',
+              '', '连续观察：'+str(consecutive)+'天；达到30天：'+('是' if consecutive >= 30 else '否')+'。',
               '', '来源异常时继续使用覆盖目标日期的已核验日历。未知时段不推算。回滚及历史影响分析不自动改写账本。', '']
     (root/'calendars/status.md').write_text('\n'.join(lines), encoding='utf-8')
     return result

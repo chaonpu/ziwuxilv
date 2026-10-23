@@ -15,7 +15,8 @@
       "urls": [
         "https://www.b3.com.br/en_us/solutions/platforms/puma-trading-system/for-members-and-traders/trading-calendar/holidays/"
       ],
-      "capability": "annual"
+      "capability": "annual",
+      "automaticFutureOnly": true
     },
     "CME_FUTURES": {
       "adapter": "cme-globex-affected-days",
@@ -23,14 +24,16 @@
         "https://www.cmegroup.com/trading-hours.html"
       ],
       "capability": "annual_partial_sessions",
-      "blockReason": "product_specific_holiday_hours_remain_unknown"
+      "blockReason": "product_specific_holiday_hours_remain_unknown",
+      "automaticFutureOnly": true
     },
     "CN_EQ": {
       "adapter": "china-pair",
       "urls": [
         "https://www.sse.com.cn/disclosure/dealinstruc/closed/",
         "https://investor.szse.cn/English/services/trading/calendar/index.html"
-      ]
+      ],
+      "automaticFutureOnly": true
     },
     "CN_FUTURES": {
       "adapter": "china-futures-consensus",
@@ -41,21 +44,64 @@
         "https://english.czce.com.cn/en/AboutUs/News/ggytz/webinfo/2025/12/22988c484160465b9eff8d4364a362bf.htm",
         "https://www.gfex.com.cn/gfex/tzts/202512/0134914f8c674fa68c2ba9041a5cd798.shtml"
       ],
-      "capability": "annual_with_reviewed_fallback",
-      "blockReason": "next_year_requires_all_venue_official_sources_or_a_new_explicit_review",
-      "reviewedFallback": "calendars/reviewed/733dd1a63d7e4214756f20b9366ea107128fbc936812a5cfae8cb09077b168ab.json"
+      "capability": "annual_with_validated_recovery",
+      "blockReason": "new_year_requires_five_venue_official_consensus;cache_recovery_is_time_and_year_bounded",
+      "reviewedFallback": "calendars/reviewed/733dd1a63d7e4214756f20b9366ea107128fbc936812a5cfae8cb09077b168ab.json",
+      "automaticFutureOnly": true,
+      "venueAlternatives": {
+        "INE": [
+          "https://www.ine.cn/services/calenderandholidays/holiday/"
+        ],
+        "GFEX": [
+          "https://www.gfex.com.cn/gfex/fjap/list_tt.shtml"
+        ]
+      },
+      "venueDiscovery": [
+        {
+          "venue": "DCE",
+          "urls": [
+            "https://www.dce.com.cn/dce/channel/list/226.html"
+          ],
+          "documentPatterns": [
+            "https://www\\.dce\\.com\\.cn/dce/content/20[0-9]{2}/ywggytz/[0-9]+\\.html"
+          ],
+          "labelPattern": "20\\d{2}年部分节假日休市安排"
+        },
+        {
+          "venue": "CZCE",
+          "urls": [
+            "https://english.czce.com.cn/"
+          ],
+          "documentPatterns": [
+            "https://english\\.czce\\.com\\.cn/en/AboutUs/News/ggytz/webinfo/20[0-9]{2}/[0-9]{1,2}/[a-z0-9]+\\.htm"
+          ],
+          "labelPattern": "Trading Schedule during National Holidays for Year\\s*20\\d{2}"
+        },
+        {
+          "venue": "GFEX",
+          "urls": [
+            "https://www.gfex.com.cn/gfex/tzts/list_yw.shtml"
+          ],
+          "documentPatterns": [
+            "https://www\\.gfex\\.com\\.cn/gfex/tzts/20[0-9]{4}/[a-z0-9]+\\.shtml"
+          ],
+          "labelPattern": "20\\d{2}年部分节假日休市安排"
+        }
+      ]
     },
     "DE_EQ": {
       "adapter": "xetra-annual",
       "urls": [
         "https://www.cashmarket.deutsche-boerse.com/cash-en/trading/trading-calendar-and-trading-hours"
-      ]
+      ],
+      "automaticFutureOnly": true
     },
     "FR_EQ": {
       "adapter": "euronext-paris",
       "urls": [
         "https://www.euronext.com/en/trading/trading-hours-holidays"
-      ]
+      ],
+      "automaticFutureOnly": true
     },
     "HK_EQ": {
       "adapter": "hkex-securities-pdf",
@@ -70,14 +116,16 @@
       ],
       "documentPatterns": [
         "https://www\\.hkex\\.com\\.hk/-/media/HKEX-Market/Services/Circulars-and-Notices/Participant-and-Members-Circulars/SEHK/20[0-9]{2}/ce_SEHK_CT_[0-9]+_20[0-9]{2}\\.pdf"
-      ]
+      ],
+      "automaticFutureOnly": true
     },
     "ICE_BRENT": {
       "adapter": "ice-brent-pdf",
       "urls": [
         "https://www.ice.com/publicdocs/Trading_Schedule.pdf"
       ],
-      "capability": "annual_partial_sessions"
+      "capability": "annual_partial_sessions",
+      "automaticFutureOnly": true
     },
     "IN_EQ": {
       "adapter": "bse-equities-annual",
@@ -87,13 +135,15 @@
         "https://www.bseindia.com/Downloads/UploadDocs/Notices/Attach/Equity_Master_Circular%24b0cfd71f-2ac1-4205-b6c5-5085f322e1ae.pdf"
       ],
       "capability": "annual_partial_sessions",
-      "blockReason": "special_sunday_sessions_remain_unknown_until_verified_product_hours"
+      "blockReason": "special_sunday_sessions_remain_unknown_until_verified_product_hours",
+      "automaticFutureOnly": true
     },
     "JP_EQ": {
       "adapter": "jpx-annual",
       "urls": [
         "https://www.jpx.co.jp/english/corporate/about-jpx/calendar/index.html"
-      ]
+      ],
+      "automaticFutureOnly": true
     },
     "KR_EQ": {
       "adapter": "krx-public-form",
@@ -102,7 +152,8 @@
       ],
       "capability": "annual",
       "yearQuery": true,
-      "yearParameter": "search_bas_yy"
+      "yearParameter": "search_bas_yy",
+      "automaticFutureOnly": true
     },
     "SA_EQ": {
       "adapter": "saudi-exchange-annual",
@@ -110,7 +161,8 @@
         "https://www.saudiexchange.sa/wps/portal/saudiexchange/about-saudi-exchange/exchange-media-centre/saudi-exchange-holiday-calendar"
       ],
       "capability": "annual_partial_sessions",
-      "blockReason": "lunar_forecasts_stay_unknown_existing_known_holiday_changes_require_review"
+      "blockReason": "lunar_forecasts_stay_unknown_existing_known_holiday_changes_require_review",
+      "automaticFutureOnly": true
     },
     "SGX_NIKKEI": {
       "adapter": "sgx-nikkei-vector",
@@ -118,7 +170,13 @@
         "https://api2.sgx.com/sites/default/files/2026-01/SGX%20Calendar%202026_2.pdf"
       ],
       "capability": "annual",
-      "blockReason": "only_complete_official_vector_calendar_years_are_parsed"
+      "blockReason": "only_complete_official_vector_calendar_years_are_parsed",
+      "automaticFutureOnly": true,
+      "discoveryConfig": "https://www.sgx.com/config/appconfig.json",
+      "discoveryLabelPattern": "SGX Calendar 20[0-9]{2}",
+      "documentPatterns": [
+        "https://api2\\.sgx\\.com/sites/default/files/20[0-9]{2}-[0-9]{2}/SGX%20Calendar%2020[0-9]{2}(?:_[0-9]+)?\\.pdf"
+      ]
     },
     "TW_EQ": {
       "adapter": "twse-pair",
@@ -126,20 +184,23 @@
       "urls": [
         "https://www.twse.com.tw/holidaySchedule/holidaySchedule?response=json",
         "https://www.twse.com.tw/rwd/en/holidaySchedule/holidaySchedule?response=json"
-      ]
+      ],
+      "automaticFutureOnly": true
     },
     "UK_EQ": {
       "adapter": "lse-annual",
       "urls": [
         "https://www.londonstockexchange.com/en/resources/markets-products/business-days"
-      ]
+      ],
+      "automaticFutureOnly": true
     },
     "US_EQ": {
       "adapter": "us-pair",
       "urls": [
         "https://www.nyse.com/trade/hours-calendars",
         "https://www.nasdaqtrader.com/Trader.aspx?id=Calendar"
-      ]
+      ],
+      "automaticFutureOnly": true
     }
   }
 }

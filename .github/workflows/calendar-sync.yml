@@ -12,9 +12,9 @@ on:
         type: string
         default: ''
   schedule:
-    # Weekly all year; additional daily checks in Q4 skip fully covered calendars.
-    - cron: '17 0 * * 0'
-    - cron: '17 0 * 10-12 1-6'
+    # Daily tick: normal sources remain weekly; Q4 missing official years and
+    # transport failures recover daily. Unsupported providers remain weekly.
+    - cron: '17 0 * * *'
   push:
     branches: [main]
     paths:
