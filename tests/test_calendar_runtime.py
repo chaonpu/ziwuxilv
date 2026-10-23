@@ -94,7 +94,8 @@ class CalendarTests(unittest.TestCase):
         cn=self.snapshot['data']['calendars']['CN_EQ'];us=self.snapshot['data']['calendars']['US_EQ']
         self.assertEqual(sync.should_check(cn,state,now),(True,'q4_missing_next_year'))
         self.assertEqual(sync.should_check(us,state,now),(False,'weekly'))
-        self.assertFalse(sync.should_check(cn,state,now.replace(month=9))[0])
+        september=now.replace(month=9)
+        self.assertFalse(sync.should_check(cn,{'lastAttemptAt':(september-timedelta(days=1)).isoformat()},september)[0])
         self.assertTrue(sync.should_check(us,state,now,force=True)[0])
 
     def test_weekly_and_daily_checks_tolerate_scheduler_jitter(self):
