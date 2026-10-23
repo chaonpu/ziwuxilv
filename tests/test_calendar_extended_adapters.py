@@ -221,6 +221,18 @@ class ExtendedAdaptersTests(unittest.TestCase):
         self.assertNotIn('2026-02-19',first['holidays'])
         self.assertNotIn('2026-04-01',first['holidays'])
 
+    def test_bse_repeated_navigation_headings_and_generic_download_labels_do_not_own_foreign_tables(self):
+        facts=fixture('bse-2026-official-tables.json')
+        equity='Trading Holidays for 2026 - Equity Segment, Equity Derivative Segment'
+        currency='Trading Holidays for 2026 - Currency Derivatives Segments'
+        html='<nav><div>'+equity+'</div><div>'+currency+'</div></nav><h2>'+equity+'</h2>'
+        html+='<a>Trading Holidays for 2026</a>'+table(facts['equityRows'])
+        html+='<p>Muhurat Trading will be conducted on Sunday, November 08, 2026.</p><h2>'+currency+'</h2>'+table(facts['foreignSegmentRows'])
+        html+='<script>'+equity+'</script>'
+        parsed=a.parse_bse(html)['2026']
+        self.assertEqual(16,len(parsed['holidays']));self.assertEqual(['2026-11-08'],parsed['unknownDates'])
+        self.assertNotIn('2026-02-19',parsed['holidays'])
+
     def test_source_transfers_reject_cross_host_redirect_before_following(self):
         import urllib.request
         request=urllib.request.Request('https://www.hkex.com.hk/calendar')

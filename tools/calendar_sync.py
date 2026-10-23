@@ -27,11 +27,11 @@ LABELS = ('元旦','春节','清明节','劳动节','端午节','中秋节','国
 
 class Page(HTMLParser):
     def __init__(self, html):
-        super().__init__(); self.rows=[]; self.row=None; self.cell=None; self.text=[]; self.hidden=0
+        super().__init__(); self.rows=[]; self.row=None; self.cell=None; self.text=[]; self.hidden=0;self.row_text_indices=[];self.row_text_index=0
         self.feed(html)
     def handle_starttag(self, tag, attrs):
         if tag in ('script','style'):self.hidden+=1
-        if tag=='tr':self.row=[]
+        if tag=='tr':self.row=[];self.row_text_index=len(self.text)
         if tag in ('td','th') and self.row is not None:self.cell=[]
         if tag in ('p','br','tr','div','li','h1','h2','h3','h4'):self.text.append('\n')
     def handle_endtag(self, tag):
@@ -39,7 +39,7 @@ class Page(HTMLParser):
         if tag in ('td','th') and self.cell is not None:
             self.row.append(' '.join(' '.join(self.cell).split()));self.cell=None
         if tag=='tr' and self.row is not None:
-            self.rows.append(self.row);self.row=None
+            self.rows.append(self.row);self.row_text_indices.append(self.row_text_index);self.row=None
     def handle_data(self, value):
         if not self.hidden:
             self.text.append(value)

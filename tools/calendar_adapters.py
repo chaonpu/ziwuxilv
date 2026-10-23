@@ -298,34 +298,34 @@ def parse_saudi(html, minimum_year=None):
 
 
 def parse_bse(html):
-    from html import unescape
-    # Inline spans and spaces around the comma are present in the official
-    # title. Keep table cell boundaries while normalizing presentation markup.
-    html = re.sub(r'<(?!/?(?:table|thead|tbody|tr|td|th)\b)[^>]*>', ' ', unescape(html), flags=re.I)
-    out = {}
-    sections = re.split(r'Trading\s+Holidays\s+for\s+(20\d{2})\s*-\s*Equity\s+Segment\s*,?\s*Equity\s+Derivative\s+Segment', html)
-    for i in range(1, len(sections), 2):
-        year, block = sections[i], sections[i+1]
-        block = re.split(r'Trading\s+Holidays\s+for',block,flags=re.I)[0]
-        # Only the first table belongs to the equity annual heading. The page
-        # then lists weekend, currency, settlement and commodity schedules.
-        tokens=list(re.finditer(r'</?table\b[^>]*>',block,re.I));depth=0;table_start=None;table_html=None
-        for token in tokens:
-            if token[0].lower().startswith('</'):
-                depth-=1
-                if depth==0 and table_start is not None:table_html=block[table_start:token.end()];break
-            else:
-                if depth==0:table_start=token.start()
-                depth+=1
-        require(table_html is not None,'bse_equity_table_missing')
+    from bisect import bisect_right
+    page=Page(html);text=''.join(page.text);offsets=[0]
+    for chunk in page.text:offsets.append(offsets[-1]+len(chunk))
+    headings=list(re.finditer(r'Trading\s+Holidays\s+for(?:\s+the)?(?:\s+Calendar\s+Year)?\s+(20\d{2})',text,re.I))
+    scopes=[]
+    for i,heading in enumerate(headings):
+        label=text[heading.end():headings[i+1].start() if i+1<len(headings) else len(text)][:500]
+        if re.match(r'\s*[-–—]?\s*Equity\s+Segment\s*,?\s*Equity\s+Derivatives?\s+Segment',label,re.I):
+            scopes.append((heading.start(),heading[1],True))
+        elif re.match(r'\s*[-–—]?\s*(?:for\s+(?:the\s+)?)?(?:Currency|Commodity|Debt|Electronic|SLB|RFQ|NDS)',label,re.I):
+            scopes.append((heading.start(),heading[1],False))
+    positions=[scope[0] for scope in scopes];rows_by_year={};notes_by_year={}
+    for i,(start,year,equity) in enumerate(scopes):
+        if equity:notes_by_year.setdefault(year,[]).append(text[start:scopes[i+1][0] if i+1<len(scopes) else len(text)])
+    for row,index in zip(page.rows,page.row_text_indices):
+        scope=bisect_right(positions,offsets[index])-1
+        if scope>=0 and scopes[scope][2]:rows_by_year.setdefault(scopes[scope][1],[]).append(row)
+    out={}
+    for year,rows in rows_by_year.items():
         record = blank(year, []); ordinals = []
-        for row in Page(table_html).rows:
+        for row in rows:
             if len(row) != 4 or not row[0].isdigit():continue
             found = re.fullmatch(r'(\d{2})-([A-Za-z]{3})-(\d{2})', row[2])
             require(found is not None and '20'+found[3] == year, 'bse_equity_row_date_invalid')
             months = {name[:3].lower():number for name, number in MONTHS.items()}
             day = date(int(year), months[found[2].lower()], int(found[1]))
             require(day.strftime('%A') == row[3], 'bse_equity_weekday_mismatch')
+            if day.isoweekday()>5:continue
             require(day.isoformat() not in record['holidays'], 'bse_duplicate_holiday')
             ordinals.append(int(row[0])); record['holidays'][day.isoformat()] = row[1]
         require(ordinals == list(range(1, len(ordinals)+1)) and 13 <= len(ordinals) <= 22,
@@ -334,7 +334,7 @@ def parse_bse(html):
                 and any('Christmas' in v for v in record['holidays'].values()), 'bse_annual_boundaries_missing')
         # A generic holiday table is insufficient evidence for special Sunday
         # opening times (Muhurat/Budget sessions). Keep known special dates UNKNOWN.
-        for sentence in re.findall(r'Muhurat[^.\n]{0,250}',' '.join(Page(block).plain().split()),re.I):
+        for sentence in re.findall(r'Muhurat[^.\n]{0,250}',' '.join(' '.join(notes_by_year.get(year,[])).split()),re.I):
             values=[]
             for m in re.finditer(r'(\d{1,2})(?:st|nd|rd|th)?[ -]+('+MONTH_PATTERN+r')[ , -]+('+year+r')',sentence,re.I):
                 values.append(date(int(year),MONTHS[m[2].title()],int(m[1])).isoformat())
