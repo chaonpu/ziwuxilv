@@ -46,7 +46,25 @@ module.exports = async function clean({github, context, plan, target, now = Date
     assert(matches(live, r), 'run identity changed');
     if (r.cancelStaleQueued) {
       if (live.status !== 'queued') { result.skipped++; continue; }
-      await github.rest.actions.cancelWorkflowRun({owner, repo, run_id:r.id});
+      try {
+        await github.rest.actions.cancelWorkflowRun({owner, repo, run_id:r.id});
+      } catch (e) {
+        if (e.status !== 409) throw e;
+        // GitHub permits deletion after two weeks. An orphan can report queued
+        // while cancel returns "not queued yet"; require zero actual jobs and a
+        // fresh unchanged queued identity before deleting only that approved ID.
+        live = await read(r.id);
+        assert(matches(live, r), 'orphan run identity changed');
+        if (live.status !== 'queued' || now - Date.parse(r.createdAt) <= 14 * 86400000) { result.skipped++; continue; }
+        const jobs = (await github.rest.actions.listJobsForWorkflowRun({owner, repo, run_id:r.id, per_page:1})).data;
+        if (jobs.total_count !== 0 || !Array.isArray(jobs.jobs) || jobs.jobs.length !== 0) { result.skipped++; continue; }
+        live = await read(r.id);
+        assert(matches(live, r), 'orphan run identity changed');
+        if (live.status !== 'queued') { result.skipped++; continue; }
+        await github.rest.actions.deleteWorkflowRun({owner, repo, run_id:r.id});
+        assert(await read(r.id) === null, 'orphan deletion not verified');
+        result.deleted++; continue;
+      }
       result.cancelled++;
       for (let n = 0; n < 20; n++) {
         await pause(1000); live = await read(r.id);

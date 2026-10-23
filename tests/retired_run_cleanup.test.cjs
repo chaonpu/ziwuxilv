@@ -59,3 +59,21 @@ test('a stale-queue candidate that has started running is preserved',async()=>{
   f.context.repo.repo='ziwuxilv';f.plan.root=f.target='chaonpu/ziwuxilv';f.live.repository.full_name=f.target;f.live.status='in_progress';
   const r=await clean(f);assert.equal(r.skipped,1);assert.deepEqual(f.calls,['LIST','GET']);
 });
+function orphan() {
+  const f=fixture({repo:'chaonpu/ziwuxilv',id:37642338428,path:'.github/workflows/access-state.yml',createdAt:'2026-10-07T15:06:54Z',cancelStaleQueued:true});
+  f.context.repo.repo='ziwuxilv';f.plan.root=f.target='chaonpu/ziwuxilv';f.live.repository.full_name=f.target;f.live.status='queued';
+  f.github.rest.actions.cancelWorkflowRun=async()=>{f.calls.push('CANCEL');throw Object.assign(new Error('not queued yet'),{status:409});};
+  f.github.rest.actions.listJobsForWorkflowRun=async()=>{f.calls.push('JOBS');return {data:{total_count:0,jobs:[]}};};
+  return f;
+}
+test('older-than-two-week orphan with zero jobs can be deleted after cancel409',async()=>{
+  const f=orphan();const r=await clean(f);assert.equal(r.deleted,1);assert.equal(r.cancelled,0);assert.deepEqual(f.calls,['LIST','GET','CANCEL','GET','JOBS','GET','DELETE','GET']);
+});
+test('an orphan candidate with an actual job is preserved',async()=>{
+  const f=orphan();f.github.rest.actions.listJobsForWorkflowRun=async()=>({data:{total_count:1,jobs:[{status:'queued'}]}});
+  assert.equal((await clean(f)).skipped,1);assert(!f.calls.includes('DELETE'));
+});
+test('cancel409 cannot bypass the two-week age boundary',async()=>{
+  const f=orphan();f.row.createdAt=f.live.created_at='2026-10-14T00:00:00Z';
+  assert.equal((await clean(f)).skipped,1);assert(!f.calls.includes('DELETE'));assert(!f.calls.includes('JOBS'));
+});
