@@ -1,16 +1,16 @@
 # 交易日历运行状态
 
-检查时间：2026-10-23T15:56:00+08:00
+检查时间：2026-10-23T16:05:21+08:00
 
 当前版本：`94928a10d7daa42450062c3c600aa49ad5d80a3ce27c9ec2c84a856343f436b9`
 
 | 市场/产品 | 适配能力 | 现有覆盖年份 | 本次解析年份 | 最近来源状态 | 待处理原因 |
 |---|---|---|---|---|---|
-| A50_CFD | blocked | 2026, 2027, 2028 | — | published_unknown_provider_calendar | a50_provider_annual_schedule_unverified_future_dates_unknown |
+| A50_CFD | blocked | 2026, 2027, 2028 | — | preserving_unknown_provider_calendar | a50_provider_annual_schedule_unverified_future_dates_unknown |
 | BR_EQ | annual | 2026 | 2026 | verified_no_change | — |
 | CME_FUTURES | annual_partial_sessions | 2026 | 2026 | held_preserving_active_calendar | 2026:candidate_changes_past_dates |
 | CN_EQ | annual | 2026 | — | held_preserving_active_calendar | official_source_unavailable |
-| CN_FUTURES | annual_with_reviewed_fallback | 2026 | 2026 | verified_with_reviewed_fallback | year_bounded_official_notice_review_used_for:DCE,CZCE,GFEX |
+| CN_FUTURES | annual_with_reviewed_fallback | 2026 | — | held_preserving_active_calendar | china_five_venue_complete_sources_required |
 | DE_EQ | annual | 2026, 2027, 2028, 2029, 2030, 2031, 2032 | 2026, 2027, 2028, 2029, 2030, 2031, 2032 | verified_no_change | — |
 | FR_EQ | annual | 2026 | 2023, 2024, 2025, 2026 | verified_no_change | — |
 | HK_EQ | annual | 2026, 2027 | 2026, 2027 | verified_no_change | — |
