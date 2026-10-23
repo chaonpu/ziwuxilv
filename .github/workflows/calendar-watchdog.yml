@@ -1,0 +1,45 @@
+name: 交易日历监测与补检
+
+on:
+  workflow_dispatch:
+    inputs:
+      recovery_drill:
+        description: 验证一次补检派发（仅日历，不运行策略）
+        type: boolean
+        default: false
+  schedule:
+    - cron: '47 0 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/calendar_watchdog.py'
+      - 'tests/test_calendar_watchdog.py'
+      - '.github/workflows/calendar-watchdog.yml'
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: public-calendar-watchdog
+  cancel-in-progress: false
+
+jobs:
+  health:
+    if: github.repository == 'chaonpu/ziwuxilv' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - name: Test overdue, missing coverage and bounded recovery contracts
+        run: python3 -m unittest discover -s tests -p 'test_calendar_watchdog.py' -v
+      - name: Independently inspect public state and recover only calendar maintenance
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRILL: ${{ (github.event_name == 'push' || inputs.recovery_drill) && 'true' || 'false' }}
+        run: |
+          set -euo pipefail
+          args=(--recover)
+          if [[ "$DRILL" == true ]]; then args+=(--drill); fi
+          python3 -u tools/calendar_watchdog.py "${args[@]}"

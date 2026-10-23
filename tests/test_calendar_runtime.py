@@ -118,6 +118,15 @@ class CalendarTests(unittest.TestCase):
             calls=[]
             result=sync.sync(root,now=now+timedelta(hours=1),fetch=lambda u:calls.append(u))
             self.assertFalse(calls);self.assertEqual(result['sourceChecks'],0)
+            hp=root/'calendars/health.json';health=json.loads(hp.read_bytes())
+            stamp=(now-timedelta(days=1)).isoformat()
+            health['calendars']['CN_EQ']['lastSourceSuccessAt']=stamp
+            health['calendars']['CN_EQ']['lastVerifiedAt']=stamp
+            hp.write_bytes(runtime.canonical(health))
+            sync.sync(root,now=now+timedelta(days=2),fetch=fail)
+            held=json.loads(hp.read_bytes())['calendars']['CN_EQ']
+            self.assertEqual(held['lastSourceSuccessAt'],stamp)
+            self.assertEqual(held['lastVerifiedAt'],stamp)
 
     def test_incomplete_and_changed_format_never_parse_as_no_holidays(self):
         for parser in (sync.parse_china,sync.parse_china_english,sync.parse_nyse,sync.parse_nasdaq,sync.parse_jpx):

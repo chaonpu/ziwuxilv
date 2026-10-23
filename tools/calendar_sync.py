@@ -235,6 +235,11 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
         original_years=deepcopy(bundle['calendars'][key]['years'])
         state={'lastAttemptAt':now.isoformat(timespec='seconds'),'cadence':reason,
                'adapter':spec['adapter'],'sourceResults':[{k:v for k,v in r.items() if k!='text'}|{'url':u} for u,r in zip(spec['urls'],records)]}
+        # A failed attempt must not erase the last successful source/verification
+        # timestamps. They are distinct from this attempt and from content age.
+        previous=health['calendars'].get(key,{})
+        for field in ('lastSourceSuccessAt','lastVerifiedAt'):
+            if previous.get(field):state[field]=previous[field]
         try:
             require(all(r['status']=='ok' for r in records),'official_source_unavailable')
             if spec['adapter']=='china-pair':
@@ -268,6 +273,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 bundle['calendars'][key]['years'][year]=new;changed.append(key+':'+year)
             state.setdefault('status','verified_no_change' if not any(c.startswith(key+':') for c in changed) else 'published')
             state['lastSourceSuccessAt']=now.isoformat(timespec='seconds')
+            if candidates:state['lastVerifiedAt']=now.isoformat(timespec='seconds')
         except (ValueError,KeyError,TypeError,UnicodeError,OSError) as exc:
             bundle['calendars'][key]['years']=original_years
             changed=[c for c in changed if not c.startswith(key+':')]
