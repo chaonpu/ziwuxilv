@@ -103,6 +103,13 @@ class CalendarTests(unittest.TestCase):
         self.assertTrue(sync.should_check(us,{'lastAttemptAt':(now-timedelta(days=7)+timedelta(minutes=9)).isoformat()},now)[0])
         self.assertTrue(sync.should_check(cn,{'lastAttemptAt':(now-timedelta(days=1)+timedelta(minutes=9)).isoformat()},now)[0])
 
+    def test_monitor_only_source_stays_weekly_even_if_next_year_is_missing(self):
+        now=datetime(2026,10,23,8,17,tzinfo=ZoneInfo('Asia/Shanghai'))
+        state={'lastAttemptAt':(now-timedelta(days=1)).isoformat()}
+        cal=self.snapshot['data']['calendars']['CN_FUTURES']
+        self.assertEqual(sync.should_check(cal,state,now,adapter='source-monitor'),(False,'weekly'))
+        self.assertTrue(sync.should_check(cal,state,now,force=True,adapter='source-monitor')[0])
+
     def test_failed_sources_preserve_active_bytes_and_check_skip_does_no_network(self):
         import shutil
         with tempfile.TemporaryDirectory() as td:

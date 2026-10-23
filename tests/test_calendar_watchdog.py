@@ -90,6 +90,12 @@ class WatchdogTests(unittest.TestCase):
         self.assertEqual(report['status'], 'attention')
         self.assertEqual(report['recoveryDecision'], 'within_cadence')
 
+    def test_monitor_only_venue_does_not_cause_daily_network_recovery(self):
+        self.health['calendars']['CN_FUTURES'].update(adapter='source-monitor',lastAttemptAt=(self.now-timedelta(days=3)).isoformat())
+        report=self.assess()
+        self.assertNotIn('CN_FUTURES',report['overdueCalendars'])
+        self.assertEqual(next(x for x in report['calendars'] if x['calendarId']=='CN_FUTURES')['limitHours'],192)
+
     def test_recovery_has_fixed_allowlist_and_no_force_or_strategy_dispatch(self):
         report = {**self.assess(), 'recoveryDecision': 'recovery_due'}
         env = {'GITHUB_REPOSITORY': watch.REPO, 'GITHUB_REF': 'refs/heads/main', 'GH_TOKEN': 'test-only'}

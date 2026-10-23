@@ -260,10 +260,10 @@ def parse_euronext_paris(html):
     return out
 
 
-def should_check(cal, health, now, force=False):
+def should_check(cal, health, now, force=False, *, adapter=None):
     next_year=str(now.year+1)
     missing=next_year not in cal['years']
-    daily=now.month>=10 and missing
+    daily=now.month>=10 and missing and adapter!='source-monitor'
     hours=24 if daily else 168
     previous=health.get('lastAttemptAt')
     if not previous:return True,'q4_missing_next_year' if daily else 'weekly'
@@ -321,9 +321,9 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
     active={}
     for key,cal in bundle['calendars'].items():
         state=health['calendars'].get(key,{})
-        due,reason=should_check(cal,state,now,force)
-        if not due:continue
         spec=SOURCES.get(key,{'adapter':'source-monitor','urls':list(dict.fromkeys(s for r in cal['years'].values() for s in r['sources']))})
+        due,reason=should_check(cal,state,now,force,adapter=spec['adapter'])
+        if not due:continue
         if spec.get('yearQuery'):
             spec={**spec,'urls':[url+'&date='+str(year)+'0101' for year in (now.year,now.year+1) for url in spec['urls']]}
         active[key]=(spec,reason)

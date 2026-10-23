@@ -79,7 +79,7 @@ def assess(snapshot, health, runs, now):
         record = health['calendars'].get(key, {})
         if not isinstance(record, dict):
             raise ValueError('calendar_health_record_invalid')
-        daily = now.month >= 10 and str(now.year + 1) not in cal['years']
+        daily = now.month >= 10 and str(now.year + 1) not in cal['years'] and record.get('adapter') != 'source-monitor'
         limit = 48 if daily else 192  # 2 days / 8 days, allowing scheduling jitter
         age = age_hours(record.get('lastAttemptAt'), now)
         overdue = age is None or age > limit
