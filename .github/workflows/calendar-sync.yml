@@ -45,6 +45,7 @@ jobs:
             sudo apt-get update -qq
             sudo apt-get install -y poppler-utils
           fi
+          python3 -m pip install --disable-pip-version-check PyMuPDF==1.26.6
       - name: Validate immutable calendar, cache, cadence and parser contracts
         run: python3 -m unittest discover -s tests -p 'test_calendar_*.py' -v
       - name: Check official sources only when due

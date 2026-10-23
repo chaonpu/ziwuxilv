@@ -165,13 +165,40 @@ def parse_china_futures(html):
     for group in LABELS:
         part = re.search(re.escape(group)+r'\s*[:：](.*?)(?=(?:一|二|三|四|五|六|七|八)[、.]|$)', text[title.end():], re.S)
         require(part is not None, 'china_futures_group_missing')
-        matches = re.findall(r'(?:(20\d{2})年)?(\d{1,2})月(\d{1,2})日[^。]*?晚上不进行夜盘交易', part[1])
+        matches = re.findall(r'(?:(20\d{2})年)?(\d{1,2})月(\d{1,2})日[^。]*?(?:晚上|当晚)不进行夜盘交易', part[1])
         require(len(matches) == 1, 'china_futures_night_suspension_missing')
         yy, mm, dd = matches[0]
         suspension = date(int(yy or year), int(mm), int(dd)).isoformat()
         suspended.append(suspension)
     require(len(set(suspended)) == 7, 'china_futures_night_suspension_duplicate')
     return candidates, sorted(suspended)
+
+
+def parse_china_futures_english(html):
+    text=Page(html).plain().replace('’',"'")
+    title=re.search(r'(?:Notice on )?Trading Schedule during National Holidays for Year\s+(20\d{2})',text,re.I)
+    require(title is not None,'czce_english_annual_title_missing')
+    year=int(title[1]);record=blank(str(year),[]);nights=[]
+    names=("New Year's Day",'Spring Festival','Qingming Festival','Labor Day','Dragon Boat Festival','Mid-Autumn Festival','National Day')
+    names_pattern='|'.join(re.escape(n) for n in names)
+    parts=re.split(r'(?:\d+\s*[.)]\s*)?('+names_pattern+r')\s*:',text[title.end():],flags=re.I)
+    found={parts[i].lower():parts[i+1] for i in range(1,len(parts),2)}
+    require(set(found)=={n.lower() for n in names},'czce_seven_groups_missing')
+    pattern=r'('+MONTH_PATTERN+r')\s+(\d{1,2}),?\s+(20\d{2})\s*\(('+'|'.join(WEEKDAYS)+r')\)'
+    for name,label in zip(names,LABELS):
+        part=found[name.lower()]
+        period=re.search(r'The market will be closed (?:during holidays )?(?:from|on) (.*?)(?:and will be|The market will)',part,re.I|re.S)
+        require(period is not None,'czce_closure_range_missing')
+        values=re.findall(pattern,period[1]);require(len(values) in (1,2),'czce_closure_dates_invalid')
+        first=checked_day(values[0][2],values[0][0],values[0][1],values[0][3]);last=checked_day(values[-1][2],values[-1][0],values[-1][1],values[-1][3])
+        require(first.year==year and last.year==year and 0<=(last-first).days<=16,'czce_closure_range_invalid')
+        while first<=last:
+            record['holidays'][first.isoformat()]=label;first+=timedelta(days=1)
+        night=re.search(r'There will be no night trading session on\s+'+pattern,part,re.I)
+        require(night is not None,'czce_night_suspension_missing')
+        nights.append(checked_day(night[3],night[1],night[2],night[4]).isoformat())
+    require(15<=len(record['holidays'])<=55 and len(set(nights))==7,'czce_annual_incomplete')
+    return {str(year):record},sorted(nights)
 
 
 def parse_saudi(html, minimum_year=None):
@@ -214,8 +241,12 @@ def parse_saudi(html, minimum_year=None):
 
 
 def parse_bse(html):
+    from html import unescape
+    # Inline spans and spaces around the comma are present in the official
+    # title. Keep table cell boundaries while normalizing presentation markup.
+    html = re.sub(r'<(?!/?(?:table|thead|tbody|tr|td|th)\b)[^>]*>', ' ', unescape(html), flags=re.I)
     out = {}
-    sections = re.split(r'Trading Holidays for\s+(20\d{2})\s*-\s*Equity Segment,?\s*Equity Derivative Segment', html)
+    sections = re.split(r'Trading\s+Holidays\s+for\s+(20\d{2})\s*-\s*Equity\s+Segment\s*,?\s*Equity\s+Derivative\s+Segment', html)
     for i in range(1, len(sections), 2):
         year, block = sections[i], sections[i+1]
         block = re.split(r'Trading Holidays for|The holidays falling on Saturday|Holidays falling on Saturday', block)[0]
@@ -235,13 +266,42 @@ def parse_bse(html):
                 and any('Christmas' in v for v in record['holidays'].values()), 'bse_annual_boundaries_missing')
         # A generic holiday table is insufficient evidence for special Sunday
         # opening times (Muhurat/Budget sessions). Keep known special dates UNKNOWN.
-        for m in re.finditer(r'Muhurat[^.\n]*?(\d{1,2})[ -]('+MONTH_PATTERN+r')[ , -]+('+year+r')', Page(html).plain(), re.I):
-            special = date(int(year), MONTHS[m[2].title()], int(m[1])).isoformat()
-            record['holidays'].pop(special, None)
-            record['unknownDates'].append(special)
+        for sentence in re.findall(r'Muhurat[^.\n]{0,250}',Page(html).plain(),re.I):
+            values=[]
+            for m in re.finditer(r'(\d{1,2})(?:st|nd|rd|th)?[ -]+('+MONTH_PATTERN+r')[ , -]+('+year+r')',sentence,re.I):
+                values.append(date(int(year),MONTHS[m[2].title()],int(m[1])).isoformat())
+            for m in re.finditer(r'('+MONTH_PATTERN+r')[ , -]+(\d{1,2})(?:st|nd|rd|th)?[ , -]+('+year+r')',sentence,re.I):
+                values.append(date(int(year),MONTHS[m[1].title()],int(m[2])).isoformat())
+            for special in values:
+                record['holidays'].pop(special,None)
+                record['unknownDates'].append(special)
+        record['unknownDates']=sorted(set(record['unknownDates']))
         out[year] = record
     require(bool(out), 'bse_equity_annual_scope_missing')
     return out
+
+
+def parse_sgx(payload):
+    import json, calendar
+    obj=json.loads(payload);year=obj.get('year')
+    require(obj.get('format')=='sgx_vector_calendar_v1' and obj.get('contract')=='NK'
+            and isinstance(year,int) and 2020<=year<=2099, 'sgx_calendar_normalized_scope_invalid')
+    require([m['month'] for m in obj['months']]==list(range(1,13)), 'sgx_twelve_months_missing')
+    record=blank(str(year),[]);last=expiry=0
+    for month in obj['months']:
+        require(month['days']==calendar.monthrange(year,month['month'])[1], 'sgx_month_days_invalid')
+        for event in month['events']:
+            d=date(year,month['month'],event['day']).isoformat()
+            require(event['kind'] in ('closed','lastTrading','expiry') and isinstance(event['allExcept'],bool)
+                    and event['codes'] and all(re.fullmatch('[A-Z][A-Z0-9]*',c) for c in event['codes']), 'sgx_event_invalid')
+            affected=('NK' not in event['codes']) if event['allExcept'] else ('NK' in event['codes'])
+            if not affected:continue
+            if event['kind']=='closed':record['holidays'][d]='SGX日经期货休市'
+            elif event['kind']=='lastTrading':last+=1
+            else:expiry+=1
+    require(f'{year}-01-01' in record['holidays'] and len(record['holidays'])<=20
+            and last==12 and expiry==12, 'sgx_nikkei_annual_incomplete')
+    return {str(year):record}
 
 
 def parse_krx(payload, year):

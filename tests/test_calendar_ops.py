@@ -89,5 +89,53 @@ class OperationsTests(unittest.TestCase):
                       {'operation':'status','root':'/private'}, {'operation':'rollback','target':False}):
             with self.assertRaises(ValueError):ops.request_operation(value,self.root)
 
+    def prepare_review(self):
+        candidate=self.before['revision'];year='2027';key='US_EQ'
+        path=self.root/'calendars/candidates'/(candidate+'.json');path.parent.mkdir();path.write_bytes(self.raw)
+        sources=self.before['data']['calendars'][key]['years'][year]['sources']
+        health={'schemaVersion':1,'activeRevision':self.after['revision'],'calendars':{key:{
+            'candidateRevisions':{year:candidate},'heldYears':{year:'candidate_removes_holiday'},
+            'sourceResults':[{'url':url,'status':'ok','sha256':'a'*64} for url in sources]}}}
+        ops.install_json(health,self.root/'calendars/health.json')
+        ops.install_json({'calendars':{key:{'adapter':'us-pair','capability':'annual','urls':sources}}},self.root/'calendars/sources.json')
+        return candidate,self.after['revision'],key,year,'核对官方公告后移除测试专用未来日期'
+
+    def test_review_plan_is_read_only_and_confirmation_binds_proof_and_scope(self):
+        args=self.prepare_review();pointer=(self.root/'calendars/current.json').read_bytes()
+        plan,raw=ops.reviewed_plan(self.root,*args,date(2026,10,23))
+        self.assertEqual(pointer,(self.root/'calendars/current.json').read_bytes())
+        self.assertEqual(1,plan['changedDays']);self.assertEqual(0,plan['historicalChangedDays'])
+        health=json.loads((self.root/'calendars/health.json').read_bytes())
+        health['calendars']['US_EQ']['sourceResults'][0]['sha256']='b'*64
+        ops.install_json(health,self.root/'calendars/health.json')
+        other,_=ops.reviewed_plan(self.root,*args,date(2026,10,23))
+        self.assertNotEqual(plan['confirmationSha256'],other['confirmationSha256'])
+
+    def test_reviewed_publication_updates_only_reviewed_year_and_keeps_release_bytes(self):
+        args=self.prepare_review();plan,_=ops.reviewed_plan(self.root,*args,date(2026,10,23))
+        result=ops.publish_reviewed(self.root,*args,plan['confirmationSha256'],date(2026,10,23))
+        self.assertEqual(self.before['revision'],ops.snapshot(self.root)[1]['revision'])
+        self.assertEqual(0,result['ledgerWrites'])
+        self.assertEqual(self.new_raw,(self.root/'calendars/releases'/(self.after['revision']+'.json')).read_bytes())
+        self.assertTrue((self.root/'calendars/operations/reviews'/(plan['confirmationSha256']+'.json')).exists())
+
+    def test_review_refuses_historical_wrong_confirmation_or_unvalidated_source_without_pointer_change(self):
+        args=self.prepare_review();pointer=(self.root/'calendars/current.json').read_bytes()
+        with self.assertRaises(ValueError):ops.reviewed_plan(self.root,*args,date(2028,1,1))
+        with self.assertRaises(ValueError):ops.publish_reviewed(self.root,*args,'0'*64,date(2026,10,23))
+        ops.install_json({'calendars':{'US_EQ':{'capability':'blocked'}}},self.root/'calendars/sources.json')
+        with self.assertRaises(ValueError):ops.reviewed_plan(self.root,*args,date(2026,10,23))
+        self.assertEqual(pointer,(self.root/'calendars/current.json').read_bytes())
+
+    def test_review_requires_latest_official_candidate_and_successful_source_proof(self):
+        args=self.prepare_review();health=json.loads((self.root/'calendars/health.json').read_bytes())
+        health['calendars']['US_EQ']['sourceResults'][0]['status']='unavailable'
+        ops.install_json(health,self.root/'calendars/health.json')
+        with self.assertRaises(ValueError):ops.reviewed_plan(self.root,*args,date(2026,10,23))
+        health['calendars']['US_EQ']['sourceResults'][0]['status']='ok'
+        health['calendars']['US_EQ']['candidateRevisions']['2027']='0'*64
+        ops.install_json(health,self.root/'calendars/health.json')
+        with self.assertRaises(ValueError):ops.reviewed_plan(self.root,*args,date(2026,10,23))
+
 
 if __name__=='__main__':unittest.main()

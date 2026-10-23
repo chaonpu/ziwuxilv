@@ -87,6 +87,20 @@ class ExtendedAdaptersTests(unittest.TestCase):
         self.assertIn('2026-10-07',parsed['2026']['holidays'])
         with self.assertRaises(ValueError):a.parse_china_futures(text.replace('9月30日（星期三）晚上不进行夜盘交易。',''))
 
+    def test_czce_english_dates_and_no_night_sessions_must_match_chinese_annual(self):
+        import re
+        chinese=fixture('shfe-2026.json')['text'];expected,nights=a.parse_china_futures(chinese)
+        groups=("New Year's Day",'Spring Festival','Qingming Festival','Labor Day','Dragon Boat Festival','Mid-Autumn Festival','National Day')
+        text='Notice on Trading Schedule during National Holidays for Year 2026\n'
+        for i,(name,label) in enumerate(zip(groups,s.LABELS)):
+            dates=sorted(d for d,v in expected['2026']['holidays'].items() if v==label)
+            def stamp(value):return date.fromisoformat(value).strftime('%B %d, %Y (%A)')
+            text+=f'{i+1}. {name}: The market will be closed during holidays from {stamp(dates[0])} to {stamp(dates[-1])}, and will be opened again. There will be no night trading session on {stamp(nights[i])}.\n'
+        parsed,actual_nights=a.parse_china_futures_english(text)
+        self.assertEqual(set(expected['2026']['holidays']),set(parsed['2026']['holidays']))
+        self.assertEqual(nights,actual_nights)
+        with self.assertRaises(ValueError):a.parse_china_futures_english(text.replace('There will be no night trading session','No notice',1))
+
     def test_krx_actual_annual_public_form_data_is_bound_to_year_and_cash_market(self):
         for year,count in ((2026,17),(2027,16)):
             data=fixture('krx-'+str(year)+'.json');parsed=a.parse_krx(json.dumps(data),str(year))
@@ -120,9 +134,41 @@ class ExtendedAdaptersTests(unittest.TestCase):
                date.fromisoformat(d).strftime('%d-%b-%y'),date.fromisoformat(d).strftime('%A')] for i,d in enumerate(days)]
         title='Trading Holidays for 2026 - Equity Segment, Equity Derivative Segment'
         self.assertEqual(13,len(a.parse_bse(title+table(rows))['2026']['holidays']))
+        decorated=title.replace('for 2026','for <b>2026</b>').replace('Segment,','Segment ,')
+        self.assertEqual(13,len(a.parse_bse(decorated+table(rows))['2026']['holidays']))
         with self.assertRaises(ValueError):a.parse_bse(title.replace('Equity','Commodity')+table(rows))
         rows[0][3]='Sunday'
         with self.assertRaises(ValueError):a.parse_bse(title+table(rows))
+
+    def test_sgx_actual_contract_codes_distinguish_expiry_from_closure(self):
+        data=fixture('sgx-nikkei-2026.json')
+        record=a.parse_sgx(json.dumps(data))['2026']
+        self.assertEqual({'2026-01-01'},set(record['holidays']))
+        self.assertNotIn('2026-01-08',record['holidays'])
+        self.assertNotIn('2026-01-09',record['holidays'])
+        self.assertNotIn('2026-04-03',record['holidays'])
+        self.assertNotIn('2026-12-25',record['holidays'])
+        data['months'].pop()
+        with self.assertRaises(ValueError):a.parse_sgx(json.dumps(data))
+
+    def test_sgx_missing_expiry_contract_identity_or_wrong_vector_fails_closed(self):
+        from calendar_pdf import mark_kind
+        from types import SimpleNamespace as Point
+        cross={'items':[('l',Point(x=0,y=0),Point(x=1,y=1)),('l',Point(x=1,y=0),Point(x=0,y=1))]}
+        self.assertEqual('closed',mark_kind(cross))
+        self.assertEqual('expiry',mark_kind({'items':[('re',None)]}))
+        self.assertEqual('lastTrading',mark_kind({'items':[('l',None,None)]*3}))
+        cross['items'][1]=('l',Point(x=0,y=2),Point(x=1,y=3))
+        with self.assertRaises(ValueError):mark_kind(cross)
+        for mutate in ('contract','events'):
+            data=fixture('sgx-nikkei-2026.json')
+            if mutate=='contract':data['contract']='NKO'
+            else:data['months'][0]['events']=[e for e in data['months'][0]['events'] if e['kind']!='expiry']
+            with self.assertRaises(ValueError):a.parse_sgx(json.dumps(data))
+
+    def test_declared_provider_gb_charset_is_decoded_without_losing_source_hash(self):
+        raw='<meta charset="gb2312"><h1>富时中国A50期货CFD</h1>'.encode('gb18030')
+        self.assertIn('富时中国A50期货CFD',s.source_text(raw))
 
     def test_source_transfers_reject_cross_host_redirect_before_following(self):
         import urllib.request

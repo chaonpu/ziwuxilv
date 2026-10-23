@@ -4,7 +4,7 @@
     "A50_CFD": {
       "adapter": "blocked-a50-provider",
       "urls": [
-        "https://finance.sina.com.cn/futures/quotes/CN.shtml"
+        "https://finance.sina.com.cn/futures/quotes/CHA50CFD.shtml"
       ],
       "capability": "blocked",
       "blockReason": "app_uses_sina_cfd_sgx_futures_calendar_is_not_provider_calendar"
@@ -37,8 +37,8 @@
         "https://www.shfe.com.cn/services/calenderandholidays/holiday/",
         "https://www.ine.cn/publicnotice/notice/202512/t20251217_829804.html",
         "https://www.dce.com.cn/dce/content/2025/ywggytz/18625615.html",
-        "https://www.czce.com.cn/",
-        "https://www.gfex.com.cn/"
+        "https://english.czce.com.cn/en/AboutUs/News/ggytz/webinfo/2025/12/22988c484160465b9eff8d4364a362bf.htm",
+        "https://www.gfex.com.cn/gfex/tzts/202512/0134914f8c674fa68c2ba9041a5cd798.shtml"
       ],
       "capability": "awaiting_source_consensus",
       "publishEnabled": false,
@@ -111,12 +111,12 @@
       "blockReason": "lunar_forecasts_stay_unknown_existing_known_holiday_changes_require_review"
     },
     "SGX_NIKKEI": {
-      "adapter": "blocked-sgx-product",
+      "adapter": "sgx-nikkei-vector",
       "urls": [
-        "https://www.sgx.com/trading-0"
+        "https://api2.sgx.com/sites/default/files/2026-01/SGX%20Calendar%202026_2.pdf"
       ],
-      "capability": "blocked",
-      "blockReason": "calendar_vectors_mix_last_trade_expiry_and_closed_requires_exact_nikkei_product_schedule"
+      "capability": "annual",
+      "blockReason": "only_complete_official_vector_calendar_years_are_parsed"
     },
     "TW_EQ": {
       "adapter": "twse-pair",

@@ -28,7 +28,7 @@ GitHub 的第四季度入口每日唤醒，但已完整覆盖的日历在发起�
 | CN_FUTURES | 国内期货年度解析与节前夜盘核对 | 五家交易所完整来源一致后才启用；当前保留现行数据 |
 | IN_EQ | BSE股票年度表解析 | 官方直连403且特殊开市未核准，尚未启用自动发布 |
 | SA_EQ | 沙交年度表与停市/复市区间解析，云端已实测 | 阴历预测成为UNKNOWN；与现行已知休市冲突的年份保留候选待复核 |
-| SGX_NIKKEI | 登记SGX官方资料并报告产品范围障碍 | 年历图的最后交易、到期、休市标记不能混用，保持阻断 |
+| SGX_NIKKEI | 提取SGX年度PDF矢量，校验12个月、每个日期格及NK合约映射 | 三角形最后交易、方形到期和交叉休市分别处理；只有完整验证的年度可解析，格式变化保留旧数据 |
 | A50_CFD | 登记行情提供方来源并报告产品范围障碍 | 新浪CFD不能套用SGX交易所期货日历，保持阻断 |
 
 `sources.json` 的 `capability`、`publishEnabled` 和 `blockReason` 明确区分可自动
@@ -81,6 +81,22 @@ python3 tools/calendar_ops.py rollback --target <历史发布SHA> --expected-cur
 输入JSON运行同一接口：`status`、`impact`、`rollback-plan`、`rollback`。字段仅允许
 `operation`、`target`、`expectedCurrent`、`reason`、`confirmation`，不接受私有路径
 或命令。报告保留为Actions附件；实际发布需通过当前版本并发校验。
+
+已实现候选的人工复核发布：`review-plan` / `publish-reviewed`。必须指定
+`calendarId`、`year`、候选摘要 `target`、当前摘要 `expectedCurrent`、原因 `reason`；
+执行还要求预览返回的 `confirmation`。计划绑定最新候选、成功来源的URL/内容摘要、
+精确日历/年度、当前版本、逐日影响与复核日期。只将复核的一个年度合入当前版本，
+避免旧候选覆盖其他市场的新数据；审计记录保存在 `operations/reviews/`。
+产品范围受阻、尚未启用的来源或任何历史日期变化都不能通过这个入口激活。
+历史修订仍需独立分析和处理，不能借“人工复核”自动改账。
+
+```bash
+python3 tools/calendar_ops.py review-plan --target <候选SHA> --expected-current <当前SHA> --calendar-id SA_EQ --year 2027 --reason '核对官方预测说明后将未来待核准日期标记为未知'
+python3 tools/calendar_ops.py publish-reviewed --target <候选SHA> --expected-current <当前SHA> --calendar-id SA_EQ --year 2027 --reason '与预览完全一致的原因' --confirmation <计划确认SHA>
+```
+
+国内期货按交易所分别保留解析状态和规范化事实证据，单家网络失败不会抹掉其他
+来源的核对结果。五家完整年度和夜盘核对未全部通过时，整体日历仍保持旧版本。
 
 例如只读影响报告：`{"operation":"impact","target":"<完整64位SHA>"}`。
 空 `ops_request` 继续执行正常来源检查。历史影响与回滚命令没有自动改账入口。

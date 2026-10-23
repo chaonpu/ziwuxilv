@@ -1,0 +1,794 @@
+{
+  "format": "sgx_vector_calendar_v1",
+  "year": 2026,
+  "contract": "NK",
+  "months": [
+    {
+      "month": 1,
+      "days": 31,
+      "events": [
+        {
+          "day": 1,
+          "kind": "closed",
+          "allExcept": true,
+          "codes": [
+            "GIN",
+            "GINO",
+            "GINWO",
+            "GINB",
+            "GINBO",
+            "GINBWO",
+            "GINF",
+            "GINFO",
+            "GINFWO",
+            "GINI",
+            "GINIO"
+          ]
+        },
+        {
+          "day": 2,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMF",
+            "BTR",
+            "MKP",
+            "MKPO",
+            "SMP",
+            "SMPO",
+            "WMP",
+            "WMPO"
+          ]
+        },
+        {
+          "day": 8,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 9,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 26,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "GIN",
+            "GINB",
+            "GINBO",
+            "GINBWO",
+            "GINF",
+            "GINFO",
+            "GINFWO",
+            "GINI",
+            "GINIO",
+            "GINO",
+            "GINWO"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 2,
+      "days": 28,
+      "events": [
+        {
+          "day": 6,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMF",
+            "BTR",
+            "MKP",
+            "MKPO",
+            "SMP",
+            "SMPO",
+            "WMP",
+            "WMPO"
+          ]
+        },
+        {
+          "day": 12,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "CY",
+            "EJP",
+            "EJRT",
+            "IDR",
+            "NC",
+            "NK",
+            "NKO",
+            "NS",
+            "TD",
+            "TWD"
+          ]
+        },
+        {
+          "day": 13,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "KJ",
+            "KRW",
+            "KU",
+            "MYR",
+            "MYS",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 16,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "RT",
+            "TF",
+            "TFO"
+          ]
+        },
+        {
+          "day": 17,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "OIL",
+            "RT",
+            "TF",
+            "TFO"
+          ]
+        },
+        {
+          "day": 18,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "OIL",
+            "RT",
+            "TF",
+            "TFO"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 3,
+      "days": 31,
+      "events": [
+        {
+          "day": 12,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "JB",
+            "JG",
+            "NC",
+            "NK",
+            "NKO",
+            "NS",
+            "NU"
+          ]
+        },
+        {
+          "day": 13,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "MYR",
+            "MYS",
+            "NC",
+            "NK",
+            "NKO",
+            "NS",
+            "NU"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 4,
+      "days": 30,
+      "events": [
+        {
+          "day": 3,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMAF",
+            "AMF",
+            "AMMF",
+            "BTR",
+            "FRT",
+            "FRTO",
+            "MKP",
+            "MKPO",
+            "OIL",
+            "RT",
+            "SMP",
+            "SMPO",
+            "TF",
+            "TFO",
+            "WMP",
+            "WMPO"
+          ]
+        },
+        {
+          "day": 6,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMAF",
+            "AMF",
+            "AMMF",
+            "BTR",
+            "FRT",
+            "FRTO",
+            "MKP",
+            "MKPO",
+            "SMP",
+            "SMPO",
+            "WMP",
+            "WMPO"
+          ]
+        },
+        {
+          "day": 9,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 10,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "INR",
+            "INRO",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 27,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMF",
+            "BTR",
+            "MKP",
+            "MKPO",
+            "SMP",
+            "SMPO",
+            "WMP",
+            "WMPO"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 5,
+      "days": 31,
+      "events": [
+        {
+          "day": 1,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "OIL",
+            "RT",
+            "TF",
+            "TFO"
+          ]
+        },
+        {
+          "day": 4,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMAF",
+            "AMMF",
+            "FRT",
+            "FRTO"
+          ]
+        },
+        {
+          "day": 7,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 8,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 25,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMAF",
+            "AMMF",
+            "FRT",
+            "FRTO"
+          ]
+        },
+        {
+          "day": 27,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "OIL",
+            "RT",
+            "TF",
+            "TFO"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 6,
+      "days": 30,
+      "events": [
+        {
+          "day": 1,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMF",
+            "BTR",
+            "MKP",
+            "MKPO",
+            "OIL",
+            "RT",
+            "SMP",
+            "SMPO",
+            "TF",
+            "TFO",
+            "WMP",
+            "WMPO"
+          ]
+        },
+        {
+          "day": 11,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS",
+            "NU"
+          ]
+        },
+        {
+          "day": 12,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "IDR",
+            "JB",
+            "JG",
+            "NC",
+            "NK",
+            "NKO",
+            "NS",
+            "NU"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 7,
+      "days": 31,
+      "events": [
+        {
+          "day": 9,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 10,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 10,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMF",
+            "BTR",
+            "MKP",
+            "MKPO",
+            "SMP",
+            "SMPO",
+            "WMP",
+            "WMPO"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 8,
+      "days": 31,
+      "events": [
+        {
+          "day": 31,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMAF",
+            "AMMF",
+            "FRT",
+            "FRTO"
+          ]
+        },
+        {
+          "day": 10,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "OIL",
+            "RT",
+            "TF",
+            "TFO"
+          ]
+        },
+        {
+          "day": 13,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 14,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "IDR",
+            "KJ",
+            "KRW",
+            "KU",
+            "MYR",
+            "MYS",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 9,
+      "days": 30,
+      "events": [
+        {
+          "day": 10,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS",
+            "NU"
+          ]
+        },
+        {
+          "day": 11,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "INR",
+            "INRO",
+            "JB",
+            "JG",
+            "NC",
+            "NK",
+            "NKO",
+            "NS",
+            "NU"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 10,
+      "days": 31,
+      "events": [
+        {
+          "day": 2,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "GIN",
+            "GINB",
+            "GINBO",
+            "GINBWO",
+            "GINF",
+            "GINFO",
+            "GINFWO",
+            "GINI",
+            "GINIO",
+            "GINO",
+            "GINWO"
+          ]
+        },
+        {
+          "day": 8,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 9,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 26,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMF",
+            "BTR",
+            "MKP",
+            "MKPO",
+            "SMP",
+            "SMPO",
+            "WMP",
+            "WMPO"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 11,
+      "days": 30,
+      "events": [
+        {
+          "day": 9,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "OIL",
+            "RT",
+            "TF",
+            "TFO"
+          ]
+        },
+        {
+          "day": 12,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        },
+        {
+          "day": 13,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "MYR",
+            "MYS",
+            "NC",
+            "NK",
+            "NKO",
+            "NS"
+          ]
+        }
+      ]
+    },
+    {
+      "month": 12,
+      "days": 31,
+      "events": [
+        {
+          "day": 10,
+          "kind": "lastTrading",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "NC",
+            "NK",
+            "NKO",
+            "NS",
+            "NU"
+          ]
+        },
+        {
+          "day": 11,
+          "kind": "expiry",
+          "allExcept": false,
+          "codes": [
+            "EJP",
+            "EJRT",
+            "JB",
+            "JG",
+            "NC",
+            "NK",
+            "NKO",
+            "NS",
+            "NU"
+          ]
+        },
+        {
+          "day": 25,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMAF",
+            "AMF",
+            "AMMF",
+            "BTR",
+            "CCF",
+            "CCFO",
+            "EVM",
+            "FRT",
+            "FRTO",
+            "IOF",
+            "IOFO",
+            "M42F",
+            "MCF",
+            "MEGF",
+            "MKP",
+            "MKPO",
+            "MSF",
+            "MXF",
+            "OIL",
+            "RBF",
+            "RT",
+            "SMCF",
+            "SMP",
+            "SMPO",
+            "TF",
+            "TFO",
+            "WMP",
+            "WMPO"
+          ]
+        },
+        {
+          "day": 28,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "AMAF",
+            "AMF",
+            "AMMF",
+            "BTR",
+            "FRT",
+            "FRTO",
+            "MKP",
+            "MKPO",
+            "SMP",
+            "SMPO",
+            "WMP",
+            "WMPO"
+          ]
+        },
+        {
+          "day": 31,
+          "kind": "closed",
+          "allExcept": false,
+          "codes": [
+            "RT",
+            "TF",
+            "TFO"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -11,6 +11,7 @@ import json
 import os
 from pathlib import Path
 import re
+from copy import deepcopy
 from zoneinfo import ZoneInfo
 from calendar_runtime import canonical, validate, day_rule, require, install
 
@@ -101,6 +102,72 @@ def rollback_plan(root, target, expected, reason, cutoff=None):
             'changedDays':assessment['changedDays'], 'historicalChangedDays':assessment['historicalChangedDays'],
             'ledgerWrites':0}
     return {**plan, 'confirmationSha256':hashlib.sha256(canonical(plan)).hexdigest()}
+
+
+def reviewed_plan(root, candidate, expected, calendar_id, year, reason, cutoff=None):
+    """Review one parsed annual candidate; historical corrections stay separate."""
+    cutoff=cutoff or today();year=str(year)
+    require(isinstance(reason,str) and 8<=len(reason.strip())<=300,'ops_review_reason_required')
+    require(isinstance(calendar_id,str) and re.fullmatch('[A-Z][A-Z0-9_]{1,40}',calendar_id)
+            and re.fullmatch('20[0-9]{2}',year),'ops_review_scope_invalid')
+    _,active=snapshot(root)
+    require(active['revision']==expected,'ops_review_current_revision_changed')
+    require(isinstance(candidate,str) and HEX.fullmatch(candidate),'ops_revision_invalid')
+    raw=(root/'calendars/candidates'/(candidate+'.json')).read_bytes();proposed=validate(raw)
+    require(proposed['revision']==candidate,'ops_snapshot_digest_mismatch')
+    health=json.loads((root/'calendars/health.json').read_bytes())
+    require(health.get('activeRevision')==expected,'ops_health_revision_mismatch')
+    state=health.get('calendars',{}).get(calendar_id,{})
+    spec=json.loads((root/'calendars/sources.json').read_bytes())['calendars'].get(calendar_id,{})
+    require(spec.get('publishEnabled',True) and spec.get('capability') not in ('blocked','awaiting_live_validation','awaiting_source_consensus'),
+            'ops_review_unvalidated_product_or_source')
+    require(state.get('candidateRevisions',{}).get(year)==candidate,'ops_review_latest_candidate_required')
+    record=proposed['data']['calendars'][calendar_id]['years'][year]
+    proof=state.get('sourceResults',[])
+    require(proof and all(p.get('status')=='ok' and HEX.fullmatch(p.get('sha256','')) for p in proof)
+            and set(record['sources'])=={p.get('url') for p in proof},'ops_review_source_proof_missing')
+    # Merge only the explicitly reviewed calendar/year into the latest active
+    # bundle. An older candidate cannot revert unrelated markets or metadata.
+    data=deepcopy(active['data'])
+    data['calendars'][calendar_id]['years'][year]=deepcopy(record)
+    merged_raw=canonical(data);merged=validate(merged_raw)
+    report=impact(active,merged,cutoff)
+    require(report['changedDays']>0,'ops_review_no_semantic_change')
+    require(report['historicalChangedDays']==0,'ops_review_historical_changes_require_separate_procedure')
+    plan={'schemaVersion':1,'operation':'publish-reviewed','candidateRevision':candidate,'fromRevision':expected,
+          'toRevision':merged['revision'],'calendarId':calendar_id,'year':year,'reason':reason.strip(),
+          'reviewDate':cutoff.isoformat(),'sourceProofSha256':hashlib.sha256(canonical(proof)).hexdigest(),
+          'impactSha256':hashlib.sha256(canonical(report)).hexdigest(),'changedDays':report['changedDays'],
+          'historicalChangedDays':0,'ledgerWrites':0}
+    return {**plan,'confirmationSha256':hashlib.sha256(canonical(plan)).hexdigest()},merged_raw
+
+
+def publish_reviewed(root,candidate,expected,calendar_id,year,reason,confirmation,cutoff=None):
+    plan,raw=reviewed_plan(root,candidate,expected,calendar_id,year,reason,cutoff)
+    require(confirmation==plan['confirmationSha256'],'ops_review_confirmation_mismatch')
+    revision=plan['toRevision'];path=root/'calendars/releases'/(revision+'.json')
+    if path.exists():require(path.read_bytes()==raw,'immutable_calendar_conflict')
+    health=json.loads((root/'calendars/health.json').read_bytes())
+    require(health.get('activeRevision')==expected and snapshot(root)[1]['revision']==expected,'ops_review_current_revision_changed')
+    # Validate all mutable metadata before installing the release/pointer.
+    history_path=root/'calendars/operations/history.json'
+    if history_path.exists():
+        history=json.loads(history_path.read_bytes())
+        require(history.get('schemaVersion')==1 and isinstance(history.get('events'),list),'ops_history_invalid')
+    if not path.exists():path.parent.mkdir(parents=True,exist_ok=True);install(raw,path)
+    health['activeRevision']=revision
+    health['coverageWarnings']=coverage(validate(raw),cutoff or today())
+    state=health['calendars'][calendar_id]
+    state.setdefault('heldYears',{}).pop(str(year),None)
+    state['status']='reviewed_published_with_held_years' if state['heldYears'] else 'reviewed_published'
+    state['lastReviewedPublication']=plan
+    state['reason']='; '.join(y+':'+r for y,r in state['heldYears'].items()) or None
+    install_json({'schemaVersion':1,'sha256':revision,'path':'calendars/releases/'+revision+'.json'},root/'calendars/current.json')
+    install_json(health,root/'calendars/health.json')
+    install_json(plan,root/'calendars/operations/reviews'/(plan['confirmationSha256']+'.json'))
+    record(root,'reviewed-publication',revision,{'fromRevision':expected,'confirmationSha256':confirmation})
+    status(root)
+    return plan
 
 
 def record(root, kind, revision, details=None, now=None, run_id=None):
@@ -213,26 +280,29 @@ def status(root=ROOT, now=None, observe=False):
 
 
 def request_operation(value, root=ROOT):
-    require(isinstance(value, dict) and set(value) <= {'operation','target','expectedCurrent','reason','confirmation'},
+    require(isinstance(value, dict) and set(value) <= {'operation','target','expectedCurrent','reason','confirmation','calendarId','year'},
             'ops_request_fields_invalid')
     require(all(isinstance(v,str) for v in value.values()), 'ops_request_value_invalid')
     operation = value.get('operation')
-    require(operation in ('status','impact','rollback-plan','rollback'), 'ops_request_operation_invalid')
+    require(operation in ('status','impact','rollback-plan','rollback','review-plan','publish-reviewed'), 'ops_request_operation_invalid')
     if operation == 'status':return status(root)
     if operation == 'impact':
         _, before = snapshot(root);_, after = snapshot(root,value.get('target',''),candidate=True)
         return impact(before,after)
     target=value.get('target','');expected=value.get('expectedCurrent','');reason=value.get('reason','')
+    if operation=='review-plan':return reviewed_plan(root,target,expected,value.get('calendarId',''),value.get('year',''),reason)[0]
+    if operation=='publish-reviewed':return publish_reviewed(root,target,expected,value.get('calendarId',''),value.get('year',''),reason,value.get('confirmation',''))
     if operation == 'rollback-plan':return rollback_plan(root,target,expected,reason)
     return rollback(root,target,expected,reason,value.get('confirmation',''))
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('operation', choices=('status', 'impact', 'rollback-plan', 'rollback', 'request'))
+    parser.add_argument('operation', choices=('status', 'impact', 'rollback-plan', 'rollback', 'request','review-plan','publish-reviewed'))
     parser.add_argument('--root', type=Path, default=ROOT)
     parser.add_argument('--target', default=''); parser.add_argument('--expected-current', default='')
     parser.add_argument('--reason', default=''); parser.add_argument('--confirmation', default='')
+    parser.add_argument('--calendar-id',default='');parser.add_argument('--year',default='')
     parser.add_argument('--ledger-dir'); parser.add_argument('--observe', action='store_true')
     args = parser.parse_args()
     if args.operation == 'request':result = request_operation(json.loads(os.environ.get('CALENDAR_OPS_REQUEST','')),args.root)
@@ -242,6 +312,10 @@ def main():
         result = impact(old, new, ledger_dates=ledger_dates(args.ledger_dir) if args.ledger_dir else None)
     elif args.operation == 'rollback-plan':
         result = rollback_plan(args.root, args.target, args.expected_current, args.reason)
+    elif args.operation=='review-plan':result=reviewed_plan(args.root,args.target,args.expected_current,args.calendar_id,args.year,args.reason)[0]
+    elif args.operation=='publish-reviewed':
+        require(args.ledger_dir is None,'ops_review_never_accepts_ledger_mutation')
+        result=publish_reviewed(args.root,args.target,args.expected_current,args.calendar_id,args.year,args.reason,args.confirmation)
     else:
         require(args.ledger_dir is None, 'ops_rollback_never_accepts_ledger_mutation')
         result = rollback(args.root, args.target, args.expected_current, args.reason, args.confirmation)

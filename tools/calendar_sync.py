@@ -325,12 +325,17 @@ def fetch_krx(year):
     return canonical({'year':int(year), 'market':'KRX_CASH', 'response':json.loads(raw)})
 
 
-def source_text(raw):
+def source_text(raw, url=None):
+    if url and urlparse(url).hostname=='api2.sgx.com' and re.search(r'/SGX%20Calendar%20(20\d{2})(?:_[0-9]+)?\.pdf$',url):
+        from calendar_pdf import sgx_facts
+        year=int(re.search(r'SGX%20Calendar%20(20\d{2})',url)[1])
+        return canonical(sgx_facts(raw,year)).decode()
     if raw.startswith(b'%PDF'):
         result = subprocess.run(['pdftotext','-raw','-','-'], input=raw, capture_output=True, timeout=15)
         require(result.returncode == 0 and 0 < len(result.stdout) <= 2_000_000, 'calendar_pdf_text_invalid')
         return result.stdout.decode('utf-8-sig')
-    return raw.decode('utf-8-sig')
+    charset=re.search(br'charset\s*=\s*["\']?\s*(gb2312|gbk|gb18030)',raw[:8192],re.I)
+    return raw.decode('gb18030' if charset else 'utf-8-sig')
 
 
 def source_get(url):
@@ -347,8 +352,9 @@ def source_get(url):
     with urllib.request.build_opener(SameHostRedirect()).open(req,timeout=15) as response:
         final=response.geturl()
         require(urlparse(final).scheme=='https' and urlparse(final).hostname==urlparse(url).hostname,'calendar_source_redirect_domain_changed')
-        raw=response.read(2_000_001)
-    require(0<len(raw)<=2_000_000,'calendar_source_size_invalid')
+        maximum=6_000_000 if urlparse(url).hostname=='api2.sgx.com' and '/SGX%20Calendar%20' in url else 2_000_000
+        raw=response.read(maximum+1)
+    require(0<len(raw)<=maximum,'calendar_source_size_invalid')
     return raw
 
 
@@ -406,7 +412,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
     def fetch_one(url):
         try:
             body=fetch(url)
-            return url,{'status':'ok','sha256':hashlib.sha256(body).hexdigest(),'text':source_text(body)}
+            return url,{'status':'ok','sha256':hashlib.sha256(body).hexdigest(),'text':source_text(body,url)}
         except Exception as exc:
             return url,{'status':'unavailable','reason':type(exc).__name__}
     with ThreadPoolExecutor(max_workers=4) as pool:results=dict(pool.map(fetch_one,urls))
@@ -427,7 +433,8 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
             if spec['adapter'].startswith('blocked-'):
                 from calendar_adapters import guarded_source
                 guarded_source(spec['adapter'], [r.get('text','') for r in records])
-            require(all(r['status']=='ok' for r in records),'official_source_unavailable')
+            if spec['adapter']!='china-futures-consensus':
+                require(all(r['status']=='ok' for r in records),'official_source_unavailable')
             if spec['adapter']=='china-pair':
                 first=parse_china(records[0]['text'])
                 year=next(iter(first))
@@ -489,9 +496,27 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 state['unpublishedYears']=unpublished
                 require(bool(candidates),'krx_published_annual_data_missing')
             elif spec['adapter']=='china-futures-consensus':
-                from calendar_adapters import parse_china_futures
-                parsed=[parse_china_futures(r['text']) for r in records[:4]]
-                fifth=parse_china(records[4]['text'])
+                from calendar_adapters import parse_china_futures,parse_china_futures_english
+                parsed=[];state['venueValidation']={}
+                for venue,u,r in zip(('SHFE','INE','DCE','CZCE','GFEX'),spec['urls'],records):
+                    try:
+                        require(r['status']=='ok','official_source_unavailable')
+                        if venue=='GFEX':data,night=parse_china(r['text']),[]
+                        elif venue=='CZCE' and 'english.czce.com.cn' in u:data,night=parse_china_futures_english(r['text'])
+                        else:data,night=parse_china_futures(r['text'])
+                        state['venueValidation'][venue]={'status':'parsed','years':sorted(data),'nightSuspensionDates':night}
+                        evidence={'schemaVersion':1,'venue':venue,'sourceUrl':u,'sourceSha256':r['sha256'],
+                                  'calendars':data,'nightSuspensionDates':night}
+                        evidence_raw=canonical(evidence);digest=hashlib.sha256(evidence_raw).hexdigest()
+                        path=root/'calendars/evidence/CN_FUTURES'/venue/(digest+'.json')
+                        path.parent.mkdir(parents=True,exist_ok=True)
+                        if not path.exists():path.write_bytes(evidence_raw)
+                        state['venueValidation'][venue]['evidenceSha256']=digest
+                        parsed.append((data,night))
+                    except (ValueError,KeyError,TypeError) as exc:
+                        state['venueValidation'][venue]={'status':'held','reason':str(exc)[:150]}
+                require(len(parsed)==5,'china_five_venue_complete_sources_required')
+                fifth=parsed.pop()[0]
                 candidates=parsed[0][0]
                 require(all(p[0].keys()==candidates.keys() and all(set(p[0][y]['holidays'])==set(candidates[y]['holidays']) for y in candidates) for p in parsed)
                         and fifth.keys()==candidates.keys() and all(set(fifth[y]['holidays'])==set(candidates[y]['holidays']) for y in candidates), 'china_five_venue_holidays_conflict')
@@ -503,6 +528,9 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
             elif spec['adapter']=='bse-equities-annual':
                 from calendar_adapters import parse_bse
                 candidates=parse_bse(records[0]['text'])
+            elif spec['adapter']=='sgx-nikkei-vector':
+                from calendar_adapters import parse_sgx
+                candidates=parse_sgx(records[0]['text'])
             else:
                 state['status']='source_checked_format_requires_adapter'
                 candidates={}
