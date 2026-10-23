@@ -198,6 +198,14 @@ def install_json(value, path):
 def coverage(snapshot, cutoff):
     result=[]
     for key,cal in sorted(snapshot['data']['calendars'].items()):
+        reference=[r['reference']['end'] for r in cal['years'].values()
+                   if r.get('reference',{}).get('evidenceLevel')=='third_party_reference']
+        if reference:
+            days=(date.fromisoformat(max(reference))-cutoff).days
+            result.append({'calendarId':key,'level':'critical' if days<=7 else 'warning',
+                           'reason':'rolling_reference_window_ending','daysRemaining':days,
+                           'thresholdDays':7 if days<=7 else 30 if days<=30 else 90})
+            continue
         end=cutoff.year
         if str(end) not in cal['years']:
             result.append({'calendarId':key,'level':'critical','reason':'current_year_not_covered'});continue
@@ -254,6 +262,9 @@ def status(root=ROOT, now=None, observe=False):
                      'reviewedFallbackVenues':item.get('reviewedFallbackVenues',[]),
                      'cachedVenues':item.get('cachedVenues',[]),'automaticFutureOnly':spec.get('automaticFutureOnly',False),
                      'historyPreservedThrough':item.get('historyPreservedThrough'),
+                     'evidenceLevel':item.get('evidenceLevel') or spec.get('evidenceLevel','verified_source'),
+                     'referenceProvider':item.get('referenceProvider') or spec.get('referenceProvider'),
+                     'referenceValidFrom':item.get('referenceValidFrom'),'referenceValidThrough':item.get('referenceValidThrough'),
                      'lastAttemptAt':item.get('lastAttemptAt'), 'lastVerifiedAt':item.get('lastVerifiedAt'),
                      'reason':item.get('reason') or spec.get('blockReason'),
                      'unknownSessions':sum(len(r['unknownDates']) for r in cal['years'].values())})
@@ -269,12 +280,14 @@ def status(root=ROOT, now=None, observe=False):
     cursor = now.date(); consecutive = 0
     while cursor in dates:consecutive += 1; cursor -= timedelta(days=1)
     blocked=[row['calendarId'] for row in rows if row['capability']=='blocked']
+    reference=[row['calendarId'] for row in rows if row['evidenceLevel']=='third_party_reference']
     attention=[row['calendarId'] for row in rows if row['sourceStatus'].startswith('held_')]
     result = {'schemaVersion':1, 'activeRevision':active['revision'], 'observedAt':now.isoformat(timespec='seconds'),
               'calendars':rows, 'coverageWarnings':coverage(active,now.date()),
               'automation':{'unattendedMaintenance':True,'automaticCalendars':[r['calendarId'] for r in rows if r['automaticFutureOnly']],
                             'providerBlockedCalendars':blocked,'latestHeldCalendars':attention,
-                            'allProviderSchedulesVerified':not blocked and all(r['lastVerifiedAt'] for r in rows)},
+                            'thirdPartyReferenceCalendars':reference,
+                            'allProviderSchedulesVerified':not blocked and not reference and all(r['lastVerifiedAt'] for r in rows)},
               'observation':{'distinctDays':len(dates), 'consecutiveDays':consecutive,
                              'thirtyDayObservationComplete':consecutive >= 30}, 'ledgerWrites':0}
     install_json(result, root/'calendars/status.json')
@@ -284,6 +297,11 @@ def status(root=ROOT, now=None, observe=False):
     for row in rows:
         cells = [row['calendarId'], row['capability'], ', '.join(row['years']), ', '.join(row['parsedYears']) or '—', row['sourceStatus'], row.get('reason') or '—']
         lines.append('| '+' | '.join(str(c).replace('|', '\\|').replace('\n', ' ') for c in cells)+' |')
+    for row in rows:
+        if row['evidenceLevel']=='third_party_reference':
+            lines+=['',row['calendarId']+'：第三方参考日历（'+str(row['referenceProvider'])+'），有效区间 '
+                    +str(row['referenceValidFrom'])+' 至 '+str(row['referenceValidThrough'])
+                    +'；不是新浪提供方时段保证。区间外继续UNKNOWN，行情源仍为新浪CHA50CFD。']
     lines += ['', '自动维护：发现、校验、未来发布、失败恢复均无需手动派发；今天及历史日期保持不变。',
               '提供方日历未核准：'+(', '.join(blocked) or '无')+'。缺失或冲突资料不会被当作已确认时段。',
               '', '连续观察：'+str(consecutive)+'天；达到30天：'+('是' if consecutive >= 30 else '否')+'。',

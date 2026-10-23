@@ -2,13 +2,18 @@
   "schemaVersion": 1,
   "calendars": {
     "A50_CFD": {
-      "adapter": "blocked-a50-provider",
+      "adapter": "a50-cfd-reference",
       "urls": [
-        "https://finance.sina.com.cn/futures/quotes/CHA50CFD.shtml"
+        "https://finance.sina.com.cn/futures/quotes/CHA50CFD.shtml",
+        "https://www.forex.com/cn/support/trading-hours/",
+        "https://www.forex.com/cn/-/media/project/gain-capital/forex/documents/forms/fxall-g2-cfd-contract-details.pdf"
       ],
-      "capability": "blocked",
-      "uncertaintyFrom": "2026-10-24",
-      "blockReason": "app_uses_sina_cfd_sgx_futures_calendar_is_not_provider_calendar"
+      "capability": "rolling_third_party_reference",
+      "automaticFutureOnly": true,
+      "evidenceLevel": "third_party_reference",
+      "referenceProvider": "FOREX.com",
+      "providerScheduleVerified": false,
+      "blockReason": "third_party_cfd_reference_only;no_sina_provider_guarantee;unknown_outside_published_window"
     },
     "BR_EQ": {
       "adapter": "b3-equities-annual",

@@ -82,14 +82,20 @@ def assess(snapshot, health, runs, now):
         automatic = record.get('adapter') != 'source-monitor' and not record.get('adapter','').startswith('blocked-') and record.get('capability') not in ('blocked','awaiting_live_validation','awaiting_source_consensus')
         missing=(str(now.year+1) not in cal['years']
                  or 'parsedYears' in record and str(now.year+1) not in record['parsedYears'])
-        daily = automatic and (now.month >= 10 and missing or record.get('recoverableSourceFailure',False))
+        rolling=record.get('adapter')=='a50-cfd-reference'
+        daily = automatic and (rolling or now.month >= 10 and missing or record.get('recoverableSourceFailure',False))
         limit = 48 if daily else 192  # 2 days / 8 days, allowing scheduling jitter
         age = age_hours(record.get('lastAttemptAt'), now)
         overdue = age is None or age > limit
         if overdue:
             stale.append(key)
         end = now.year
-        if str(end) in cal['years']:
+        reference=[r['reference']['end'] for r in cal['years'].values()
+                   if r.get('reference',{}).get('evidenceLevel')=='third_party_reference']
+        if rolling and reference:
+            remaining=(datetime.fromisoformat(max(reference)).date()-now.date()).days
+        elif rolling:remaining=-1
+        elif str(end) in cal['years']:
             while str(end + 1) in cal['years']:
                 end += 1
             remaining = (datetime(end, 12, 31, tzinfo=now.tzinfo).date() - now.date()).days

@@ -279,10 +279,11 @@ def parse_euronext_paris(html):
 def should_check(cal, health, now, force=False, *, adapter=None):
     next_year=str(now.year+1)
     missing=next_year not in cal['years'] or ('parsedYears' in health and next_year not in health['parsedYears'])
-    daily=now.month>=10 and missing and adapter!='source-monitor' and not (adapter or '').startswith('blocked-')
+    rolling=adapter=='a50-cfd-reference'
+    daily=rolling or now.month>=10 and missing and adapter!='source-monitor' and not (adapter or '').startswith('blocked-')
     hours=24 if daily else 168
     previous=health.get('lastAttemptAt')
-    if not previous:return True,'q4_missing_next_year' if daily else 'weekly'
+    if not previous:return True,'rolling_reference_daily' if rolling else 'q4_missing_next_year' if daily else 'weekly'
     try:
         prior=datetime.fromisoformat(previous)
         require(prior.tzinfo is not None,'ambiguous_check_timestamp')
@@ -296,7 +297,7 @@ def should_check(cal, health, now, force=False, *, adapter=None):
     # The weekly cron runs on Sunday, not the ISO Monday week boundary.
     week_start=lambda value:value.date()-timedelta(days=value.isoweekday()%7)
     period_changed=(now.date()>prior.date()) if daily else week_start(now)>week_start(prior)
-    return force or period_changed or age>=hours*3600, 'manual' if force else 'q4_missing_next_year' if daily else 'weekly'
+    return force or period_changed or age>=hours*3600, 'manual' if force else 'rolling_reference_daily' if rolling else 'q4_missing_next_year' if daily else 'weekly'
 
 
 class SameHostRedirect(urllib.request.HTTPRedirectHandler):
@@ -482,7 +483,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
         # A failed attempt must not erase the last successful source/verification
         # timestamps. They are distinct from this attempt and from content age.
         previous=health['calendars'].get(key,{})
-        for field in ('lastSourceSuccessAt','lastVerifiedAt'):
+        for field in ('lastSourceSuccessAt','lastVerifiedAt','referenceValidFrom','referenceValidThrough','referenceProvider','evidenceLevel'):
             if previous.get(field):state[field]=previous[field]
         try:
             uncertainty_only=key=='A50_CFD' and spec['adapter']=='blocked-a50-provider' and bool(spec.get('uncertaintyFrom'))
@@ -496,6 +497,13 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 candidates=a50_unknown_provider_calendar(bundle['calendars'][key],records[0]['text'],spec['uncertaintyFrom'])
                 state['uncertaintyFrom']=spec['uncertaintyFrom']
                 state['sourceMode']='provider_uncertainty_policy'
+            elif spec['adapter']=='a50-cfd-reference':
+                from calendar_a50 import reference_schedule,apply_reference
+                reference=reference_schedule(records[0]['text'],records[1]['text'],records[2]['text'],now.date())
+                candidates=apply_reference(bundle['calendars'][key],reference,now.date())
+                state.update(sourceMode='third_party_cfd_reference',evidenceLevel='third_party_reference',
+                             referenceProvider=reference['provider'],referenceValidFrom=reference['start'],
+                             referenceValidThrough=reference['end'],providerScheduleVerified=False)
             elif spec['adapter']=='china-pair':
                 first=parse_china(records[0]['text'])
                 year=next(iter(first))
@@ -672,7 +680,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                            and not spec['adapter'].startswith('blocked-'))
                 try:
                     require(spec.get('publishEnabled',True), spec.get('blockReason','first_live_validation_required'))
-                    accept(old,new,allow_unknown=uncertainty_only or spec.get('capability')=='annual_partial_sessions' or spec['adapter'] in ('xetra-annual','euronext-paris'))
+                    accept(old,new,allow_unknown=uncertainty_only or spec.get('capability') in ('annual_partial_sessions','rolling_third_party_reference') or spec['adapter'] in ('xetra-annual','euronext-paris'))
                     if old and set(old['holidays'])==set(new['holidays']) and old['overrides']==new['overrides'] and set(old['unknownDates'])==set(new['unknownDates']):continue
                     if old:
                         additions=(set(new['holidays'])-set(old['holidays']))|(set(new['overrides'])-set(old['overrides']))|(set(new['unknownDates'])-set(old['unknownDates']))
@@ -703,7 +711,11 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 bundle['calendars'][key]['years'][year]=new;changed.append(key+':'+year)
             state['parsedYears']=[] if uncertainty_only else sorted(candidates)
             if uncertainty_only:state['unknownOnlyYears']=sorted(candidates)
-            if held:
+            if spec['adapter']=='a50-cfd-reference':
+                state['status']='published_third_party_reference' if any(c.startswith(key+':') for c in changed) else 'verified_third_party_reference'
+                state['reason']='forex_com_cfd_reference_not_sina_provider_guarantee;bounded_by_published_holiday_window'
+                if held:state['heldYears']=held
+            elif held:
                 state['heldYears']=held
                 if automatic:
                     state['status']='published_future_preserving_history' if any(c.startswith(key+':') for c in changed) else 'verified_future_preserving_history'
@@ -748,18 +760,8 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
         (root/'calendars/current.json').write_bytes(canonical({'schemaVersion':1,'sha256':revision,'path':path}))
     else:revision=current['revision']
     health['activeRevision']=revision
-    warnings=[]
-    for key,cal in bundle['calendars'].items():
-        year=now.year
-        if str(year) not in cal['years']:
-            warnings.append({'calendarId':key,'level':'critical','reason':'current_year_not_covered'})
-            continue
-        while str(year+1) in cal['years']:year+=1
-        remaining=(date(year,12,31)-now.date()).days
-        if remaining<=90:
-            warnings.append({'calendarId':key,'level':'critical' if remaining<=7 else 'warning',
-                             'reason':'next_year_not_covered','daysRemaining':remaining})
-    health['coverageWarnings']=warnings
+    from calendar_ops import coverage
+    health['coverageWarnings']=coverage(snapshot if changed else current,now.date())
     if checked:hp.write_bytes(canonical(health))
     if checked and root==ROOT:
         from calendar_ops import record, status

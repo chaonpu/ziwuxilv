@@ -71,6 +71,20 @@ class WatchdogTests(unittest.TestCase):
         for rec in self.health['calendars'].values():
             rec['lastAttemptAt'] = instant.isoformat()
 
+    def test_rolling_cfd_reference_checks_daily_before_q4(self):
+        self.now=self.now.replace(month=7)
+        self.set_health_time(self.now)
+        self.health['calendars']['A50_CFD'].update(adapter='a50-cfd-reference',
+            lastAttemptAt=(self.now-timedelta(hours=49)).isoformat())
+        self.assertIn('A50_CFD',self.assess()['overdueCalendars'])
+
+    def test_rolling_reference_coverage_uses_window_instead_of_unknown_baseline_years(self):
+        cal=self.snapshot['data']['calendars']['A50_CFD']
+        cal['years']['2026']['reference']={'evidenceLevel':'third_party_reference','end':'2026-11-27'}
+        self.health['calendars']['A50_CFD']['adapter']='a50-cfd-reference'
+        item=next(r for r in self.assess()['calendars'] if r['calendarId']=='A50_CFD')
+        self.assertEqual(35,item['coverageDaysRemaining']);self.assertEqual(48,item['limitHours'])
+
     def test_missing_malformed_future_or_naive_timestamp_is_not_fresh(self):
         for value in (None, 'bad', '2026-10-23T08:47:00', (self.now + timedelta(hours=1)).isoformat()):
             self.health['calendars']['CN_EQ']['lastAttemptAt'] = value
