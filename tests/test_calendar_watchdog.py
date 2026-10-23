@@ -54,6 +54,19 @@ class WatchdogTests(unittest.TestCase):
         self.assertFalse(self.assess()['overdueCalendars'])
         self.assertEqual(self.assess()['recoveryDecision'], 'within_cadence')
 
+    def test_unverified_next_official_year_is_daily_even_when_seed_has_coverage(self):
+        self.health['calendars']['US_EQ'].update(parsedYears=['2026'],lastAttemptAt=(self.now-timedelta(hours=49)).isoformat())
+        self.assertIn('US_EQ',self.assess()['overdueCalendars'])
+
+    def test_transport_recovery_is_daily_before_q4_but_blocked_provider_stays_weekly(self):
+        self.now=self.now.replace(month=7)
+        self.set_health_time(self.now)
+        self.health['calendars']['US_EQ'].update(recoverableSourceFailure=True,lastAttemptAt=(self.now-timedelta(hours=49)).isoformat())
+        self.health['calendars']['A50_CFD'].update(adapter='blocked-a50-provider',recoverableSourceFailure=True,
+            lastAttemptAt=(self.now-timedelta(hours=49)).isoformat())
+        self.assertIn('US_EQ',self.assess()['overdueCalendars'])
+        self.assertNotIn('A50_CFD',self.assess()['overdueCalendars'])
+
     def set_health_time(self, instant):
         for rec in self.health['calendars'].values():
             rec['lastAttemptAt'] = instant.isoformat()
