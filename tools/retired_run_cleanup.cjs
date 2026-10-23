@@ -61,9 +61,20 @@ module.exports = async function clean({github, context, plan, target, now = Date
         live = await read(r.id);
         assert(matches(live, r), 'orphan run identity changed');
         if (live.status !== 'queued') { result.skipped++; continue; }
-        await github.rest.actions.deleteWorkflowRun({owner, repo, run_id:r.id});
-        assert(await read(r.id) === null, 'orphan deletion not verified');
-        result.deleted++; continue;
+        try {
+          await github.rest.actions.deleteWorkflowRun({owner, repo, run_id:r.id});
+          assert(await read(r.id) === null, 'orphan deletion not verified');
+          result.deleted++; continue;
+        } catch (deletionError) {
+          if (deletionError.status !== 403 || deletionError.message !== 'Could not delete the workflow run') throw deletionError;
+          // The exact zero-job orphan is still rejected by GitHub's delete API.
+          // Use its documented force-cancel endpoint only after normal cancel
+          // failed, then require the same completed/cancelled state below.
+          live = await read(r.id);
+          assert(matches(live, r), 'orphan run identity changed');
+          if (live.status !== 'queued') { result.skipped++; continue; }
+          await github.request('POST /repos/{owner}/{repo}/actions/runs/{run_id}/force-cancel', {owner, repo, run_id:r.id});
+        }
       }
       result.cancelled++;
       for (let n = 0; n < 20; n++) {

@@ -77,3 +77,13 @@ test('cancel409 cannot bypass the two-week age boundary',async()=>{
   const f=orphan();f.row.createdAt=f.live.created_at='2026-10-14T00:00:00Z';
   assert.equal((await clean(f)).skipped,1);assert(!f.calls.includes('DELETE'));assert(!f.calls.includes('JOBS'));
 });
+test('GitHub orphan deletion rejection uses force cancel and verifies cancellation before deleting',async()=>{
+  const f=orphan();const remove=f.github.rest.actions.deleteWorkflowRun;let attempts=0;
+  f.github.rest.actions.deleteWorkflowRun=async()=>{if(attempts++===0){f.calls.push('DELETE_REJECTED');throw Object.assign(new Error('Could not delete the workflow run'),{status:403});}return remove();};
+  f.github.request=async(route,args)=>{assert.equal(route,'POST /repos/{owner}/{repo}/actions/runs/{run_id}/force-cancel');assert.equal(args.run_id,f.row.id);f.calls.push('FORCE_CANCEL');f.live.status='completed';f.live.conclusion='cancelled';};
+  const r=await clean(f);assert.equal(r.deleted,1);assert.equal(r.cancelled,1);assert.deepEqual(f.calls,['LIST','GET','CANCEL','GET','JOBS','GET','DELETE_REJECTED','GET','FORCE_CANCEL','GET','DELETE','GET']);
+});
+test('ordinary permission denial cannot trigger force cancel',async()=>{
+  const f=orphan();f.github.rest.actions.deleteWorkflowRun=async()=>{throw Object.assign(new Error('Resource not accessible by integration'),{status:403});};
+  f.github.request=async()=>assert.fail('must not force cancel');await assert.rejects(clean(f),/not accessible/);
+});
