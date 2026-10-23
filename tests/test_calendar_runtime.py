@@ -110,6 +110,18 @@ class CalendarTests(unittest.TestCase):
         self.assertEqual(sync.should_check(cal,state,now,adapter='source-monitor'),(False,'weekly'))
         self.assertTrue(sync.should_check(cal,state,now,force=True,adapter='source-monitor')[0])
 
+    def test_weekly_boundary_matches_sunday_cron_after_friday_manual_check(self):
+        now=datetime(2026,10,25,8,17,tzinfo=ZoneInfo('Asia/Shanghai'))
+        cal=self.snapshot['data']['calendars']['US_EQ']
+        self.assertTrue(sync.should_check(cal,{'lastAttemptAt':'2026-10-23T08:17:00+08:00'},now)[0])
+        self.assertFalse(sync.should_check(cal,{'lastAttemptAt':'2026-10-25T08:17:00+08:00'},now+timedelta(days=1))[0])
+
+    def test_future_or_timezone_missing_timestamp_cannot_suppress_recovery_check(self):
+        now=datetime(2026,10,23,8,17,tzinfo=ZoneInfo('Asia/Shanghai'))
+        cal=self.snapshot['data']['calendars']['US_EQ']
+        for value in ((now+timedelta(days=7)).isoformat(),'2026-10-23T08:17:00'):
+            self.assertEqual(sync.should_check(cal,{'lastAttemptAt':value},now),(True,'invalid_check_timestamp'))
+
     def test_failed_sources_preserve_active_bytes_and_check_skip_does_no_network(self):
         import shutil
         with tempfile.TemporaryDirectory() as td:

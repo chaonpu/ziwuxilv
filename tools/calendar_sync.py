@@ -268,10 +268,15 @@ def should_check(cal, health, now, force=False, *, adapter=None):
     previous=health.get('lastAttemptAt')
     if not previous:return True,'q4_missing_next_year' if daily else 'weekly'
     try:
-        prior=datetime.fromisoformat(previous).astimezone(now.tzinfo)
+        prior=datetime.fromisoformat(previous)
+        require(prior.tzinfo is not None,'ambiguous_check_timestamp')
+        prior=prior.astimezone(now.tzinfo)
         age=(now-prior).total_seconds()
+        require(age>=-300,'future_check_timestamp')
     except (TypeError,ValueError):return True,'invalid_check_timestamp'
-    period_changed=(now.date()>prior.date()) if daily else (now.date()>prior.date() and now.isocalendar()[:2]!=prior.isocalendar()[:2])
+    # The weekly cron runs on Sunday, not the ISO Monday week boundary.
+    week_start=lambda value:value.date()-timedelta(days=value.isoweekday()%7)
+    period_changed=(now.date()>prior.date()) if daily else week_start(now)>week_start(prior)
     return force or period_changed or age>=hours*3600, 'manual' if force else 'q4_missing_next_year' if daily else 'weekly'
 
 
