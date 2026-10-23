@@ -115,6 +115,25 @@ class ExtendedAdaptersTests(unittest.TestCase):
         for adapter in ('blocked-a50-provider','blocked-sgx-product'):
             with self.assertRaises(ValueError):a.guarded_source(adapter,['SGX Nikkei'])
 
+    def test_a50_only_withdraws_future_claims_and_wrong_provider_product_stays_rejected(self):
+        cal=runtime.validate(runtime.seed_path().read_bytes())['data']['calendars']['A50_CFD']
+        html='富时中国A50期货CFD <script>futures_app.code = "CHA50CFD";</script>'
+        values=a.a50_unknown_provider_calendar(cal,html,'2026-10-24')
+        self.assertIn('2026-10-24',values['2026']['unknownDates'])
+        self.assertNotIn('2026-10-23',values['2026']['unknownDates'])
+        self.assertIn('2027-12-31',values['2027']['unknownDates'])
+        self.assertFalse(values['2027']['holidays'])
+        with self.assertRaises(ValueError):a.a50_unknown_provider_calendar(cal,html.replace('CHA50CFD','MCA'),'2026-10-24')
+
+    def test_a50_provider_uncertainty_changes_no_history_or_other_market(self):
+        import calendar_ops as ops
+        before=runtime.validate(runtime.seed_path().read_bytes());data=deepcopy(before['data'])
+        cal=data['calendars']['A50_CFD']
+        cal['years'].update(a.a50_unknown_provider_calendar(cal,'富时中国A50期货CFD futures_app.code="CHA50CFD"','2026-10-24'))
+        after=runtime.validate(runtime.canonical(data));report=ops.impact(before,after,date(2026,10,23))
+        self.assertEqual(0,report['historicalChangedDays']);self.assertEqual({'A50_CFD'},set(report['byCalendar']))
+        self.assertTrue(all(c['after']['kind']=='UNKNOWN' for c in report['changes']))
+
     def test_saudi_lunar_estimates_stay_unknown_and_final_dates_are_required(self):
         rows=[['22/02/2027','Founding Day'],['23/09/2027','National Day'],
               ['07/03/2027 11/03/2027','Eid Al Fitr end of trading day 04/03/2027. Trading will resume after the holiday on 14/03/2027 UMM AL-QURA'],
@@ -186,6 +205,22 @@ class ExtendedAdaptersTests(unittest.TestCase):
         obj['format']='bse_commodity_master_tables_v1'
         with self.assertRaises(ValueError):a.parse_bse_master(json.dumps(obj))
 
+    def test_bse_actual_beta_and_split_pdf_cells_agree_without_currency_holidays(self):
+        facts=fixture('bse-2026-official-tables.json')
+        heading='Trading Holidays for 2026 - Equity Segment , Equity Derivative Segment'
+        note='<p>Muhurat Trading will be conducted on Sunday,\n November 08, 2026.</p>'
+        html=heading+table(facts['equityRows'])+note+'<h2>Trading holidays for 2026 - Currency Derivatives</h2>'+table(facts['foreignSegmentRows'])
+        first=a.parse_bse(html)['2026']
+        second=a.parse_bse_master(json.dumps({'format':'bse_equity_master_tables_v1',
+            'texts':['2.2 Trading Holidays for 2026. Muhurat Trading will be conducted on Sunday,\n November 08, 2026.'],
+            'tables':[facts['masterRows']]}))['2026']
+        self.assertEqual(16,len(first['holidays']))
+        self.assertEqual(set(first['holidays']),set(second['holidays']))
+        self.assertEqual(['2026-11-08'],first['unknownDates'])
+        self.assertEqual(first['unknownDates'],second['unknownDates'])
+        self.assertNotIn('2026-02-19',first['holidays'])
+        self.assertNotIn('2026-04-01',first['holidays'])
+
     def test_source_transfers_reject_cross_host_redirect_before_following(self):
         import urllib.request
         request=urllib.request.Request('https://www.hkex.com.hk/calendar')
@@ -218,6 +253,50 @@ class ExtendedAdaptersTests(unittest.TestCase):
             self.assertEqual('CLOSED',runtime.day_rule(active,'KR_EQ','2027-02-08')['kind'])
             self.assertEqual('UNKNOWN',runtime.day_rule(active,'ICE_BRENT','2027-12-24')['kind'])
             self.assertTrue(list((root/'calendars/candidates').glob('*.impact.json')))
+
+    def test_reviewed_china_fallback_is_exact_year_source_and_digest_bound(self):
+        import shutil
+        spec=s.SOURCES['CN_FUTURES'];venue='DCE';url=spec['urls'][2]
+        now=datetime(2026,10,23,15,tzinfo=ZoneInfo('Asia/Shanghai'))
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);path=root/spec['reviewedFallback'];path.parent.mkdir(parents=True)
+            shutil.copy2(s.ROOT/spec['reviewedFallback'],path)
+            data,nights,proof=a.reviewed_china_futures(root,spec,venue,url,now)
+            expected,actual_nights=a.parse_china_futures(fixture('shfe-2026.json')['text'])
+            self.assertEqual(set(expected['2026']['holidays']),set(data['2026']['holidays']))
+            self.assertEqual(actual_nights,nights);self.assertEqual('reviewed_official_index',proof['mode'])
+            with self.assertRaises(ValueError):a.reviewed_china_futures(root,spec,venue,'https://wrong.example/',now)
+            with self.assertRaises(ValueError):a.reviewed_china_futures(root,spec,venue,url,now.replace(year=2027))
+            path.write_bytes(path.read_bytes()+b' ')
+            with self.assertRaises(ValueError):a.reviewed_china_futures(root,spec,venue,url,now)
+
+    def test_china_live_parses_and_reviewed_fallback_are_distinct_and_format_changes_stay_held(self):
+        import shutil
+        spec=s.SOURCES['CN_FUTURES'];text=fixture('shfe-2026.json')['text']
+        for changed_format in (False,True):
+            with tempfile.TemporaryDirectory() as td:
+                root=Path(td);(root/'calendars/releases').mkdir(parents=True)
+                raw=runtime.seed_path().read_bytes();revision=runtime.validate(raw)['revision']
+                path='calendars/releases/'+revision+'.json';(root/path).write_bytes(raw)
+                (root/'calendars/current.json').write_bytes(runtime.canonical({'schemaVersion':1,'sha256':revision,'path':path}))
+                fallback=root/spec['reviewedFallback'];fallback.parent.mkdir(parents=True)
+                shutil.copy2(s.ROOT/spec['reviewedFallback'],fallback)
+                def fetch(url):
+                    if url in spec['urls'][:2]:return text.encode()
+                    if changed_format and url==spec['urls'][2]:return b'Official annual page with changed format'
+                    raise OSError('official source unavailable')
+                s.sync(root,force=True,fetch=fetch,now=datetime(2026,10,23,15,tzinfo=ZoneInfo('Asia/Shanghai')))
+                state=json.loads((root/'calendars/health.json').read_bytes())['calendars']['CN_FUTURES']
+                self.assertEqual('parsed',state['venueValidation']['SHFE']['status'])
+                if changed_format:
+                    self.assertEqual('held',state['venueValidation']['DCE']['status'])
+                    self.assertEqual('held_preserving_active_calendar',state['status'])
+                else:
+                    self.assertEqual('verified_with_reviewed_fallback',state['status'])
+                    self.assertEqual(['DCE','CZCE','GFEX'],state['reviewedFallbackVenues'])
+                    self.assertNotIn('lastSourceSuccessAt',state)
+                    self.assertEqual('unavailable',state['sourceResults'][2]['status'])
+                self.assertEqual(revision,json.loads((root/'calendars/current.json').read_bytes())['sha256'])
 
 
 if __name__=='__main__':unittest.main()

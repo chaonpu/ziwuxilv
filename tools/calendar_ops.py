@@ -250,6 +250,8 @@ def status(root=ROOT, now=None, observe=False):
         rows.append({'calendarId':key, 'adapter':spec.get('adapter'),
                      'capability':spec.get('capability', 'annual' if spec.get('adapter') != 'source-monitor' else 'monitor'),
                      'years':sorted(cal['years']), 'sourceStatus':item.get('status', 'not_checked'),
+                     'parsedYears':item.get('parsedYears',[]),'sourceMode':item.get('sourceMode'),
+                     'reviewedFallbackVenues':item.get('reviewedFallbackVenues',[]),
                      'lastAttemptAt':item.get('lastAttemptAt'), 'lastVerifiedAt':item.get('lastVerifiedAt'),
                      'reason':item.get('reason') or spec.get('blockReason'),
                      'unknownSessions':sum(len(r['unknownDates']) for r in cal['years'].values())})
@@ -271,9 +273,9 @@ def status(root=ROOT, now=None, observe=False):
     install_json(result, root/'calendars/status.json')
     lines = ['# 交易日历运行状态', '', '检查时间：'+result['observedAt'], '',
              '当前版本：`'+active['revision']+'`', '',
-             '| 市场/产品 | 适配能力 | 已知年份 | 最近来源状态 | 待处理原因 |', '|---|---|---|---|---|']
+             '| 市场/产品 | 适配能力 | 现有覆盖年份 | 本次解析年份 | 最近来源状态 | 待处理原因 |', '|---|---|---|---|---|---|']
     for row in rows:
-        cells = [row['calendarId'], row['capability'], ', '.join(row['years']), row['sourceStatus'], row.get('reason') or '—']
+        cells = [row['calendarId'], row['capability'], ', '.join(row['years']), ', '.join(row['parsedYears']) or '—', row['sourceStatus'], row.get('reason') or '—']
         lines.append('| '+' | '.join(str(c).replace('|', '\\|').replace('\n', ' ') for c in cells)+' |')
     lines += ['', '连续观察：'+str(consecutive)+'天；达到30天：'+('是' if consecutive >= 30 else '否')+'。',
               '', '来源异常时继续使用覆盖目标日期的已核验日历。未知时段不推算。回滚及历史影响分析不自动改写账本。', '']

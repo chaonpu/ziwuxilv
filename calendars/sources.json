@@ -7,6 +7,7 @@
         "https://finance.sina.com.cn/futures/quotes/CHA50CFD.shtml"
       ],
       "capability": "blocked",
+      "uncertaintyFrom": "2026-10-24",
       "blockReason": "app_uses_sina_cfd_sgx_futures_calendar_is_not_provider_calendar"
     },
     "BR_EQ": {
@@ -40,9 +41,9 @@
         "https://english.czce.com.cn/en/AboutUs/News/ggytz/webinfo/2025/12/22988c484160465b9eff8d4364a362bf.htm",
         "https://www.gfex.com.cn/gfex/tzts/202512/0134914f8c674fa68c2ba9041a5cd798.shtml"
       ],
-      "capability": "awaiting_source_consensus",
-      "publishEnabled": false,
-      "blockReason": "five_venue_annual_holidays_and_night_rules_must_agree"
+      "capability": "annual_with_reviewed_fallback",
+      "blockReason": "next_year_requires_all_venue_official_sources_or_a_new_explicit_review",
+      "reviewedFallback": "calendars/reviewed/733dd1a63d7e4214756f20b9366ea107128fbc936812a5cfae8cb09077b168ab.json"
     },
     "DE_EQ": {
       "adapter": "xetra-annual",
@@ -85,9 +86,8 @@
         "https://beta.bseindia.com/static/markets/marketinfo/listholi.aspx",
         "https://www.bseindia.com/Downloads/UploadDocs/Notices/Attach/Equity_Master_Circular%24b0cfd71f-2ac1-4205-b6c5-5085f322e1ae.pdf"
       ],
-      "capability": "awaiting_live_validation",
-      "publishEnabled": false,
-      "blockReason": "official_equity_annual_page_currently_http_403_special_sunday_sessions_need_notice"
+      "capability": "annual_partial_sessions",
+      "blockReason": "special_sunday_sessions_remain_unknown_until_verified_product_hours"
     },
     "JP_EQ": {
       "adapter": "jpx-annual",

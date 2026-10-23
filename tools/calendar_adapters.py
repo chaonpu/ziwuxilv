@@ -201,6 +201,63 @@ def parse_china_futures_english(html):
     return {str(year):record},sorted(nights)
 
 
+def reviewed_china_futures(root,spec,venue,url,now):
+    """Year-bounded facts reviewed against official notice index text.
+
+    This is an explicit reviewed fallback, never labelled as a live parse or
+    given an invented digest for an unavailable source document.
+    """
+    import json,hashlib
+    from calendar_runtime import canonical
+    path=spec.get('reviewedFallback','')
+    match=re.fullmatch(r'calendars/reviewed/([0-9a-f]{64})\.json',path)
+    require(match is not None,'china_reviewed_fallback_not_configured')
+    raw=(root/path).read_bytes()
+    require(hashlib.sha256(raw).hexdigest()==match[1],'china_reviewed_fallback_digest_mismatch')
+    obj=json.loads(raw);year=str(obj.get('year',''))
+    require(obj.get('schemaVersion')==1 and obj.get('calendarId')=='CN_FUTURES'
+            and re.fullmatch('20[0-9]{2}',year) and obj.get('verificationMode')=='reviewed_official_index',
+            'china_reviewed_fallback_scope_invalid')
+    require(date.fromisoformat(obj['reviewedAt'])<=now.date()<=date.fromisoformat(obj['validThrough'])
+            and obj['validThrough']==year+'-12-31' and int(year)>=now.year,'china_reviewed_fallback_expired')
+    item=obj['venues'].get(venue,{})
+    require(item.get('sourceUrl')==url and item.get('noticeYear')==int(year),'china_reviewed_venue_source_mismatch')
+    ranges=item.get('holidayRanges',{})
+    require(set(ranges)==set(LABELS),'china_reviewed_seven_groups_required')
+    record=blank(year,[url])
+    for label,(first,last) in ranges.items():
+        first=date.fromisoformat(first);last=date.fromisoformat(last)
+        require(first.year==int(year) and last.year==int(year) and 0<=(last-first).days<=16,'china_reviewed_range_invalid')
+        while first<=last:
+            require(first.isoformat() not in record['holidays'],'china_reviewed_holiday_overlap')
+            record['holidays'][first.isoformat()]=label;first+=timedelta(days=1)
+    night=item.get('nightSuspensionDates',[])
+    require(len(night)==(0 if venue=='GFEX' else 7) and len(set(night))==len(night)
+            and all(int(year)-1<=date.fromisoformat(d).year<=int(year) for d in night),'china_reviewed_night_dates_invalid')
+    require(15<=len(record['holidays'])<=55,'china_reviewed_annual_incomplete')
+    return {year:record},sorted(night),{'mode':'reviewed_official_index','reviewedAt':obj['reviewedAt'],
+        'reviewManifestSha256':match[1],'sourceUrl':url}
+
+
+def a50_unknown_provider_calendar(cal,html,first_unknown):
+    """Withdraw unsupported future day claims; never infer a CFD session."""
+    from copy import deepcopy
+    require('富时中国A50' in html and 'CFD' in html
+            and re.search(r'futures_app\.code\s*=\s*["\']CHA50CFD["\']',html), 'a50_provider_instrument_identity_missing')
+    boundary=date.fromisoformat(first_unknown);result={};count=0
+    for year,old in cal['years'].items():
+        if int(year)<boundary.year:continue
+        record=deepcopy(old);cursor=max(boundary,date(int(year),1,1));end=date(int(year),12,31)
+        unknown=set(record['unknownDates'])
+        while cursor<=end:
+            label=cursor.isoformat();unknown.add(label)
+            record['holidays'].pop(label,None);record['overrides'].pop(label,None)
+            cursor+=timedelta(days=1);count+=1
+        record['unknownDates']=sorted(unknown);result[year]=record
+    require(0<count<=1100,'a50_uncertainty_range_invalid')
+    return result
+
+
 def parse_saudi(html, minimum_year=None):
     page = Page(html)
     require('Saudi Exchange Holiday Calendar' in page.plain(), 'saudi_exchange_scope_missing')
@@ -249,9 +306,20 @@ def parse_bse(html):
     sections = re.split(r'Trading\s+Holidays\s+for\s+(20\d{2})\s*-\s*Equity\s+Segment\s*,?\s*Equity\s+Derivative\s+Segment', html)
     for i in range(1, len(sections), 2):
         year, block = sections[i], sections[i+1]
-        block = re.split(r'Trading Holidays for|The holidays falling on Saturday|Holidays falling on Saturday', block)[0]
+        block = re.split(r'Trading\s+Holidays\s+for',block,flags=re.I)[0]
+        # Only the first table belongs to the equity annual heading. The page
+        # then lists weekend, currency, settlement and commodity schedules.
+        tokens=list(re.finditer(r'</?table\b[^>]*>',block,re.I));depth=0;table_start=None;table_html=None
+        for token in tokens:
+            if token[0].lower().startswith('</'):
+                depth-=1
+                if depth==0 and table_start is not None:table_html=block[table_start:token.end()];break
+            else:
+                if depth==0:table_start=token.start()
+                depth+=1
+        require(table_html is not None,'bse_equity_table_missing')
         record = blank(year, []); ordinals = []
-        for row in Page(block).rows:
+        for row in Page(table_html).rows:
             if len(row) != 4 or not row[0].isdigit():continue
             found = re.fullmatch(r'(\d{2})-([A-Za-z]{3})-(\d{2})', row[2])
             require(found is not None and '20'+found[3] == year, 'bse_equity_row_date_invalid')
@@ -266,7 +334,7 @@ def parse_bse(html):
                 and any('Christmas' in v for v in record['holidays'].values()), 'bse_annual_boundaries_missing')
         # A generic holiday table is insufficient evidence for special Sunday
         # opening times (Muhurat/Budget sessions). Keep known special dates UNKNOWN.
-        for sentence in re.findall(r'Muhurat[^.\n]{0,250}',Page(html).plain(),re.I):
+        for sentence in re.findall(r'Muhurat[^.\n]{0,250}',' '.join(Page(block).plain().split()),re.I):
             values=[]
             for m in re.finditer(r'(\d{1,2})(?:st|nd|rd|th)?[ -]+('+MONTH_PATTERN+r')[ , -]+('+year+r')',sentence,re.I):
                 values.append(date(int(year),MONTHS[m[2].title()],int(m[1])).isoformat())
@@ -286,13 +354,15 @@ def parse_bse_master(payload):
     from html import escape
     obj=json.loads(payload)
     require(obj.get('format')=='bse_equity_master_tables_v1','bse_master_normalized_scope_invalid')
-    text=' '.join(obj['texts']);rows=[];years=set()
+    text=' '.join(' '.join(obj['texts']).split());rows=[];years=set()
     for table in obj['tables']:
         for row in table:
-            if len(row)!=4 or row[0] is None or not str(row[0]).strip().isdigit():continue
+            row=[v for v in row if v is not None and str(v).strip()]
+            if len(row)!=4 or not str(row[0]).strip().isdigit():continue
             row=[' '.join(str(v or '').split()) for v in row]
+            row[2]=re.sub(r',\s*',', ',row[2])
             day=None
-            for pattern in ('%d-%b-%y','%d-%b-%Y','%B %d, %Y','%d %B %Y','%B %d %Y'):
+            for pattern in ('%d-%b-%y','%d-%b-%Y','%B %d, %Y','%d %B, %Y','%d %B %Y','%B %d %Y'):
                 try:
                     from datetime import datetime
                     day=datetime.strptime(row[2],pattern).date();break
@@ -304,7 +374,8 @@ def parse_bse_master(payload):
     require(len(years)==1,'bse_master_annual_year_ambiguous:'+','.join(sorted(years)));year=next(iter(years))
     require(year in text and 'Trading Holidays' in text,'bse_master_annual_heading_missing')
     html='Trading Holidays for '+year+' - Equity Segment, Equity Derivative Segment<table>'
-    html+=''.join('<tr>'+''.join('<td>'+escape(v)+'</td>' for v in row)+'</tr>' for row in rows)+'</table><p>'+escape(text)+'</p>'
+    notes=' '.join(re.findall(r'Muhurat[^.\n]{0,250}',text,re.I))
+    html+=''.join('<tr>'+''.join('<td>'+escape(v)+'</td>' for v in row)+'</tr>' for row in rows)+'</table><p>'+escape(notes)+'</p>'
     return parse_bse(html)
 
 

@@ -448,12 +448,18 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
         for field in ('lastSourceSuccessAt','lastVerifiedAt'):
             if previous.get(field):state[field]=previous[field]
         try:
-            if spec['adapter'].startswith('blocked-'):
+            uncertainty_only=key=='A50_CFD' and spec['adapter']=='blocked-a50-provider' and bool(spec.get('uncertaintyFrom'))
+            if spec['adapter'].startswith('blocked-') and not uncertainty_only:
                 from calendar_adapters import guarded_source
                 guarded_source(spec['adapter'], [r.get('text','') for r in records])
             if spec['adapter'] not in ('china-futures-consensus','bse-equities-annual'):
                 require(all(r['status']=='ok' for r in records),'official_source_unavailable')
-            if spec['adapter']=='china-pair':
+            if uncertainty_only:
+                from calendar_adapters import a50_unknown_provider_calendar
+                candidates=a50_unknown_provider_calendar(bundle['calendars'][key],records[0]['text'],spec['uncertaintyFrom'])
+                state['uncertaintyFrom']=spec['uncertaintyFrom']
+                state['sourceMode']='provider_uncertainty_policy'
+            elif spec['adapter']=='china-pair':
                 first=parse_china(records[0]['text'])
                 year=next(iter(first))
                 second=parse_china_english(records[1]['text'])
@@ -514,17 +520,21 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 state['unpublishedYears']=unpublished
                 require(bool(candidates),'krx_published_annual_data_missing')
             elif spec['adapter']=='china-futures-consensus':
-                from calendar_adapters import parse_china_futures,parse_china_futures_english
-                parsed=[];state['venueValidation']={}
+                from calendar_adapters import parse_china_futures,parse_china_futures_english,reviewed_china_futures
+                parsed=[];state['venueValidation']={};reviewed=[]
                 for venue,u,r in zip(('SHFE','INE','DCE','CZCE','GFEX'),spec['urls'],records):
                     try:
-                        require(r['status']=='ok','official_source_unavailable')
-                        if venue=='GFEX':data,night=parse_china(r['text']),[]
-                        elif venue=='CZCE' and 'english.czce.com.cn' in u:data,night=parse_china_futures_english(r['text'])
-                        else:data,night=parse_china_futures(r['text'])
-                        state['venueValidation'][venue]={'status':'parsed','years':sorted(data),'nightSuspensionDates':night}
-                        evidence={'schemaVersion':1,'venue':venue,'sourceUrl':u,'sourceSha256':r['sha256'],
-                                  'calendars':data,'nightSuspensionDates':night}
+                        if r['status']=='ok':
+                            if venue=='GFEX':data,night=parse_china(r['text']),[]
+                            elif venue=='CZCE' and 'english.czce.com.cn' in u:data,night=parse_china_futures_english(r['text'])
+                            else:data,night=parse_china_futures(r['text'])
+                            evidence={'schemaVersion':1,'venue':venue,'sourceUrl':u,'sourceSha256':r['sha256'],'mode':'live_parse'}
+                            mode='parsed'
+                        else:
+                            data,night,proof=reviewed_china_futures(root,spec,venue,u,now)
+                            evidence={'schemaVersion':1,'venue':venue,**proof};mode='reviewed_fallback';reviewed.append(venue)
+                        state['venueValidation'][venue]={'status':mode,'years':sorted(data),'nightSuspensionDates':night}
+                        evidence.update(calendars=data,nightSuspensionDates=night)
                         evidence_raw=canonical(evidence);digest=hashlib.sha256(evidence_raw).hexdigest()
                         path=root/'calendars/evidence/CN_FUTURES'/venue/(digest+'.json')
                         path.parent.mkdir(parents=True,exist_ok=True)
@@ -540,6 +550,9 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                         and fifth.keys()==candidates.keys() and all(set(fifth[y]['holidays'])==set(candidates[y]['holidays']) for y in candidates), 'china_five_venue_holidays_conflict')
                 require(all(p[1]==parsed[0][1] for p in parsed), 'china_futures_night_rules_conflict')
                 state['nightSuspensionDates']=parsed[0][1]
+                if reviewed:
+                    state['reviewedFallbackVenues']=reviewed
+                    state['sourceMode']='mixed_live_and_reviewed'
             elif spec['adapter']=='saudi-exchange-annual':
                 from calendar_adapters import parse_saudi
                 candidates=parse_saudi(records[0]['text'],now.year)
@@ -551,7 +564,9 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                         require(r['status']=='ok','official_source_unavailable')
                         parsed=parse_bse_master(r['text']) if '/Equity_Master_Circular' in u else parse_bse(r['text'])
                         for year,record in parsed.items():
-                            require(year not in candidates or stable_record(candidates[year])==stable_record(record),'bse_official_sources_conflict')
+                            require(year not in candidates or (set(candidates[year]['holidays'])==set(record['holidays'])
+                                    and candidates[year]['overrides']==record['overrides']
+                                    and set(candidates[year]['unknownDates'])==set(record['unknownDates'])), 'bse_official_sources_conflict')
                             candidates[year]=record
                         verified.append(u)
                         state['alternativeValidation'].append({'url':u,'status':'parsed','years':sorted(parsed)})
@@ -573,7 +588,7 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                 old=bundle['calendars'][key]['years'].get(year)
                 try:
                     require(spec.get('publishEnabled',True), spec.get('blockReason','first_live_validation_required'))
-                    accept(old,new,allow_unknown=spec.get('capability')=='annual_partial_sessions' or spec['adapter'] in ('xetra-annual','euronext-paris'))
+                    accept(old,new,allow_unknown=uncertainty_only or spec.get('capability')=='annual_partial_sessions' or spec['adapter'] in ('xetra-annual','euronext-paris'))
                     if old and set(old['holidays'])==set(new['holidays']) and old['overrides']==new['overrides'] and set(old['unknownDates'])==set(new['unknownDates']):continue
                     if old:
                         additions=(set(new['holidays'])-set(old['holidays']))|(set(new['overrides'])-set(old['overrides']))|(set(new['unknownDates'])-set(old['unknownDates']))
@@ -592,14 +607,21 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                     state.setdefault('candidateRevisions',{})[year]=proposal_snapshot['revision']
                     continue
                 bundle['calendars'][key]['years'][year]=new;changed.append(key+':'+year)
-            state['parsedYears']=sorted(candidates)
+            state['parsedYears']=[] if uncertainty_only else sorted(candidates)
+            if uncertainty_only:state['unknownOnlyYears']=sorted(candidates)
             if held:
                 state['heldYears']=held
                 state['status']='published_with_held_years' if any(c.startswith(key+':') for c in changed) else 'held_preserving_active_calendar'
                 state['reason']='; '.join(y+':'+r for y,r in held.items())[:200]
+            elif state.get('reviewedFallbackVenues'):
+                state['status']='published_with_reviewed_fallback' if any(c.startswith(key+':') for c in changed) else 'verified_with_reviewed_fallback'
+                state['reason']='year_bounded_official_notice_review_used_for:'+','.join(state['reviewedFallbackVenues'])
+            elif uncertainty_only:
+                state['status']='published_unknown_provider_calendar' if any(c.startswith(key+':') for c in changed) else 'preserving_unknown_provider_calendar'
+                state['reason']='a50_provider_annual_schedule_unverified_future_dates_unknown'
             state.setdefault('status','verified_no_change' if not any(c.startswith(key+':') for c in changed) else 'published')
-            state['lastSourceSuccessAt']=now.isoformat(timespec='seconds')
-            if candidates:state['lastVerifiedAt']=now.isoformat(timespec='seconds')
+            if not state.get('reviewedFallbackVenues'):state['lastSourceSuccessAt']=now.isoformat(timespec='seconds')
+            if candidates and not uncertainty_only:state['lastVerifiedAt']=now.isoformat(timespec='seconds')
         except (ValueError,KeyError,TypeError,UnicodeError,OSError) as exc:
             bundle['calendars'][key]['years']=original_years
             changed=[c for c in changed if not c.startswith(key+':')]

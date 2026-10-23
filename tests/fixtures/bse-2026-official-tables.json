@@ -1,0 +1,426 @@
+{
+  "equityRows": [
+    [
+      "1",
+      "MCGM Election day",
+      "15-Jan-26",
+      "Thursday"
+    ],
+    [
+      "2",
+      "Republic Day",
+      "26-Jan-26",
+      "Monday"
+    ],
+    [
+      "3",
+      "Holi",
+      "03-Mar-26",
+      "Tuesday"
+    ],
+    [
+      "4",
+      "Shri Ram Navami",
+      "26-Mar-26",
+      "Thursday"
+    ],
+    [
+      "5",
+      "Shri Mahavir Jayanti",
+      "31-Mar-26",
+      "Tuesday"
+    ],
+    [
+      "6",
+      "Good Friday",
+      "03-Apr-26",
+      "Friday"
+    ],
+    [
+      "7",
+      "Dr.Baba Saheb Ambedkar Jayanti",
+      "14-Apr-26",
+      "Tuesday"
+    ],
+    [
+      "8",
+      "Maharashtra Day",
+      "01-May-26",
+      "Friday"
+    ],
+    [
+      "9",
+      "Bakri Id",
+      "28-May-26",
+      "Thursday"
+    ],
+    [
+      "10",
+      "Muharram",
+      "26-Jun-26",
+      "Friday"
+    ],
+    [
+      "11",
+      "Ganesh Chaturthi",
+      "14-Sep-26",
+      "Monday"
+    ],
+    [
+      "12",
+      "Mahatma Gandhi Jayanti",
+      "02-Oct-26",
+      "Friday"
+    ],
+    [
+      "13",
+      "Dussehra",
+      "20-Oct-26",
+      "Tuesday"
+    ],
+    [
+      "14",
+      "Diwali Balipratipada",
+      "10-Nov-26",
+      "Tuesday"
+    ],
+    [
+      "15",
+      "Prakash Gurpurb Sri Guru Nanak Dev",
+      "24-Nov-26",
+      "Tuesday"
+    ],
+    [
+      "16",
+      "Christmas",
+      "25-Dec-26",
+      "Friday"
+    ]
+  ],
+  "foreignSegmentRows": [
+    [
+      "1",
+      "MCGM Election day",
+      "15-Jan-26",
+      "Thursday"
+    ],
+    [
+      "3",
+      "Chatrapati Shivaji Maharaj Jayanti",
+      "19-Feb-26",
+      "Thursday"
+    ],
+    [
+      "4",
+      "Holi",
+      "03-Mar-26",
+      "Tuesday"
+    ],
+    [
+      "5",
+      "Gudhipadwa",
+      "19-Mar-26",
+      "Thursday"
+    ],
+    [
+      "6",
+      "Shri Ram Navami",
+      "26-Mar-26",
+      "Thursday"
+    ],
+    [
+      "7",
+      "Shri Mahavir Jayanti",
+      "31-Mar-26",
+      "Tuesday"
+    ],
+    [
+      "8",
+      "Annual Bank Closing",
+      "01-Apr-26",
+      "Wednesday"
+    ],
+    [
+      "9",
+      "Good Friday",
+      "03-Apr-26",
+      "Friday"
+    ]
+  ],
+  "masterRows": [
+    [
+      "",
+      "Sr.No.",
+      "Holidays",
+      "",
+      "",
+      "Date",
+      "",
+      "",
+      "Day",
+      ""
+    ],
+    [
+      "",
+      "1",
+      "MCGM Election Day",
+      null,
+      "January 15, 2026",
+      null,
+      null,
+      "Thursday",
+      null,
+      null
+    ],
+    [
+      "",
+      "2",
+      "Republic Day",
+      null,
+      "January 26,2026",
+      null,
+      null,
+      "Monday",
+      null,
+      null
+    ],
+    [
+      "",
+      "3",
+      "Holi",
+      null,
+      "March 03,2026",
+      null,
+      null,
+      "Tuesday",
+      null,
+      null
+    ],
+    [
+      "",
+      "4",
+      "Shri Ram Navami",
+      null,
+      "26 March,2026",
+      null,
+      null,
+      "Thursday",
+      null,
+      null
+    ],
+    [
+      "",
+      "5",
+      "Shri Mahavir Jayanti",
+      null,
+      "31 March,2026",
+      null,
+      null,
+      "Tuesday",
+      null,
+      null
+    ],
+    [
+      "",
+      "6",
+      "Good Friday",
+      null,
+      "April 03,2026",
+      null,
+      null,
+      "Friday",
+      null,
+      null
+    ],
+    [
+      "",
+      "7",
+      "Dr.Baba Saheb Ambedkar Jayanti",
+      null,
+      "April 14,2026",
+      null,
+      null,
+      "Tuesday",
+      null,
+      null
+    ],
+    [
+      "",
+      "8",
+      "Maharashtra Day",
+      "",
+      "May 01,2026",
+      null,
+      null,
+      "Friday",
+      null,
+      null
+    ],
+    [
+      "",
+      "9",
+      "Bakri Id",
+      null,
+      "May 28,2026",
+      null,
+      null,
+      "Thursday",
+      null,
+      null
+    ],
+    [
+      "",
+      "10",
+      "Muharram",
+      null,
+      "June 26,2026",
+      null,
+      null,
+      "Friday",
+      null,
+      null
+    ],
+    [
+      "11",
+      null,
+      "Ganesh Chaturthi",
+      null,
+      "September 14,2026",
+      null,
+      null,
+      "Monday",
+      null,
+      null
+    ],
+    [
+      "",
+      "12",
+      "Mahatma Gandhi Jayanti",
+      null,
+      "October 02,2026",
+      null,
+      null,
+      "Friday",
+      null,
+      null
+    ],
+    [
+      "",
+      "13",
+      "Dussehra",
+      null,
+      "October 20,2026",
+      null,
+      null,
+      "Tuesday",
+      null,
+      null
+    ],
+    [
+      "14",
+      null,
+      "Diwali Balipratipada",
+      null,
+      "November 10,2026",
+      null,
+      null,
+      "Tuesday",
+      null,
+      null
+    ],
+    [
+      "",
+      "15",
+      "Prakash Gurpurb Sri Guru Nanak Dev",
+      "",
+      "November 24,2026",
+      null,
+      null,
+      "Tuesday",
+      null,
+      null
+    ],
+    [
+      "",
+      "16",
+      "Christmas",
+      "",
+      "December 25,2026",
+      null,
+      null,
+      "Friday",
+      null,
+      null
+    ],
+    [
+      "",
+      "Sr.No.",
+      "Holidays",
+      "",
+      "",
+      "Date",
+      "",
+      "",
+      "Day",
+      ""
+    ],
+    [
+      "",
+      "1",
+      "Mahashivratri",
+      null,
+      "15-Feb-26",
+      null,
+      null,
+      "Sunday",
+      null,
+      null
+    ],
+    [
+      "",
+      "2",
+      "Id-Ul-Fitr (Ramzan Id)",
+      null,
+      "21-Mar-26",
+      null,
+      null,
+      "Saturday",
+      null,
+      null
+    ],
+    [
+      "",
+      "3",
+      "Independence Day",
+      null,
+      "15-Aug-26",
+      null,
+      null,
+      "Saturday",
+      null,
+      null
+    ],
+    [
+      "",
+      "4",
+      "Diwali * Laxmi Pujan",
+      null,
+      "08-Nov-26",
+      null,
+      null,
+      "Sunday",
+      null,
+      null
+    ]
+  ],
+  "sourceHashes": [
+    {
+      "url": "https://beta.bseindia.com/static/markets/marketinfo/listholi.aspx",
+      "sha256": "bd4206845fe007d2b2bf18fce667932d60a6f1eb146974110c3b5316500f24f2"
+    },
+    {
+      "url": "https://www.bseindia.com/Downloads/UploadDocs/Notices/Attach/Equity_Master_Circular%24b0cfd71f-2ac1-4205-b6c5-5085f322e1ae.pdf",
+      "sha256": "cf673963cec2ea1ce96b3f4f17c4a910cedb017dd63a586e76cd47f82eb573af"
+    }
+  ]
+}
