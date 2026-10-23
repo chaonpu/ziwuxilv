@@ -1,6 +1,6 @@
 # 交易日历运行状态
 
-检查时间：2026-10-23T14:44:57+08:00
+检查时间：2026-10-23T14:47:11+08:00
 
 当前版本：`2ace4e43c1e72a95ee96a62e8da1170e4b4fe1908e198cafd777bbcfd5cb4756`
 
@@ -14,11 +14,11 @@
 | DE_EQ | annual | 2026, 2027, 2028, 2029, 2030, 2031, 2032 | verified_no_change | — |
 | FR_EQ | annual | 2026 | verified_no_change | — |
 | HK_EQ | annual | 2026, 2027 | verified_no_change | — |
-| ICE_BRENT | annual_partial_sessions | 2026, 2027 | published_with_held_years | 2026:candidate_changes_past_dates |
+| ICE_BRENT | annual_partial_sessions | 2026, 2027 | held_preserving_active_calendar | 2026:candidate_changes_past_dates |
 | IN_EQ | awaiting_live_validation | 2026 | held_preserving_active_calendar | bse_equity_annual_scope_missing |
 | JP_EQ | annual | 2026, 2027 | verified_no_change | — |
-| KR_EQ | annual | 2026, 2027 | published | — |
-| SA_EQ | awaiting_live_validation | 2026, 2027, 2028 | held_preserving_active_calendar | 2027:official_calendar_currently_http_403_lunar_estimates_not_final; 2026:official_calendar_currently_http_403_lunar_estimates_not_final |
+| KR_EQ | annual | 2026, 2027 | verified_no_change | — |
+| SA_EQ | annual_partial_sessions | 2026, 2027, 2028 | held_preserving_active_calendar | 2027:candidate_removes_holiday; 2026:candidate_removes_holiday |
 | SGX_NIKKEI | blocked | 2026, 2027, 2028 | held_preserving_active_calendar | sgx_nikkei_product_closure_symbols_not_yet_machine_verified |
 | TW_EQ | annual | 2026 | verified_no_change | — |
 | UK_EQ | annual | 2026, 2027, 2028 | verified_no_change | — |
