@@ -1,10 +1,10 @@
 {
-  "versionCode": 133,
-  "versionName": "2.5.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.0/ziwuxilv-native-v2.5.0.apk",
-  "apkSha256": "7388d317c64bfa92c27e77a0085fb0748fab4879fa13a9e370d154dcad072069",
+  "versionCode": 134,
+  "versionName": "2.5.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.1/ziwuxilv-native-v2.5.1.apk",
+  "apkSha256": "c3b7545c919bb40c25e623799a30395e1e669c9cf4a7967a592221a69383f775",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "c72bd2b007c1a0373edfe2158d1ffae734da567b",
-  "updateLog": "v2.5.0：\n1. 行情、收益和持仓统一使用经过校验的交易日历。\n2. 日历支持后台检查更新及本地缓存，年度数据更新无需反复升级APP。\n3. 修复跨年交易日推算，日历未覆盖时停止推算，不再回退为相邻自然日。\n4. 统一美股提前收盘、港股半日市及国内期货节前夜盘的日历读取。",
+  "sourceCommit": "580951fab35aadff8fee715c77707ceead1e0338",
+  "updateLog": "v2.5.1：\n1. 收益曲线左侧显示净值、右侧显示收益百分比，两侧刻度均放在图框内。\n2. 修复零轴附近刻度重叠，按文字高度自动避让。\n3. 点按或拖动光标可查看对应日期的当日收益浮窗，浮窗靠近边缘时自动换位。",
   "forceUpdate": false
 }
