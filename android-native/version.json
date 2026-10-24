@@ -1,10 +1,10 @@
 {
-  "versionCode": 132,
-  "versionName": "2.4.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.4.9/ziwuxilv-native-v2.4.9.apk",
-  "apkSha256": "abf2b28ded106d3bf93d82e97db873ffe8bdc8de9eebeddc683c023145571936",
+  "versionCode": 133,
+  "versionName": "2.5.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.0/ziwuxilv-native-v2.5.0.apk",
+  "apkSha256": "7388d317c64bfa92c27e77a0085fb0748fab4879fa13a9e370d154dcad072069",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "8ad40a606a5648a801d25029b5ef0f7e2168c3a8",
-  "updateLog": "v2.4.9：\n1. A股、美股组合收益曲线按零轴分色：零轴以上红色、以下绿色，穿越零轴时准确切换颜色。\n2. 曲线选中点随收益正负变色，零收益平段显示灰色。\n3. 零轴文字按实际纵轴比例定位。",
+  "sourceCommit": "c72bd2b007c1a0373edfe2158d1ffae734da567b",
+  "updateLog": "v2.5.0：\n1. 行情、收益和持仓统一使用经过校验的交易日历。\n2. 日历支持后台检查更新及本地缓存，年度数据更新无需反复升级APP。\n3. 修复跨年交易日推算，日历未覆盖时停止推算，不再回退为相邻自然日。\n4. 统一美股提前收盘、港股半日市及国内期货节前夜盘的日历读取。",
   "forceUpdate": false
 }
