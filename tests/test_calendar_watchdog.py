@@ -2,14 +2,117 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 import base64
 import hashlib
+import http.client
+import io
 import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import MagicMock, patch
+from urllib.error import HTTPError, URLError
 from zoneinfo import ZoneInfo
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
 import calendar_runtime as runtime
 import calendar_watchdog as watch
+
+
+class RequestRetryTests(unittest.TestCase):
+    path = '/repos/chaonpu/ziwuxilv/commits/main'
+    dispatch = '/repos/chaonpu/ziwuxilv/actions/workflows/calendar-sync.yml/dispatches'
+
+    def response(self, raw=b'{"sha":"verified"}'):
+        response = MagicMock()
+        response.__enter__.return_value.read.return_value = raw
+        return response
+
+    def http_error(self, code):
+        return HTTPError('https://api.github.com' + self.path, code, 'test', {}, io.BytesIO())
+
+    def test_transient_get_errors_retry_then_return_fresh_response(self):
+        errors = [self.http_error(code) for code in sorted(watch.TRANSIENT_HTTP)]
+        errors += [URLError('temporary DNS failure'), TimeoutError(), ConnectionResetError(),
+                   http.client.IncompleteRead(b'partial')]
+        for error in errors:
+            with self.subTest(error=type(error).__name__, code=getattr(error, 'code', None)), \
+                    patch.object(watch.urllib.request, 'build_opener') as build, \
+                    patch.object(watch.time, 'sleep') as sleep, patch('builtins.print'):
+                build.return_value.open.side_effect = [error, self.response()]
+                self.assertEqual(watch.request(self.path), {'sha': 'verified'})
+                self.assertEqual(build.return_value.open.call_count, 2)
+                sleep.assert_called_once_with(2)
+
+    def test_get_retry_budget_is_bounded_and_reports_endpoint(self):
+        with patch.object(watch.urllib.request, 'build_opener') as build, \
+                patch.object(watch.time, 'sleep') as sleep, patch('builtins.print') as output:
+            build.return_value.open.side_effect = [self.http_error(502) for _ in range(3)]
+            with self.assertRaises(HTTPError):
+                watch.request(self.path, token='never-log-this-token')
+            self.assertEqual(build.return_value.open.call_count, 3)
+            self.assertEqual([call.args[0] for call in sleep.call_args_list], [2, 4])
+            events = [json.loads(call.args[0]) for call in output.call_args_list]
+            self.assertEqual(events[-1]['event'], 'calendar_api_read_failed')
+            self.assertEqual(events[-1]['path'], self.path)
+            self.assertNotIn('never-log-this-token', str(output.call_args_list))
+
+    def test_permanent_http_errors_are_not_retried(self):
+        for code in (400, 401, 403, 404, 422):
+            with self.subTest(code=code), patch.object(watch.urllib.request, 'build_opener') as build, \
+                    patch.object(watch.time, 'sleep') as sleep, patch('builtins.print'):
+                build.return_value.open.side_effect = self.http_error(code)
+                with self.assertRaises(HTTPError):
+                    watch.request(self.path)
+                self.assertEqual(build.return_value.open.call_count, 1)
+                sleep.assert_not_called()
+
+    def test_post_transport_errors_never_retry_or_sleep(self):
+        for error in (self.http_error(502), URLError('uncertain'), TimeoutError(),
+                      http.client.IncompleteRead(b'partial')):
+            with self.subTest(error=type(error).__name__), \
+                    patch.object(watch.urllib.request, 'build_opener') as build, \
+                    patch.object(watch.time, 'sleep') as sleep:
+                build.return_value.open.side_effect = error
+                with self.assertRaises(type(error)):
+                    watch.request(self.dispatch, method='POST', body={'ref': 'main'}, token='test')
+                self.assertEqual(build.return_value.open.call_count, 1)
+                sleep.assert_not_called()
+
+    def test_invalid_responses_and_redirects_are_not_retried(self):
+        for raw in (b'bad JSON', b'x' * (watch.MAX_BYTES + 1)):
+            with self.subTest(size=len(raw)), patch.object(watch.urllib.request, 'build_opener') as build, \
+                    patch.object(watch.time, 'sleep') as sleep:
+                build.return_value.open.return_value = self.response(raw)
+                with self.assertRaises(ValueError):
+                    watch.request(self.path)
+                self.assertEqual(build.return_value.open.call_count, 1)
+                sleep.assert_not_called()
+        with patch.object(watch.urllib.request, 'build_opener') as build, \
+                patch.object(watch.time, 'sleep') as sleep:
+            build.return_value.open.side_effect = ValueError('calendar_watchdog_redirect_rejected')
+            with self.assertRaises(ValueError):
+                watch.request(self.path)
+            self.assertEqual(build.return_value.open.call_count, 1)
+            sleep.assert_not_called()
+
+    def test_exhausted_read_never_reaches_recovery(self):
+        with patch.object(sys, 'argv', ['calendar_watchdog.py', '--recover']), \
+                patch.object(watch.urllib.request, 'build_opener') as build, \
+                patch.object(watch.time, 'sleep'), patch('builtins.print'), patch.object(watch, 'recover') as recover:
+            build.return_value.open.side_effect = [self.http_error(502) for _ in range(3)]
+            self.assertEqual(watch.main(), 2)
+            self.assertEqual(build.return_value.open.call_count, 3)
+            recover.assert_not_called()
+
+    def test_interrupted_response_body_is_reread_from_same_url(self):
+        partial = self.response()
+        partial.__enter__.return_value.read.side_effect = http.client.IncompleteRead(b'partial')
+        with patch.object(watch.urllib.request, 'build_opener') as build, \
+                patch.object(watch.time, 'sleep') as sleep, patch('builtins.print'):
+            build.return_value.open.side_effect = [partial, self.response()]
+            self.assertEqual(watch.request(self.path), {'sha': 'verified'})
+            calls = build.return_value.open.call_args_list
+            self.assertEqual([call.args[0].full_url for call in calls],
+                             ['https://api.github.com' + self.path] * 2)
+            sleep.assert_called_once_with(2)
 
 
 class WatchdogTests(unittest.TestCase):
@@ -186,3 +289,4 @@ class WatchdogTests(unittest.TestCase):
 
 
 if __name__ == '__main__':unittest.main()
+

@@ -8,10 +8,12 @@ import argparse
 import base64
 from datetime import datetime, timedelta
 import hashlib
+import http.client
 import json
 import os
 import re
 import time
+import urllib.error
 import urllib.request
 from zoneinfo import ZoneInfo
 try:
@@ -23,6 +25,8 @@ REPO = 'chaonpu/ziwuxilv'
 WORKFLOW = 'calendar-sync.yml'
 ACTIVE = {'queued', 'in_progress', 'waiting', 'pending', 'requested'}
 MAX_BYTES = 2_000_000
+READ_RETRY_DELAYS = (2, 4)  # Three attempts total; dispatch POST is never retried.
+TRANSIENT_HTTP = {408, 429, 500, 502, 503, 504}
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -42,8 +46,26 @@ def request(path, *, method='GET', body=None, token=''):
         headers['Authorization'] = 'Bearer ' + token
     req = urllib.request.Request('https://api.github.com' + path, method=method,
                                  headers=headers, data=None if body is None else json.dumps(body).encode())
-    with urllib.request.build_opener(NoRedirect()).open(req, timeout=20) as response:
-        raw = response.read(MAX_BYTES + 1)
+    opener = urllib.request.build_opener(NoRedirect())
+    for attempt in range(len(READ_RETRY_DELAYS) + 1):
+        try:
+            with opener.open(req, timeout=20) as response:
+                raw = response.read(MAX_BYTES + 1)
+            break
+        except (urllib.error.URLError, TimeoutError, ConnectionError, http.client.IncompleteRead) as exc:
+            retryable = not isinstance(exc, urllib.error.HTTPError) or exc.code in TRANSIENT_HTTP
+            retry = method == 'GET' and retryable and attempt < len(READ_RETRY_DELAYS)
+            if method == 'GET':
+                print(json.dumps({'event': 'calendar_api_read_retry' if retry else 'calendar_api_read_failed',
+                                  'path': path, 'attempt': attempt + 1,
+                                  'httpStatus': getattr(exc, 'code', None),
+                                  'reason': type(exc).__name__,
+                                  'retryInSeconds': READ_RETRY_DELAYS[attempt] if retry else None}), flush=True)
+            if isinstance(exc, urllib.error.HTTPError):
+                exc.close()
+            if not retry:
+                raise
+            time.sleep(READ_RETRY_DELAYS[attempt])
     if len(raw) > MAX_BYTES:
         raise ValueError('calendar_watchdog_response_oversized')
     return json.loads(raw) if raw else {}
@@ -261,3 +283,4 @@ def main():
 
 if __name__ == '__main__':
     raise SystemExit(main())
+
