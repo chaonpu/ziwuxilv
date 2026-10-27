@@ -1,10 +1,10 @@
 {
-  "versionCode": 135,
-  "versionName": "2.5.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.2/ziwuxilv-native-v2.5.2.apk",
-  "apkSha256": "439f03fab58a3bfd100a9f17d7121ee78b9ec9486ecbc15efe607ecd4a8798ea",
+  "versionCode": 136,
+  "versionName": "2.5.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.3/ziwuxilv-native-v2.5.3.apk",
+  "apkSha256": "5ba044306cd5dd0f97ed6d015788246d772a6199226e774a28ab08fe3f1fda49",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "3a13891423fc50c31206936daab0aad33b1014f5",
-  "updateLog": "v2.5.2：\n1. 收益曲线左右两侧仅显示最高、最低坐标值，减少刻度干扰。\n2. 移除坐标文字背景，避免遮挡收益曲线。\n3. 保留框内净值与收益百分比双轴，以及随光标显示的当日收益浮窗。",
+  "sourceCommit": "54124da4a09e9c88de8c74ba475de0e92672daff",
+  "updateLog": "v2.5.3：\n1. 日K、周K、月K的悬浮窗新增“至今涨幅”累计周期数，例如25日、2周、2月。\n2. 统计从所选K线到最新K线的实际根数，包含当前所选K线。\n3. 分时图保持原样，新增周期信息采用紧凑布局。\n4. 收益曲线范围调整为本月、近三月、今年、全部，默认选中本月；使用实际起点净值计算期间收益。",
   "forceUpdate": false
 }
