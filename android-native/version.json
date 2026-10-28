@@ -1,10 +1,10 @@
 {
-  "versionCode": 136,
-  "versionName": "2.5.3",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.3/ziwuxilv-native-v2.5.3.apk",
-  "apkSha256": "5ba044306cd5dd0f97ed6d015788246d772a6199226e774a28ab08fe3f1fda49",
+  "versionCode": 137,
+  "versionName": "2.5.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.4/ziwuxilv-native-v2.5.4.apk",
+  "apkSha256": "cc61eeebd7ce43cf69d3addb234818b48cc35fbb06915f4e51d21d8b695c8c17",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "54124da4a09e9c88de8c74ba475de0e92672daff",
-  "updateLog": "v2.5.3：\n1. 日K、周K、月K的悬浮窗新增“至今涨幅”累计周期数，例如25日、2周、2月。\n2. 统计从所选K线到最新K线的实际根数，包含当前所选K线。\n3. 分时图保持原样，新增周期信息采用紧凑布局。\n4. 收益曲线范围调整为本月、近三月、今年、全部，默认选中本月；使用实际起点净值计算期间收益。",
+  "sourceCommit": "bbdd7db8821c07b6a6159615aa1eab70c4746500",
+  "updateLog": "v2.5.4：\n1. 布伦特特月合约分时：当同月分钟K不足时，增加严格核验市场和交割月份的分时备选接口，不混用连续合约。\n2. 日经等跨夜期货：剔除会话外历史点，修复时间轴重叠及断流时形成的竖条，分段绘制真实走势。\n3. 台湾加权分时：官方与备用源均不可用时提示真实情况，不显示底层网络异常或伪造走势。\n4. 恒科期货、A50及其他跨时段曲线沿用原始真实时间与昨收基准，增加相关回归测试。",
   "forceUpdate": false
 }
