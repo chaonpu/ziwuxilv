@@ -1,10 +1,10 @@
 {
-  "versionCode": 139,
-  "versionName": "2.5.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.6/ziwuxilv-native-v2.5.6.apk",
-  "apkSha256": "36019d6b00bffe85708d148d195ff4dbe42bd607cbbc96fdb95110aa03cf5bb0",
+  "versionCode": 140,
+  "versionName": "2.5.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.7/ziwuxilv-native-v2.5.7.apk",
+  "apkSha256": "5fb352ab2a102115fee176ad9b58e46f29aa76812f857dfb3e4f1f70c8af46a5",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "234a7573e0ea77bb42c808ce7fe861f7f3350076",
-  "updateLog": "v2.5.6：\n1. 修复分时图时间轴：保留真实行情间隔，避免非交易时间造成曲线缺口、错误连线和价格点错位。\n2. 核对 A50 CFD 交易时段与跨日区间，按实际交易窗口压缩休市时间。\n3. 修复恒生科技指数顶部行情时间与分时最新数据时间不一致时的展示逻辑。\n4. 改进国内期货夜盘衔接与休市段边界标注，新增回归校验。",
+  "sourceCommit": "9e3ebb62510de56e5d697ff771d54cf9084d46ce",
+  "updateLog": "v2.5.7：\n1. 修复 A50 期货 CFD 的开盘、收盘及盘间状态，统一实际报价时段与分时图。\n2. 修复跨日交易日历归属，避免周五夜盘延续至周六凌晨时误判休市。\n3. 新增 A50 交易状态边界回归测试。",
   "forceUpdate": false
 }
