@@ -1,12 +1,12 @@
 # 交易日历运行状态
 
-检查时间：2026-10-31T13:15:49+08:00
+检查时间：2026-10-31T13:16:36+08:00
 
 当前版本：`25dbb068bd947197e5e9fc3cf24493787fb4383bf4d64c8adf81b390035ecc18`
 
 | 市场/产品 | 适配能力 | 现有覆盖年份 | 本次解析年份 | 最近来源状态 | 待处理原因 |
 |---|---|---|---|---|---|
-| A50_CFD | rolling_third_party_reference | 2026, 2027, 2028 | 2026 | verified_third_party_reference | forex_com_cfd_reference_not_sina_provider_guarantee;bounded_by_published_holiday_window |
+| A50_CFD | rolling_third_party_reference | 2026, 2027, 2028 | — | held_preserving_active_calendar | a50_cache_expired |
 | BR_EQ | annual | 2026 | 2026 | verified_no_change | — |
 | CME_FUTURES | annual_partial_sessions | 2026 | 2026 | verified_future_preserving_history | 2026:candidate_changes_past_dates |
 | CN_EQ | annual | 2026 | 2026 | verified_no_change | — |
