@@ -1,10 +1,10 @@
 {
-  "versionCode": 140,
-  "versionName": "2.5.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.7/ziwuxilv-native-v2.5.7.apk",
-  "apkSha256": "5fb352ab2a102115fee176ad9b58e46f29aa76812f857dfb3e4f1f70c8af46a5",
+  "versionCode": 141,
+  "versionName": "2.5.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.8/ziwuxilv-native-v2.5.8.apk",
+  "apkSha256": "61681ae2bde9f521cbb1f45a6f3cdc87e44ed9df7e90f7cd07c301e23355c97f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "9e3ebb62510de56e5d697ff771d54cf9084d46ce",
-  "updateLog": "v2.5.7：\n1. 修复 A50 期货 CFD 的开盘、收盘及盘间状态，统一实际报价时段与分时图。\n2. 修复跨日交易日历归属，避免周五夜盘延续至周六凌晨时误判休市。\n3. 新增 A50 交易状态边界回归测试。",
+  "sourceCommit": "3936acf141c6913f818c510da21c53d3c8c9c9cf",
+  "updateLog": "v2.5.8：\n1. K线十字光标同步延伸至成交量副图，支持在成交量区域长按与拖动查看。\n2. 成交量标题显示所选周期的成交量数值，未选中时显示最新成交量。\n3. 收益曲线采用虚线十字游标，横线两端显示净值和收益率，点击空白区域取消选中。",
   "forceUpdate": false
 }
