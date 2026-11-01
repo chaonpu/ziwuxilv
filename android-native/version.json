@@ -1,10 +1,10 @@
 {
-  "versionCode": 141,
-  "versionName": "2.5.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.8/ziwuxilv-native-v2.5.8.apk",
-  "apkSha256": "61681ae2bde9f521cbb1f45a6f3cdc87e44ed9df7e90f7cd07c301e23355c97f",
+  "versionCode": 142,
+  "versionName": "2.5.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.9/ziwuxilv-native-v2.5.9.apk",
+  "apkSha256": "683c4283c276945c9529318717c42ebed5c66370ab7edb3cfcb434266570d52f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "3936acf141c6913f818c510da21c53d3c8c9c9cf",
-  "updateLog": "v2.5.8：\n1. K线十字光标同步延伸至成交量副图，支持在成交量区域长按与拖动查看。\n2. 成交量标题显示所选周期的成交量数值，未选中时显示最新成交量。\n3. 收益曲线采用虚线十字游标，横线两端显示净值和收益率，点击空白区域取消选中。",
+  "sourceCommit": "f075627ce2cd05db9b14e2d69cd540ec9d4bce86",
+  "updateLog": "v2.5.9：\n1. 图表底部改为简洁同步状态栏，显示行情与图表同步状态。\n2. 新增可点击的“来源详情”，集中展示数据源、更新时间和图表核验说明。\n3. 对加载中、缺数及标的不一致等情况显示对应状态，避免错误提示已同步。",
   "forceUpdate": false
 }
