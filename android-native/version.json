@@ -1,10 +1,10 @@
 {
-  "versionCode": 142,
-  "versionName": "2.5.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.5.9/ziwuxilv-native-v2.5.9.apk",
-  "apkSha256": "683c4283c276945c9529318717c42ebed5c66370ab7edb3cfcb434266570d52f",
+  "versionCode": 143,
+  "versionName": "2.6.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.0/ziwuxilv-native-v2.6.0.apk",
+  "apkSha256": "e0d0f541a36dfb502fb2c60664b1f722c4d61a61fe0bfafa8e37b5ced7211494",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "f075627ce2cd05db9b14e2d69cd540ec9d4bce86",
-  "updateLog": "v2.5.9：\n1. 图表底部改为简洁同步状态栏，显示行情与图表同步状态。\n2. 新增可点击的“来源详情”，集中展示数据源、更新时间和图表核验说明。\n3. 对加载中、缺数及标的不一致等情况显示对应状态，避免错误提示已同步。",
+  "sourceCommit": "b6841bfc036ef703e67a1d90d5b2814bce014851",
+  "updateLog": "v2.6.0：\n1. 分时图取消十字光标浮窗，横线两侧分别显示价格与涨跌幅，主图底部显示选中时间。\n2. 日K、周K、月K的十字光标日期移至主图下方，保留开高低收等信息。\n3. 成交量副图取消重复的时间/日期横坐标，仅保留成交量数值和游标延长线。",
   "forceUpdate": false
 }
