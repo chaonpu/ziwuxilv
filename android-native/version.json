@@ -1,10 +1,10 @@
 {
-  "versionCode": 145,
-  "versionName": "2.6.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.2/ziwuxilv-native-v2.6.2.apk",
-  "apkSha256": "194b08c1953b4c37babde85f07984b23afc0daa63d57cf48369ff629757197cd",
+  "versionCode": 146,
+  "versionName": "2.6.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.3/ziwuxilv-native-v2.6.3.apk",
+  "apkSha256": "4508d96db2e600ab1b159cd9445df498e3a01c8e7997f52d15b7f1fc5cec9ec3",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "d1a381d4e5e05c2a4ce5d22a6c9be333a70b0e74",
-  "updateLog": "v2.6.2：\n1. 新增沪深京A股市场广度统计、涨跌分布和市场成交额展示。\n2. 成交额分钟曲线接入沪深京三市在线数据，支持与上一交易日同期对比及放量／缩量计算。\n3. 行情持仓页面将涨跌情况改为文字统计与比例条，保留个股原有多列网格。\n4. 优化行情数据不完整及成交额统计范围的提示。",
+  "sourceCommit": "236a9575106f3224ba849b0beb4a594696ae1ea7",
+  "updateLog": "v2.6.3：\n1. A股涨跌分布由8档变为9档，0%平盘独立为灰色柱，涨跌区间统计保持互斥。\n2. 成交额对比支持拖动游标，顶部成交额、放缩量和百分比随所选交易分钟联动。\n3. A股市场广度详情精简为双图表，取消左侧纵坐标并优化一屏排版。\n4. 市场广度并发读取及启动缓存优化，完善返回手势与行情页返回行为。",
   "forceUpdate": false
 }
