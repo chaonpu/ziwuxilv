@@ -1,10 +1,10 @@
 {
-  "versionCode": 144,
-  "versionName": "2.6.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.1/ziwuxilv-native-v2.6.1.apk",
-  "apkSha256": "6974def73d088a22da17fb830d4c26c213f8d1241a75c4bd52665cf2d343381f",
+  "versionCode": 145,
+  "versionName": "2.6.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.2/ziwuxilv-native-v2.6.2.apk",
+  "apkSha256": "194b08c1953b4c37babde85f07984b23afc0daa63d57cf48369ff629757197cd",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "bc3cc45ea439644d3d110a9c5396f64af99b7de0",
-  "updateLog": "v2.6.1：\n1. 修复策略报告列表在美股零买卖、无附加说明时显示“概要待核验”的问题。\n2. 仅从 HTML 报告统计区域读取买卖及保留数量，避免误读正文数据。",
+  "sourceCommit": "d1a381d4e5e05c2a4ce5d22a6c9be333a70b0e74",
+  "updateLog": "v2.6.2：\n1. 新增沪深京A股市场广度统计、涨跌分布和市场成交额展示。\n2. 成交额分钟曲线接入沪深京三市在线数据，支持与上一交易日同期对比及放量／缩量计算。\n3. 行情持仓页面将涨跌情况改为文字统计与比例条，保留个股原有多列网格。\n4. 优化行情数据不完整及成交额统计范围的提示。",
   "forceUpdate": false
 }
