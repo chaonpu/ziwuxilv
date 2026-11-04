@@ -1,10 +1,10 @@
 {
-  "versionCode": 148,
-  "versionName": "2.6.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.5/ziwuxilv-native-v2.6.5.apk",
-  "apkSha256": "8dd40af85dc3fc9486722a879413120c919df82ff8895cd7874255d98698e48d",
+  "versionCode": 149,
+  "versionName": "2.6.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.6/ziwuxilv-native-v2.6.6.apk",
+  "apkSha256": "cf042bd993e72388f4f3a9f552749ac00d027d7f06a9f984442f513236ee973a",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "bcc67b18bf12c5e132bb4f2fe032c62ec7427a31",
-  "updateLog": "v2.6.5：\n1. A股市场广度卡片全部区域可点击进入详情。\n2. 市场广度详情的涨跌分布与成交额对比按可用高度自动分配空间，适配一屏展示。\n3. 成交额曲线压缩午间休市时间轴，直接连接11:30与13:00真实数据，不绘制午休时间走势；游标使用同一压缩坐标。",
+  "sourceCommit": "2285063e530e2e1208d31375403a006dd1866ee2",
+  "updateLog": "v2.6.6：\n1. 涨跌分布的各档家数移至对应柱顶，数值高度随柱高变化，不再排列在统一顶端行。\n2. 保留9档柱状分布、独立的0档及一屏自适应布局。",
   "forceUpdate": false
 }
