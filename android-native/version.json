@@ -1,10 +1,10 @@
 {
-  "versionCode": 146,
-  "versionName": "2.6.3",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.3/ziwuxilv-native-v2.6.3.apk",
-  "apkSha256": "4508d96db2e600ab1b159cd9445df498e3a01c8e7997f52d15b7f1fc5cec9ec3",
+  "versionCode": 147,
+  "versionName": "2.6.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.4/ziwuxilv-native-v2.6.4.apk",
+  "apkSha256": "43db986fd44fc64248a6bbff9351a3313a5f7d4956e9512ea55c17d2f9ee18b6",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "236a9575106f3224ba849b0beb4a594696ae1ea7",
-  "updateLog": "v2.6.3：\n1. A股涨跌分布由8档变为9档，0%平盘独立为灰色柱，涨跌区间统计保持互斥。\n2. 成交额对比支持拖动游标，顶部成交额、放缩量和百分比随所选交易分钟联动。\n3. A股市场广度详情精简为双图表，取消左侧纵坐标并优化一屏排版。\n4. 市场广度并发读取及启动缓存优化，完善返回手势与行情页返回行为。",
+  "sourceCommit": "a3f75533eec315eaabdc7426ac8f68a93256bf1b",
+  "updateLog": "v2.6.4：\n1. A股市场广度成交额曲线按上午和下午交易时段分段绘制，午间休市不再连线。\n2. 支持点击曲线之外的空白区域取消游标选中，按住拖动时仍实时显示所选分钟数据。\n3. 市场广度的时间统一跟随A股交易时段，午间固定为11:30、收盘后固定为15:00，不显示盘后的数据读取时刻。\n4. 涨跌分布横坐标0刻度与其他刻度使用统一的颜色和字号。",
   "forceUpdate": false
 }
