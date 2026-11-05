@@ -1,10 +1,10 @@
 {
-  "versionCode": 152,
-  "versionName": "2.6.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.9/ziwuxilv-native-v2.6.9.apk",
-  "apkSha256": "d1e8844a59211f944aad544639dc2160de687cd89fafc015ec31b21355e70603",
+  "versionCode": 153,
+  "versionName": "2.7.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.0/ziwuxilv-native-v2.7.0.apk",
+  "apkSha256": "726db2e000f2c08f093952c506174ea860256a18189f06de4f01e2f31b271534",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "d1af574fe9b8896322f6c864a2d856a26047cf7b",
-  "updateLog": "v2.6.9：\n1. K线选中详情整合至顶部信息卡片，保持原有高度，取消图内遮挡浮窗。\n2. 收益页绩效卡片调整为组合净值、仓位配置、当日收益、累计收益；展示持仓数量、持仓与现金比例。\n3. 行情-持仓按常规盘中市场动态调整A股与美股持仓组顺序，非盘中恢复A股在前。",
+  "sourceCommit": "e6544d37594ece7179446cfe04939a41a33d689a",
+  "updateLog": "v2.7.0：\n1. 重设计选中K线后的上方信息栏：收盘价与当期涨幅突出显示，至今涨幅及周期紧随，开高低成交量紧凑排列；不改变卡片高度。\n2. 日K、周K、月K十字光标与分时一致：横线左端显示价格、右端显示对应涨跌幅，底部显示日期。\n3. 历史K线滑动时，涨跌幅依据完整历史序列的上一周期收盘价，保持图表与信息栏一致。",
   "forceUpdate": false
 }
