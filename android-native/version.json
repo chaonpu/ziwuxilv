@@ -1,10 +1,10 @@
 {
-  "versionCode": 151,
-  "versionName": "2.6.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.8/ziwuxilv-native-v2.6.8.apk",
-  "apkSha256": "f60588a511dc1dcde129a9aea74ce7ce7307aa0640ecbdd64da35fd51fcb8fc5",
+  "versionCode": 152,
+  "versionName": "2.6.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.9/ziwuxilv-native-v2.6.9.apk",
+  "apkSha256": "d1e8844a59211f944aad544639dc2160de687cd89fafc015ec31b21355e70603",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "9f5938c56d75740eb8e06b0d2024b90aab480ced",
-  "updateLog": "v2.6.8：\n1. ETF全局行情、持仓及自选价格统一精确到厘（小数点后三位）。\n2. ETF分时与K线图的价格坐标、游标、最高最低价、昨收和入场价统一显示三位小数。\n3. 成交额对比曲线标注上一交易日最终成交额，拖动游标时保持固定。",
+  "sourceCommit": "d1af574fe9b8896322f6c864a2d856a26047cf7b",
+  "updateLog": "v2.6.9：\n1. K线选中详情整合至顶部信息卡片，保持原有高度，取消图内遮挡浮窗。\n2. 收益页绩效卡片调整为组合净值、仓位配置、当日收益、累计收益；展示持仓数量、持仓与现金比例。\n3. 行情-持仓按常规盘中市场动态调整A股与美股持仓组顺序，非盘中恢复A股在前。",
   "forceUpdate": false
 }
