@@ -1,10 +1,10 @@
 {
-  "versionCode": 149,
-  "versionName": "2.6.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.6/ziwuxilv-native-v2.6.6.apk",
-  "apkSha256": "cf042bd993e72388f4f3a9f552749ac00d027d7f06a9f984442f513236ee973a",
+  "versionCode": 150,
+  "versionName": "2.6.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.7/ziwuxilv-native-v2.6.7.apk",
+  "apkSha256": "d22747a1baa643d361d8facac969ba0175af5804ceee0c32fe88ecd90be56805",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "2285063e530e2e1208d31375403a006dd1866ee2",
-  "updateLog": "v2.6.6：\n1. 涨跌分布的各档家数移至对应柱顶，数值高度随柱高变化，不再排列在统一顶端行。\n2. 保留9档柱状分布、独立的0档及一屏自适应布局。",
+  "sourceCommit": "2b8c8828128993998637850c7a9030849e724527",
+  "updateLog": "v2.6.7：\n1. A股市场广度卡片及详情统一使用APP涨跌红绿色。\n2. 成交额对比完整显示上一交易日曲线，按交易日缓存，今日曲线实时更新。\n3. 分时及K线十字游标下方的时间、日期文字在框内居中显示。",
   "forceUpdate": false
 }
