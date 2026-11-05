@@ -1,10 +1,10 @@
 {
-  "versionCode": 150,
-  "versionName": "2.6.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.7/ziwuxilv-native-v2.6.7.apk",
-  "apkSha256": "d22747a1baa643d361d8facac969ba0175af5804ceee0c32fe88ecd90be56805",
+  "versionCode": 151,
+  "versionName": "2.6.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.6.8/ziwuxilv-native-v2.6.8.apk",
+  "apkSha256": "f60588a511dc1dcde129a9aea74ce7ce7307aa0640ecbdd64da35fd51fcb8fc5",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "2b8c8828128993998637850c7a9030849e724527",
-  "updateLog": "v2.6.7：\n1. A股市场广度卡片及详情统一使用APP涨跌红绿色。\n2. 成交额对比完整显示上一交易日曲线，按交易日缓存，今日曲线实时更新。\n3. 分时及K线十字游标下方的时间、日期文字在框内居中显示。",
+  "sourceCommit": "9f5938c56d75740eb8e06b0d2024b90aab480ced",
+  "updateLog": "v2.6.8：\n1. ETF全局行情、持仓及自选价格统一精确到厘（小数点后三位）。\n2. ETF分时与K线图的价格坐标、游标、最高最低价、昨收和入场价统一显示三位小数。\n3. 成交额对比曲线标注上一交易日最终成交额，拖动游标时保持固定。",
   "forceUpdate": false
 }
