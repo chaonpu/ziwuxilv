@@ -1,10 +1,10 @@
 {
-  "versionCode": 155,
-  "versionName": "2.7.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.2/ziwuxilv-native-v2.7.2.apk",
-  "apkSha256": "a29a96b1dd6e2cc111e5ff6a29c5fa117a7c9c16d2c5784115755ee5ff5f9f70",
+  "versionCode": 156,
+  "versionName": "2.7.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.3/ziwuxilv-native-v2.7.3.apk",
+  "apkSha256": "a0acaf4cb61fb61f38f3001976a4ec0a5ed82abd1aa1d6439f3049e3bcf9580a",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "2982948b090377c1ca80a485431bcbc20ead75e0",
-  "updateLog": "v2.7.2：\n1. 行情、自选、收益和持仓图表统一选中K线顶部信息栏，适配不同宽度与卡片高度。\n2. 日K/周K/月K十字光标左右显示价格及涨跌幅，底部显示选中日期。\n3. 收益页及策略/配置持仓内嵌图表接入K线选中详情，支持点击顶部卡片取消选中。\n4. 修复紧凑卡片收盘价被裁切问题，优化窄屏图表与成交量空间分配。",
+  "sourceCommit": "6991b515810f9750bbeaf9201ade850400284a2b",
+  "updateLog": "v2.7.3：\n1. 修复自选及行情图表选中K线后，顶部信息栏“开、高、低、量”标签在紧凑卡片被挤压、裁切的问题。\n2. 选中K线信息栏采用统一三层自适应布局：代码紧跟名称，收盘价与当期涨幅同行，至今涨幅和周期靠右显示，减小无效留白。\n3. 行情、自选、收益及持仓图表共用本次排版修复，保持原卡片高度、K线及十字光标交互不变。",
   "forceUpdate": false
 }
