@@ -1,10 +1,10 @@
 {
-  "versionCode": 156,
-  "versionName": "2.7.3",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.3/ziwuxilv-native-v2.7.3.apk",
-  "apkSha256": "a0acaf4cb61fb61f38f3001976a4ec0a5ed82abd1aa1d6439f3049e3bcf9580a",
+  "versionCode": 157,
+  "versionName": "2.7.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.4/ziwuxilv-native-v2.7.4.apk",
+  "apkSha256": "1ef063b4ad99029678eeb2f4d190796be977a39fe1618931e9dee34cc87416be",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "6991b515810f9750bbeaf9201ade850400284a2b",
-  "updateLog": "v2.7.3：\n1. 修复自选及行情图表选中K线后，顶部信息栏“开、高、低、量”标签在紧凑卡片被挤压、裁切的问题。\n2. 选中K线信息栏采用统一三层自适应布局：代码紧跟名称，收盘价与当期涨幅同行，至今涨幅和周期靠右显示，减小无效留白。\n3. 行情、自选、收益及持仓图表共用本次排版修复，保持原卡片高度、K线及十字光标交互不变。",
+  "sourceCommit": "29a250da8883c9d8324ffcbd92c823b96208864c",
+  "updateLog": "v2.7.4：\n1. 修复A股ETF实时K线更新：经核验的报价同步更新当日日K开高低收，价格统一保留三位小数，周K与月K随日K聚合。\n2. 行情、自选、策略持仓、配置持仓和已清仓图表统一传递完整报价；保持历史成交量及前复权安全校验。\n3. 优化可见图表刷新频率：盘中分时15秒、K线60秒；按市场交易状态自动降频及恢复。\n4. A股市场广度与成交额对比独立刷新，保留交易日和数据口径核验。",
   "forceUpdate": false
 }
