@@ -1,10 +1,10 @@
 {
-  "versionCode": 161,
-  "versionName": "2.7.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.8/ziwuxilv-native-v2.7.8.apk",
-  "apkSha256": "8eaa2093acc09be2ef948ca54dc6db0bf769f5caa9fce393018df5c3d0735403",
+  "versionCode": 162,
+  "versionName": "2.7.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.9/ziwuxilv-native-v2.7.9.apk",
+  "apkSha256": "5b3fda608abb8a2e48fa98e62a2b543cb354bd4249265379bf4c9385f22d1df8",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "e5cae6ace00616be0d1d8181c00e861ef74deb89",
-  "updateLog": "v2.7.8：\n1. 分时策略信号副图保留原四分区布局，修复文字截断和空间利用不足，不改变图表高度。\n2. 策略详情移除冗长说明，保留判断路径与各指标状态。\n3. 美股前复权日K增加独立备用源，覆盖主源缺失、历史不足或过旧等情况；保持严谨数据核验。\n4. BMBL、BOX通过真实前复权行情与策略信号专项验证。",
+  "sourceCommit": "d0638f406be9a1e3481a8cc92cdef2f8a56c154f",
+  "updateLog": "v2.7.9：\n1. A股市场广度涨停/跌停在周末、节假日和开盘前改为查询最近有效交易日，避免无故显示横杠。\n2. 腾讯A股股票及ETF分时过滤15:00后非日间交易时段采样，修复统一误报缺数25处；真实采样缺口仍会提示。\n3. 增强专题数量字段兼容性与失败诊断，新增沪深京股票/ETF和交易日日期回归测试。",
   "forceUpdate": false
 }
