@@ -1,10 +1,10 @@
 {
-  "versionCode": 157,
-  "versionName": "2.7.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.4/ziwuxilv-native-v2.7.4.apk",
-  "apkSha256": "1ef063b4ad99029678eeb2f4d190796be977a39fe1618931e9dee34cc87416be",
+  "versionCode": 158,
+  "versionName": "2.7.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.5/ziwuxilv-native-v2.7.5.apk",
+  "apkSha256": "6f7abd2b561616556b46c3bbe77d9fb53d1ed2db7ae099f19382e46d76fa73db",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "29a250da8883c9d8324ffcbd92c823b96208864c",
-  "updateLog": "v2.7.4：\n1. 修复A股ETF实时K线更新：经核验的报价同步更新当日日K开高低收，价格统一保留三位小数，周K与月K随日K聚合。\n2. 行情、自选、策略持仓、配置持仓和已清仓图表统一传递完整报价；保持历史成交量及前复权安全校验。\n3. 优化可见图表刷新频率：盘中分时15秒、K线60秒；按市场交易状态自动降频及恢复。\n4. A股市场广度与成交额对比独立刷新，保留交易日和数据口径核验。",
+  "sourceCommit": "1769e06eb0440a816a1b10c64e91a4aab317ba61",
+  "updateLog": "v2.7.5：\n1. 仅策略模式的K线副图增加成交量／策略信号切换，组合图标与日K、周K、月K逐根对应。\n2. 本地按正式技术公式计算盘中结论；ATR仅以金框有无表示，清仓统一显示。\n3. 首次全量计算并缓存，后续从历史检查点增量更新，收盘后校正保存；说明统一收进详情图标。",
   "forceUpdate": false
 }
