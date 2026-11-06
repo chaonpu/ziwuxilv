@@ -1,10 +1,10 @@
 {
-  "versionCode": 160,
-  "versionName": "2.7.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.7/ziwuxilv-native-v2.7.7.apk",
-  "apkSha256": "3adc1c12289ae577b8aa0cca7c0276df23e86288726f6c9f7fdf5bcf880bfcb2",
+  "versionCode": 161,
+  "versionName": "2.7.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.8/ziwuxilv-native-v2.7.8.apk",
+  "apkSha256": "8eaa2093acc09be2ef948ca54dc6db0bf769f5caa9fce393018df5c3d0735403",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "0132240e331c0b1bc4b97d863f302a81b8c914c1",
-  "updateLog": "v2.7.7：\n1. 分时图策略信号副图展示当日日线结论、趋势门槛、确认指标与ATR，并保留成交量一键切换。\n2. 优化策略信号详情的买入、清仓判断路径，保持原策略规则。\n3. 修复美股持仓行情与图表对应关系、当日K线前复权基准和部分实时信号待核验问题。\n4. ATR绘图改为未跌破阈值时显示，跌破后标记消失；清仓逻辑不变。",
+  "sourceCommit": "e5cae6ace00616be0d1d8181c00e861ef74deb89",
+  "updateLog": "v2.7.8：\n1. 分时策略信号副图保留原四分区布局，修复文字截断和空间利用不足，不改变图表高度。\n2. 策略详情移除冗长说明，保留判断路径与各指标状态。\n3. 美股前复权日K增加独立备用源，覆盖主源缺失、历史不足或过旧等情况；保持严谨数据核验。\n4. BMBL、BOX通过真实前复权行情与策略信号专项验证。",
   "forceUpdate": false
 }
