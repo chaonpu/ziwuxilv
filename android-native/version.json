@@ -1,10 +1,10 @@
 {
-  "versionCode": 158,
-  "versionName": "2.7.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.5/ziwuxilv-native-v2.7.5.apk",
-  "apkSha256": "6f7abd2b561616556b46c3bbe77d9fb53d1ed2db7ae099f19382e46d76fa73db",
+  "versionCode": 159,
+  "versionName": "2.7.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.7.6/ziwuxilv-native-v2.7.6.apk",
+  "apkSha256": "35d0fcd218dc3dcb86868365346f6238942b433544efdabfb38ecd6038d12339",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "1769e06eb0440a816a1b10c64e91a4aab317ba61",
-  "updateLog": "v2.7.5：\n1. 仅策略模式的K线副图增加成交量／策略信号切换，组合图标与日K、周K、月K逐根对应。\n2. 本地按正式技术公式计算盘中结论；ATR仅以金框有无表示，清仓统一显示。\n3. 首次全量计算并缓存，后续从历史检查点增量更新，收盘后校正保存；说明统一收进详情图标。",
+  "sourceCommit": "960db810946d510ffc187c8f997a32c6dd7a7327",
+  "updateLog": "v2.7.6：\n1. 直接点击K线副图区域即可切换成交量与策略信号，长按定位K线、滑动历史的操作保持不变。\n2. 策略信号副图高度由124dp压缩为80dp，优化箭头与各指标行间距。\n3. 副图标题合并为单行，保留策略信号详情入口；主图、行情卡片及策略计算规则不变。",
   "forceUpdate": false
 }
