@@ -1,10 +1,10 @@
 {
-  "versionCode": 163,
-  "versionName": "2.8.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.0/ziwuxilv-native-v2.8.0.apk",
-  "apkSha256": "9d85090a091557d3132b30c5af42ebeda5471f9afb7b1a70019da1345f3c00c4",
+  "versionCode": 164,
+  "versionName": "2.8.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.1/ziwuxilv-native-v2.8.1.apk",
+  "apkSha256": "ca9fe87033ddb53200f286f7702dbb1d4031d88a16225fce92e4f1937166dabf",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "91d5ec0b7ad9a9e6f61f7023e22f49e2875fa9fa",
-  "updateLog": "v2.8.0：\n1. 策略信号详情与分时副图共享七类结论及图标，统一红色多头、绿色预警等配色，原买入清仓规则不变。\n2. 分时副图将趋势前提/确认指标更名为趋势指标/技术指标，ATR 未跌破显示金色实心菱形，跌破显示灰色空心菱形，取消 ATR 涨跌破状态文字。\n3. 策略详情一目更名为一目均衡，ATR 同步双状态菱形显示。",
+  "sourceCommit": "de545a2342e30e709795d049819ecc48350eab64",
+  "updateLog": "v2.8.1：\n1. 七类策略展示结论优化：橙色“趋势转弱/转弱”搭配下降趋势图标。\n2. 多头延续在趋势4/4、技术至少1项多头且无空头、ATR未跌破时显示；技术全中性、出现空头或ATR跌破则显示“信号分歧”，不更改实际买入清仓规则。\n3. 策略详情 ATR 同时显示双色菱形与“已跌破/未跌破”文字，买入与ATR风险并存时明确提示。分时仅保留双色菱形，K线副图不改。",
   "forceUpdate": false
 }
