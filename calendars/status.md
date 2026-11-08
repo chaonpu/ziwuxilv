@@ -1,6 +1,6 @@
 # 交易日历运行状态
 
-检查时间：2026-11-07T14:38:44+08:00
+检查时间：2026-11-08T13:55:52+08:00
 
 当前版本：`92d3d33bc357fadbeafbc2b298e6e9f81bed8ec53c2c1206d42221c29768eafd`
 
@@ -9,10 +9,10 @@
 | A50_CFD | rolling_third_party_reference | 2026, 2027, 2028 | — | held_preserving_active_calendar | a50_cache_expired |
 | BR_EQ | annual | 2026 | 2026 | verified_no_change | — |
 | CME_FUTURES | annual_partial_sessions | 2026 | 2026 | verified_future_preserving_history | 2026:candidate_changes_past_dates |
-| CN_EQ | annual | 2026 | — | held_preserving_active_calendar | official_source_unavailable |
+| CN_EQ | annual | 2026 | 2026 | verified_no_change | — |
 | CN_FUTURES | annual_with_validated_recovery | 2026 | 2026 | verified_with_reviewed_fallback | year_bounded_official_notice_review_used_for:DCE,CZCE,GFEX |
 | DE_EQ | annual | 2026, 2027, 2028, 2029, 2030, 2031, 2032 | 2026, 2027, 2028, 2029, 2030, 2031, 2032 | verified_no_change | — |
-| FR_EQ | annual | 2026, 2027 | 2023, 2024, 2025, 2026, 2027 | published | — |
+| FR_EQ | annual | 2026, 2027 | 2023, 2024, 2025, 2026, 2027 | verified_no_change | — |
 | HK_EQ | annual | 2026, 2027 | 2026, 2027 | verified_no_change | — |
 | ICE_BRENT | annual_partial_sessions | 2026, 2027 | 2026, 2027 | verified_future_preserving_history | 2026:candidate_changes_past_dates |
 | IN_EQ | annual_partial_sessions | 2026 | 2026 | verified_no_change | special_sunday_sessions_remain_unknown_until_verified_product_hours |
@@ -29,6 +29,6 @@ A50_CFD：第三方参考日历（FOREX.com），有效区间 2026-10-31 至 202
 自动维护：发现、校验、未来发布、失败恢复均无需手动派发；今天及历史日期保持不变。
 提供方日历未核准：无。缺失或冲突资料不会被当作已确认时段。
 
-连续观察：16天；达到30天：否。
+连续观察：17天；达到30天：否。
 
 来源异常时继续使用覆盖目标日期的已核验日历。未知时段不推算。回滚及历史影响分析不自动改写账本。
