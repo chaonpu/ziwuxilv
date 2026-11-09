@@ -1,10 +1,10 @@
 {
-  "versionCode": 170,
-  "versionName": "2.8.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.7/ziwuxilv-native-v2.8.7.apk",
-  "apkSha256": "c7ce0d22a042071f8b437508dc0db812340c4646c0d587f81fd0e1f4962ecc5f",
+  "versionCode": 171,
+  "versionName": "2.8.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.8/ziwuxilv-native-v2.8.8.apk",
+  "apkSha256": "b416805310bd9ef8427897ca29832ef3dad4052ed96b1a1bc8b2a109e568ee50",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "18703823eab171bdc70ffc2c7dae3dc2bf7b7fda",
-  "updateLog": "v2.8.7：\n1. 修复印度指数被旧收盘快照锁定的问题，报价与日K切换至新浪现有接口，继续补取缺失的收盘分时。\n2. 来源未声明延时仅保留在详情，不再显示为外盘商品待核验。\n3. 美元指数采用独立计算时段，分时从真实首条记录起绘并提示源端开盘缺数。\n4. 修复美股分时末端同步误报，按报价与分时的实际先后更新，保留真实缺数提示。",
+  "sourceCommit": "b3c2baddbfdcd8ee1a8a6aabbc5971aff51947b8",
+  "updateLog": "v2.8.8：\n1. 重构收盘后报价时效判断，避免已收盘标的正常停牌间隔误报“报价停更”。\n2. 依据各交易所日历核查分时尾段，区分分时完整、收盘数据待更新、正常延时与实际缺失。\n3. 修复纳斯达克金龙中国指数交易时段判定，并恢复日K、周K、月K的独立真实数据源。\n4. 统一行情页、持仓、自选、收益页所使用图表的报价与历史数据状态。",
   "forceUpdate": false
 }
