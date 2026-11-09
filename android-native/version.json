@@ -1,10 +1,10 @@
 {
-  "versionCode": 168,
-  "versionName": "2.8.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.5/ziwuxilv-native-v2.8.5.apk",
-  "apkSha256": "3ed47ea574dd136d0851241640902eece8f6a4ce4c9cfc4e1f464757be5c172b",
+  "versionCode": 169,
+  "versionName": "2.8.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.6/ziwuxilv-native-v2.8.6.apk",
+  "apkSha256": "97817b0d6b4fa90489c894f1f1aaa07fdfbd4b3a5176d916173ec0b17df1774c",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "9441c5f99e9e63e0b25c3137e95e5a5c0acdc6d5",
-  "updateLog": "v2.8.5：\n1. 重构行情页报价源择优与时间核验，防止旧报价覆盖更新行情，并准确标示延时、过期及待核验。\n2. 优化印度SENSEX及外盘期货同标的/同月分时择新，修复跨时区、实时报价点与曲线末端的显示问题。\n3. 增强分时源端延迟与收盘完整性回归，保持原有行情获取通道与数据源配置不变。",
+  "sourceCommit": "880f265da0f20b69be5640b1010e7cc3dbcdc0ee",
+  "updateLog": "v2.8.6：\n1. 统一行情页、收益页和自选页的报价时效判定，修复正常报价被误标过期、滞后及实时的问题。\n2. 正常延时仅作提示，不计入数据异常；午休、休市、周末及至少延时行情分别核验。\n3. 分时末端和当日K线随有效报价更新，历史分时与历史K线独立刷新，防止旧报价回写历史。",
   "forceUpdate": false
 }
