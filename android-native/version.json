@@ -1,10 +1,10 @@
 {
-  "versionCode": 169,
-  "versionName": "2.8.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.6/ziwuxilv-native-v2.8.6.apk",
-  "apkSha256": "97817b0d6b4fa90489c894f1f1aaa07fdfbd4b3a5176d916173ec0b17df1774c",
+  "versionCode": 170,
+  "versionName": "2.8.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.7/ziwuxilv-native-v2.8.7.apk",
+  "apkSha256": "c7ce0d22a042071f8b437508dc0db812340c4646c0d587f81fd0e1f4962ecc5f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "880f265da0f20b69be5640b1010e7cc3dbcdc0ee",
-  "updateLog": "v2.8.6：\n1. 统一行情页、收益页和自选页的报价时效判定，修复正常报价被误标过期、滞后及实时的问题。\n2. 正常延时仅作提示，不计入数据异常；午休、休市、周末及至少延时行情分别核验。\n3. 分时末端和当日K线随有效报价更新，历史分时与历史K线独立刷新，防止旧报价回写历史。",
+  "sourceCommit": "18703823eab171bdc70ffc2c7dae3dc2bf7b7fda",
+  "updateLog": "v2.8.7：\n1. 修复印度指数被旧收盘快照锁定的问题，报价与日K切换至新浪现有接口，继续补取缺失的收盘分时。\n2. 来源未声明延时仅保留在详情，不再显示为外盘商品待核验。\n3. 美元指数采用独立计算时段，分时从真实首条记录起绘并提示源端开盘缺数。\n4. 修复美股分时末端同步误报，按报价与分时的实际先后更新，保留真实缺数提示。",
   "forceUpdate": false
 }
