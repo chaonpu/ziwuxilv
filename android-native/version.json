@@ -1,10 +1,10 @@
 {
-  "versionCode": 164,
-  "versionName": "2.8.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.1/ziwuxilv-native-v2.8.1.apk",
-  "apkSha256": "ca9fe87033ddb53200f286f7702dbb1d4031d88a16225fce92e4f1937166dabf",
+  "versionCode": 165,
+  "versionName": "2.8.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.2/ziwuxilv-native-v2.8.2.apk",
+  "apkSha256": "1edd22c17816116113f31ccb8a3926be5b872973a59df7fb05647ae4787f4822",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "de545a2342e30e709795d049819ecc48350eab64",
-  "updateLog": "v2.8.1：\n1. 七类策略展示结论优化：橙色“趋势转弱/转弱”搭配下降趋势图标。\n2. 多头延续在趋势4/4、技术至少1项多头且无空头、ATR未跌破时显示；技术全中性、出现空头或ATR跌破则显示“信号分歧”，不更改实际买入清仓规则。\n3. 策略详情 ATR 同时显示双色菱形与“已跌破/未跌破”文字，买入与ATR风险并存时明确提示。分时仅保留双色菱形，K线副图不改。",
+  "sourceCommit": "f91efc53268f258336b84db74343da682b65901c",
+  "updateLog": "v2.8.2：\n1. 策略信号颜色调整：信号分歧改为橙色，趋势转弱改为灰蓝色，判断逻辑不变。\n2. A股成交额对比：上一交易日最终成交额标签靠近15:00终点，避让今日与上一交易日曲线；保持卡片尺寸和曲线完整。",
   "forceUpdate": false
 }
