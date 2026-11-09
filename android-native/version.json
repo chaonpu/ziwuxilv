@@ -1,10 +1,10 @@
 {
-  "versionCode": 165,
-  "versionName": "2.8.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.2/ziwuxilv-native-v2.8.2.apk",
-  "apkSha256": "1edd22c17816116113f31ccb8a3926be5b872973a59df7fb05647ae4787f4822",
+  "versionCode": 167,
+  "versionName": "2.8.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.4/ziwuxilv-native-v2.8.4.apk",
+  "apkSha256": "29abda246a25fece10b59d6da7414f52a435a8b2c8fc50a22a5f30817a5502a6",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "f91efc53268f258336b84db74343da682b65901c",
-  "updateLog": "v2.8.2：\n1. 策略信号颜色调整：信号分歧改为橙色，趋势转弱改为灰蓝色，判断逻辑不变。\n2. A股成交额对比：上一交易日最终成交额标签靠近15:00终点，避让今日与上一交易日曲线；保持卡片尺寸和曲线完整。",
+  "sourceCommit": "e6d31b91c4a73b67723e51a013854c3af847667f",
+  "updateLog": "v2.8.4：\n1. 修复分时实时末端和十字光标与最新报价点的对应关系，并完善美股收盘报价状态核验。\n2. 优化A股ETF前复权日K数据源精度校验，避免历史K线不必要的价格跳变。\n3. 延续v2.8.2策略信号颜色和A股成交额对比标签优化。",
   "forceUpdate": false
 }
