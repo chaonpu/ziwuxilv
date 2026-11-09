@@ -1,10 +1,10 @@
 {
-  "versionCode": 167,
-  "versionName": "2.8.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.4/ziwuxilv-native-v2.8.4.apk",
-  "apkSha256": "29abda246a25fece10b59d6da7414f52a435a8b2c8fc50a22a5f30817a5502a6",
+  "versionCode": 168,
+  "versionName": "2.8.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.5/ziwuxilv-native-v2.8.5.apk",
+  "apkSha256": "3ed47ea574dd136d0851241640902eece8f6a4ce4c9cfc4e1f464757be5c172b",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "e6d31b91c4a73b67723e51a013854c3af847667f",
-  "updateLog": "v2.8.4：\n1. 修复分时实时末端和十字光标与最新报价点的对应关系，并完善美股收盘报价状态核验。\n2. 优化A股ETF前复权日K数据源精度校验，避免历史K线不必要的价格跳变。\n3. 延续v2.8.2策略信号颜色和A股成交额对比标签优化。",
+  "sourceCommit": "9441c5f99e9e63e0b25c3137e95e5a5c0acdc6d5",
+  "updateLog": "v2.8.5：\n1. 重构行情页报价源择优与时间核验，防止旧报价覆盖更新行情，并准确标示延时、过期及待核验。\n2. 优化印度SENSEX及外盘期货同标的/同月分时择新，修复跨时区、实时报价点与曲线末端的显示问题。\n3. 增强分时源端延迟与收盘完整性回归，保持原有行情获取通道与数据源配置不变。",
   "forceUpdate": false
 }
