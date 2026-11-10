@@ -45,7 +45,11 @@ class AutomaticCalendarTests(unittest.TestCase):
         evidence=[
             {'status':'ok','text':'SGX Regulatory Notices Half-Day Trading 12:16 Mid-Day Break 17:16'},
             {'status':'ok','text':'Public holidays 17 February 2026 1 January 2027 9 August 2027'},
-            {'status':'ok','text':'Holiday 2026 Monday16 February Yes Partial Thursday24 December Yes Partial Thursday31 December Yes Partial'},
+            {'status':'ok','text':('<h2>Holiday 2026</h2><table>'
+                '<tr><td>Monday</td><td>16 February</td><td>Partial</td></tr>'
+                '<tr><td>Thursday</td><td>24 December</td><td>Partial</td></tr>'
+                '<tr><td>Thursday</td><td>31 December</td><td>Partial</td></tr>'
+                '</table>')},
         ]
         self.assertTrue(s.verify_sgx_cash_monitor(evidence))
         with self.assertRaisesRegex(ValueError,'independent_2026_sgx_half_day'):

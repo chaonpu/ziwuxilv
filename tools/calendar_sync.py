@@ -286,7 +286,9 @@ def verify_sgx_cash_monitor(records):
     """
     require(len(records)==3 and all(record.get('status')=='ok' for record in records),
             'sgx_cash_calendar_source_unavailable')
-    rulebook,mom,broker=(' '.join(Page(record['text']).plain().split()) for record in records)
+    rulebook,mom=(' '.join(Page(record['text']).plain().split()) for record in records[:2])
+    broker_document=Page(records[2]['text'])
+    broker=' '.join(broker_document.plain().split())
     require('Half-Day Trading' in rulebook and 'Mid-Day Break' in rulebook
             and ('12:16' in rulebook or '12.16' in rulebook)
             and ('17:16' in rulebook or '17.16' in rulebook),
@@ -294,9 +296,15 @@ def verify_sgx_cash_monitor(records):
     require('Public holidays' in mom and '1 January 2027' in mom
             and '9 August 2027' in mom and '17 February 2026' in mom,
             'mom_singapore_holiday_evidence_unverifiable')
-    require('Holiday 2026' in broker and broker.count('Partial') >= 3
-            and all(re.search(r'(?<!\d)'+day+r'\s+'+month+r'\b',broker)
-                    for day,month in (('16','February'),('24','December'),('31','December'))),
+    # POEMS has separate HTML table cells for each holiday, date and type.
+    # "FebruaryMonday16 February..." in plain text has no word boundary
+    # before the holiday name. Validate actual rows, not a flattened regex.
+    def half_day(day,month):
+        date_cell=f'{day} {month}'
+        return any(date_cell in row and 'Partial' in row for row in broker_document.rows)
+    require('Holiday 2026' in broker
+            and all(half_day(day,month) for day,month in
+                    (('16','February'),('24','December'),('31','December'))),
             'independent_2026_sgx_half_day_evidence_unverifiable')
     return True
 
