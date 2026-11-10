@@ -20,16 +20,18 @@ jobs:
           from calendar_sync import Page, source_get, source_text
           urls=[
               'https://www.sgx.com/securities/trading',
-              'https://www.mom.gov.sg/employment-practices/public-holidays'
+              'https://www.mom.gov.sg/employment-practices/public-holidays',
+              'https://rulebook.sgx.com/rulebook/regulatory-notices-1',
+              'https://www.poems.com.sg/markets/sgx/'
           ]
           for url in urls:
               try:
-                  payload=source_get(url)
+                  payload=source_get(url) if url in urls[:2] else __import__('urllib.request',fromlist=['urlopen']).urlopen(__import__('urllib.request',fromlist=['Request']).Request(url,headers={'User-Agent':'Mozilla/5.0 (compatible; ZiwuxilvReadOnlyProbe/1.0)'}),timeout=15).read(800_000)
                   clean=' '.join(Page(source_text(payload,url)).plain().split())
                   print('SG_SOURCE '+json.dumps({
                       'domain':url.split('/')[2],'bytes':len(payload),'textLen':len(clean),
                       'preview':clean[:230],
-                      'hasHalfDay':bool(re.search('half.day',clean,re.I)),
+                      'hasHalfDay':bool(re.search('half.day',clean,re.I)), 'has12_16':'12:16' in clean or '12.16' in clean,
                       'hasDates':{d:d.lower() in clean.lower() for d in ['16 Feb 2026','24 Dec 2026','31 Dec 2026','16 February 2026','24 December 2026','31 December 2026','2027']},
                       '2026Context':[clean[max(0,m.start()-75):m.start()+110] for m in list(re.finditer(r'2026',clean))[:6]],
                   },ensure_ascii=False))
