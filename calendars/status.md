@@ -1,8 +1,8 @@
 # 交易日历运行状态
 
-检查时间：2026-11-10T15:48:16+08:00
+检查时间：2026-11-11T02:10:45+08:00
 
-当前版本：`92d3d33bc357fadbeafbc2b298e6e9f81bed8ec53c2c1206d42221c29768eafd`
+当前版本：`44d77bdc52f1e5cca896711acb6a148f4eb370ccce7c47dfdf484c1609a19aa7`
 
 | 市场/产品 | 适配能力 | 现有覆盖年份 | 本次解析年份 | 最近来源状态 | 待处理原因 |
 |---|---|---|---|---|---|
@@ -20,6 +20,7 @@
 | KR_EQ | annual | 2026, 2027 | 2026, 2027 | verified_no_change | — |
 | SA_EQ | annual_partial_sessions | 2026, 2027, 2028 | 2026, 2027 | verified_future_preserving_history | 2026:candidate_removes_holiday |
 | SGX_NIKKEI | annual | 2026, 2027, 2028 | 2026 | verified_no_change | only_complete_official_vector_calendar_years_are_parsed |
+| SG_EQ | annual_partial_sessions | 2026, 2027 | — | held_preserving_active_calendar | sgx_cash_half_day_official_source_changed |
 | TW_EQ | annual | 2026 | 2026 | verified_no_change | — |
 | UK_EQ | annual | 2026, 2027, 2028 | 2027, 2028 | verified_no_change | — |
 | US_EQ | annual | 2026, 2027, 2028 | 2026 | verified_no_change | — |
@@ -29,6 +30,6 @@ A50_CFD：第三方参考日历（FOREX.com），有效区间 2026-10-31 至 202
 自动维护：发现、校验、未来发布、失败恢复均无需手动派发；今天及历史日期保持不变。
 提供方日历未核准：无。缺失或冲突资料不会被当作已确认时段。
 
-连续观察：19天；达到30天：否。
+连续观察：20天；达到30天：否。
 
 来源异常时继续使用覆盖目标日期的已核验日历。未知时段不推算。回滚及历史影响分析不自动改写账本。
