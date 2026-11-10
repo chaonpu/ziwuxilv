@@ -1,0 +1,38 @@
+name: Diagnostic SGX official source text (read only)
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/sgx-source-probe.yml']
+permissions:
+  contents: read
+jobs:
+  sgx-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm source text, date tokens and access status without calendar writes
+        env:
+          PYTHONPATH: tools
+        run: |
+          python3 - <<'PY'
+          import json,re
+          from calendar_sync import Page, source_get, source_text
+          urls=[
+              'https://www.sgx.com/securities/trading',
+              'https://www.mom.gov.sg/employment-practices/public-holidays'
+          ]
+          for url in urls:
+              try:
+                  payload=source_get(url)
+                  clean=' '.join(Page(source_text(payload,url)).plain().split())
+                  print('SG_SOURCE '+json.dumps({
+                      'domain':url.split('/')[2],'bytes':len(payload),'textLen':len(clean),
+                      'preview':clean[:230],
+                      'hasHalfDay':bool(re.search('half.day',clean,re.I)),
+                      'hasDates':{d:d.lower() in clean.lower() for d in ['16 Feb 2026','24 Dec 2026','31 Dec 2026','16 February 2026','24 December 2026','31 December 2026','2027']},
+                      '2026Context':[clean[max(0,m.start()-75):m.start()+110] for m in list(re.finditer(r'2026',clean))[:6]],
+                  },ensure_ascii=False))
+              except Exception as exc:
+                  print('SG_SOURCE_ERROR '+json.dumps({'domain':url.split('/')[2],'type':type(exc).__name__,'detail':str(exc)[:120]}))
+          PY
