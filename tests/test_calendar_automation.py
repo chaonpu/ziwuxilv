@@ -41,6 +41,18 @@ class AutomaticCalendarTests(unittest.TestCase):
         self.assertEqual([doc],a.discover_documents(json.dumps(value),'https://api2.sgx.com/content-api',s.SOURCES['SGX_NIKKEI']['documentPatterns'],label_pattern='SGX Calendar'))
         with self.assertRaises(ValueError):a.discover_documents('{"errors":[{"message":"changed"}]}','https://api2.sgx.com/content-api',[])
 
+    def test_sgx_cash_monitor_separates_official_hours_and_independent_half_day_witness(self):
+        evidence=[
+            {'status':'ok','text':'SGX Regulatory Notices Half-Day Trading 12:16 Mid-Day Break 17:16'},
+            {'status':'ok','text':'Public holidays 17 February 2026 1 January 2027 9 August 2027'},
+            {'status':'ok','text':'Holiday 2026 Monday16 February Yes Partial Thursday24 December Yes Partial Thursday31 December Yes Partial'},
+        ]
+        self.assertTrue(s.verify_sgx_cash_monitor(evidence))
+        with self.assertRaisesRegex(ValueError,'independent_2026_sgx_half_day'):
+            s.verify_sgx_cash_monitor(evidence[:-1]+[{'status':'ok','text':'Holiday 2026 None'}])
+        with self.assertRaisesRegex(ValueError,'sgx_official_rulebook_market_hours'):
+            s.verify_sgx_cash_monitor([{'status':'ok','text':'unsupported browser'},*evidence[1:]])
+
     def test_recovery_and_unverified_next_year_have_automatic_daily_checks(self):
         cal=r.validate(r.seed_path().read_bytes())['data']['calendars']['US_EQ']
         state={'lastAttemptAt':NOW.isoformat(),'parsedYears':['2026']}

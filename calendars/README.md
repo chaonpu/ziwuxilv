@@ -155,3 +155,5 @@ A50第三方参考模式由用户明确允许采用非官方资料后启用。�
 来源：SGX https://www.sgx.com/securities/trading 与 MOM https://www.mom.gov.sg/employment-practices/public-holidays。
 
 每日来源巡检验证上述官方页面和已公布半日交易证据。页面可读不意味着新年份日历已自动解析；未来新年份和节假日变更须经可核验的年度解析或复核才能发布。
+
+SG_EQ 每日巡检说明：SGX 官网交易页在 GitHub 云端可能只返回浏览器不受支持的提示页。改为核对 SGX 官方规则书的交易时段、MOM 官方休市资料，以及 POEMS 对已验证的 2026 三个半日交易日的独立佐证；POEMS 不是官方新年份日历发布依据，2027 半日交易仍保持 UNKNOWN，日历内容不由来源页自动覆盖。

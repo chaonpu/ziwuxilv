@@ -276,6 +276,31 @@ def parse_euronext_paris(html):
     return out
 
 
+def verify_sgx_cash_monitor(records):
+    """Bounded annual-date witness; monitoring does not authorize calendar changes.
+
+    In CI the www.sgx.com securities landing page only serves a
+    browser-version warning. The official SGX Rulebook and government MOM
+    page are readable; independent POEMS supplies a cross-check for 2026
+    half-day dates. Its calendar is never substituted for official SGX data.
+    """
+    require(len(records)==3 and all(record.get('status')=='ok' for record in records),
+            'sgx_cash_calendar_source_unavailable')
+    rulebook,mom,broker=(' '.join(Page(record['text']).plain().split()) for record in records)
+    require('Half-Day Trading' in rulebook and 'Mid-Day Break' in rulebook
+            and ('12:16' in rulebook or '12.16' in rulebook)
+            and ('17:16' in rulebook or '17.16' in rulebook),
+            'sgx_official_rulebook_market_hours_unverifiable')
+    require('Public holidays' in mom and '1 January 2027' in mom
+            and '9 August 2027' in mom and '17 February 2026' in mom,
+            'mom_singapore_holiday_evidence_unverifiable')
+    require('Holiday 2026' in broker and broker.count('Partial') >= 3
+            and all(re.search(r'\\b'+day+r'\\s+'+month+r'\\b',broker)
+                    for day,month in (('16','February'),('24','December'),('31','December'))),
+            'independent_2026_sgx_half_day_evidence_unverifiable')
+    return True
+
+
 def should_check(cal, health, now, force=False, *, adapter=None):
     next_year=str(now.year+1)
     missing=next_year not in cal['years'] or ('parsedYears' in health and next_year not in health['parsedYears'])
@@ -644,17 +669,15 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                     state['sourceMode']='mixed_live_cached_and_reviewed' if reviewed else 'mixed_live_and_validated_cache'
                 state.setdefault('sourceMode','live_official_consensus')
             elif spec['adapter']=='sgx-cash-source-monitor':
-                sgx_plain=' '.join(Page(records[0]['text']).plain().split())
-                mom_plain=' '.join(Page(records[1]['text']).plain().split())
-                require(all(x in sgx_plain for x in ('16 Feb 2026','24 Dec 2026','31 Dec 2026'))
-                    and 'Half-day' in sgx_plain,
-                    'sgx_cash_half_day_official_source_changed')
-                require(all(x in mom_plain for x in ('2026','2027','November','December'))
-                    and 'Public holidays' in mom_plain,
-                    'singapore_ministry_public_holiday_source_changed')
-                # Monitoring never silently substitutes a new annual market calendar.
+                verify_sgx_cash_monitor(records)
+                # SGX's landing page serves unsupported-browser HTML in CI.
+                # Use its separately published Rulebook for official trading hours,
+                # MOM for statutory holidays and POEMS as an independent witness
+                # for the three previously verified 2026 half-day dates.
+                # This is not a new-year SGX holiday parser: never auto-publish.
                 state.update(status='verified_no_change',
-                    sourceMode='sgx_cash_official_source_monitor_no_automatic_calendar_writes',
+                    sourceMode='official_sgx_hours_mom_holidays_broker_2026_half_day_crosscheck',
+                    evidenceLevel='secondary_confirmation_of_half_day_dates',
                     lastVerifiedAt=now.isoformat(timespec='seconds'))
                 candidates={}
             elif spec['adapter']=='saudi-exchange-annual':
