@@ -295,7 +295,7 @@ def verify_sgx_cash_monitor(records):
             and '9 August 2027' in mom and '17 February 2026' in mom,
             'mom_singapore_holiday_evidence_unverifiable')
     require('Holiday 2026' in broker and broker.count('Partial') >= 3
-            and all(re.search(r'\\b'+day+r'\\s+'+month+r'\\b',broker)
+            and all(re.search(r'(?<!\d)'+day+r'\s+'+month+r'\b',broker)
                     for day,month in (('16','February'),('24','December'),('31','December'))),
             'independent_2026_sgx_half_day_evidence_unverifiable')
     return True
