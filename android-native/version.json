@@ -1,10 +1,10 @@
 {
-  "versionCode": 171,
-  "versionName": "2.8.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.8/ziwuxilv-native-v2.8.8.apk",
-  "apkSha256": "b416805310bd9ef8427897ca29832ef3dad4052ed96b1a1bc8b2a109e568ee50",
+  "versionCode": 172,
+  "versionName": "2.8.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.9/ziwuxilv-native-v2.8.9.apk",
+  "apkSha256": "060d68eb419f22a6569a8bb18557143aebd0dd111e5ece3860af971329c4a413",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "b3c2baddbfdcd8ee1a8a6aabbc5971aff51947b8",
-  "updateLog": "v2.8.8：\n1. 重构收盘后报价时效判断，避免已收盘标的正常停牌间隔误报“报价停更”。\n2. 依据各交易所日历核查分时尾段，区分分时完整、收盘数据待更新、正常延时与实际缺失。\n3. 修复纳斯达克金龙中国指数交易时段判定，并恢复日K、周K、月K的独立真实数据源。\n4. 统一行情页、持仓、自选、收益页所使用图表的报价与历史数据状态。",
+  "sourceCommit": "b74051f305622b1afd4dbb4e3e2956f43dce779c",
+  "updateLog": "v2.8.9：\n1. 修复DAX和CAC40常规分钟线17:30结束后的状态误报，区分收盘阶段与真正缺数。\n2. 接入STOXX和Euronext官方指数报价，核验后单独标记最终指数快照，不伪造分钟K线。\n3. 完善已收盘报价新鲜度、真实分时末端与报价时间的一致性校验。\n4. 优化美元指数、印度SENSEX分时补数和COMEX指定交割月实时采样显示。",
   "forceUpdate": false
 }
