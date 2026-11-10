@@ -1,10 +1,10 @@
 {
-  "versionCode": 174,
-  "versionName": "2.9.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.1/ziwuxilv-native-v2.9.1.apk",
-  "apkSha256": "07d44d4f110ab4cb42604a0fca85af5f1c59c65fa6610c90dc728a80f6fde8bb",
+  "versionCode": 175,
+  "versionName": "2.9.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.2/ziwuxilv-native-v2.9.2.apk",
+  "apkSha256": "9e15a0c57308ff562be3ee3d688a19d9f1303a426554ebc35d797c5704589d6d",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "875f3dff69581fb5c7bacbc68ee6b87fcb295b91",
-  "updateLog": "v2.9.1：\n1. 修复美股持仓 A 等标的因开高低字段冲突而误报“报价未读取”，有效报价与异常OHLC分别校验。\n2. 修复恒生与恒生科技收盘快照被误判为分时采样缺口，保留真实价格与公布时间。\n3. 移除百度财经与曲合行情通道，调整外盘商品报价和图表匹配。\n4. 移除无法稳定取得完整行情及图表的沙特指数，改为富时新加坡海峡时报指数 STI（100.STI），适配报价、分时、K线及交易日历。\n5. 修复A股收盘后策略信号误变待核的问题。",
+  "sourceCommit": "902c731f88eca25ab878752ab09f4c37848e8466",
+  "updateLog": "v2.9.2：\n1. 美股 A 等标的采用完整同源报价快照校验，腾讯 OHLC 冲突时有条件尝试新浪备用，保留有效报价与来源时间。\n2. 美股前复权日K增加逐根 OHLC 合法性检查，首次选择历史数据源时可排除异常数据并采用合格备用源，恢复策略信号计算。\n3. 修复 DAX、CAC40 收盘尾段错误报缺数，识别真实指数收盘快照，不伪造竞价期间逐分钟数据。\n4. 日经225 CFD 区分源端采样间隔与真实行情缺失，图表标记更准确，未插补虚构价格。\n5. 延续 2.9.1 恒生分时、STI 替换、A股收盘策略状态及数据源清理等改进。",
   "forceUpdate": false
 }
