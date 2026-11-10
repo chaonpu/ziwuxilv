@@ -1,10 +1,10 @@
 {
-  "versionCode": 172,
-  "versionName": "2.8.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.8.9/ziwuxilv-native-v2.8.9.apk",
-  "apkSha256": "060d68eb419f22a6569a8bb18557143aebd0dd111e5ece3860af971329c4a413",
+  "versionCode": 173,
+  "versionName": "2.9.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.0/ziwuxilv-native-v2.9.0.apk",
+  "apkSha256": "c74ea03bdbebc74c848544962f7ea63919884aae563a4167cc5445eb6a770232",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "b74051f305622b1afd4dbb4e3e2956f43dce779c",
-  "updateLog": "v2.8.9：\n1. 修复DAX和CAC40常规分钟线17:30结束后的状态误报，区分收盘阶段与真正缺数。\n2. 接入STOXX和Euronext官方指数报价，核验后单独标记最终指数快照，不伪造分钟K线。\n3. 完善已收盘报价新鲜度、真实分时末端与报价时间的一致性校验。\n4. 优化美元指数、印度SENSEX分时补数和COMEX指定交割月实时采样显示。",
+  "sourceCommit": "14b45596edfbb832df10edacc137ba0e9e4b21bf",
+  "updateLog": "v2.9.0：\n1. 改进日经225与KOSPI的多来源报价选取，防止收盘后同日较早报价覆盖较新快照。\n2. 修复KOSPI把Naver收盘后网页更新时间当作常规指数成交时间的问题，清理旧缓存中的异常快照。\n3. 完善同一交易时间的来源切换规则，避免已核验状态回退为不必要的延时提示。\n4. 保持分时和各周期K线独立读取及校验，不借用报价伪造历史曲线。",
   "forceUpdate": false
 }
