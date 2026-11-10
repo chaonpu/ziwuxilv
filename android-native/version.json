@@ -1,10 +1,10 @@
 {
-  "versionCode": 173,
-  "versionName": "2.9.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.0/ziwuxilv-native-v2.9.0.apk",
-  "apkSha256": "c74ea03bdbebc74c848544962f7ea63919884aae563a4167cc5445eb6a770232",
+  "versionCode": 174,
+  "versionName": "2.9.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.1/ziwuxilv-native-v2.9.1.apk",
+  "apkSha256": "07d44d4f110ab4cb42604a0fca85af5f1c59c65fa6610c90dc728a80f6fde8bb",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "14b45596edfbb832df10edacc137ba0e9e4b21bf",
-  "updateLog": "v2.9.0：\n1. 改进日经225与KOSPI的多来源报价选取，防止收盘后同日较早报价覆盖较新快照。\n2. 修复KOSPI把Naver收盘后网页更新时间当作常规指数成交时间的问题，清理旧缓存中的异常快照。\n3. 完善同一交易时间的来源切换规则，避免已核验状态回退为不必要的延时提示。\n4. 保持分时和各周期K线独立读取及校验，不借用报价伪造历史曲线。",
+  "sourceCommit": "875f3dff69581fb5c7bacbc68ee6b87fcb295b91",
+  "updateLog": "v2.9.1：\n1. 修复美股持仓 A 等标的因开高低字段冲突而误报“报价未读取”，有效报价与异常OHLC分别校验。\n2. 修复恒生与恒生科技收盘快照被误判为分时采样缺口，保留真实价格与公布时间。\n3. 移除百度财经与曲合行情通道，调整外盘商品报价和图表匹配。\n4. 移除无法稳定取得完整行情及图表的沙特指数，改为富时新加坡海峡时报指数 STI（100.STI），适配报价、分时、K线及交易日历。\n5. 修复A股收盘后策略信号误变待核的问题。",
   "forceUpdate": false
 }
