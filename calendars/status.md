@@ -1,6 +1,6 @@
 # 交易日历运行状态
 
-检查时间：2026-11-11T02:21:59+08:00
+检查时间：2026-11-11T02:29:12+08:00
 
 当前版本：`44d77bdc52f1e5cca896711acb6a148f4eb370ccce7c47dfdf484c1609a19aa7`
 
@@ -20,7 +20,7 @@
 | KR_EQ | annual | 2026, 2027 | 2026, 2027 | verified_no_change | — |
 | SA_EQ | annual_partial_sessions | 2026, 2027, 2028 | 2026, 2027 | verified_future_preserving_history | 2026:candidate_removes_holiday |
 | SGX_NIKKEI | annual | 2026, 2027, 2028 | 2026 | verified_no_change | only_complete_official_vector_calendar_years_are_parsed |
-| SG_EQ | annual_partial_sessions | 2026, 2027 | — | held_preserving_active_calendar | independent_2026_sgx_half_day_evidence_unverifiable |
+| SG_EQ | annual_partial_sessions | 2026, 2027 | — | verified_no_change | sgx_primary_trading_page_unsupported_in_cloud_no_automatic_year_rollover |
 | TW_EQ | annual | 2026 | 2026 | verified_no_change | — |
 | UK_EQ | annual | 2026, 2027, 2028 | 2027, 2028 | verified_no_change | — |
 | US_EQ | annual | 2026, 2027, 2028 | 2026 | verified_no_change | — |
