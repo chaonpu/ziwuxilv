@@ -280,7 +280,8 @@ def should_check(cal, health, now, force=False, *, adapter=None):
     next_year=str(now.year+1)
     missing=next_year not in cal['years'] or ('parsedYears' in health and next_year not in health['parsedYears'])
     rolling=adapter=='a50-cfd-reference'
-    daily=rolling or now.month>=10 and missing and adapter!='source-monitor' and not (adapter or '').startswith('blocked-')
+    daily=rolling or adapter=='sgx-cash-source-monitor' or (now.month>=10 and missing
+        and adapter!='source-monitor' and not (adapter or '').startswith('blocked-'))
     hours=24 if daily else 168
     previous=health.get('lastAttemptAt')
     if not previous:return True,'rolling_reference_daily' if rolling else 'q4_missing_next_year' if daily else 'weekly'
@@ -642,6 +643,20 @@ def sync(root=ROOT, *, now=None, force=False, fetch=source_get):
                     state['cachedVenues']=cached
                     state['sourceMode']='mixed_live_cached_and_reviewed' if reviewed else 'mixed_live_and_validated_cache'
                 state.setdefault('sourceMode','live_official_consensus')
+            elif spec['adapter']=='sgx-cash-source-monitor':
+                sgx_plain=' '.join(Page(records[0]['text']).plain().split())
+                mom_plain=' '.join(Page(records[1]['text']).plain().split())
+                require(all(x in sgx_plain for x in ('16 Feb 2026','24 Dec 2026','31 Dec 2026'))
+                    and 'Half-day' in sgx_plain,
+                    'sgx_cash_half_day_official_source_changed')
+                require(all(x in mom_plain for x in ('2026','2027','November','December'))
+                    and 'Public holidays' in mom_plain,
+                    'singapore_ministry_public_holiday_source_changed')
+                # Monitoring never silently substitutes a new annual market calendar.
+                state.update(status='verified_no_change',
+                    sourceMode='sgx_cash_official_source_monitor_no_automatic_calendar_writes',
+                    lastVerifiedAt=now.isoformat(timespec='seconds'))
+                candidates={}
             elif spec['adapter']=='saudi-exchange-annual':
                 from calendar_adapters import parse_saudi
                 candidates=parse_saudi(records[0]['text'],now.year)

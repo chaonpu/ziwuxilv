@@ -146,3 +146,12 @@ A50第三方参考模式由用户明确允许采用非官方资料后启用。�
 
 运行：`python3 -m unittest discover -s tests -p 'test_calendar_*.py' -v`；
 检查：`python3 tools/calendar_sync.py`；即时检查：增加 `--force`。
+
+
+### 新加坡现货股票与 STI（SG_EQ）
+
+2026—2027 年新加坡人力部法定假日及新加坡交易所 2026 年三次半日交易安排已作为独立的 SG_EQ 日历登记。
+2026-02-16、2026-12-24、2026-12-31 仅显示上午指数交易段；2027-02-05、2027-12-24、2027-12-31 半日安排尚未确认，标记 UNKNOWN。
+来源：SGX https://www.sgx.com/securities/trading 与 MOM https://www.mom.gov.sg/employment-practices/public-holidays。
+
+每日来源巡检验证上述官方页面和已公布半日交易证据。页面可读不意味着新年份日历已自动解析；未来新年份和节假日变更须经可核验的年度解析或复核才能发布。
