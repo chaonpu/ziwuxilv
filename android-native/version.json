@@ -1,10 +1,10 @@
 {
-  "versionCode": 175,
-  "versionName": "2.9.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.2/ziwuxilv-native-v2.9.2.apk",
-  "apkSha256": "9e15a0c57308ff562be3ee3d688a19d9f1303a426554ebc35d797c5704589d6d",
+  "versionCode": 176,
+  "versionName": "2.9.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.3/ziwuxilv-native-v2.9.3.apk",
+  "apkSha256": "7abd03d433976e4f933e177a027489ce3275ee4da9716117571d9594c983dcef",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "902c731f88eca25ab878752ab09f4c37848e8466",
-  "updateLog": "v2.9.2：\n1. 美股 A 等标的采用完整同源报价快照校验，腾讯 OHLC 冲突时有条件尝试新浪备用，保留有效报价与来源时间。\n2. 美股前复权日K增加逐根 OHLC 合法性检查，首次选择历史数据源时可排除异常数据并采用合格备用源，恢复策略信号计算。\n3. 修复 DAX、CAC40 收盘尾段错误报缺数，识别真实指数收盘快照，不伪造竞价期间逐分钟数据。\n4. 日经225 CFD 区分源端采样间隔与真实行情缺失，图表标记更准确，未插补虚构价格。\n5. 延续 2.9.1 恒生分时、STI 替换、A股收盘策略状态及数据源清理等改进。",
+  "sourceCommit": "15f164f31976ed5f93258df171e2ac2fac88dd2e",
+  "updateLog": "v2.9.3（源码已升级，尚未正式发布）：\n1. 已验证标的实现报价、原生分时、实时日K和历史日K完整同源，合格备用按整组切换，不再跨源拼图。\n2. 来源切换时清理原图表缓存；对真实报价与分钟末端增加时间、价格和合约身份校验。\n3. 修复A股11:30—13:00午间休市分时副图策略信号错误变为待核，保留合格上午信号并标为午间预估。\n4. 未验证双源及海外连续合约换月的标的坚持可信单源，不使用不合格备用。\n5. 正式APK签名、发布及完整实盘行情回归仍需验收。",
   "forceUpdate": false
 }
