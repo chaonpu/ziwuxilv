@@ -1,10 +1,10 @@
 {
-  "versionCode": 179,
-  "versionName": "2.9.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.6/ziwuxilv-native-v2.9.6.apk",
-  "apkSha256": "45be1e98027d44a9614dcef8d58f67e248457e7e20b797918be3f60b05bd042b",
+  "versionCode": 180,
+  "versionName": "2.9.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.7/ziwuxilv-native-v2.9.7.apk",
+  "apkSha256": "6cc8e9639700b5a18ce8f89ed06f13d2e355ad05a5a3fb281f9da7085a0f4dbf",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "f8aa2d7f7254948a1e8ad1062dc9588656315374",
-  "updateLog": "v2.9.6（源码及离线构建已通过前版验收；正式签名、联网与实机验收待完成）：\n1. 修复A股11:30–13:00午间休市分时副图策略信号误变“待核”：保留上午有效结论，午休首次打开时可从同日合格前复权日K恢复“午间预估”，13:00后正常计算。\n2. 修复DAX、CAC40、富时100及巴西IBOVESPA交易时段跨越北京时间午夜时，分时图错误删掉前半段真实分钟数据的问题。\n3. 巴西指数分时横轴按真实尾盘数据延伸，不再把17:00（交易所当地时间）后的真实分钟挤在右边缘。\n4. 对新浪欧洲与巴西指数增加原生分钟开盘覆盖、采样密度与异常缺口校验；缺数不插值、不跨供应商拼接。\n5. 保持同源报价/分时/日K校验。已知国内期货分时同步、恒科期货报价和A股市场广度在线接口仍需独立修复验收。",
+  "sourceCommit": "693fc5d31b87aa83407a0fc7e67297286e7c7907",
+  "updateLog": "v2.9.7：\n1. 日经225、韩国KOSPI及部分欧洲指数改按实际报价时间戳、原生分钟数据推进情况判别实时/延时/滞后，不再把新浪网页通用的15分钟延时声明直接作为每个指数的判断结果。\n2. 区分收盘、午间休市等正常停更状态和实际报价异常；剔除全球指数旧缓存中的静态“新浪延时”标签，避免已收盘时误报滞后。\n3. 对可能存在真实延迟的新浪全球指数增加分次观测判断，未有足够连续证据前不直接宣告延时或实时。\n4. 增强恒生科技相关合约别名的只读探测和CFD报价OHLC异常诊断，保留严格的报价、分时与日K同源校验。\n5. 本版属于新增行情时间状态识别与诊断修复；全球指数全量联网回归、恒科期货及其他尚未通过的实时来源仍需独立验收。",
   "forceUpdate": false
 }
