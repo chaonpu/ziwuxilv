@@ -1,10 +1,10 @@
 {
-  "versionCode": 176,
-  "versionName": "2.9.3",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.3/ziwuxilv-native-v2.9.3.apk",
-  "apkSha256": "7abd03d433976e4f933e177a027489ce3275ee4da9716117571d9594c983dcef",
+  "versionCode": 178,
+  "versionName": "2.9.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.5/ziwuxilv-native-v2.9.5.apk",
+  "apkSha256": "185577b45104d450ed99477db4fbdc78f164e46a3460dbaf34b0f22464257143",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "15f164f31976ed5f93258df171e2ac2fac88dd2e",
-  "updateLog": "v2.9.3（源码已升级，尚未正式发布）：\n1. 已验证标的实现报价、原生分时、实时日K和历史日K完整同源，合格备用按整组切换，不再跨源拼图。\n2. 来源切换时清理原图表缓存；对真实报价与分钟末端增加时间、价格和合约身份校验。\n3. 修复A股11:30—13:00午间休市分时副图策略信号错误变为待核，保留合格上午信号并标为午间预估。\n4. 未验证双源及海外连续合约换月的标的坚持可信单源，不使用不合格备用。\n5. 正式APK签名、发布及完整实盘行情回归仍需验收。",
+  "sourceCommit": "1e8c795e6399f4d0090a4406933ef9824e42cd00",
+  "updateLog": "v2.9.5（待完成正式构建及实机验收）：\n1. 道琼斯、纳斯达克、标普500保留腾讯唯一完整来源；移除这三项东方财富备用。\n2. 台湾加权接入新浪 b_TWJQ 报价、TWJQ 原生分钟和日K；新加坡STI也只使用新浪并严格检查时间同步，未通过时不虚构更新。\n3. 日经、富时100、韩国、德国、印度、法国、巴西等全球指数移除东方财富完整备用。\n4. 纽约金、纽约银、WTI、布伦特改为新浪连续合约同源报价、分钟及历史日K，明确标识交割月份和历史换月未核验；沪金等八种国内商品保留新浪唯一合约校验来源。\n5. 其他行情页指数、汇率和币种撤销东方财富路由；任何来源异常不得以另一供应商的图表/报价跨源拼接。\n6. 在新浪报价与原生分钟末端偏差、合约身份或日K日期不满足校验时拒绝整组显示，等待合格原生数据；需要实际线上回归和APK完整构建确认。",
   "forceUpdate": false
 }
