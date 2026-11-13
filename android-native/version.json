@@ -1,10 +1,10 @@
 {
-  "versionCode": 180,
-  "versionName": "2.9.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.7/ziwuxilv-native-v2.9.7.apk",
-  "apkSha256": "6cc8e9639700b5a18ce8f89ed06f13d2e355ad05a5a3fb281f9da7085a0f4dbf",
+  "versionCode": 181,
+  "versionName": "2.9.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.8/ziwuxilv-native-v2.9.8.apk",
+  "apkSha256": "6a87a9d9bfd544e2f3b5d13e45678b594f37b1fbaa5d7ba600172fa35e51aa46",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "693fc5d31b87aa83407a0fc7e67297286e7c7907",
-  "updateLog": "v2.9.7：\n1. 日经225、韩国KOSPI及部分欧洲指数改按实际报价时间戳、原生分钟数据推进情况判别实时/延时/滞后，不再把新浪网页通用的15分钟延时声明直接作为每个指数的判断结果。\n2. 区分收盘、午间休市等正常停更状态和实际报价异常；剔除全球指数旧缓存中的静态“新浪延时”标签，避免已收盘时误报滞后。\n3. 对可能存在真实延迟的新浪全球指数增加分次观测判断，未有足够连续证据前不直接宣告延时或实时。\n4. 增强恒生科技相关合约别名的只读探测和CFD报价OHLC异常诊断，保留严格的报价、分时与日K同源校验。\n5. 本版属于新增行情时间状态识别与诊断修复；全球指数全量联网回归、恒科期货及其他尚未通过的实时来源仍需独立验收。",
+  "sourceCommit": "fcdf45057053b0c9c39557231177b86a50240e9d",
+  "updateLog": "v2.9.8：\n1. 报价与原生分时使用经同源、合约、交易日和价格校验后的最新有效数据，统一更新行情、实时分时末点、当日K线及策略信号；不改写历史行情。\n2. 统一报价与原生分时同步验收时间差为 -180～180 秒，保留提前分钟标签、错误价格、跨源与过期行情防护。\n3. 恒生指数和恒生科技指数改用经济通现金指数同源报价、原生分时与日K，避免腾讯约15分钟延迟的旧主源。\n4. 清理已退役沙特指数的旧专项验证和自选迁移，避免历史自选重新显示退役标的。\n5. 台湾加权 TWII 分时价格偏差、韩国 KOSPI 部分联网时段未取得合格报价等问题仍需继续复测；本次不视为已修复。",
   "forceUpdate": false
 }
