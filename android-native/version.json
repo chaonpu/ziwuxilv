@@ -1,10 +1,10 @@
 {
-  "versionCode": 181,
-  "versionName": "2.9.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.8/ziwuxilv-native-v2.9.8.apk",
-  "apkSha256": "6a87a9d9bfd544e2f3b5d13e45678b594f37b1fbaa5d7ba600172fa35e51aa46",
+  "versionCode": 182,
+  "versionName": "2.9.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v2.9.9/ziwuxilv-native-v2.9.9.apk",
+  "apkSha256": "93598f6d6be699d294b708c4ae8a7aa2bb0cf44309a8da55c6674bad4ea7299a",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "fcdf45057053b0c9c39557231177b86a50240e9d",
-  "updateLog": "v2.9.8：\n1. 报价与原生分时使用经同源、合约、交易日和价格校验后的最新有效数据，统一更新行情、实时分时末点、当日K线及策略信号；不改写历史行情。\n2. 统一报价与原生分时同步验收时间差为 -180～180 秒，保留提前分钟标签、错误价格、跨源与过期行情防护。\n3. 恒生指数和恒生科技指数改用经济通现金指数同源报价、原生分时与日K，避免腾讯约15分钟延迟的旧主源。\n4. 清理已退役沙特指数的旧专项验证和自选迁移，避免历史自选重新显示退役标的。\n5. 台湾加权 TWII 分时价格偏差、韩国 KOSPI 部分联网时段未取得合格报价等问题仍需继续复测；本次不视为已修复。",
+  "sourceCommit": "10e190571949815e33e03b5253172ef0a85f6c26",
+  "updateLog": "v2.9.9：\n1. 台湾加权指数区分13:25连续交易结束与13:30收盘竞价，不再将正常集合竞价空档误报为分时缺失，不补造成交分钟。\n2. 经济通恒生、恒科现金指数复用当日可信昨收，减少反复请求慢速日K。\n3. 经济通恒指、恒科近月期货并行加载同月日K与日/夜分时，减少串行等待。\n4. 保留完整同源、合约与交易日验证及报价/分时±180秒校验；其他外部行情继续单独验收。",
   "forceUpdate": false
 }
