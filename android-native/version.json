@@ -1,10 +1,10 @@
 {
-  "versionCode": 184,
-  "versionName": "3.0.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.0.1/ziwuxilv-native-v3.0.1.apk",
-  "apkSha256": "b2192d22516e75bf1f676594761adccadaf883dca5156084d248a7eb0e84347e",
+  "versionCode": 187,
+  "versionName": "3.0.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.0.4/ziwuxilv-native-v3.0.4.apk",
+  "apkSha256": "ba65dc2eca48b17a8658b9de15790e2a6eb06f427bd3ecfe04bf11c0bb01d8b7",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "382aa73992017df386a27c00bed644debd9eba7b",
-  "updateLog": "v3.0.1：\n1. 巴西IBOVESPA指数新增与英国、法国、德国、印度指数一致的首次同源报价/分时/日K核验与有限快速重试。\n2. 对新浪首次来源延时未判定时，仅在同源原生分时、日K、标的身份、交易日及价格/时间全部通过核验后允许报价准入。\n3. 巴西跨北京时间午夜时按圣保罗交易所日期验证，避免正常延时被误判为跨交易日；保留±180秒同步及原有密度检查。\n4. 新增巴西冷启动、跨日、错误来源及过期报价回归测试，扩展联网诊断日志。",
+  "sourceCommit": "e42e2cd4caaf93dcea6949c67ad97a81e2104079",
+  "updateLog": "v3.0.4：\n1. 修复德国DAX、法国CAC40在新浪分时正常结束于欧洲17:30（冬令时北京时间次日00:30）时，被旧数据源白名单误判为“收盘尾段缺失”的问题。\n2. 匹配同源、同交易日与常规尾段后，展示“已收盘 · 常规分时结束，终值待核验”；不把17:29报价当作17:35/18:00官方最终收盘值，不伪造收盘阶段分时。\n3. 保持提前停更、错误报价来源及缺失分钟等真实异常检测，增加跨北京时间午夜与收盘阶段回归测试。",
   "forceUpdate": false
 }
