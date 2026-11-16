@@ -1,10 +1,10 @@
 {
-  "versionCode": 190,
-  "versionName": "3.0.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.0.7/ziwuxilv-native-v3.0.7.apk",
-  "apkSha256": "b68cd7c9b9dd6aa7482542df6a3b2d7d7e78bc548620810788f3613ade313b05",
+  "versionCode": 191,
+  "versionName": "3.0.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.0.8/ziwuxilv-native-v3.0.8.apk",
+  "apkSha256": "95cc13c96edefda9d44471cdb0af49fb6225132c08126fddbea624bc492ae9d4",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "1129fe335d9313e5ad009e2d50c76993b57628e6",
-  "updateLog": "v3.0.7：\n1. 修复美股策略次交易日开盘执行价被腾讯实时行情 open 字段误报的情况（SIG 11月16日误取当日最高117.00，而日K原始开盘为113.32）。\n2. 美股策略理论买入、清仓与调仓估值的执行开盘价，改为校验同代码、同交易日的腾讯未复权日K；保留原有次交易日开盘规则，不使用收盘价代替。\n3. 新执行价可纠正旧缓存错误，废弃无法证明来源的历史本地开盘价缓存；没有对应原始日K时保持待确认，不伪造成交。\n4. 增加SIG误价、原生日K缺失、错误股票与交易日、执行价缓存更正等回归测试。\n5. 保留3.0.6的新浪IBOVESPA行情修复。",
+  "sourceCommit": "37f9d5aee25ee61f86a1b6e5b991ce9ba3d06bbe",
+  "updateLog": "v3.0.8：\n1. 修复收益页与行情-持仓当日收益因美股未复权开盘日K核验被阻塞，行情报价优先实时发布，开盘价后台异步核验。\n2. 原始开盘价尚未到达时允许用实时报价进行临时盘中估值，明确标注「开盘价待核验」；临时价格绝不写入真实清仓价或执行价缓存。\n3. 开盘价验证完成后自动纠正开盘执行价和组合估值，不影响当时最新价、A股及美股持仓实时涨跌和已确认账本。\n4. 收益日历每日收益率统一显示两位小数（含正负号），只改变显示精度，不修改账本精度。\n5. 保留3.0.6的IBOVESPA与3.0.7的SIG原始开盘价修复，并增加盘中估值、SIG后台校验、日历精度回归测试。",
   "forceUpdate": false
 }
