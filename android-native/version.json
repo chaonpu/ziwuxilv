@@ -1,10 +1,10 @@
 {
-  "versionCode": 187,
-  "versionName": "3.0.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.0.4/ziwuxilv-native-v3.0.4.apk",
-  "apkSha256": "ba65dc2eca48b17a8658b9de15790e2a6eb06f427bd3ecfe04bf11c0bb01d8b7",
+  "versionCode": 188,
+  "versionName": "3.0.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.0.5/ziwuxilv-native-v3.0.5.apk",
+  "apkSha256": "81bd124fcd0eb1e5b73a0d008168b9d08250b509900db77bf6af2d677553c9b5",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "e42e2cd4caaf93dcea6949c67ad97a81e2104079",
-  "updateLog": "v3.0.4：\n1. 修复德国DAX、法国CAC40在新浪分时正常结束于欧洲17:30（冬令时北京时间次日00:30）时，被旧数据源白名单误判为“收盘尾段缺失”的问题。\n2. 匹配同源、同交易日与常规尾段后，展示“已收盘 · 常规分时结束，终值待核验”；不把17:29报价当作17:35/18:00官方最终收盘值，不伪造收盘阶段分时。\n3. 保持提前停更、错误报价来源及缺失分钟等真实异常检测，增加跨北京时间午夜与收盘阶段回归测试。",
+  "sourceCommit": "88f873e0960c6bfda171a8203e0b39987ca4992d",
+  "updateLog": "v3.0.5：\n1. 修复同源报价与分时独立刷新时，将相隔1–180秒的正常价格变化误判为“同源分时价格偏差超过允许区间”的问题。\n2. 仅对时间戳完全相同的分时末点与报价执行0.1%严格价格核验；同源、合约、交易日和±180秒时间约束保持不变。\n3. 对已成熟且更新时间更晚的同源分钟数据采用更合理的极端价格防护，恢复最新有效价格择新；保留坏源、错误合约、未来分时与异常行情拦截。\n4. 修复同源分时与报价相差超过180秒时反复误报：历史分时保留并明确显示实际时间差，实时连接点仍严格限制180秒，短暂延迟时触发更快分时重取；不跨源拼接或伪造分钟。\n5. 修复纳斯达克金龙中国指数周末沿用上一个美股交易日收盘报价时，新浪多日分时与报价自然日期不一致导致图表不可用；仅在匹配原交易日及真实收盘价后展示，不伪造周末交易或跨日分钟。",
   "forceUpdate": false
 }
