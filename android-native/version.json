@@ -1,10 +1,10 @@
 {
-  "versionCode": 192,
-  "versionName": "3.0.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.0.9/ziwuxilv-native-v3.0.9.apk",
-  "apkSha256": "cf21a2c040530a1f289120fccddab91256caeb0fa52ea30c59a0256c1654abf6",
+  "versionCode": 193,
+  "versionName": "3.1.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.0/ziwuxilv-native-v3.1.0.apk",
+  "apkSha256": "ebe316fd0cf543fcd05c1f2f5e856e63fee2574b8fb0f7c94b10dda7360789c4",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "a6945c3fb1044ef442daa82a12f1200d32153888",
-  "updateLog": "v3.0.9：\n1. 修复国内商品期货在10:15–10:30短暂停盘及11:30–13:30午休期间当日K线消失：保留同源、同交割月份、同交易日的真实晨盘OHLC。\n2. 日K、周K、月K按上午已确认的行情快照保留进行中K线，不伪造午休成交或修改历史日K。\n3. 加入8个国内商品期货品种及旧报价、合约不匹配、跨源和不完整OHLC的回归测试。\n4. 延续3.0.8的实时收益估值、SIG开盘价后台核验、IBOVESPA行情读取与收益日历两位小数修复。",
+  "sourceCommit": "2970d2b17287605c379dc1834019cbe638a60d76",
+  "updateLog": "v3.1.0：\n1. 行情-持仓名称直接跟随与图表统一的策略清仓结论，盘中蓝色、收盘确认蓝色加粗。\n2. 删除名称变色专有的报价价格偏差、复权系数及延时重复判断；保留策略计算层的有效性校验。\n3. 统一分时图和持仓的盘中前复权日K信号计算入口，补充清仓展示回归测试。",
   "forceUpdate": false
 }
