@@ -1,10 +1,10 @@
 {
-  "versionCode": 194,
-  "versionName": "3.1.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.1/ziwuxilv-native-v3.1.1.apk",
-  "apkSha256": "300fdec20ff0a36acb109076a9d039a5f02e9b49fbb786f5942f44ca3059d748",
+  "versionCode": 195,
+  "versionName": "3.1.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.2/ziwuxilv-native-v3.1.2.apk",
+  "apkSha256": "0e01154be6dfcf8c97e82b3b820eea337e981875c3a38e40dce8927dc5a440f9",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "dd36a82b1ad98245b18be0eaf88eb9743fcd7086",
-  "updateLog": "v3.1.1：\n1. 图表顶部行情卡片统一为普通行情与持仓详情两套紧凑布局，覆盖A股、美股、港股及全球品种。\n2. 最新价与涨跌幅同步红绿变色，市场、代码、概念、行业及行情状态统一胶囊标识；保留现有蓝色/金色/浅蓝色分类配色。\n3. 底部单行显示开、高、低、量；成交量优先使用可核验的报价或同日原生K线，缺失时显示横线。\n4. 持仓信息优化为收益、持有天数、实际仓位三列，入场价和日期移至收益下方，历史K线选中信息卡保持不变。",
+  "sourceCommit": "707d79b544d92f5606c95a238ce2bc35afb0dbc5",
+  "updateLog": "v3.1.2：\n1. 普通行情与持仓详情卡片恢复灰色标的代码，紧凑显示同色最新价与涨跌幅；分类胶囊左对齐，状态与完整北京时间右对齐。\n2. 行情状态纠正午间休盘，延时/滞后分钟数直接写入状态胶囊，时间单独展示。\n3. 持仓收益、持有天数、实际仓位继续单行紧凑排列；提前读取同日日K成交量，修复收益页/持仓页收起时量缺失。\n4. 所有分时图以昨收价为中心，采用分时真实最高价与最低价相对昨收的最大绝对偏离确定对称上下界，其他K线周期不变。\n5. 选中历史K线时普通行情卡片也保留开高低量，给三行历史信息覆盖层预留完整高度，持仓详情保持一致。\n6. 恒生指数与恒生科技指数从经济通同源、同交易日的原生日K或完整开盘段分时K补齐开高低，缺少核验时继续显示横线。",
   "forceUpdate": false
 }
