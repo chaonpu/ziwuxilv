@@ -1,10 +1,10 @@
 {
-  "versionCode": 198,
-  "versionName": "3.1.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.5/ziwuxilv-native-v3.1.5.apk",
-  "apkSha256": "9ca8d4930f8bb92bcd9e6561a5092e163a924340f0042501ba25877f2dcd5757",
+  "versionCode": 199,
+  "versionName": "3.1.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.6/ziwuxilv-native-v3.1.6.apk",
+  "apkSha256": "feefe0b65d72ffdd61c22bc721fdadb221bb0e5658c76fdda3a9424047ab6ac4",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "2a32812fdc10f2b69672437e1f967359c5348c2d",
-  "updateLog": "v3.1.5：\n1. 分时分钟数据未收录当日极值时，校验同标的、同交易日的行情高低价并参与纵轴定界；上证综指示例下界3547.94、上界3627.72。原始分时曲线不增添虚构成交点。\n2. 分时图上下左右的价格/涨跌幅边界刻度优先展示，不再因与曲线碰撞而消失；背景衬底确保可读。\n3. 不跨标的或交易日合并极值，拒绝异常OHLC；日K、周K、月K坐标规则保持不变。\n4. 补充分时行情与分钟源低点不一致、异常行情隔离和刻度显示回归测试。",
+  "sourceCommit": "d47d5b8f8cd23a7c5eb53bb7974a86bc6c2c2d0e",
+  "updateLog": "v3.1.6：\n1. 恢复v3.1.4的图表刻度碰撞避让机制：价格和涨跌幅文字与曲线、其他标签冲突时隐藏，不再强制显示或覆盖深色背景块。\n2. 完整保留v3.1.5的分时纵轴算法：校验同标的、同交易日的行情最高价/最低价并参与定界，昨收居中且上下对称；上证综指示例下界3547.94、上界3627.72。\n3. 原始分时曲线、K线坐标规则和行情数据核验机制保持不变。",
   "forceUpdate": false
 }
