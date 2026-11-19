@@ -1,10 +1,10 @@
 {
-  "versionCode": 193,
-  "versionName": "3.1.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.0/ziwuxilv-native-v3.1.0.apk",
-  "apkSha256": "ebe316fd0cf543fcd05c1f2f5e856e63fee2574b8fb0f7c94b10dda7360789c4",
+  "versionCode": 194,
+  "versionName": "3.1.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.1/ziwuxilv-native-v3.1.1.apk",
+  "apkSha256": "300fdec20ff0a36acb109076a9d039a5f02e9b49fbb786f5942f44ca3059d748",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "2970d2b17287605c379dc1834019cbe638a60d76",
-  "updateLog": "v3.1.0：\n1. 行情-持仓名称直接跟随与图表统一的策略清仓结论，盘中蓝色、收盘确认蓝色加粗。\n2. 删除名称变色专有的报价价格偏差、复权系数及延时重复判断；保留策略计算层的有效性校验。\n3. 统一分时图和持仓的盘中前复权日K信号计算入口，补充清仓展示回归测试。",
+  "sourceCommit": "dd36a82b1ad98245b18be0eaf88eb9743fcd7086",
+  "updateLog": "v3.1.1：\n1. 图表顶部行情卡片统一为普通行情与持仓详情两套紧凑布局，覆盖A股、美股、港股及全球品种。\n2. 最新价与涨跌幅同步红绿变色，市场、代码、概念、行业及行情状态统一胶囊标识；保留现有蓝色/金色/浅蓝色分类配色。\n3. 底部单行显示开、高、低、量；成交量优先使用可核验的报价或同日原生K线，缺失时显示横线。\n4. 持仓信息优化为收益、持有天数、实际仓位三列，入场价和日期移至收益下方，历史K线选中信息卡保持不变。",
   "forceUpdate": false
 }
