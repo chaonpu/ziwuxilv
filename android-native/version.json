@@ -1,10 +1,10 @@
 {
-  "versionCode": 197,
-  "versionName": "3.1.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.4/ziwuxilv-native-v3.1.4.apk",
-  "apkSha256": "315556570e3faf281b5a5867a0298b2ae98907b99d7910a0d9ff8bf184401153",
+  "versionCode": 198,
+  "versionName": "3.1.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.5/ziwuxilv-native-v3.1.5.apk",
+  "apkSha256": "9ca8d4930f8bb92bcd9e6561a5092e163a924340f0042501ba25877f2dcd5757",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "b2bdfca5c7bffd0cc0efa21b0b1af9efabc3eb52",
-  "updateLog": "v3.1.4：\n1. 所有分时图纵轴以昨收/昨结为中心，由真实最高价或最低价中绝对偏离更大的一侧精确确定对称上下界，取消额外10%价格留白。\n2. 分时坐标轴按行情精度显示实际边界值：指数及高价标的保留两位小数、ETF三位小数、小价格按报价精度显示；日K、周K、月K保持原精度规则。\n3. 当分时全天价格完全相同时仅使用最小非零范围防止坐标计算异常；盘中新增真实极值只扩大范围，避免普通刷新引起纵轴收缩。\n4. 增加上证综指3547.94下界/3627.72上界的精确回归、不同极值主导、无昨收回退与恒价防护测试。",
+  "sourceCommit": "2a32812fdc10f2b69672437e1f967359c5348c2d",
+  "updateLog": "v3.1.5：\n1. 分时分钟数据未收录当日极值时，校验同标的、同交易日的行情高低价并参与纵轴定界；上证综指示例下界3547.94、上界3627.72。原始分时曲线不增添虚构成交点。\n2. 分时图上下左右的价格/涨跌幅边界刻度优先展示，不再因与曲线碰撞而消失；背景衬底确保可读。\n3. 不跨标的或交易日合并极值，拒绝异常OHLC；日K、周K、月K坐标规则保持不变。\n4. 补充分时行情与分钟源低点不一致、异常行情隔离和刻度显示回归测试。",
   "forceUpdate": false
 }
