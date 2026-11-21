@@ -1,10 +1,10 @@
 {
-  "versionCode": 202,
-  "versionName": "3.1.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.1.9/ziwuxilv-native-v3.1.9.apk",
-  "apkSha256": "6cc85d6967501fda1eccd10f5b5fcccf699bfa1c5dd748f516da2cd63a517a95",
+  "versionCode": 203,
+  "versionName": "3.2.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.0/ziwuxilv-native-v3.2.0.apk",
+  "apkSha256": "ba148fd5aa2e5a328b8be4e141f1a1553dd18bf1a3d625eab64118d163174550",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "ec812903e029d44b2e4cb42a314ac26ad1ecf131",
-  "updateLog": "v3.1.9：\n1. 休市后保留经过同源、同合约、有效开高低收核验的当日日K，原生历史更新后立即接管。\n2. 覆盖国内期货23:00、01:00及02:30夜盘收市，也适用于满足同等校验的A股、美股和全球标的。\n3. 新交易时段开始后不再沿用旧行情；跨周末、跨月、换合约、换数据源和复权基准不串用。\n4. 日K、周K、月K及图表卡片保持一致，未获原生成交量时继续显示“—”；补充休市回归测试。",
+  "sourceCommit": "05f74e017684348716703c91af35b234edfddcb5",
+  "updateLog": "v3.2.0：\n1. 普通行情、持仓和已清仓图表统一历史K线卡片结构，选中日K/周K/月K仅更新数据，名称代码、开高低量位置与字号保持一致。\n2. 历史选中态右侧保留单行：周期胶囊显示实际3日/2周/3月等统计根数，紧跟日期与至今涨幅。\n3. 持仓三列按1.3:0.8:1.3分配宽度并居中显示，入场/清仓价格与日期保持同一行。\n4. 移除普通卡片历史选中态120dp额外最小高度，修复选中K线引发的卡片尺寸跳变。",
   "forceUpdate": false
 }
