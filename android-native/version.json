@@ -1,10 +1,10 @@
 {
-  "versionCode": 203,
-  "versionName": "3.2.0",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.0/ziwuxilv-native-v3.2.0.apk",
-  "apkSha256": "ba148fd5aa2e5a328b8be4e141f1a1553dd18bf1a3d625eab64118d163174550",
+  "versionCode": 204,
+  "versionName": "3.2.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.1/ziwuxilv-native-v3.2.1.apk",
+  "apkSha256": "f5a16f1ab1212c81330159be6d33cb6598a2092df937f52c826a02404f18d460",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "05f74e017684348716703c91af35b234edfddcb5",
-  "updateLog": "v3.2.0：\n1. 普通行情、持仓和已清仓图表统一历史K线卡片结构，选中日K/周K/月K仅更新数据，名称代码、开高低量位置与字号保持一致。\n2. 历史选中态右侧保留单行：周期胶囊显示实际3日/2周/3月等统计根数，紧跟日期与至今涨幅。\n3. 持仓三列按1.3:0.8:1.3分配宽度并居中显示，入场/清仓价格与日期保持同一行。\n4. 移除普通卡片历史选中态120dp额外最小高度，修复选中K线引发的卡片尺寸跳变。",
+  "sourceCommit": "ad697acff4f796128525c06b2bd6cc973adc67f5",
+  "updateLog": "v3.2.1：\n1. 行情图表采用独立整页展示，下滑直接查看标的讨论区；收益和持仓入口复用同一详情页。\n2. A股、ETF、美股、港股及全球指数、期货、商品、外汇适配东方财富股吧；无专属吧的品种明确标注相关市场讨论。\n3. BTC、ETH、SOL 接入 Gate 广场帖子，支持分页、刷新、正文展开、阅读与点赞展示及原帖跳转。\n4. 修复 A50 期指图表别名造成的讨论区误路由，增加全部45个全球行情标的讨论映射测试。",
   "forceUpdate": false
 }
