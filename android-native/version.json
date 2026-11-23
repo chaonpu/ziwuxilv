@@ -1,10 +1,10 @@
 {
-  "versionCode": 208,
-  "versionName": "3.2.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.5/ziwuxilv-native-v3.2.5.apk",
-  "apkSha256": "9c363411455b181c5adb55ed9aec404732411b03cee0096209bbc381f0c2af20",
+  "versionCode": 209,
+  "versionName": "3.2.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.6/ziwuxilv-native-v3.2.6.apk",
+  "apkSha256": "eeff351f26eadd1b00fb6ef5f0791b1e7350c2d7a7d2f0c9acc5cf5c4afd8c08",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "12148f238f8899f85e4e604ea07e6bcc4dfcad08",
-  "updateLog": "v3.2.5：\n1. 离岸人民币周末保留最近有效交易时段的真实分时，不再误将休市当成当日数据不足。\n2. 周一开盘初期允许显示唯一已发生的真实分钟K线，后续自动补全，不伪造行情。\n3. 优化图表首屏高度分配与紧凑副图，讨论区须下滑进入（3.2.4）。",
+  "sourceCommit": "a34ec01832b58801bfffebfb23237f3e8216200e",
+  "updateLog": "v3.2.6：\n1. 持仓图表缩短主图高度，为底部状态和来源详情保留完整显示空间。\n2. 非持仓图表及分时、日K、周K、月K行情规则保持不变。",
   "forceUpdate": false
 }
