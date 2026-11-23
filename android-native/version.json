@@ -1,10 +1,10 @@
 {
-  "versionCode": 209,
-  "versionName": "3.2.6",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.6/ziwuxilv-native-v3.2.6.apk",
-  "apkSha256": "eeff351f26eadd1b00fb6ef5f0791b1e7350c2d7a7d2f0c9acc5cf5c4afd8c08",
+  "versionCode": 210,
+  "versionName": "3.2.7",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.7/ziwuxilv-native-v3.2.7.apk",
+  "apkSha256": "f0694f7760a270242af8bca64cb0bd5b38189f93636c381cad71f030704036ce",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "a34ec01832b58801bfffebfb23237f3e8216200e",
-  "updateLog": "v3.2.6：\n1. 持仓图表缩短主图高度，为底部状态和来源详情保留完整显示空间。\n2. 非持仓图表及分时、日K、周K、月K行情规则保持不变。",
+  "sourceCommit": "bd7306cc7246370b5bee930a5bb3fe7ce7d55ed1",
+  "updateLog": "v3.2.7：\n1. 修复从行情页加密标的、收益页持仓等列表进入图表后，返回时原页面滚动位置偏移的问题。\n2. 图表进出取消整页交叉渐隐，避免原页面闪烁和导航栏高度变化引发跳动。\n3. 保留收益页的曲线、当前/已清仓标签及持仓展开状态；行情和自选列表恢复原滚动位置。",
   "forceUpdate": false
 }
