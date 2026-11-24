@@ -1,10 +1,10 @@
 {
-  "versionCode": 211,
-  "versionName": "3.2.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.8/ziwuxilv-native-v3.2.8.apk",
-  "apkSha256": "e6a903edb05d9250e109d6045cbb7d876e3050895b514342867fd6c5fdaaaa41",
+  "versionCode": 212,
+  "versionName": "3.2.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.9/ziwuxilv-native-v3.2.9.apk",
+  "apkSha256": "c7087068c6a5679227129e3102c86f40b6edb8c5e5313bc6ef0ceedba2eed937",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "2708c2803922cfce36f8d3a8d78915c1e8222193",
-  "updateLog": "v3.2.8：\n1. 图表作为全屏覆盖层打开，行情、收益、持仓及自选底层页面不再因图表进出而重建或改变滚动区域。\n2. 修复图表返回时列表位置偏移和导航栏/原页面闪烁，保持原有一屏图表布局。\n3. 东方财富讨论改用已验证可连续翻页的公开接口，支持向下自动加载、重复去除、仅保留本标的帖子；读取失败可重试。\n4. 恢复自选股票、ETF进入图表时的行业或跟踪标的信息；缺失时按需后台补齐，不影响列表启动速度。",
+  "sourceCommit": "fc23a50b988f9df93c668d425822634d205b3d0b",
+  "updateLog": "v3.2.9：\n1. 讨论区将“最近更新”改为“最新发布”，默认按原帖首次发布时间排序，不再让旧帖因近期回复排在新帖前面。\n2. “评论最多”保留原有排序逻辑；讨论区每60秒自动刷新和历史分页机制不变。\n3. 首次发布时间缺失时采用帖子ID降序作为降级依据，并明确标注发布时间待核验。",
   "forceUpdate": false
 }
