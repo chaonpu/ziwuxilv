@@ -1,6 +1,6 @@
 # 交易日历运行状态
 
-检查时间：2026-11-24T18:27:46+08:00
+检查时间：2026-11-25T16:25:09+08:00
 
 当前版本：`95c17c61b9b3e1bfe2e95e035ff2cfbd832a2bf9011a8e206fa4a9c468e23357`
 
@@ -23,13 +23,13 @@
 | SG_EQ | annual_partial_sessions | 2026, 2027 | — | verified_no_change | sgx_primary_trading_page_unsupported_in_cloud_no_automatic_year_rollover |
 | TW_EQ | annual | 2026, 2027 | 2026, 2027 | verified_no_change | — |
 | UK_EQ | annual | 2026, 2027, 2028 | 2027, 2028 | verified_no_change | — |
-| US_EQ | annual | 2026, 2027, 2028 | 2026 | verified_no_change | — |
+| US_EQ | annual | 2026, 2027, 2028 | — | held_preserving_active_calendar | official_source_unavailable |
 
 A50_CFD：第三方参考日历（FOREX.com），有效区间 2026-10-31 至 2026-11-27；不是新浪提供方时段保证。区间外继续UNKNOWN，行情源仍为新浪CHA50CFD。
 
 自动维护：发现、校验、未来发布、失败恢复均无需手动派发；今天及历史日期保持不变。
 提供方日历未核准：无。缺失或冲突资料不会被当作已确认时段。
 
-连续观察：33天；达到30天：是。
+连续观察：34天；达到30天：是。
 
 来源异常时继续使用覆盖目标日期的已核验日历。未知时段不推算。回滚及历史影响分析不自动改写账本。
