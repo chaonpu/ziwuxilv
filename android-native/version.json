@@ -1,10 +1,10 @@
 {
-  "versionCode": 212,
-  "versionName": "3.2.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.2.9/ziwuxilv-native-v3.2.9.apk",
-  "apkSha256": "c7087068c6a5679227129e3102c86f40b6edb8c5e5313bc6ef0ceedba2eed937",
+  "versionCode": 214,
+  "versionName": "3.3.1",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.1/ziwuxilv-native-v3.3.1.apk",
+  "apkSha256": "b3d6f5587b0cddb3c2b5f5624e10c2d4c8e74cb4c37404877fbfe8cbc6f5d6b1",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "fc23a50b988f9df93c668d425822634d205b3d0b",
-  "updateLog": "v3.2.9：\n1. 讨论区将“最近更新”改为“最新发布”，默认按原帖首次发布时间排序，不再让旧帖因近期回复排在新帖前面。\n2. “评论最多”保留原有排序逻辑；讨论区每60秒自动刷新和历史分页机制不变。\n3. 首次发布时间缺失时采用帖子ID降序作为降级依据，并明确标注发布时间待核验。",
+  "sourceCommit": "7d11dd7fc38b8876ead52e95745891f198acf91f",
+  "updateLog": "v3.3.1：\n1. 图表状态胶囊以交易所日历识别午间休盘，避免低成交频率标的漏判。\n2. 午休与报价异常独立判定：正常收盘快照不累积滞后，真实滞后与数据源延时仍会提示。\n3. 统一全页图表、持仓卡片与全球品种弹窗的状态显示，并修正午休结束后状态残留。\n4. 修复 v3.3.0 新增渐进报价接口导致的单元测试编译失败。",
   "forceUpdate": false
 }
