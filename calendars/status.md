@@ -1,8 +1,8 @@
 # 交易日历运行状态
 
-检查时间：2026-11-26T16:55:56+08:00
+检查时间：2026-11-26T21:16:50+08:00
 
-当前版本：`066fa9ef0e6aaf7b3c5d569bdd8c54519a4f5daa800b9c487c0311b36dd732e2`
+当前版本：`a5980954dadedb7f4955b11dd6348e4c86fc04fb75c408aaa79223e2983d6bc7`
 
 | 市场/产品 | 适配能力 | 现有覆盖年份 | 本次解析年份 | 最近来源状态 | 待处理原因 |
 |---|---|---|---|---|---|
@@ -14,7 +14,7 @@
 | DE_EQ | annual | 2026, 2027, 2028, 2029, 2030, 2031, 2032 | 2026, 2027, 2028, 2029, 2030, 2031, 2032 | verified_no_change | — |
 | FR_EQ | annual | 2026, 2027 | 2023, 2024, 2025, 2026, 2027 | verified_no_change | — |
 | HK_EQ | annual | 2026, 2027 | 2026, 2027 | verified_no_change | — |
-| ICE_BRENT | annual_partial_sessions | 2026, 2027 | 2026, 2027 | verified_future_preserving_history | 2026:candidate_changes_past_dates |
+| ICE_BRENT | annual_partial_sessions | 2026, 2027 | 2026, 2027 | published_future_preserving_history | 2026:candidate_changes_past_dates |
 | IN_EQ | annual_partial_sessions | 2026 | 2026 | verified_no_change | special_sunday_sessions_remain_unknown_until_verified_product_hours |
 | JP_EQ | annual | 2026, 2027 | 2026, 2027 | verified_no_change | — |
 | KR_EQ | annual | 2026, 2027 | 2026, 2027 | verified_no_change | — |
