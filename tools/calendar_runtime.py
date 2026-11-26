@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 import tempfile
+import urllib.error
 import urllib.request
 from zoneinfo import ZoneInfo
 
@@ -133,8 +134,25 @@ def fetch_public(path):
     require(path == "calendars/current.json" or bool(re.fullmatch(r"calendars/releases/[0-9a-f]{64}\.json", path)), "calendar_path_invalid")
     req = urllib.request.Request("https://api.github.com/repos/" + REPO + "/contents/" + path + "?ref=main",
                                  headers={"Accept": "application/vnd.github+json", "User-Agent": "ziwuxilv-calendar/1"})
-    with urllib.request.build_opener(NoRedirect()).open(req, timeout=12) as response:
-        raw = response.read(MAX_BYTES * 2 + 1)
+    opener = urllib.request.build_opener(NoRedirect())
+    try:
+        with opener.open(req, timeout=12) as response:
+            raw = response.read(MAX_BYTES * 2 + 1)
+    except urllib.error.HTTPError as error:
+        if error.code not in (403, 429):
+            raise
+        # Anonymous GitHub Contents API has a shared 60/hour quota; several
+        # source commits can exhaust it even while the public file is healthy.
+        # The direct public raw endpoint needs no token and cannot redirect.
+        # remote() still verifies the pinned release SHA-256 before use.
+        fallback = urllib.request.Request(
+            "https://raw.githubusercontent.com/" + REPO + "/main/" + path,
+            headers={"User-Agent": "ziwuxilv-calendar/1"},
+        )
+        with opener.open(fallback, timeout=12) as response:
+            content = response.read(MAX_BYTES + 1)
+        require(len(content) <= MAX_BYTES, "calendar_response_oversized")
+        return content
     require(len(raw) <= MAX_BYTES * 2, "calendar_response_oversized")
     envelope = json.loads(raw)
     require(envelope.get("path") == path and envelope.get("encoding") == "base64"
