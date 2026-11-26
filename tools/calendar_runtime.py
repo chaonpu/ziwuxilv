@@ -71,6 +71,28 @@ def validate(raw):
                                  if field != "halfDay" else type(minute) is bool), "calendar_clock_invalid")
                 if "openMinute" in clocks and "closeMinute" in clocks:
                     require(clocks["openMinute"] < clocks["closeMinute"], "calendar_clock_order")
+            special = record.get("specialSessions", {})
+            require(isinstance(special, dict) and (not special or key == "CME_FUTURES")
+                    and len(special) <= 40, "cme_special_sessions_invalid")
+            for trading_day, products in special.items():
+                require(date.fromisoformat(trading_day).isoformat() == trading_day
+                        and trading_day.startswith(year + "-"), "cme_special_date_invalid")
+                require(isinstance(products, dict)
+                        and set(products) == {"EQUITY_INDEX", "METALS_ENERGY"}, "cme_special_products_invalid")
+                for windows in products.values():
+                    require(isinstance(windows, list) and 1 <= len(windows) <= 12, "cme_special_windows_invalid")
+                    cursor = 0
+                    for window in windows:
+                        require(isinstance(window, dict)
+                                and set(window) == {"startMinute", "endMinute", "tone"}
+                                and type(window["startMinute"]) is int
+                                and type(window["endMinute"]) is int
+                                and window["startMinute"] == cursor
+                                and cursor < window["endMinute"] <= 1440
+                                and window["tone"] in {"OPEN", "WAITING", "CLOSED"},
+                                "cme_special_window_invalid")
+                        cursor = window["endMinute"]
+                    require(cursor == 1440, "cme_special_window_incomplete")
     return {"revision": hashlib.sha256(raw).hexdigest(), "data": data}
 
 
