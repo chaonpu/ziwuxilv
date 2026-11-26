@@ -1,10 +1,10 @@
 {
-  "versionCode": 214,
-  "versionName": "3.3.1",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.1/ziwuxilv-native-v3.3.1.apk",
-  "apkSha256": "b3d6f5587b0cddb3c2b5f5624e10c2d4c8e74cb4c37404877fbfe8cbc6f5d6b1",
+  "versionCode": 215,
+  "versionName": "3.3.2",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.2/ziwuxilv-native-v3.3.2.apk",
+  "apkSha256": "69874b0d52b6cfacce0632c5ee81215aeab6e9b783713d2204984d9582cf2f0c",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "7d11dd7fc38b8876ead52e95745891f198acf91f",
-  "updateLog": "v3.3.1：\n1. 图表状态胶囊以交易所日历识别午间休盘，避免低成交频率标的漏判。\n2. 午休与报价异常独立判定：正常收盘快照不累积滞后，真实滞后与数据源延时仍会提示。\n3. 统一全页图表、持仓卡片与全球品种弹窗的状态显示，并修正午休结束后状态残留。\n4. 修复 v3.3.0 新增渐进报价接口导致的单元测试编译失败。",
+  "sourceCommit": "afa4aa8afe53870dc889810e1b9eca598e5757bc",
+  "updateLog": "v3.3.2：\n1. 修复自选搜索打开图表时输入键盘意外弹出、返回后搜索弹窗消失的问题，保持原搜索状态及页面位置。\n2. 改进自选搜索的股票、指数、期货、商品、外汇和加密标的识别；强化腾讯、新浪、Gate 等来源的报价、分时、K 线同源校验，区分 Gate 现货与 CME 期货。\n3. 补全 CME 感恩节及特殊时段的品种分组识别，优先使用已验证的远端交易时段，修正节假日、周末开休市状态误判。\n4. 分时源存在真实采样缺口时如实提示，不凭空补点；源未提供有效成交量时显示“—”，避免误记为零成交。",
   "forceUpdate": false
 }
