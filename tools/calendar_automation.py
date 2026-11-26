@@ -102,6 +102,14 @@ def future_record(old, proposed, cutoff):
         for field in groups:
             result[field].update({d:v for d,v in old[field].items() if d<=boundary})
         unknown.update(d for d in old['unknownDates'] if d<=boundary)
+        # Affected-date table parsers cannot infer product-specific Globex
+        # trading hours. Preserve reviewed intraday windows, including future
+        # days, until a new trusted per-product schedule explicitly replaces them.
+        special=deepcopy(result.get('specialSessions',{}))
+        for d, windows in old.get('specialSessions',{}).items():
+            if d<=boundary or d not in special:
+                special[d]=deepcopy(windows)
+        if special:result['specialSessions']=special
         # An annual page omitting a previously exceptional session does not
         # prove normal trading. Only explicit holidays/clocks resolve UNKNOWN.
         known=set(result['holidays'])|set(result['overrides'])
