@@ -83,6 +83,20 @@ def parse_ice_brent(text):
             'ice_oil_product_schedule_missing')
     # -raw extraction preserves reading order; headers are removed, not dates.
     text = re.sub(r'(?m)^IFEU Trading Schedule:.*\n|^© .*\n', '', text)
+    # A/B/C/D are product groups, not shared closing times. Apply an early
+    # close only when the ICE key explicitly names Brent and its UK clock.
+    key = text.split('TRADING SCHEDULE KEY', 1)[1]
+    early_closes = {}
+    for code in ('B', 'C'):
+        section = re.search(r'(?ms)^' + code + r'[ \t]*$\n(.*?)(?=^[A-D][ \t]*$|\Z)', key)
+        if section is None:continue
+        trading = section[1].split('Settlement Times', 1)[0]
+        closing = re.search(r'Early close at\s+(\d{1,2}):(\d{2}) UK', trading)
+        brent = re.search(r'Brent,\s*WTI\s+and\s+Midland WTI AGC Futures & Options', trading)
+        if closing is not None and brent is not None:
+            hour, minute = map(int, closing.groups())
+            require(0 < hour < 24 and 0 <= minute < 60, 'ice_brent_early_close_clock_invalid')
+            early_closes[code] = {'closeMinute': hour * 60 + minute}
     sections = re.split(r'(?m)^(20\d{2}) Trading Schedule\s*$', text)
     out = {}
     for i in range(1, len(sections), 2):
@@ -101,6 +115,8 @@ def parse_ice_brent(text):
             value = 'Appendix' if 'Appendix' in body else status[1]
             label = d.isoformat(); seen.add(label)
             if value == 'Closed':record['holidays'][label] = 'ICE布伦特休市'
+            elif value.rstrip('*') in early_closes and 'Appendix' not in body:
+                record['overrides'][label] = early_closes[value.rstrip('*')]
             elif value not in ('A', 'TD') or 'Appendix' in body:
                 record['unknownDates'].append(label)
         # Year-end appendices can contain additional exceptional days outside

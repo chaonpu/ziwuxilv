@@ -36,6 +36,10 @@ def ice():
             text+=date.fromisoformat(row['date']).strftime('%A %d %B')+'\n'+row['status']+'\n'
             if row['otherProductsClosed']:text+='IFEU Agricultural Commodities Closed\n'
     text+='TRADING SCHEDULE KEY\n'
+    text+='B\nTrading Hours\nEarly close at 20:00 UK (15:00 ET)\n'
+    text+='Brent, WTI and Midland WTI AGC Futures & Options\nSettlement Times\n'
+    text+='C\nTrading Hours\nEarly close at 18:30 UK (13:30 ET)\n'
+    text+='Brent, WTI and Midland WTI AGC Futures & Options\nSettlement Times\n'
     for d in data['appendixDates']:text+=date.fromisoformat(d).strftime('%d %B %Y')+'\n'
     return text
 def cme():return '<h2>2026 CME Globex Trading Schedule</h2>'+table(fixture('cme-globex-2026.json')['rows'])+'<h2>BrokerTec calendar</h2>'
@@ -61,16 +65,24 @@ class ExtendedAdaptersTests(unittest.TestCase):
         self.assertIn('2026-12-31',parsed['holidays'])
         with self.assertRaises(ValueError):a.parse_b3(b3().replace('<a href="#x">December</a>',''))
 
-    def test_ice_brent_does_not_inherit_other_products_closures_or_guess_hours(self):
+    def test_ice_brent_reads_product_specific_early_closes_from_official_key(self):
         parsed=a.parse_ice_brent(ice())
         self.assertEqual({'2026','2027'},set(parsed))
         self.assertEqual({'2027-01-01','2027-03-26'},set(parsed['2027']['holidays']))
         self.assertNotIn('2026-12-28',parsed['2026']['holidays'])
         self.assertIn('2026-12-28',parsed['2026']['unknownDates'])
         self.assertNotIn('2027-03-29',parsed['2027']['holidays'])
-        self.assertIn('2027-11-26',parsed['2027']['unknownDates'])
+        self.assertEqual({'closeMinute':1110}, parsed['2026']['overrides']['2026-11-26'])
+        self.assertEqual({'closeMinute':1200}, parsed['2026']['overrides']['2026-11-27'])
+        self.assertEqual({'closeMinute':1110}, parsed['2027']['overrides']['2027-11-25'])
+        self.assertEqual({'closeMinute':1200}, parsed['2027']['overrides']['2027-11-26'])
+        self.assertNotIn('2027-11-26',parsed['2027']['unknownDates'])
         self.assertIn('2027-12-24',parsed['2027']['unknownDates'])
-        self.assertFalse(parsed['2027']['overrides'])
+        # No guessed close if the official key loses the Brent product identity.
+        missing=ice().replace('Brent, WTI and Midland WTI AGC Futures & Options', 'Other product')
+        unknown=a.parse_ice_brent(missing)
+        self.assertIn('2026-11-26',unknown['2026']['unknownDates'])
+        self.assertIn('2026-11-27',unknown['2026']['unknownDates'])
         with self.assertRaises(ValueError):a.parse_ice_brent('ICE homepage')
 
     def test_cme_global_holidays_are_unknown_instead_of_uniform_product_closures(self):
