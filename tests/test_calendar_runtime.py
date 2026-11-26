@@ -60,6 +60,43 @@ class CalendarTests(unittest.TestCase):
         with self.assertRaises(ValueError):runtime.remote(fetch=get)
         with self.assertRaises(ValueError):runtime.remote('0'*64,fetch=lambda p:self.raw)
 
+    def test_github_api_rate_limit_reads_exact_public_raw_release_without_token(self):
+        import io
+        from urllib.error import HTTPError
+        from unittest.mock import patch
+        revision=self.snapshot['revision']; seen=[]
+        class Stub:
+            def open(_,request,timeout):
+                url=request.full_url;seen.append(url)
+                if url.startswith('https://api.github.com/'):
+                    raise HTTPError(url,403,'rate limit exceeded',{},io.BytesIO(b'API rate limit exceeded'))
+                self.assertEqual(url,'https://raw.githubusercontent.com/chaonpu/ziwuxilv/main/calendars/releases/'+revision+'.json')
+                self.assertNotIn('Authorization',dict(request.header_items()))
+                return io.BytesIO(self.raw)
+        with patch.object(runtime.urllib.request,'build_opener',return_value=Stub()):
+            raw,pinned=runtime.remote(revision,fetch=runtime.fetch_public)
+        self.assertEqual(raw,self.raw)
+        self.assertEqual(pinned['revision'],revision)
+        self.assertEqual(len(seen),2)
+
+    def test_rate_limit_fallback_cannot_bypass_pin_or_hide_404(self):
+        import io
+        from urllib.error import HTTPError
+        from unittest.mock import patch
+        class Stub:
+            def __init__(self,code=403):self.code=code
+            def open(self,request,timeout):
+                url=request.full_url
+                if url.startswith('https://api.github.com/'):
+                    raise HTTPError(url,self.code,'limited',{},io.BytesIO(b'error'))
+                return io.BytesIO(b'corrupted public bytes')
+        with patch.object(runtime.urllib.request,'build_opener',return_value=Stub()):
+            with self.assertRaises(ValueError):
+                runtime.remote(self.snapshot['revision'],fetch=runtime.fetch_public)
+        with patch.object(runtime.urllib.request,'build_opener',return_value=Stub(404)):
+            with self.assertRaises(HTTPError):
+                runtime.fetch_public('calendars/releases/'+self.snapshot['revision']+'.json')
+
     def test_offline_cache_is_usable_but_wrong_pinned_version_is_not(self):
         import os
         from unittest.mock import patch
