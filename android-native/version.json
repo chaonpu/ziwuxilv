@@ -1,10 +1,10 @@
 {
-  "versionCode": 215,
-  "versionName": "3.3.2",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.2/ziwuxilv-native-v3.3.2.apk",
-  "apkSha256": "69874b0d52b6cfacce0632c5ee81215aeab6e9b783713d2204984d9582cf2f0c",
+  "versionCode": 216,
+  "versionName": "3.3.3",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.3/ziwuxilv-native-v3.3.3.apk",
+  "apkSha256": "5ce3703c2a8497893ecfe2b369c15e7b3476ea78eb38306e9475036afa80f006",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "afa4aa8afe53870dc889810e1b9eca598e5757bc",
-  "updateLog": "v3.3.2：\n1. 修复自选搜索打开图表时输入键盘意外弹出、返回后搜索弹窗消失的问题，保持原搜索状态及页面位置。\n2. 改进自选搜索的股票、指数、期货、商品、外汇和加密标的识别；强化腾讯、新浪、Gate 等来源的报价、分时、K 线同源校验，区分 Gate 现货与 CME 期货。\n3. 补全 CME 感恩节及特殊时段的品种分组识别，优先使用已验证的远端交易时段，修正节假日、周末开休市状态误判。\n4. 分时源存在真实采样缺口时如实提示，不凭空补点；源未提供有效成交量时显示“—”，避免误记为零成交。",
+  "sourceCommit": "a5bc020937ee2917358549d38f6f26380e5bc05a",
+  "updateLog": "v3.3.3：\n1. 修复全球行情图表页 ICE 布伦特原油在交易中误显示“待核验”，状态和边框随官方交易时段更新。\n2. 根据 ICE 官方日历落实感恩节提前收盘：11月26日伦敦18:30、11月27日伦敦20:00，分时横轴同步调整。\n3. 对应月份分钟行情只保留真实交易时段；保留已有来源延时、滞后警示，并补齐时区和交易时段回归测试。\n4. 远端日历已支持按 ICE 产品分组识别节假日时间，类似情况无需逐次修改 APP 交易日期。",
   "forceUpdate": false
 }
