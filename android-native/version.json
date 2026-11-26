@@ -1,10 +1,10 @@
 {
-  "versionCode": 216,
-  "versionName": "3.3.3",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.3/ziwuxilv-native-v3.3.3.apk",
-  "apkSha256": "5ce3703c2a8497893ecfe2b369c15e7b3476ea78eb38306e9475036afa80f006",
+  "versionCode": 217,
+  "versionName": "3.3.4",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.4/ziwuxilv-native-v3.3.4.apk",
+  "apkSha256": "81c0d917e7ddc30d027aa94273365656de491f23a11711e4bdc3f94bb49c3f2f",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "a5bc020937ee2917358549d38f6f26380e5bc05a",
-  "updateLog": "v3.3.3：\n1. 修复全球行情图表页 ICE 布伦特原油在交易中误显示“待核验”，状态和边框随官方交易时段更新。\n2. 根据 ICE 官方日历落实感恩节提前收盘：11月26日伦敦18:30、11月27日伦敦20:00，分时横轴同步调整。\n3. 对应月份分钟行情只保留真实交易时段；保留已有来源延时、滞后警示，并补齐时区和交易时段回归测试。\n4. 远端日历已支持按 ICE 产品分组识别节假日时间，类似情况无需逐次修改 APP 交易日期。",
+  "sourceCommit": "c7a0b850c7505b8efc36d78f3fb8c947c96582e8",
+  "updateLog": "v3.3.4：\n1. 修复升级后旧交易日历缓存覆盖已核验的 ICE 布伦特感恩节交易时段，导致行情与分时已同步却仍显示“待核验”的问题。\n2. 新版安装后立即采用已核验的11月26日伦敦18:30、11月27日20:00提前收盘时间，并绕过旧的24小时日历检查间隔获取最新官方日历。\n3. 保留其他市场尚未确认日期的“待核验”状态，不将未知日历误判为开市；报价延时、滞后与图表同步校验继续独立显示。",
   "forceUpdate": false
 }
