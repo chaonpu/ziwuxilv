@@ -2,13 +2,13 @@
 
 检查时间：2026-11-25T17:14:45+08:00
 
-当前版本：`95c17c61b9b3e1bfe2e95e035ff2cfbd832a2bf9011a8e206fa4a9c468e23357`
+当前版本：`066fa9ef0e6aaf7b3c5d569bdd8c54519a4f5daa800b9c487c0311b36dd732e2`
 
 | 市场/产品 | 适配能力 | 现有覆盖年份 | 本次解析年份 | 最近来源状态 | 待处理原因 |
 |---|---|---|---|---|---|
 | A50_CFD | rolling_third_party_reference | 2026, 2027, 2028 | — | held_preserving_active_calendar | a50_cache_expired |
 | BR_EQ | annual | 2026 | 2026 | verified_no_change | — |
-| CME_FUTURES | annual_partial_sessions | 2026 | 2026 | verified_future_preserving_history | 2026:candidate_changes_past_dates |
+| CME_FUTURES | annual_partial_sessions | 2026 | 2026 | verified_future_preserving_history | 2026:历史候选保留；11/25—28感恩节产品分组时段已单独核验发布 |
 | CN_EQ | annual | 2026 | 2026 | verified_no_change | — |
 | CN_FUTURES | annual_with_validated_recovery | 2026 | 2026 | verified_with_reviewed_fallback | year_bounded_official_notice_review_used_for:DCE,CZCE,GFEX |
 | DE_EQ | annual | 2026, 2027, 2028, 2029, 2030, 2031, 2032 | 2026, 2027, 2028, 2029, 2030, 2031, 2032 | verified_no_change | — |
