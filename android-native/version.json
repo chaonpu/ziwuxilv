@@ -1,10 +1,10 @@
 {
-  "versionCode": 218,
-  "versionName": "3.3.5",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.5/ziwuxilv-native-v3.3.5.apk",
-  "apkSha256": "199c7b0da1b06fc6112e3bf39410e84bd0865d34c0f74dbabd7436fbbe5938c5",
+  "versionCode": 219,
+  "versionName": "3.3.6",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.6/ziwuxilv-native-v3.3.6.apk",
+  "apkSha256": "0c9ada3b04ff051542917bdc5777b84e8a224514a7d73d0975f9c51fb890d67a",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "a6e3f0a6e6ba5927d328cbe91a0ff0327f028c24",
-  "updateLog": "v3.3.5：\n1. 自选搜索整合腾讯、新浪、东方财富（仅搜索）与 Gate 加密搜索，优先命中内置标的并保持有界回退。\n2. 自选搜索结果进入独立图表页，修复输入法意外弹出、返回搜索状态丢失及搜索弹窗布局问题。\n3. A 股现金指数集合竞价 09:15–09:25 分钟行情采用等待机制，首次临时漏报增加有界重试。\n4. A 股市场广度任一实时分页退化为延时源时，整批改用延时数据重新采集，保持全市场统计口径一致。",
+  "sourceCommit": "e9007f2a96e2ab478632e885fb6b7124045c2aaf",
+  "updateLog": "v3.3.6：\n1. 自选搜索修复中文转义乱码，并优化精确命中与候选去重。\n2. 中证红利指数接入腾讯同源报价、分时和日K。\n3. 上证50连续核验新浪交割月份与股指期货交易时段，接入同月分时和日K。\n4. 费城半导体SOX修正搜索标识，接入新浪同源报价、原生分时和日K。\n5. 狗狗币DOGE接入Gate现货同源报价与图表；菜粕日K未齐时仍保留文字报价，禁止跨合约拼接。",
   "forceUpdate": false
 }
