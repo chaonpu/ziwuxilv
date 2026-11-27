@@ -209,14 +209,16 @@ jobs:
           fi
 
           if gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -Fx "$asset_name"; then
-            curl --fail --location --retry 3 "$public_url" -o /tmp/existing-release.apk
-            echo "$APK_SHA256  /tmp/existing-release.apk" | sha256sum -c -
-            echo "Preserving the existing verified release asset."
+            echo "Existing release asset found; its public bytes will be verified below."
           else
             gh release upload "$tag" "$apk#$asset_name" "$sha_file#${asset_name}.sha256" --repo "$GITHUB_REPOSITORY"
           fi
 
-          curl --fail --location --retry 8 --retry-all-errors --retry-delay 5 --max-time 120             -H 'Cache-Control: no-cache' "$public_url" -o /tmp/public-release.apk
+          # A newly uploaded Release Asset can return 404 before its public download
+          # endpoint is ready. Never activate the in-app manifest until the bytes
+          # downloaded through the unauthenticated public URL match the signed APK.
+          curl --fail --location --retry 36 --retry-all-errors --retry-delay 10 --max-time 120 \
+            -H 'Cache-Control: no-cache' "$public_url" -o /tmp/public-release.apk
           echo "$APK_SHA256  /tmp/public-release.apk" | sha256sum -c -
 
           python3 - <<'PY'
