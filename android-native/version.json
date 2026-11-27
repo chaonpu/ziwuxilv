@@ -1,10 +1,10 @@
 {
-  "versionCode": 217,
-  "versionName": "3.3.4",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.4/ziwuxilv-native-v3.3.4.apk",
-  "apkSha256": "81c0d917e7ddc30d027aa94273365656de491f23a11711e4bdc3f94bb49c3f2f",
+  "versionCode": 218,
+  "versionName": "3.3.5",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.5/ziwuxilv-native-v3.3.5.apk",
+  "apkSha256": "199c7b0da1b06fc6112e3bf39410e84bd0865d34c0f74dbabd7436fbbe5938c5",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "c7a0b850c7505b8efc36d78f3fb8c947c96582e8",
-  "updateLog": "v3.3.4：\n1. 修复升级后旧交易日历缓存覆盖已核验的 ICE 布伦特感恩节交易时段，导致行情与分时已同步却仍显示“待核验”的问题。\n2. 新版安装后立即采用已核验的11月26日伦敦18:30、11月27日20:00提前收盘时间，并绕过旧的24小时日历检查间隔获取最新官方日历。\n3. 保留其他市场尚未确认日期的“待核验”状态，不将未知日历误判为开市；报价延时、滞后与图表同步校验继续独立显示。",
+  "sourceCommit": "a6e3f0a6e6ba5927d328cbe91a0ff0327f028c24",
+  "updateLog": "v3.3.5：\n1. 自选搜索整合腾讯、新浪、东方财富（仅搜索）与 Gate 加密搜索，优先命中内置标的并保持有界回退。\n2. 自选搜索结果进入独立图表页，修复输入法意外弹出、返回搜索状态丢失及搜索弹窗布局问题。\n3. A 股现金指数集合竞价 09:15–09:25 分钟行情采用等待机制，首次临时漏报增加有界重试。\n4. A 股市场广度任一实时分页退化为延时源时，整批改用延时数据重新采集，保持全市场统计口径一致。",
   "forceUpdate": false
 }
