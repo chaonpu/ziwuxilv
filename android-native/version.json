@@ -1,10 +1,10 @@
 {
-  "versionCode": 220,
-  "versionName": "3.3.7",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.7/ziwuxilv-native-v3.3.7.apk",
-  "apkSha256": "6288c6413dedca77f2d4aba4bae45207982abc20cea37b2a0e587b4682555942",
+  "versionCode": 221,
+  "versionName": "3.3.8",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.8/ziwuxilv-native-v3.3.8.apk",
+  "apkSha256": "c841ed55b850dd87890aec31ddb3d840ac1ac35234412cb8438f2520640c744c",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "9c3d4908a2878f204718c554623974406b86b174",
-  "updateLog": "v3.3.7：\n1. 恢复行情页原有品种范围，五个搜索排错例子不自动添加到行情页（菜粕原本不在行情页）。\n2. 自选页搜索按精确名称/代码/别名、前缀、包含关系分级排序；同级优先已审计标识，保持多源去重。\n3. 已审计标的搜索时若全局报价未缓存，按自身原提供商单独重取，避免只显示文字。\n4. 为可核验的腾讯A股指数、新浪期货指定月份、海外期货与外汇提供原生同源分时/日K，验证失败仍保留文字报价；不跨源、跨合约混接。\n5. 经济通代码不变；菜粕连续合约在准确月份未核验前不强行展示图表。\n6. 费交所 SOX 指数遇新浪机器时钟与明确交易时钟相差数小时的假期快照时，只认较早的真实交易时间，并继续要求同交易日/交易时段有效，不把旧价当实时。",
+  "sourceCommit": "78d1609c9908312d9fb4301e308142fd092b33bb",
+  "updateLog": "v3.3.8：\n1. 自选搜索长名称完整换行显示，保持原有分类、代码和操作按钮。\n2. 图表状态根据当前行情和交易时段重新判定，修正旧状态残留、延时与滞后标记。\n3. 补充新增指数和外汇交易时段及期货指定月份夜盘归类；搜索未保存标的图表独立刷新报价。\n4. 新浪外汇优先原生新版分时接口，失败时尝试同货币对旧接口，维持原同源验证。\n5. 来源详情补充报价时间、来源、标的、时效与读取异常，修正非股票复权说明；保留真实异常，不跨源拼接。\n6. 金龙中国与费城半导体分时保留原生收盘修订记录，支持提前收盘时段；行情详情显示同源校验未通过的具体原因。",
   "forceUpdate": false
 }
