@@ -1,10 +1,10 @@
 {
-  "versionCode": 221,
-  "versionName": "3.3.8",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.8/ziwuxilv-native-v3.3.8.apk",
-  "apkSha256": "c841ed55b850dd87890aec31ddb3d840ac1ac35234412cb8438f2520640c744c",
+  "versionCode": 222,
+  "versionName": "3.3.9",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.9/ziwuxilv-native-v3.3.9.apk",
+  "apkSha256": "cbf551fa2f3b8f5e10ace675bb8d78edcbb7bad81fbb50d42ce8febfe2b927d1",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "78d1609c9908312d9fb4301e308142fd092b33bb",
-  "updateLog": "v3.3.8：\n1. 自选搜索长名称完整换行显示，保持原有分类、代码和操作按钮。\n2. 图表状态根据当前行情和交易时段重新判定，修正旧状态残留、延时与滞后标记。\n3. 补充新增指数和外汇交易时段及期货指定月份夜盘归类；搜索未保存标的图表独立刷新报价。\n4. 新浪外汇优先原生新版分时接口，失败时尝试同货币对旧接口，维持原同源验证。\n5. 来源详情补充报价时间、来源、标的、时效与读取异常，修正非股票复权说明；保留真实异常，不跨源拼接。\n6. 金龙中国与费城半导体分时保留原生收盘修订记录，支持提前收盘时段；行情详情显示同源校验未通过的具体原因。",
+  "sourceCommit": "d1115471241a2a89c309acb209c3c8cad3be8951",
+  "updateLog": "v3.3.9：\n1. 统一列表卡片与图表页的正常休市文案，保留午间休盘、盘前盘后及延时、滞后、未读取等状态。\n2. 行情页用费城半导体指数替换金龙中国指数，复用费城半导体指数的同源报价、分时、日K和美股交易日历。",
   "forceUpdate": false
 }
