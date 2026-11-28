@@ -1,10 +1,10 @@
 {
-  "versionCode": 222,
-  "versionName": "3.3.9",
-  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.3.9/ziwuxilv-native-v3.3.9.apk",
-  "apkSha256": "cbf551fa2f3b8f5e10ace675bb8d78edcbb7bad81fbb50d42ce8febfe2b927d1",
+  "versionCode": 223,
+  "versionName": "3.4.0",
+  "downloadUrl": "https://github.com/chaonpu/ziwuxilv/releases/download/v3.4.0/ziwuxilv-native-v3.4.0.apk",
+  "apkSha256": "0b9da9aae80c4275c73824a8637c56bbbdb4c4849f117abc51619788933f1986",
   "signingCertificateSha256": "bef3f5cbb2989734f20740eddaac3e105dfecb6c63ea9275e178eedd892ec105",
-  "sourceCommit": "d1115471241a2a89c309acb209c3c8cad3be8951",
-  "updateLog": "v3.3.9：\n1. 统一列表卡片与图表页的正常休市文案，保留午间休盘、盘前盘后及延时、滞后、未读取等状态。\n2. 行情页用费城半导体指数替换金龙中国指数，复用费城半导体指数的同源报价、分时、日K和美股交易日历。",
+  "sourceCommit": "b3c4625f58fc2e7f896f515efbda964520aecf77",
+  "updateLog": "v3.4.0：\n1. 统一行情页展示、自动刷新、手动同步和异常统计的标的范围，修复金龙中国等仅供搜索标的导致的同步误报。\n2. 行情页继续展示费城半导体指数；金龙中国、中证红利、上证50连续和狗狗币保留搜索、自选及按需同源行情刷新。\n3. 隔离仅供搜索标的的旧缓存与滞后状态，保留行情页真实未读取、滞后及策略持仓同步异常提示。",
   "forceUpdate": false
 }
